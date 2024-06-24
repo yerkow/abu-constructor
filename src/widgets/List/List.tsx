@@ -1,6 +1,8 @@
+import { cn } from "@/shared/lib/utils";
 import {
   Pagination,
   PaginationContent,
+  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -62,13 +64,43 @@ export function List({ listItems, files }: ListProps) {
             <PaginationItem onClick={handlePrev}>
               <PaginationPrevious />
             </PaginationItem>
+
             {new Array(pagination.totalPages).fill("*").map((_, idx) => (
-              <PaginationItem onClick={() => setCurrent(idx + 1)}>
-                <PaginationLink isActive={idx + 1 == current}>
-                  {idx + 1}
-                </PaginationLink>
-              </PaginationItem>
+              <>
+                {current + 1 !== pagination.totalPages &&
+                  idx + 1 == pagination.totalPages && (
+                    <PaginationItem>
+                      <PaginationEllipsis />
+                    </PaginationItem>
+                  )}
+                <PaginationItem
+                  className={cn(
+                    idx + 1 == current ||
+                      (current == 1 && idx + 1 == 3) ||
+                      idx + 1 == current + 1 ||
+                      idx + 1 == current - 1 ||
+                      idx + 1 == pagination.totalPages
+                      ? "block"
+                      : "hidden",
+                    idx + 1 == 1 &&
+                      (current == pagination.totalPages - 1 ||
+                        current == pagination.totalPages) &&
+                      "block"
+                  )}
+                  onClick={() => setCurrent(idx + 1)}
+                >
+                  <PaginationLink isActive={idx + 1 == current}>
+                    {idx + 1}
+                  </PaginationLink>
+                </PaginationItem>
+                {idx + 1 == 1 && current == pagination.totalPages - 1 && (
+                  <PaginationItem>
+                    <PaginationEllipsis />
+                  </PaginationItem>
+                )}
+              </>
             ))}
+
             <PaginationItem onClick={handleNext}>
               <PaginationNext />
             </PaginationItem>
