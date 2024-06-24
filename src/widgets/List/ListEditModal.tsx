@@ -52,6 +52,7 @@ export const ListEditModal = () => {
         <div className="flex flex-col gap-2 mt-2 max-h-[320px] overflow-auto">
           {listCount.map((item, idx) => (
             <EditListItem
+              list={listCount}
               key={item.id}
               item={item}
               idx={idx + 1}
@@ -67,29 +68,74 @@ export const ListEditModal = () => {
 const EditListItem = ({
   isFiles,
   idx,
+  list,
   item,
 }: {
   isFiles: boolean;
   idx: number;
+  list: typeof mock;
   item: (typeof mock)[0];
 }) => {
+  const [value, setValue] = useState<{
+    id: number;
+    href: string | File;
+    content: string;
+  }>(item);
   return (
     <div className="flex flex-col gap-2 pl-2 pr-2 bg-slate-100 pt-2 pb-2 rounded-md">
       <div className="flex justify-between">
-        <span>{item.id}.ListItem</span>
+        <span>{value.id}.ListItem</span>
         <div className="flex gap-2 justify-center">
-          <Button size={"sm"}>Save</Button>
+          <Button size={"sm"} disabled={checkIsEditted(list, value)}>
+            Save
+          </Button>
           <Button size={"sm"}>
             <DeleteIcon />
           </Button>
         </div>
       </div>
-      <Input label="Content" type="text" value={item.content} />
       <Input
-        value={item.href}
-        label={isFiles ? "Document" : "Link"}
-        type={isFiles ? "file" : "text"}
+        label="Content"
+        type="text"
+        value={value.content}
+        onChange={(e) => setValue({ ...value, content: e.target.value })}
       />
+      {isFiles ? (
+        <Input
+          type="file"
+          label="Document"
+          onChange={(e) => {
+            setValue({
+              ...value,
+              href: e.target.files ? e.target.files[0] : value.href,
+            });
+          }}
+        />
+      ) : (
+        <Input
+          label="Link"
+          type="text"
+          value={value.href as string}
+          onChange={(e) => {
+            setValue({ ...value, href: e.target.value });
+          }}
+        />
+      )}
     </div>
   );
+};
+
+const checkIsEditted = (
+  items: typeof mock,
+  item: {
+    id: number;
+    href: string | File;
+    content: string;
+  }
+) => {
+  const base = items.filter((i) => i.id == item.id);
+  if (item.content == "") {
+    return true;
+  }
+  return base[0].content == item.content && base[0].href == item.href;
 };
