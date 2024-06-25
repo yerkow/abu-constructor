@@ -33,9 +33,20 @@ export const TextEditModal = () => {
       </CardHeader>
       <CardContent>
         <form className="flex flex-col gap-3">
-          <Input label="Title" type="text" />
-          <Label>Content</Label>
-          <ReactQuill modules={quillModules} theme="snow" />
+          <div className="flex flex-col md:flex-row gap-3">
+            <Input label="Title RU" type="text" />
+            <Input label="Title KZ" type="text" />
+          </div>
+          <div className="flex flex-col md:flex-row gap-3 w-full justify-between">
+            <div>
+              <Label>Content RU</Label>
+              <ReactQuill modules={quillModules} theme="snow" />
+            </div>
+            <div>
+              <Label>Content KZ</Label>
+              <ReactQuill modules={quillModules} theme="snow" />
+            </div>
+          </div>
           <Button>Save</Button>
         </form>
       </CardContent>

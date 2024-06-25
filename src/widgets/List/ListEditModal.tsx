@@ -79,8 +79,9 @@ const EditListItem = ({
   const [value, setValue] = useState<{
     id: number;
     href: string | File;
-    content: string;
-  }>(item);
+    contentRU: string;
+    contentKZ: string;
+  }>({ ...item, contentRU: item.content, contentKZ: item.content });
   return (
     <div className="flex flex-col gap-2 pl-2 pr-2 bg-slate-100 pt-2 pb-2 rounded-md">
       <div className="flex justify-between">
@@ -94,12 +95,21 @@ const EditListItem = ({
           </Button>
         </div>
       </div>
-      <Input
-        label="Content"
-        type="text"
-        value={value.content}
-        onChange={(e) => setValue({ ...value, content: e.target.value })}
-      />
+      <div className="flex gap-3">
+        <Input
+          label="Content RU"
+          type="text"
+          value={value.contentRU}
+          onChange={(e) => setValue({ ...value, contentRU: e.target.value })}
+        />
+        <Input
+          label="Content KZ"
+          type="text"
+          value={value.contentKZ}
+          onChange={(e) => setValue({ ...value, contentKZ: e.target.value })}
+        />
+      </div>
+
       {isFiles ? (
         <Input
           type="file"
@@ -130,12 +140,13 @@ const checkIsEditted = (
   item: {
     id: number;
     href: string | File;
-    content: string;
+    contentRU: string;
+    contentKZ: string;
   }
 ) => {
   const base = items.filter((i) => i.id == item.id);
-  if (item.content == "") {
+  if (item.contentRU == "" || item.contentKZ == "") {
     return true;
   }
-  return base[0].content == item.content && base[0].href == item.href;
+  return base[0].content == item.contentRU && base[0].href == item.href;
 };
