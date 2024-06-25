@@ -7,6 +7,7 @@ import {
   CardTitle,
   EditItem,
   Input,
+  ScrollArea,
   Select,
   SelectContent,
   SelectItem,
@@ -48,11 +49,11 @@ export const CardsEditModal = () => {
         <Button onClick={() => setCount(count + 1)} className="w-full">
           Add new Card
         </Button>
-        <div className="flex flex-col gap-2 mt-2 max-h-[320px] overflow-auto ">
+        <ScrollArea className="h-[320px] rounded-md border p-4 ">
           {new Array(count).fill("0").map((_, idx) => (
             <EditCardItem idx={idx} />
           ))}
-        </div>
+        </ScrollArea>
       </CardContent>
     </Card>
   );

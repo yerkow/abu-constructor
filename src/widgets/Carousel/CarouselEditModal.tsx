@@ -8,6 +8,7 @@ import {
   EditItem,
   Input,
   Label,
+  ScrollArea,
   Select,
   SelectContent,
   SelectItem,
@@ -41,11 +42,11 @@ export const CarouselEditModal = () => {
         <Button onClick={() => setCount(count + 1)} className="w-full">
           Add new Carousel Item
         </Button>
-        <div className="flex flex-col gap-2 mt-2 max-h-[320px] overflow-auto ">
+        <ScrollArea className="h-[320px]  rounded-md border p-4">
           {new Array(count).fill("0").map((_, idx) => (
             <EditCarouselItem idx={idx} />
           ))}
-        </div>
+        </ScrollArea>
       </CardContent>
     </Card>
   );

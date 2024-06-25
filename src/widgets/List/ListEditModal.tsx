@@ -8,6 +8,7 @@ import {
   Checkbox,
   EditItem,
   Input,
+  ScrollArea,
 } from "@/shared/ui";
 import { Label } from "@radix-ui/react-label";
 import { DeleteIcon } from "lucide-react";
@@ -50,7 +51,7 @@ export const ListEditModal = () => {
         >
           Add new List item
         </Button>
-        <div className="flex flex-col gap-2 mt-2 max-h-[320px] overflow-auto">
+        <ScrollArea className="h-[320px] rounded-md border p-4">
           {listCount.map((item, idx) => (
             <EditListItem
               list={listCount}
@@ -60,7 +61,7 @@ export const ListEditModal = () => {
               isFiles={isFiles}
             />
           ))}
-        </div>
+        </ScrollArea>
       </CardContent>
     </Card>
   );

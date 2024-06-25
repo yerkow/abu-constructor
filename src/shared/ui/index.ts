@@ -42,3 +42,6 @@ export {
   SelectValue,
 } from "./select";
 export { Textarea } from "./textarea";
+
+export { ScrollArea, ScrollBar } from "./scroll-area";
+export { Separator } from "./separator";
