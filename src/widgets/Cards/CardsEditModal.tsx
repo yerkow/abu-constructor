@@ -5,6 +5,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  EditItem,
   Input,
   Select,
   SelectContent,
@@ -22,7 +23,7 @@ const mock = {
 export const CardsEditModal = () => {
   const [count, setCount] = useState(0);
   return (
-    <Card>
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>Edit Cards</CardTitle>
         <CardDescription>There you can edit Cards content</CardDescription>
@@ -59,14 +60,15 @@ export const CardsEditModal = () => {
 
 const EditCardItem = ({ idx }: { idx: number }) => {
   return (
-    <div className="bg-slate-100 p-2 rounded-md flex flex-col gap-4 ">
-      <div className="flex justify-between">
-        <h2 className="font-bold text-xl ">Card {idx + 1} .</h2>
-        <div className="flex gap-2">
+    <EditItem
+      buttons={
+        <>
           <Button size={"sm"}>Save</Button>
           <Button size={"sm"}>Delete</Button>
-        </div>
-      </div>
+        </>
+      }
+      title={"Card" + idx + 1}
+    >
       <div className="flex flex-col md:flex-row gap-3">
         <Input label="Card title  RU" type="text" />
         <Input label="Card title KZ" type="text" />
@@ -76,6 +78,6 @@ const EditCardItem = ({ idx }: { idx: number }) => {
         <Input label="Content KZ" type="text" />
       </div>
       <Input type="file" label="Image" />
-    </div>
+    </EditItem>
   );
 };

@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
   Checkbox,
+  EditItem,
   Input,
 } from "@/shared/ui";
 import { Label } from "@radix-ui/react-label";
@@ -83,18 +84,19 @@ const EditListItem = ({
     contentKZ: string;
   }>({ ...item, contentRU: item.content, contentKZ: item.content });
   return (
-    <div className="flex flex-col gap-2 pl-2 pr-2 bg-slate-100 pt-2 pb-2 rounded-md">
-      <div className="flex justify-between">
-        <span>{value.id}.ListItem</span>
-        <div className="flex gap-2 justify-center">
+    <EditItem
+      title={"List " + idx + 1}
+      buttons={
+        <>
           <Button size={"sm"} disabled={checkIsEditted(list, value)}>
             Save
           </Button>
           <Button size={"sm"}>
             <DeleteIcon />
           </Button>
-        </div>
-      </div>
+        </>
+      }
+    >
       <div className="flex gap-3">
         <Input
           label="Content RU"
@@ -131,7 +133,7 @@ const EditListItem = ({
           }}
         />
       )}
-    </div>
+    </EditItem>
   );
 };
 

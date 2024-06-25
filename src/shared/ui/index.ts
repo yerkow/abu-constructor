@@ -10,7 +10,16 @@ export {
 export { Input } from "./input";
 export { Label } from "./label";
 
+export {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+  type CarouselApi,
+} from "./carousel";
 export { Checkbox } from "./checkbox";
+export { EditItem } from "./editItem";
 export {
   Pagination,
   PaginationContent,
