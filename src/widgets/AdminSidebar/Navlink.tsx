@@ -10,9 +10,13 @@ interface NavlinkProps extends LinkProps {
 }
 export const Navlink = ({ href, children }: NavlinkProps) => {
   const path = usePathname();
+
   return (
     <Link
-      className={cn("font-bold text-2xl", path == href && "underline")}
+      className={cn(
+        "font-bold text-lg md:text-2xl",
+        path == href && "underline"
+      )}
       href={href}
     >
       {children}

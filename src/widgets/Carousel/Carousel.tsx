@@ -46,15 +46,7 @@ export const Carousel = ({ items, position }: CarouselProps) => {
                       />
                     </div>
                   </CardContent>
-                  <CardDescription
-                    className={cn(
-                      {
-                        left: "text-left",
-                        center: "text-center",
-                        right: "text-right",
-                      }[position]
-                    )}
-                  >
+                  <CardDescription className={cn("text-justify")}>
                     {item.content}
                   </CardDescription>
                 </Card>
