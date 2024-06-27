@@ -7,6 +7,7 @@ const links = [
   { label: "Главная", href: "/admin" },
   { label: "Настройки", href: "/admin/settings" },
   { label: "Страницы", href: "/admin/pages" },
+  { label: "Шаблоны", href: "/admin/pages/templates" },
 ];
 export const AdminSidebar = ({
   className,

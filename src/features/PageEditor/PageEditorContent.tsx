@@ -3,6 +3,12 @@
 import { EditWidgetContentDialog } from "@/features";
 import { Button } from "@/shared/ui";
 import {
+  CardsEditModal,
+  CarouselEditModal,
+  ListEditModal,
+  TextEditModal,
+} from "@/widgets";
+import {
   DndContext,
   DragEndEvent,
   KeyboardSensor,
@@ -20,10 +26,6 @@ import {
 } from "@dnd-kit/sortable";
 import { DeleteIcon } from "lucide-react";
 import { useState } from "react";
-import { CardsEditModal } from "../Cards/CardsEditModal";
-import { CarouselEditModal } from "../Carousel/CarouselEditModal";
-import { ListEditModal } from "../List/ListEditModal";
-import { TextEditModal } from "../Text/TextEditModal";
 import { PageEditorContentItem } from "./PageEditorContentItem";
 const widgetsList = [
   { name: "Cards", modal: <CardsEditModal /> },

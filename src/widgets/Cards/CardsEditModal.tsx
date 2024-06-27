@@ -1,3 +1,4 @@
+"use client";
 import {
   Button,
   Card,
@@ -5,6 +6,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  Checkbox,
   EditItem,
   Input,
   ScrollArea,
@@ -23,6 +25,7 @@ const mock = {
 };
 export const CardsEditModal = () => {
   const [count, setCount] = useState(0);
+  const [hasTemplate, setHasTemplate] = useState(false);
   return (
     <Card className="w-full">
       <CardHeader>
@@ -42,6 +45,28 @@ export const CardsEditModal = () => {
             </SelectContent>
           </Select>
         </div>
+        <div className="flex items-center gap-2">
+          <Checkbox
+            id="template"
+            checked={hasTemplate}
+            onCheckedChange={() => setHasTemplate(!hasTemplate)}
+          />
+          <Label htmlFor="template">Есть темплейт</Label>
+        </div>
+        {hasTemplate && (
+          <div className="flex gap-2 items-center">
+            <Label>Выбор темплейта</Label>
+            <Select>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Темплейт" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="base">Base</SelectItem>
+                <SelectItem value="horizontal">Horizontal</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        )}
         <div className="flex flex-col md:flex-row gap-3">
           <Input label="Title RU" type="text" />
           <Input label="Title KZ" type="text" />

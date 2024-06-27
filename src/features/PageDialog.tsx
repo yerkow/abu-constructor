@@ -11,9 +11,11 @@ import {
   Input,
 } from "@/shared/ui";
 import { Settings } from "lucide-react";
+import { PageEditor } from "./PageEditor/PageEditor";
 interface PageDialogProps {
   variant: "create" | "edit";
   parentId?: number;
+  withContent: boolean;
   page?: {
     id: number;
     ru: string;
@@ -21,7 +23,7 @@ interface PageDialogProps {
     slug: string;
   };
 }
-export const PageDialog = ({ variant, page }: PageDialogProps) => {
+export const PageDialog = ({ variant, page, withContent }: PageDialogProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -44,6 +46,7 @@ export const PageDialog = ({ variant, page }: PageDialogProps) => {
           </div>
 
           <Input label="Slug страницы" />
+          {withContent && <PageEditor />}
         </section>
         <DialogFooter className=" gap-2 sm:justify-start">
           <DialogClose asChild>

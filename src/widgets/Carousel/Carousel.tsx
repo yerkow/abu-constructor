@@ -10,8 +10,8 @@ import {
   CarouselPrevious,
   Carousel as CarouselUI,
 } from "@/shared/ui";
-import { Link } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 type CarouselItemType = {
   img: string;
   title: string;
@@ -32,14 +32,19 @@ export const Carousel = ({ items, position }: CarouselProps) => {
         className="w-full max-w-[80%]  "
       >
         <CarouselContent>
-          {items.map((item, idx) => (
-            <CarouselItem key={idx} className="">
-              <div className="p-1  ">
-                <Card className="p-4 flex flex-col gap-4">
-                  <CardTitle>{item.title}</CardTitle>
-                  <Link href={item.href}>
+          {items.map((item, idx) => {
+            const Component = item.href ? Link : "div";
+            return (
+              <CarouselItem key={idx} className="">
+                <div className="p-1  ">
+                  <Card className="p-4 flex flex-col gap-4">
+                    <CardTitle>{item.title}</CardTitle>
                     <CardContent className="flex  cursor-grab overflow-hidden   items-center justify-center p-6">
-                      <div className="relative w-full h-[400px]">
+                      <Component
+                        /* @ts-ignore */
+                        href={item.href}
+                        className="relative w-full h-[200px] md:h-[400px]"
+                      >
                         <Image
                           src={item.img}
                           className="absolute rounded-md"
@@ -47,16 +52,16 @@ export const Carousel = ({ items, position }: CarouselProps) => {
                           fill
                           alt={item.title}
                         />
-                      </div>
+                      </Component>
                     </CardContent>
-                  </Link>
-                  <CardDescription className={cn("text-justify")}>
-                    {item.content}
-                  </CardDescription>
-                </Card>
-              </div>
-            </CarouselItem>
-          ))}
+                    <CardDescription className={cn("text-justify")}>
+                      {item.content}
+                    </CardDescription>
+                  </Card>
+                </div>
+              </CarouselItem>
+            );
+          })}
         </CarouselContent>
         <CarouselPrevious />
         <CarouselNext />

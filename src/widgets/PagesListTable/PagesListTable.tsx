@@ -22,7 +22,7 @@ export const PagesListTable = ({ pages }: PagesListTableProps) => {
           <TableHead>На русском</TableHead>
           <TableHead>На казахском</TableHead>
           <TableHead>Slug</TableHead>
-          <TableHead>Coдержание</TableHead>
+          <TableHead>Дочерние страницы</TableHead>
           <TableHead className="text-right">Редактировать</TableHead>
         </TableRow>
       </TableHeader>
@@ -33,12 +33,18 @@ export const PagesListTable = ({ pages }: PagesListTableProps) => {
             <TableCell>{page.kz}</TableCell>
             <TableCell>{page.slug}</TableCell>
             <TableCell>
-              <Link href={`/admin/pages/${page.id}`}>
-                <Button size={"sm"}>Перейти</Button>
-              </Link>
+              {page.type == "group" && (
+                <Link href={`/admin/pages/${page.id}`}>
+                  <Button size={"sm"}>Перейти</Button>
+                </Link>
+              )}
             </TableCell>
             <TableCell className="text-right ">
-              <PageDialog variant="edit" page={page} />
+              <PageDialog
+                withContent={page.type == "content"}
+                variant="edit"
+                page={page}
+              />
             </TableCell>
           </TableRow>
         ))}
