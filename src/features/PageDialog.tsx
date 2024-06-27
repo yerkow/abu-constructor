@@ -9,16 +9,11 @@ import {
   DialogTitle,
   DialogTrigger,
   Input,
-  Label,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
 } from "@/shared/ui";
 import { Settings } from "lucide-react";
 interface PageDialogProps {
   variant: "create" | "edit";
+  parentId?: number;
   page?: {
     id: number;
     ru: string;
@@ -47,19 +42,7 @@ export const PageDialog = ({ variant, page }: PageDialogProps) => {
             <Input label="Название на русском" />
             <Input label="Название на казахском" />
           </div>
-          <div className="flex gap-2 flex-col ">
-            <Label>Тип страницы</Label>
-            <Select>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Тип страницы" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="group">Дочерние страницы</SelectItem>
-                <SelectItem value="content">Контент</SelectItem>
-                <SelectItem value="details">Детальнее</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+
           <Input label="Slug страницы" />
         </section>
         <DialogFooter className=" gap-2 sm:justify-start">

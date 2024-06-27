@@ -10,14 +10,10 @@ import {
   TableRow,
 } from "@/shared/ui";
 import Link from "next/link";
-const mockPages = new Array(20)
-  .fill({
-    ru: "Главная",
-    kz: "Басты",
-    slug: "/",
-  })
-  .map((page, idx) => ({ ...page, id: idx + 1 }));
-export const PagesListTable = () => {
+interface PagesListTableProps {
+  pages: any[];
+}
+export const PagesListTable = ({ pages }: PagesListTableProps) => {
   return (
     <Table className="w-[90%] max-w-[390px] sm:max-w-full overflow-x-auto m-auto h-full overflow-hidden">
       <TableCaption>Доступные страницы</TableCaption>
@@ -31,8 +27,8 @@ export const PagesListTable = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {mockPages.map((page) => (
-          <TableRow>
+        {pages.map((page) => (
+          <TableRow key={page.id}>
             <TableCell className="font-medium">{page.ru}</TableCell>
             <TableCell>{page.kz}</TableCell>
             <TableCell>{page.slug}</TableCell>

@@ -1,3 +1,4 @@
+"use client";
 import { cn } from "@/shared/lib/utils";
 import {
   Pagination,
@@ -19,7 +20,7 @@ interface ListProps {
   listItems: ListItem[];
   files?: boolean;
 }
-export function List({ listItems, files }: ListProps) {
+export const List = ({ listItems, files }: ListProps) => {
   const [current, setCurrent] = useState(1);
   const pagination =
     listItems.length > 5 ? paginate(listItems.length, 5, current) : null;
@@ -109,8 +110,7 @@ export function List({ listItems, files }: ListProps) {
       )}
     </section>
   );
-}
-
+};
 function paginate(
   totalItems: number,
   itemsPerPage: number,

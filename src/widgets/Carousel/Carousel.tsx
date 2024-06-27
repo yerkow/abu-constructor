@@ -10,11 +10,13 @@ import {
   CarouselPrevious,
   Carousel as CarouselUI,
 } from "@/shared/ui";
+import { Link } from "lucide-react";
 import Image from "next/image";
 type CarouselItemType = {
   img: string;
   title: string;
   content: string;
+  href?: string;
 };
 interface CarouselProps {
   items: CarouselItemType[];
@@ -35,17 +37,19 @@ export const Carousel = ({ items, position }: CarouselProps) => {
               <div className="p-1  ">
                 <Card className="p-4 flex flex-col gap-4">
                   <CardTitle>{item.title}</CardTitle>
-                  <CardContent className="flex  cursor-grab overflow-hidden   items-center justify-center p-6">
-                    <div className="relative w-full h-[400px]">
-                      <Image
-                        src={item.img}
-                        className="absolute rounded-md"
-                        objectFit="cover"
-                        fill
-                        alt={item.title}
-                      />
-                    </div>
-                  </CardContent>
+                  <Link href={item.href}>
+                    <CardContent className="flex  cursor-grab overflow-hidden   items-center justify-center p-6">
+                      <div className="relative w-full h-[400px]">
+                        <Image
+                          src={item.img}
+                          className="absolute rounded-md"
+                          objectFit="cover"
+                          fill
+                          alt={item.title}
+                        />
+                      </div>
+                    </CardContent>
+                  </Link>
                   <CardDescription className={cn("text-justify")}>
                     {item.content}
                   </CardDescription>
