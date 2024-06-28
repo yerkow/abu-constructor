@@ -1,4 +1,5 @@
 "use client";
+import { TemplatesSelect } from "@/features";
 import {
   Button,
   Card,
@@ -9,6 +10,7 @@ import {
   Checkbox,
   EditItem,
   Input,
+  Label,
   ScrollArea,
   Select,
   SelectContent,
@@ -16,8 +18,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/ui";
-import { Label } from "@radix-ui/react-label";
 import { useState } from "react";
+import { getEditModalByWidget } from "..";
 const mock = {
   title: "Test title",
   variant: "base",
@@ -26,6 +28,12 @@ const mock = {
 export const CardsEditModal = () => {
   const [count, setCount] = useState(0);
   const [hasTemplate, setHasTemplate] = useState(false);
+  const [template, setTemplate] = useState<{
+    name: string;
+    widgets: string[];
+  } | null>(null);
+  console.log(template);
+
   return (
     <Card className="w-full">
       <CardHeader>
@@ -53,20 +61,7 @@ export const CardsEditModal = () => {
           />
           <Label htmlFor="template">Есть темплейт</Label>
         </div>
-        {hasTemplate && (
-          <div className="flex gap-2 items-center">
-            <Label>Выбор темплейта</Label>
-            <Select>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Темплейт" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="base">Base</SelectItem>
-                <SelectItem value="horizontal">Horizontal</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        )}
+        {hasTemplate && <TemplatesSelect onSelect={setTemplate} />}
         <div className="flex flex-col md:flex-row gap-3">
           <Input label="Title RU" type="text" />
           <Input label="Title KZ" type="text" />
@@ -76,7 +71,7 @@ export const CardsEditModal = () => {
         </Button>
         <ScrollArea className="h-[320px] rounded-md border p-4 ">
           {new Array(count).fill("0").map((_, idx) => (
-            <EditCardItem idx={idx} />
+            <EditCardItem idx={idx} templateWidgets={template?.widgets} />
           ))}
         </ScrollArea>
       </CardContent>
@@ -84,7 +79,13 @@ export const CardsEditModal = () => {
   );
 };
 
-const EditCardItem = ({ idx }: { idx: number }) => {
+const EditCardItem = ({
+  idx,
+  templateWidgets,
+}: {
+  idx: number;
+  templateWidgets?: string[];
+}) => {
   return (
     <EditItem
       buttons={
@@ -104,6 +105,7 @@ const EditCardItem = ({ idx }: { idx: number }) => {
         <Input label="Content KZ" type="text" />
       </div>
       <Input type="file" label="Image" />
+      {templateWidgets && templateWidgets.map((w) => getEditModalByWidget(w)())}
     </EditItem>
   );
 };
