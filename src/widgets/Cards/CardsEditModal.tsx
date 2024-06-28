@@ -19,7 +19,9 @@ import {
   SelectValue,
 } from "@/shared/ui";
 import { useState } from "react";
-import { getEditModalByWidget } from "..";
+import { CarouselEditModal } from "../Carousel/CarouselEditModal";
+import { ListEditModal } from "../List/ListEditModal";
+import { TextEditModal } from "../Text/TextEditModal";
 const mock = {
   title: "Test title",
   variant: "base",
@@ -86,6 +88,20 @@ const EditCardItem = ({
   idx: number;
   templateWidgets?: string[];
 }) => {
+  const getTemplatesProps = (w: string) => {
+    switch (w) {
+      case "Cards":
+        return <CardsEditModal />;
+      case "Carousel":
+        return <CarouselEditModal />;
+      case "List":
+        return <ListEditModal />;
+      case "Text":
+        return <TextEditModal />;
+      default:
+        return null;
+    }
+  };
   return (
     <EditItem
       buttons={
@@ -105,7 +121,7 @@ const EditCardItem = ({
         <Input label="Content KZ" type="text" />
       </div>
       <Input type="file" label="Image" />
-      {templateWidgets && templateWidgets.map((w) => getEditModalByWidget(w)())}
+      {templateWidgets && templateWidgets.map((w) => getTemplatesProps(w))}
     </EditItem>
   );
 };

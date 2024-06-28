@@ -38,7 +38,7 @@ export const TextEditModal = () => {
             <Input label="Title RU" type="text" />
             <Input label="Title KZ" type="text" />
           </div>
-          <div className="flex flex-col md:flex-row gap-3 w-full justify-between">
+          <div className="flex flex-col  gap-3 w-full justify-between">
             <div>
               <Label>Content RU</Label>
               <ReactQuill modules={quillModules} theme="snow" />

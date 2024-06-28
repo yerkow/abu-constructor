@@ -10,7 +10,7 @@ export const EditWidgetContentDialog = ({ modal }: { modal: ReactNode }) => {
           <Settings />
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-sm sm:max-w-3xl">{modal}</DialogContent>
+      <DialogContent className="max-w-sm sm:max-w-full ">{modal}</DialogContent>
     </Dialog>
   );
 };

@@ -32,7 +32,9 @@ export const TemplatesSelect = ({ onSelect }: TemplatesSelectProps) => {
         </SelectTrigger>
         <SelectContent>
           {templates.map((t) => (
-            <SelectItem value={t.name}>{t.name}</SelectItem>
+            <SelectItem key={t.name} value={t.name}>
+              {t.name}
+            </SelectItem>
           ))}
         </SelectContent>
       </Select>

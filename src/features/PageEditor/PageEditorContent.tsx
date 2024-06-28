@@ -94,8 +94,9 @@ export const PageEditorContent = () => {
               items={list}
               strategy={verticalListSortingStrategy}
             >
-              {list.map((item, idx) => (
+              {list.map((item) => (
                 <PageEditorContentItem
+                  key={item.id}
                   id={item.id}
                   name={item.name}
                   deleteBtn={

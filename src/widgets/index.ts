@@ -8,17 +8,6 @@ import { Text } from "./Text/Text";
 import { TextEditModal } from "./Text/TextEditModal";
 export { AdminSidebar } from "./AdminSidebar/AdminSidebar";
 export { PagesListTable } from "./PagesListTable/PagesListTable";
-const widgets = [
-  { widget: Cards, editModal: CardsEditModal },
-  { widget: Carousel, editModal: CarouselEditModal },
-  { widget: List, editModal: ListEditModal },
-  { widget: Text, editModal: TextEditModal },
-];
-
-export function getEditModalByWidget(widgetName: string) {
-  return widgets.filter((modal) => modal.widget.name == widgetName)[0]
-    .editModal;
-}
 
 export {
   Cards,
