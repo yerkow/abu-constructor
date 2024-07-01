@@ -11,6 +11,7 @@ import {
   EditItem,
   Input,
   ScrollArea,
+  WidgetView,
 } from "@/shared/ui";
 import { Label } from "@radix-ui/react-label";
 import { DeleteIcon } from "lucide-react";
@@ -24,7 +25,21 @@ const mock = [
   { id: 3, content: "Content3", href: "/test/1" },
   { id: 4, content: "Content4", href: "/test/1" },
 ];
-export const ListEditModal = () => {
+interface ListEditModalProps {
+  variant?: "card" | "dialog";
+}
+export const ListEditModal = ({ variant = "card" }: ListEditModalProps) => {
+  return (
+    <WidgetView
+      variant={variant}
+      cardTitle="Edit List"
+      desc="There you can edit List content"
+      triggerTitle="Редактировать лист"
+      content={<ModalContent />}
+    />
+  );
+};
+const ModalContent = () => {
   const [isFiles, setIsFiles] = useState(false);
   const [listCount, setListCount] = useState(mock);
   const [hasTemplate, setHasTemplate] = useState(false);
@@ -32,70 +47,66 @@ export const ListEditModal = () => {
     name: string;
     widgets: string[];
   } | null>(null);
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Edit List</CardTitle>
-        <CardDescription>There you can edit List content</CardDescription>
-      </CardHeader>
-      <CardContent className="flex flex-col gap-3">
-        <div className="flex gap-2 items-center">
-          <Label>List of Files</Label>
-          <Checkbox
-            onCheckedChange={() => {
-              setIsFiles(!isFiles);
-            }}
-            checked={isFiles}
-          />
-        </div>
-        <div className="flex items-center gap-2">
-          <Checkbox
-            id="template"
-            checked={hasTemplate}
-            onCheckedChange={() =>
-              setHasTemplate((prev) => {
-                if (prev) {
-                  setTemplate(null);
-                }
-                return !prev;
-              })
-            }
-          />
-          <Label htmlFor="template">Есть темплейт</Label>
-        </div>
-        {hasTemplate && <TemplatesSelect onSelect={setTemplate} />}
-        <Button
-          className="w-full"
-          onClick={() =>
-            setListCount([
-              ...listCount,
-              {
-                id: +mock[mock.length - 1].id + 1,
-                content: "",
-                href: "",
-              },
-            ])
+    <>
+      <div className="flex gap-2 items-center">
+        <Label>List of Files</Label>
+        <Checkbox
+          onCheckedChange={() => {
+            setIsFiles(!isFiles);
+          }}
+          checked={isFiles}
+        />
+      </div>
+      <div className="flex items-center gap-2">
+        <Checkbox
+          id="template"
+          checked={hasTemplate}
+          onCheckedChange={() =>
+            setHasTemplate((prev) => {
+              if (prev) {
+                setTemplate(null);
+              }
+              return !prev;
+            })
           }
-        >
-          Add new List item
-        </Button>
-        <ScrollArea className="h-[320px] rounded-md border p-4">
-          {listCount.map((item, idx) => (
-            <EditListItem
-              list={listCount}
-              key={item.id}
-              item={item}
-              idx={idx + 1}
-              isFiles={isFiles}
-              templateWidgets={template?.widgets}
-            />
-          ))}
-        </ScrollArea>
-      </CardContent>
-    </Card>
+        />
+        <Label htmlFor="template" className="mt-1">
+          Есть темплейт
+        </Label>
+      </div>
+      {hasTemplate && <TemplatesSelect onSelect={setTemplate} />}
+      <Button
+        className="w-full"
+        onClick={() =>
+          setListCount([
+            ...listCount,
+            {
+              id: +mock[mock.length - 1].id + 1,
+              content: "",
+              href: "",
+            },
+          ])
+        }
+      >
+        Add new List item
+      </Button>
+      <ScrollArea className="h-[320px] rounded-md border p-4">
+        {listCount.map((item, idx) => (
+          <EditListItem
+            list={listCount}
+            key={item.id}
+            item={item}
+            idx={idx + 1}
+            isFiles={isFiles}
+            templateWidgets={template?.widgets}
+          />
+        ))}
+      </ScrollArea>
+    </>
   );
 };
-
 const EditListItem = ({
   isFiles,
   idx,
@@ -115,9 +126,9 @@ const EditListItem = ({
       case "Cards":
         return <CardsEditModal />;
       case "Carousel":
-        return <CarouselEditModal />;
+        return <CarouselEditModal variant="dialog" />;
       case "List":
-        return <ListEditModal />;
+        return <ListEditModal variant="dialog" />;
       case "Text":
         return <TextEditModal />;
       default:
@@ -141,7 +152,6 @@ const EditListItem = ({
         <Input label="Content RU" type="text" />
         <Input label="Content KZ" type="text" />
       </div>
-
       {isFiles ? (
         <Input type="file" label="Document" />
       ) : (
@@ -151,10 +161,14 @@ const EditListItem = ({
         templateWidgets.map((w, idx) => (
           <Fragment key={idx}>{getEditModalByWidget(w)()}</Fragment>
         ))} */}
-      {templateWidgets &&
-        templateWidgets.map((w, idx) => (
-          <Fragment key={idx}>{getTemplatesProps(w)}</Fragment>
-        ))}
+      {templateWidgets && (
+        <div className="flex flex-col gap-3">
+          <span>Настройки шаблона</span>
+          {templateWidgets.map((w, idx) => (
+            <Fragment key={idx}>{getTemplatesProps(w)}</Fragment>
+          ))}
+        </div>
+      )}
     </EditItem>
   );
 };
@@ -166,7 +180,7 @@ const checkIsEditted = (
     href: string | File;
     contentRU: string;
     contentKZ: string;
-  }
+  },
 ) => {
   const base = items.filter((i) => i.id == item.id);
   if (item.contentRU == "" || item.contentKZ == "") {

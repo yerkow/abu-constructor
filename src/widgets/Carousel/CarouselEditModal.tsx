@@ -1,4 +1,7 @@
 "use client";
+import page from "@/app/page";
+import { TemplatesSelect } from "@/features";
+import { cn } from "@/shared/lib/utils";
 import {
   Button,
   Card,
@@ -6,6 +9,12 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  Checkbox,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
   EditItem,
   Input,
   Label,
@@ -15,45 +24,94 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  WidgetView,
 } from "@/shared/ui";
-import { useState } from "react";
-
-export const CarouselEditModal = () => {
-  const [count, setCount] = useState(0);
+import { CardsEditModal } from "@/widgets/Cards/CardsEditModal";
+import { ListEditModal } from "@/widgets/List/ListEditModal";
+import { TextEditModal } from "@/widgets/Text/TextEditModal";
+import { Modal } from "@/widgets/Text/TextEditModal.stories";
+import { Settings } from "lucide-react";
+import { Fragment, useState } from "react";
+interface CarouselEditModalProps {
+  variant?: "dialog" | "card";
+}
+export const CarouselEditModal = ({
+  variant = "card",
+}: CarouselEditModalProps) => {
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle>Edit Carousel</CardTitle>
-        <CardDescription>There you can edit Carousel content</CardDescription>
-      </CardHeader>
-      <CardContent className="flex  flex-col gap-3">
-        <div className="flex gap-2  flex-col">
-          <Label>Select text position</Label>
-          <Select>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Position" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="left">Left</SelectItem>
-              <SelectItem value="center">Center</SelectItem>
-              <SelectItem value="right">Right</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <Button onClick={() => setCount(count + 1)} className="w-full">
-          Add new Carousel Item
-        </Button>
-        <ScrollArea className="h-[320px]  rounded-md border p-4">
-          {new Array(count).fill("0").map((_, idx) => (
-            <EditCarouselItem idx={idx} />
-          ))}
-        </ScrollArea>
-      </CardContent>
-    </Card>
+    <WidgetView
+      variant={variant}
+      cardTitle="Edit Carousel"
+      desc="There you can edit Carousel content"
+      triggerTitle="Редактировать карусель"
+      content={<ModalContent />}
+    />
   );
 };
+const ModalContent = () => {
+  const [count, setCount] = useState(0);
+  const [hasTemplate, setHasTemplate] = useState(false);
+  const [template, setTemplate] = useState<{
+    name: string;
+    widgets: string[];
+  } | null>(null);
+  return (
+    <>
+      <div className="flex items-center justify-center gap-2">
+        <Checkbox
+          id="template"
+          checked={hasTemplate}
+          onCheckedChange={() =>
+            setHasTemplate((prev) => {
+              if (prev) {
+                setTemplate(null);
+              }
+              return !prev;
+            })
+          }
+        />
+        <Label htmlFor="template" className="mt-1">
+          Есть темплейт
+        </Label>
+      </div>
+      {hasTemplate && <TemplatesSelect onSelect={setTemplate} />}
+      <Button onClick={() => setCount(count + 1)} className="w-full">
+        Add new Carousel Item
+      </Button>
+      <ScrollArea className="h-[500px]  rounded-md border p-4">
+        {new Array(count).fill("0").map((_, idx) => (
+          <EditCarouselItem
+            key={idx}
+            idx={idx}
+            templateWidgets={template?.widgets}
+          />
+        ))}
+      </ScrollArea>
+    </>
+  );
+};
+const EditCarouselItem = ({
+  idx,
+  templateWidgets,
+}: {
+  idx: number;
+  templateWidgets?: string[];
+}) => {
+  const getTemplatesProps = (w: string) => {
+    switch (w) {
+      case "Cards":
+        return <CardsEditModal variant="dialog" />;
+      case "Carousel":
+        return <CarouselEditModal variant="dialog" />;
+      case "List":
+        return <ListEditModal variant="dialog" />;
+      case "Text":
+        return <TextEditModal />;
+      default:
+        return null;
+    }
+  };
 
-const EditCarouselItem = ({ idx }: { idx: number }) => {
   return (
     <EditItem
       title={"Carousel Item" + (idx + 1)}
@@ -70,6 +128,15 @@ const EditCarouselItem = ({ idx }: { idx: number }) => {
         <Input label="Content RU" />
         <Input label="Content KZ" />
       </div>
+
+      {templateWidgets && (
+        <div className="flex flex-col gap-3">
+          <span>Настройки шаблона</span>
+          {templateWidgets.map((w, idx) => (
+            <Fragment key={idx}>{getTemplatesProps(w)}</Fragment>
+          ))}
+        </div>
+      )}
     </EditItem>
   );
 };

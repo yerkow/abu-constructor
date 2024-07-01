@@ -12,7 +12,7 @@ interface TemplatesSelectProps {
   onSelect: Dispatch<SetStateAction<(typeof mockTemplates)[0] | null>>;
 }
 const mockTemplates = [
-  { name: "Template1", widgets: ["Carousel", "Text"] },
+  { name: "Template1", widgets: ["Carousel", "List", "Cards"] },
   { name: "Template2", widgets: ["Text", "Text"] },
 ];
 export const TemplatesSelect = ({ onSelect }: TemplatesSelectProps) => {

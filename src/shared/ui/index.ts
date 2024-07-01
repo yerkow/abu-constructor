@@ -9,6 +9,7 @@ export {
 } from "./card";
 export { Input } from "./input";
 export { Label } from "./label";
+export { WidgetView } from "./widget-view";
 
 export {
   Carousel,
