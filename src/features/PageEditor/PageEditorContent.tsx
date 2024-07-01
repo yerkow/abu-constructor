@@ -124,6 +124,8 @@ export const PageEditorContent = ({
           </ul>
         </DndContext>
       </section>
+
+      {forTemplate && <Button className="align-self-end">Save</Button>}
     </section>
   );
 };
