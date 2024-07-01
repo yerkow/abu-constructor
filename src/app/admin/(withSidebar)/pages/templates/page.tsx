@@ -1,3 +1,9 @@
+import { PageEditorContent } from "@/features";
+
 export default function TemplatesPage() {
-  return <section>templates</section>;
+  return (
+    <section>
+      <PageEditorContent forTemplate />
+    </section>
+  );
 }

@@ -33,13 +33,17 @@ const widgetsList = [
   { name: "List", modal: <ListEditModal /> },
   { name: "Text", modal: <TextEditModal /> },
 ];
-export const PageEditorContent = () => {
+export const PageEditorContent = ({
+  forTemplate,
+}: {
+  forTemplate?: boolean;
+}) => {
   const [list, setList] = useState<any[]>([]);
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   const getLiPos = (id: UniqueIdentifier) =>
@@ -108,7 +112,11 @@ export const PageEditorContent = () => {
                     </Button>
                   }
                   editContentBtn={
-                    <EditWidgetContentDialog modal={item.modal} />
+                    forTemplate ? (
+                      <></>
+                    ) : (
+                      <EditWidgetContentDialog modal={item.modal} />
+                    )
                   }
                 />
               ))}
