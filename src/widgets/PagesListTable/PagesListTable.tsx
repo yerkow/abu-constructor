@@ -33,7 +33,7 @@ export const PagesListTable = ({ pages }: PagesListTableProps) => {
             <TableCell>{page.kz}</TableCell>
             <TableCell>{page.slug}</TableCell>
             <TableCell>
-              {page.type == "group" && (
+              {page.pageType == "group" && (
                 <Link href={`/admin/pages/${page.id}`}>
                   <Button size={"sm"}>Перейти</Button>
                 </Link>
