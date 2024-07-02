@@ -19,6 +19,7 @@ import {
 import { Settings } from "lucide-react";
 import { useRef, useState } from "react";
 import { PageEditor } from "./PageEditor/PageEditor";
+import { useParams } from "next/navigation";
 interface PageDialogProps {
   variant: "create" | "edit";
   parentId?: number;
@@ -36,6 +37,7 @@ const createPage = (data: {
   pageType: string;
   slug: string;
   id: number;
+  navigation_id: number | null;
 }) => {
   let pages = localStorage.getItem("pages");
   if (pages) {
@@ -53,10 +55,17 @@ export const PageDialog = ({ variant, page, withContent }: PageDialogProps) => {
     ru: "",
     kz: "",
   });
+  const { id } = useParams();
   const [slug, setSlug] = useState("");
   const [pageType, setPageType] = useState("");
   const onSave = () => {
-    createPage({ ...name, pageType, slug, id: Date.now() });
+    createPage({
+      ...name,
+      pageType,
+      slug,
+      id: Date.now(),
+      navigation_id: !Array.isArray(id) ? +id : null,
+    });
     setName({ ru: "", kz: "" });
     setSlug("");
     setPageType("");
