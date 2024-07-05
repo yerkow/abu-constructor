@@ -1,5 +1,7 @@
+export { DeletePageBtn } from "./DeletePageBtn";
 export { EditWidgetContentDialog } from "./EditWidgetContentDialog";
-export { PageDialog } from "./PageDialog";
+export { CreatePageDialog } from "./PageDialog/CreatePageDialog";
+export { EditPageDialog } from "./PageDialog/EditPageDialog";
 export { PageEditor } from "./PageEditor/PageEditor";
 export { PageEditorContent } from "./PageEditor/PageEditorContent";
 export { Pagination } from "./Pagination";

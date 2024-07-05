@@ -1,5 +1,5 @@
 "use client";
-import { cn } from "@/shared/lib/utils";
+import { IPage } from "@/shared/lib";
 import {
   Button,
   Dialog,
@@ -10,82 +10,59 @@ import {
   DialogTitle,
   DialogTrigger,
   Input,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
 } from "@/shared/ui";
 import { Settings } from "lucide-react";
 import { useRef, useState } from "react";
-import { PageEditor } from "./PageEditor/PageEditor";
-import { useParams } from "next/navigation";
-interface PageDialogProps {
-  variant: "create" | "edit";
-  parentId?: number;
-  withContent: boolean;
-  page?: {
-    id: number;
-    ru: string;
-    kz: string;
-    slug: string;
-  };
-}
-const createPage = (data: {
-  ru: string;
-  kz: string;
-  pageType: string;
-  slug: string;
-  id: number;
-  navigation_id: number | null;
-}) => {
+import { PageEditor } from "../PageEditor/PageEditor";
+const editPage = (data: IPage) => {
   let pages = localStorage.getItem("pages");
   if (pages) {
     pages = JSON.parse(pages);
     if (Array.isArray(pages)) {
-      pages.push(data);
+      pages = pages.map((page) => {
+        if (page.id == data.id) {
+          return data;
+        }
+        return page;
+      });
     }
     localStorage.setItem("pages", JSON.stringify(pages));
   } else {
     localStorage.setItem("pages", JSON.stringify([data]));
   }
 };
-export const PageDialog = ({ variant, page, withContent }: PageDialogProps) => {
+interface EditPageDialogProps {
+  page: IPage;
+}
+export const EditPageDialog = ({ page }: EditPageDialogProps) => {
   const [name, setName] = useState<{ ru: string; kz: string }>({
-    ru: "",
-    kz: "",
+    ru: page.ru,
+    kz: page.kz,
   });
-  const { id } = useParams();
-  const [slug, setSlug] = useState("");
-  const [pageType, setPageType] = useState("");
-  const onSave = () => {
-    createPage({
+  const [slug, setSlug] = useState(page.slug);
+  const onEdit = () => {
+    editPage({
+      id: page.id,
       ...name,
-      pageType,
       slug,
-      id: Date.now(),
-      navigation_id: !Array.isArray(id) ? +id : null,
+      pageType: page.pageType,
+      navigation_id: page.navigation_id,
     });
     setName({ ru: "", kz: "" });
     setSlug("");
-    setPageType("");
     if (closeRef.current) closeRef.current.click();
   };
   const closeRef = useRef<HTMLButtonElement>(null);
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button size={"sm"} className={cn(variant == "create" && "mb-3")}>
-          {variant == "create" ? "Создать страницу" : <Settings />}
+        <Button size={"sm"}>
+          <Settings />
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-sm sm:max-w-3xl">
         <DialogHeader>
-          <DialogTitle>
-            {variant == "create"
-              ? "Создание страницы"
-              : `Редактирование страницы ${page?.ru} `}
-          </DialogTitle>
+          <DialogTitle>Редактирование страницы ${page?.ru}</DialogTitle>
         </DialogHeader>
         <section className="flex flex-col gap-3">
           <div className="flex flex-col md:flex-row gap-3">
@@ -100,24 +77,13 @@ export const PageDialog = ({ variant, page, withContent }: PageDialogProps) => {
               onChange={(e) => setName({ ...name, kz: e.target.value })}
             />
           </div>
-          {!withContent && (
-            <Select onValueChange={(value) => setPageType(value)}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Тип страницы" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value={"content"}>Content</SelectItem>
-                <SelectItem value={"group"}>Group</SelectItem>
-              </SelectContent>
-            </Select>
-          )}
           <Input
             label="Slug страницы"
             value={slug}
             onChange={(e) => setSlug(e.target.value)}
           />
 
-          {withContent && <PageEditor />}
+          {page.pageType == "content" && <PageEditor />}
         </section>
         <DialogFooter className=" gap-2 sm:justify-start">
           <DialogClose asChild>
@@ -126,7 +92,7 @@ export const PageDialog = ({ variant, page, withContent }: PageDialogProps) => {
             </Button>
           </DialogClose>
 
-          <Button onClick={onSave}>Сохранить</Button>
+          <Button onClick={onEdit}>Сохранить</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

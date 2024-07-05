@@ -1,4 +1,5 @@
-import { PageDialog } from "@/features";
+import { DeletePageBtn, EditPageDialog } from "@/features";
+import { IPage } from "@/shared/lib";
 import {
   Button,
   Table,
@@ -11,7 +12,7 @@ import {
 } from "@/shared/ui";
 import Link from "next/link";
 interface PagesListTableProps {
-  pages: any[];
+  pages: IPage[];
 }
 export const PagesListTable = ({ pages }: PagesListTableProps) => {
   return (
@@ -22,8 +23,9 @@ export const PagesListTable = ({ pages }: PagesListTableProps) => {
           <TableHead>На русском</TableHead>
           <TableHead>На казахском</TableHead>
           <TableHead>Slug</TableHead>
-          <TableHead>Дочерние страницы</TableHead>
-          <TableHead className="text-right">Редактировать</TableHead>
+          <TableHead className="text-center">Дочерние страницы</TableHead>
+          <TableHead className="text-center">Редактировать</TableHead>
+          <TableHead className="text-center">Удалить страницy</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -32,19 +34,18 @@ export const PagesListTable = ({ pages }: PagesListTableProps) => {
             <TableCell className="font-medium">{page.ru}</TableCell>
             <TableCell>{page.kz}</TableCell>
             <TableCell>{page.slug}</TableCell>
-            <TableCell>
+            <TableCell className="text-center">
               {page.pageType == "group" && (
                 <Link href={`/admin/pages/${page.id}`}>
                   <Button size={"sm"}>Перейти</Button>
                 </Link>
               )}
             </TableCell>
-            <TableCell className="text-right ">
-              <PageDialog
-                withContent={page.type == "content"}
-                variant="edit"
-                page={page}
-              />
+            <TableCell className="text-center">
+              <EditPageDialog page={page} />
+            </TableCell>
+            <TableCell className="text-center">
+              <DeletePageBtn id={page.id} />
             </TableCell>
           </TableRow>
         ))}
