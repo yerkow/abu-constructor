@@ -19,7 +19,6 @@ import {
 } from "@/shared/ui";
 import { useParams } from "next/navigation";
 import { useRef, useState } from "react";
-import { PageEditor } from "../PageEditor/PageEditor";
 
 const createPage = (data: IPage) => {
   let pages = localStorage.getItem("pages");
@@ -96,7 +95,6 @@ export const CreatePageDialog = ({ parentPage }: CreatePageDialogProps) => {
             onChange={(e) => setSlug(e.target.value)}
           />
         </section>
-        {pageType == "content" && <PageEditor />}
         <DialogFooter className=" gap-2 sm:justify-start">
           <DialogClose asChild>
             <Button ref={closeRef} type="button" variant="secondary">

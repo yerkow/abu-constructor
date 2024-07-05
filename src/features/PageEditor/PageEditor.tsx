@@ -10,7 +10,7 @@ import {
 } from "@/shared/ui";
 import { PageEditorContent } from "./PageEditorContent";
 
-export const PageEditor = () => {
+export const PageEditor = ({ pageId }: { pageId: number }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -20,7 +20,7 @@ export const PageEditor = () => {
         <DialogHeader>
           <DialogTitle>Содержание страницы</DialogTitle>
         </DialogHeader>
-        <PageEditorContent />
+        <PageEditorContent pageId={pageId} />
         <DialogFooter className=" gap-2 sm:justify-end">
           <DialogClose asChild>
             <Button type="button" variant="secondary">

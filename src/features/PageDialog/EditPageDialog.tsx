@@ -83,7 +83,7 @@ export const EditPageDialog = ({ page }: EditPageDialogProps) => {
             onChange={(e) => setSlug(e.target.value)}
           />
 
-          {page.pageType == "content" && <PageEditor />}
+          {page.pageType == "content" && <PageEditor pageId={page.id} />}
         </section>
         <DialogFooter className=" gap-2 sm:justify-start">
           <DialogClose asChild>

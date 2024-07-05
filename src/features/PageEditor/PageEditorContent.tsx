@@ -34,8 +34,10 @@ const widgetsList = [
   { name: "Text", modal: <TextEditModal /> },
 ];
 export const PageEditorContent = ({
+  pageId,
   forTemplate,
 }: {
+  pageId: number;
   forTemplate?: boolean;
 }) => {
   const [list, setList] = useState<any[]>([]);
@@ -43,7 +45,7 @@ export const PageEditorContent = ({
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    }),
+    })
   );
 
   const getLiPos = (id: UniqueIdentifier) =>

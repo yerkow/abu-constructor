@@ -6,6 +6,7 @@ export const EditWidgetContentDialog = ({ modal }: { modal: ReactNode }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
+        // save widget order on click
         <Button size={"icon"}>
           <Settings />
         </Button>
