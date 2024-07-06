@@ -25,8 +25,9 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { DeleteIcon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PageEditorContentItem } from "./PageEditorContentItem";
+import { usePageContent } from "@/shared/providers";
 const widgetsList = ["Cards", "Carousel", "List", "Text"];
 
 const getModal = (modal: string) => {
@@ -49,6 +50,14 @@ export const PageEditorContent = ({
   forTemplate?: boolean;
 }) => {
   const [list, setList] = useState<any[]>([]);
+  const setPageContent = usePageContent();
+  useEffect(() => {
+    if (setPageContent) {
+      setPageContent.setWidgets(
+        list.map((l) => ({ name: l.name, order: l.id })),
+      );
+    }
+  }, [list]);
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {

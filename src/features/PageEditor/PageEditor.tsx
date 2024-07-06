@@ -1,3 +1,4 @@
+"use client";
 import {
   Button,
   Dialog,
@@ -9,12 +10,24 @@ import {
   DialogTrigger,
 } from "@/shared/ui";
 import { PageEditorContent } from "./PageEditorContent";
+import { usePageContent } from "@/shared/providers";
 
 export const PageEditor = ({ pageId }: { pageId: number }) => {
+  const setPageContent = usePageContent();
+
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button size={"sm"}>Контент страницы</Button>
+        <Button
+          onClick={() => {
+            if (setPageContent) {
+              setPageContent.setPageId(pageId);
+            }
+          }}
+          size={"sm"}
+        >
+          Контент страницы
+        </Button>
       </DialogTrigger>
       <DialogContent className="max-w-sm sm:max-w-[90%]">
         <DialogHeader>

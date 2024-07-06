@@ -1,6 +1,7 @@
 //temporary
 "use client";
 import { CreatePageDialog } from "@/features/PageDialog/CreatePageDialog";
+import { PageContentProvider } from "@/shared/providers";
 import { PagesListTable } from "@/widgets";
 
 const mockPages = JSON.parse(localStorage.getItem("pages") || "[]");

@@ -3,8 +3,6 @@ import { Settings } from "lucide-react";
 import { ReactNode } from "react";
 
 export const EditWidgetContentDialog = ({ modal }: { modal: ReactNode }) => {
-  console.log(modal);
-
   return (
     <Dialog>
       <DialogTrigger asChild>
