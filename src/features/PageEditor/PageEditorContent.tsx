@@ -27,12 +27,20 @@ import {
 import { DeleteIcon } from "lucide-react";
 import { useState } from "react";
 import { PageEditorContentItem } from "./PageEditorContentItem";
-const widgetsList = [
-  { name: "Cards", modal: <CardsEditModal /> },
-  { name: "Carousel", modal: <CarouselEditModal /> },
-  { name: "List", modal: <ListEditModal /> },
-  { name: "Text", modal: <TextEditModal /> },
-];
+const widgetsList = ["Cards", "Carousel", "List", "Text"];
+
+const getModal = (modal: string) => {
+  switch (modal) {
+    case "Cards":
+      return <CardsEditModal />;
+    case "Carousel":
+      return <CarouselEditModal />;
+    case "List":
+      return <ListEditModal />;
+    case "Text":
+      return <TextEditModal />;
+  }
+};
 export const PageEditorContent = ({
   pageId,
   forTemplate,
@@ -45,7 +53,7 @@ export const PageEditorContent = ({
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   const getLiPos = (id: UniqueIdentifier) =>
@@ -73,15 +81,12 @@ export const PageEditorContent = ({
         {widgetsList.map((widget) => (
           <span
             className=" cursor-pointer px-5 py-3 rounded-sm text-center bg-slate-200"
-            key={widget.name}
+            key={widget}
             onClick={() => {
-              setList([
-                ...list,
-                { id: list.length + 1, name: widget.name, modal: widget.modal },
-              ]);
+              setList([...list, { id: list.length + 1, name: widget }]);
             }}
           >
-            {widget.name}
+            {widget}
           </span>
         ))}
       </section>
@@ -117,7 +122,7 @@ export const PageEditorContent = ({
                     forTemplate ? (
                       <></>
                     ) : (
-                      <EditWidgetContentDialog modal={item.modal} />
+                      <EditWidgetContentDialog modal={getModal(item.name)} />
                     )
                   }
                 />

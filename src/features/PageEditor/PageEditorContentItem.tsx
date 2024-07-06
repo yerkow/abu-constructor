@@ -41,7 +41,6 @@ export const PageEditorContentItem = ({
       </span>
       <section className="flex gap-2">
         {editContentBtn}
-
         {deleteBtn}
       </section>
     </li>
