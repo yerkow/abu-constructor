@@ -1,8 +1,14 @@
 import { Button, Dialog, DialogContent, DialogTrigger } from "@/shared/ui";
 import { Settings } from "lucide-react";
-import { ReactNode } from "react";
+import { cloneElement, ReactNode } from "react";
 
-export const EditWidgetContentDialog = ({ modal }: { modal: ReactNode }) => {
+export const EditWidgetContentDialog = ({
+  modal,
+  order,
+}: {
+  modal: ReactNode;
+  order: number;
+}) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -11,7 +17,9 @@ export const EditWidgetContentDialog = ({ modal }: { modal: ReactNode }) => {
           <Settings />
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-sm sm:max-w-full ">{modal}</DialogContent>
+      <DialogContent className="max-w-sm sm:max-w-full ">
+        {cloneElement(modal as React.ReactElement<any>, { order })}
+      </DialogContent>
     </Dialog>
   );
 };

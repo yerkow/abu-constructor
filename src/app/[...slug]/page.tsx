@@ -1,3 +1,4 @@
+"use client";
 import { Carousel, Text } from "@/widgets";
 
 // const getPageContent = async (slug: any) => {
@@ -29,12 +30,19 @@ const mock = [
     },
   },
 ];
-export default async function Page({ params }: { params: any }) {
-  console.log(params);
+export default function Page() {
   // const data = await getPageContent(params.slug);
+  let content = JSON.parse(localStorage.getItem("1720273314631") || "[]");
+
   return (
     <section className="p-10">
-      {mock.map((m) => getWidgetByName(m.name, m.props))}
+      {content.map((m: any) =>
+        getWidgetByName(
+          m.widget_type[0].toUpperCase() +
+            m.widget_type.slice(1, m.widget_type.length),
+          JSON.parse(m.options),
+        ),
+      )}
     </section>
   );
 }

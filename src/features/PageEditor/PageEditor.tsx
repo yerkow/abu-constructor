@@ -11,18 +11,18 @@ import {
 } from "@/shared/ui";
 import { PageEditorContent } from "./PageEditorContent";
 import { usePageContent } from "@/shared/providers";
+import { usePathname, useRouter } from "next/navigation";
 
 export const PageEditor = ({ pageId }: { pageId: number }) => {
   const setPageContent = usePageContent();
-
+  const router = useRouter();
+  const path = usePathname();
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button
           onClick={() => {
-            if (setPageContent) {
-              setPageContent.setPageId(pageId);
-            }
+            router.push(`${path}?editting=${pageId}`);
           }}
           size={"sm"}
         >

@@ -1,4 +1,5 @@
 "use client";
+import { usePageContent } from "@/shared/providers";
 import {
   Button,
   Card,
@@ -9,7 +10,8 @@ import {
   Input,
   Label,
 } from "@/shared/ui";
-import { useState } from "react";
+import { useParams, useSearchParams } from "next/navigation";
+import { ChangeEvent, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 const quillModules = {
@@ -26,20 +28,49 @@ const quillModules = {
     ["clean"],
   ],
 };
-export const TextEditModal = () => {
+export const TextEditModal = ({ order }: { order: number }) => {
   const [title, setTitle] = useState({ ru: "", kz: "" });
   const [content, setContent] = useState({ ru: "", kz: "" });
-  const handleSubmit = () => {
-    localStorage.setItem(
-      "widget",
-      JSON.stringify({
+  const edittingPageId = useSearchParams().get("editting");
+
+  const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (edittingPageId) {
+      const res = {
         id: Date.now(),
-        widget_type: "text",
-        options: JSON.stringify({ heading: title.ru, content: content.ru }),
-        order: 1,
-      })
-    );
+        widget_type: "Text",
+        options: JSON.stringify({
+          heading: title.ru,
+          content: content.ru,
+        }),
+        order,
+        navigation_id: +edittingPageId,
+      };
+
+      let pagesContent: any = localStorage.getItem(edittingPageId);
+      if (pagesContent) {
+        pagesContent = JSON.parse(pagesContent);
+        if (Array.isArray(pagesContent)) {
+          if (pagesContent.findIndex((page) => page.order === order) == -1) {
+            pagesContent.push(res);
+          } else {
+            pagesContent = pagesContent.map((widget) => {
+              if (widget.order === order) {
+                return res;
+              } else {
+                return widget;
+              }
+            });
+          }
+
+          localStorage.setItem(edittingPageId, JSON.stringify(pagesContent));
+        }
+      } else {
+        localStorage.setItem(edittingPageId, JSON.stringify([res]));
+      }
+    }
   };
+
   return (
     <Card>
       <CardHeader>

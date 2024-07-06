@@ -131,7 +131,10 @@ export const PageEditorContent = ({
                     forTemplate ? (
                       <></>
                     ) : (
-                      <EditWidgetContentDialog modal={getModal(item.name)} />
+                      <EditWidgetContentDialog
+                        order={item.id}
+                        modal={getModal(item.name)}
+                      />
                     )
                   }
                 />
