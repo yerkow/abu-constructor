@@ -28,6 +28,7 @@ import { DeleteIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { PageEditorContentItem } from "./PageEditorContentItem";
 import { usePageContent } from "@/shared/providers";
+import { capitalize } from "@/shared/lib";
 const widgetsList = ["Cards", "Carousel", "List", "Text"];
 
 const getModal = (modal: string) => {
@@ -50,14 +51,12 @@ export const PageEditorContent = ({
   forTemplate?: boolean;
 }) => {
   const [list, setList] = useState<any[]>([]);
-  const setPageContent = usePageContent();
   useEffect(() => {
-    if (setPageContent) {
-      setPageContent.setWidgets(
-        list.map((l) => ({ name: l.name, order: l.id })),
-      );
-    }
-  }, [list]);
+    const saved = JSON.parse(localStorage.getItem(pageId.toString()) || "[]");
+    setList(
+      saved.map((s: any) => ({ name: capitalize(s.widget_type), id: s.order })),
+    );
+  }, []);
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
