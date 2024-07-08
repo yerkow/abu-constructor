@@ -1,5 +1,6 @@
 "use client";
-import { Carousel, Text } from "@/widgets";
+import { capitalize } from "@/shared/lib";
+import { Cards, Carousel, Text } from "@/widgets";
 
 // const getPageContent = async (slug: any) => {
 //   const { data } = await fetch("/hello");
@@ -32,16 +33,12 @@ const mock = [
 ];
 export default function Page() {
   // const data = await getPageContent(params.slug);
-  let content = JSON.parse(localStorage.getItem("1720273314631") || "[]");
+  let content = JSON.parse(localStorage.getItem("1720441668639") || "[]");
 
   return (
     <section className="p-10">
       {content.map((m: any) =>
-        getWidgetByName(
-          m.widget_type[0].toUpperCase() +
-            m.widget_type.slice(1, m.widget_type.length),
-          JSON.parse(m.options),
-        ),
+        getWidgetByName(capitalize(m.widget_type), JSON.parse(m.options)),
       )}
     </section>
   );
@@ -51,6 +48,9 @@ const getWidgetByName = (name: string, props: any) => {
   switch (name) {
     case "Carousel":
       return <Carousel {...props} />;
+    case "Cards":
+      return <Cards {...props} />;
+
     case "Text":
       return <Text {...props} />;
     default:

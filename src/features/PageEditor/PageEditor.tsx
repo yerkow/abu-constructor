@@ -13,16 +13,23 @@ import { PageEditorContent } from "./PageEditorContent";
 import { usePageContent } from "@/shared/providers";
 import { usePathname, useRouter } from "next/navigation";
 
-export const PageEditor = ({ pageId }: { pageId: number }) => {
+export const PageEditor = ({
+  pageId,
+  slug,
+}: {
+  pageId: number;
+  slug: string;
+}) => {
   const setPageContent = usePageContent();
   const router = useRouter();
   const path = usePathname();
+
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button
           onClick={() => {
-            router.push(`${path}?editting=${pageId}`);
+            router.push(`${path}?editting=${pageId}&edittingSlug=${slug}`);
           }}
           size={"sm"}
         >
