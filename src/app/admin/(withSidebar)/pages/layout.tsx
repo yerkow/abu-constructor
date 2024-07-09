@@ -1,5 +1,5 @@
-import { PageContentProvider } from "@/shared/providers";
+import { ReactNode } from "react";
 
-export default function Layout({ children }) {
-  return <PageContentProvider>{children}</PageContentProvider>;
+export default function Layout({ children }: { children: ReactNode }) {
+  return { children };
 }

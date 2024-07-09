@@ -1,1 +1,1 @@
-export { PageContentProvider, usePageContent } from "./pageContent.context";
+export { QueryProvider } from "./QueryProvider";

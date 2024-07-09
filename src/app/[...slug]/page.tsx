@@ -6,6 +6,7 @@ import { Cards, Carousel, Text } from "@/widgets";
 //   const { data } = await fetch("/hello");
 //   return data;
 // };
+
 const mockCarouselItems = new Array(9).fill({
   img: "/123.jpg",
   title: "Title",
