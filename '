@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ReactNode } from "react";
 export interface CardProps {
   variant: "horizontal" | "base";
-  content: string;
+  content: ReactNode;
   image: string;
   date: string;
   title: string;
@@ -41,7 +41,7 @@ export const Card = ({
         )}
       >
         <Image
-          src={image}
+          src={src}
           fill
           alt="te"
           className="absolute left-0 right-0 top-0 bottom-0 "
@@ -50,7 +50,7 @@ export const Card = ({
       <div>
         <span className="text-sm">{date}</span>
         <h2 className="font-bold text-xl">{title}</h2>
-        <p>{content.length > 90 ? `${content.slice(0, 90)}...` : content}</p>
+        <p className="">{content?.toString().slice(0, 90)}...</p>
       </div>
     </Comp>
   );

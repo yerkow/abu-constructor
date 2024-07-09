@@ -33,7 +33,7 @@ const mock = [
 ];
 export default function Page() {
   // const data = await getPageContent(params.slug);
-  let content = JSON.parse(localStorage.getItem("1720441668639") || "[]");
+  let content = JSON.parse(localStorage.getItem("1720511119640") || "[]");
 
   return (
     <section className="p-10">

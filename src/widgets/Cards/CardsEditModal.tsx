@@ -98,8 +98,8 @@ const ModalContent = ({ order }: { order: number }) => {
           title: title.ru,
           variant,
           items: cards.map((c) => ({
-            children: c.content.ru,
-            src: c.image,
+            content: c.content.ru,
+            image: c.image,
             date: new Date(),
             title: c.title.ru,
             href: hasTemplate ? `/${slug}/${Date.now()}` : undefined,
