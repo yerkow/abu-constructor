@@ -1,18 +1,18 @@
-//temporary
-"use client";
 import { CreatePageDialog } from "@/features/PageDialog/CreatePageDialog";
-import { PageContentProvider } from "@/shared/providers";
+import { getPages } from "@/shared/api/pages";
 import { PagesListTable } from "@/widgets";
 
-const mockPages = JSON.parse(localStorage.getItem("pages") || "[]");
+const fetchPages = async () => {
+  const pages = await getPages();
+  return pages;
+};
 
-export default function PagesPage() {
+export default async function PagesPage() {
+  const pages = await fetchPages();
   return (
     <section className="h-full">
       <CreatePageDialog />
-      <PagesListTable
-        pages={mockPages.filter((page: any) => page.navigation_id === null)}
-      />
+      <PagesListTable pages={[]} />
     </section>
   );
 }

@@ -10,7 +10,6 @@ import {
   DialogTrigger,
 } from "@/shared/ui";
 import { PageEditorContent } from "./PageEditorContent";
-import { usePageContent } from "@/shared/providers";
 import { usePathname, useRouter } from "next/navigation";
 
 export const PageEditor = ({
@@ -20,7 +19,6 @@ export const PageEditor = ({
   pageId: number;
   slug: string;
 }) => {
-  const setPageContent = usePageContent();
   const router = useRouter();
   const path = usePathname();
 
