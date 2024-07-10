@@ -1,4 +1,6 @@
+"use client";
 import { DeletePageBtn, EditPageDialog } from "@/features";
+import { getPages, getPagesChildren } from "@/shared/api/pages";
 import { IPage } from "@/shared/lib";
 import {
   Button,
@@ -10,11 +12,31 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/ui";
+import { useQuery } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
 import Link from "next/link";
 interface PagesListTableProps {
-  pages: IPage[];
+  parentId?: number;
 }
-export const PagesListTable = ({ pages }: PagesListTableProps) => {
+export const PagesListTable = ({ parentId }: PagesListTableProps) => {
+  const { data, isLoading, error } = useQuery({
+    queryKey: parentId ? [`child Pages ${parentId}`] : ["mainPages"],
+    queryFn: !parentId
+      ? getPages
+      : async () => {
+          const data = await getPagesChildren(1);
+          return data;
+        },
+  });
+  console.log(data);
+
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center">
+        <Loader2 className="animate-spin w-10 h-10 align-middle" />{" "}
+      </div>
+    );
+  if (!data) return <div>Страницы не найдены</div>;
   return (
     <Table className="w-[90%] max-w-[390px] sm:max-w-full overflow-x-auto m-auto h-full overflow-hidden">
       <TableCaption>Доступные страницы</TableCaption>
@@ -23,20 +45,24 @@ export const PagesListTable = ({ pages }: PagesListTableProps) => {
           <TableHead>На русском</TableHead>
           <TableHead>На казахском</TableHead>
           <TableHead>Slug</TableHead>
+          <TableHead>Порядок</TableHead>
           <TableHead className="text-center">Дочерние страницы</TableHead>
           <TableHead className="text-center">Редактировать</TableHead>
           <TableHead className="text-center">Удалить страницy</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {pages.map((page) => (
-          <TableRow key={page.id}>
+        {data.map((page) => (
+          <TableRow key={page.slug}>
             <TableCell className="font-medium">{page.ru}</TableCell>
             <TableCell>{page.kz}</TableCell>
             <TableCell>{page.slug}</TableCell>
+            <TableCell>{page.order}</TableCell>
             <TableCell className="text-center">
-              {page.pageType == "group" && (
-                <Link href={`/admin/pages/${page.id}`}>
+              {page.navigation_type == "group" && (
+                <Link
+                  href={`/admin/pages/${page.slug}?ruId=${page.ruId}&kzId=${page.kzId}`}
+                >
                   <Button size={"sm"}>Перейти</Button>
                 </Link>
               )}
@@ -45,7 +71,9 @@ export const PagesListTable = ({ pages }: PagesListTableProps) => {
               <EditPageDialog page={page} />
             </TableCell>
             <TableCell className="text-center">
-              <DeletePageBtn id={page.id} />
+              {page.ruId && (
+                <DeletePageBtn id={page.ruId} name={page.ru || ""} />
+              )}
             </TableCell>
           </TableRow>
         ))}

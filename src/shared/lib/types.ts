@@ -1,9 +1,23 @@
 export type PageType = "content" | "group";
 export interface IPage {
-  id: number;
-  kz: string;
-  ru: string;
+  kzId: number | null;
+  ruId: number | null;
+  kz: string | null;
+  ru: string | null;
+  order: number;
   navigation_id: number | null;
-  pageType: PageType;
+  navigation_type: PageType;
   slug: string;
+}
+
+export interface BackedPage {
+  id: number;
+  title: string;
+  slug: string;
+  order: number;
+  language_key: string;
+  navigation_id: any;
+  navigation_type: string;
+  create_date: string;
+  update_date: string;
 }

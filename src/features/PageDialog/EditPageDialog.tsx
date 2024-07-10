@@ -14,40 +14,17 @@ import {
 import { Settings } from "lucide-react";
 import { useRef, useState } from "react";
 import { PageEditor } from "../PageEditor/PageEditor";
-const editPage = (data: IPage) => {
-  let pages = localStorage.getItem("pages");
-  if (pages) {
-    pages = JSON.parse(pages);
-    if (Array.isArray(pages)) {
-      pages = pages.map((page) => {
-        if (page.id == data.id) {
-          return data;
-        }
-        return page;
-      });
-    }
-    localStorage.setItem("pages", JSON.stringify(pages));
-  } else {
-    localStorage.setItem("pages", JSON.stringify([data]));
-  }
-};
+
 interface EditPageDialogProps {
   page: IPage;
 }
 export const EditPageDialog = ({ page }: EditPageDialogProps) => {
   const [name, setName] = useState<{ ru: string; kz: string }>({
-    ru: page.ru,
-    kz: page.kz,
+    ru: page.ru ? page.ru : "",
+    kz: page.kz ? page.kz : "",
   });
   const [slug, setSlug] = useState(page.slug);
   const onEdit = () => {
-    editPage({
-      id: page.id,
-      ...name,
-      slug,
-      pageType: page.pageType,
-      navigation_id: page.navigation_id,
-    });
     setName({ ru: "", kz: "" });
     setSlug("");
     if (closeRef.current) closeRef.current.click();
@@ -83,9 +60,7 @@ export const EditPageDialog = ({ page }: EditPageDialogProps) => {
             onChange={(e) => setSlug(e.target.value)}
           />
 
-          {page.pageType == "content" && (
-            <PageEditor slug={page.slug} pageId={page.id} />
-          )}
+          {page.navigation_type == "content" && <PageEditor slug={page.slug} />}
         </section>
         <DialogFooter className=" gap-2 sm:justify-start">
           <DialogClose asChild>

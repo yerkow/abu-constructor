@@ -1,18 +1,14 @@
 import { CreatePageDialog } from "@/features/PageDialog/CreatePageDialog";
+import { customFetch } from "@/shared/api";
 import { getPages } from "@/shared/api/pages";
+import { combinePagesByLang } from "@/shared/lib/utils";
 import { PagesListTable } from "@/widgets";
 
-const fetchPages = async () => {
-  const pages = await getPages();
-  return pages;
-};
-
 export default async function PagesPage() {
-  const pages = await fetchPages();
   return (
     <section className="h-full">
       <CreatePageDialog />
-      <PagesListTable pages={[]} />
+      <PagesListTable />
     </section>
   );
 }

@@ -1,6 +1,9 @@
 "use client";
 
+import { createPage } from "@/shared/api/pages";
 import { IPage, PageType } from "@/shared/lib";
+import { queryClient } from "@/shared/lib/client";
+import { BackedPage } from "@/shared/lib/types";
 import {
   Button,
   Dialog,
@@ -17,43 +20,55 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/ui";
+import { useMutation } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { useRef, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 
-const createPage = (data: IPage) => {
-  let pages = localStorage.getItem("pages");
-  if (pages) {
-    pages = JSON.parse(pages);
-    if (Array.isArray(pages)) {
-      pages.push(data);
-    }
-    localStorage.setItem("pages", JSON.stringify(pages));
-  } else {
-    localStorage.setItem("pages", JSON.stringify([data]));
-  }
-};
 interface CreatePageDialogProps {
   parentPage?: IPage;
 }
 export const CreatePageDialog = ({ parentPage }: CreatePageDialogProps) => {
-  const [name, setName] = useState<{ ru: string; kz: string }>({
-    ru: "",
-    kz: "",
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    watch,
+  } = useForm<Omit<IPage, "id">>({ mode: "onBlur" });
+
+  const { mutate, error, isPending } = useMutation({
+    mutationKey: ["createPage"],
+    mutationFn: createPage,
+    onSuccess: () => {
+      reset();
+      if (closeRef.current) closeRef.current.click();
+      queryClient.invalidateQueries({ queryKey: ["mainPages"] });
+    },
   });
   const { id } = useParams();
-  const [slug, setSlug] = useState(parentPage ? parentPage.slug + "/" : "");
-  const [pageType, setPageType] = useState<PageType>("group");
-  const onSave = () => {
-    createPage({
-      ...name,
-      pageType,
-      slug,
-      id: Date.now(),
-      navigation_id: !Array.isArray(id) ? +id : null,
-    });
-    setName({ ru: "", kz: "" });
-    setSlug("");
-    if (closeRef.current) closeRef.current.click();
+  console.log(watch("ru"));
+
+  const [pageType, setPageType] = useState<PageType>("content");
+  const onSave: SubmitHandler<Omit<IPage, "id">> = (data) => {
+    if (data.ru && data.kz) {
+      mutate({
+        title: data.ru,
+        navigation_type: pageType,
+        slug: data.slug,
+        order: data.order,
+        language_key: "ru",
+        navigation_id: parentPage ? parentPage.slug : null,
+      });
+      mutate({
+        title: data.kz,
+        navigation_type: pageType,
+        slug: data.slug,
+        order: data.order,
+        language_key: "kz",
+        navigation_id: parentPage ? parentPage.slug : null,
+      });
+    }
   };
   const closeRef = useRef<HTMLButtonElement>(null);
   return (
@@ -67,20 +82,21 @@ export const CreatePageDialog = ({ parentPage }: CreatePageDialogProps) => {
         <DialogHeader>
           <DialogTitle>Создание страницы</DialogTitle>
         </DialogHeader>
-        <section className="flex flex-col gap-3">
-          <div className="flex flex-col md:flex-row gap-3">
-            <Input
-              label="Название на русском"
-              value={name.ru}
-              onChange={(e) => setName({ ...name, ru: e.target.value })}
-            />
-            <Input
-              label="Название на казахском"
-              value={name.kz}
-              onChange={(e) => setName({ ...name, kz: e.target.value })}
-            />
-          </div>
-          <Select onValueChange={(value) => setPageType(value as PageType)}>
+        <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSave)}>
+          <Input
+            label="Название на русском"
+            {...register("ru", { required: true })}
+            error={errors.ru?.message}
+          />
+          <Input
+            label="Название на казахском"
+            {...register("kz", { required: true })}
+            error={errors.kz?.message}
+          />
+          <Select
+            defaultValue="content"
+            onValueChange={(value) => setPageType(value as PageType)}
+          >
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Тип страницы" />
             </SelectTrigger>
@@ -91,18 +107,30 @@ export const CreatePageDialog = ({ parentPage }: CreatePageDialogProps) => {
           </Select>
           <Input
             label="Slug страницы"
-            value={slug}
-            onChange={(e) => setSlug(e.target.value)}
+            {...register("slug", { required: true })}
+            error={errors.slug?.message}
           />
-        </section>
+          <Input
+            type="number"
+            label="Номер страницы"
+            {...register("order", { required: true })}
+            error={errors.order?.message}
+          />
+          <Button loading={isPending} disabled={isPending} type="submit">
+            Сохранить
+          </Button>
+        </form>
         <DialogFooter className=" gap-2 sm:justify-start">
           <DialogClose asChild>
-            <Button ref={closeRef} type="button" variant="secondary">
+            <Button
+              className="w-full"
+              ref={closeRef}
+              type="button"
+              variant="secondary"
+            >
               Отменить
             </Button>
           </DialogClose>
-
-          <Button onClick={onSave}>Сохранить</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

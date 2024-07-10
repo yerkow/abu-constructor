@@ -1,6 +1,7 @@
 "use client";
 
 import { EditWidgetContentDialog } from "@/features";
+import { capitalize } from "@/shared/lib";
 import { Button } from "@/shared/ui";
 import {
   CardsEditModal,
@@ -27,8 +28,6 @@ import {
 import { DeleteIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { PageEditorContentItem } from "./PageEditorContentItem";
-import { usePageContent } from "@/shared/providers";
-import { capitalize } from "@/shared/lib";
 const widgetsList = ["Cards", "Carousel", "List", "Text"];
 
 const getModal = (modal: string) => {
@@ -47,7 +46,7 @@ export const PageEditorContent = ({
   pageId,
   forTemplate,
 }: {
-  pageId: number;
+  pageId: string;
   forTemplate?: boolean;
 }) => {
   const [list, setList] = useState<any[]>([]);

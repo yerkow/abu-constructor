@@ -1,21 +1,42 @@
-import { Button } from "@/shared/ui";
-import { DeleteIcon } from "lucide-react";
-const deletePage = (id: number) => {
-  let pages = localStorage.getItem("pages");
-  if (pages) {
-    pages = JSON.parse(pages);
-    if (Array.isArray(pages)) {
-      pages = pages.filter((page) => page.id !== id);
-    }
-    localStorage.setItem("pages", JSON.stringify(pages));
-  } else {
-    localStorage.setItem("pages", JSON.stringify([]));
-  }
-};
-export const DeletePageBtn = ({ id }: { id: number }) => {
+"use client";
+import { PageEditor } from "@/features/PageEditor/PageEditor";
+import {
+  Button,
+  Input,
+  DialogTrigger,
+  DialogTitle,
+  DialogHeader,
+  DialogFooter,
+  DialogContent,
+  DialogClose,
+  Dialog,
+} from "@/shared/ui";
+import { DeleteIcon, Settings } from "lucide-react";
+export const DeletePageBtn = ({ name, id }: { name: string; id: number }) => {
+  console.log(id);
+
   return (
-    <Button size={"icon"} onClick={() => deletePage(id)}>
-      <DeleteIcon />
-    </Button>
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button size={"sm"}>
+          <DeleteIcon />
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="max-w-sm sm:max-w-3xl">
+        <DialogHeader>
+          <DialogTitle className="text-center">
+            Вы уверены, что хотите удалить страницу {name}
+          </DialogTitle>
+        </DialogHeader>
+        <DialogFooter className=" gap-2 sm:justify-center">
+          <DialogClose asChild>
+            <Button type="button" variant="secondary">
+              Отменить
+            </Button>
+          </DialogClose>
+          <Button onClick={() => {}}>Удалить</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };

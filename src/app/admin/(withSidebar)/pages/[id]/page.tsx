@@ -1,14 +1,21 @@
 import { CreatePageDialog } from "@/features";
+import { getPagesChildren } from "@/shared/api/pages";
 import { PagesListTable } from "@/widgets";
 
-export default function Page({ params }: { params: { id: number } }) {
+export default async function Page({
+  params,
+  searchParams,
+}: {
+  params: { id: number };
+  searchParams: { ruId: number; kzId: number };
+}) {
   return (
     <section>
       <section className="flex gap-4">
         {/* <CreatePageDialog parentPage={{}} /> */}
       </section>
       <h2 className="text-center text-xl font-bold">Дочерние страницы</h2>
-      <PagesListTable pages={[]} />
+      <PagesListTable parentId={searchParams.ruId} />
     </section>
   );
 }
