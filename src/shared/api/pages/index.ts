@@ -3,17 +3,23 @@ import { BackedPage } from "@/shared/lib/types";
 import { combinePagesByLang } from "@/shared/lib/utils";
 
 export const getPages = async () => {
-  const pages = await customFetch({ path: "navigation-view/", method: "GET" });
+  const pages = (
+    await customFetch({ path: "navigation-view/", method: "GET" })
+  ).filter((page: BackedPage) => page.navigation_id == null);
 
   return combinePagesByLang(pages);
 };
-export const getPagesChildren = async (id: number) => {
-  const pages = await customFetch({
-    path: `navigation/${id}/children`,
+export const getPagesChildren = async (ids: { ruId: number; kzId: number }) => {
+  const ruPages = await customFetch({
+    path: `navigation/${ids.ruId}/children`,
+    method: "GET",
+  });
+  const kzPages = await customFetch({
+    path: `navigation/${ids.kzId}/children`,
     method: "GET",
   });
 
-  return combinePagesByLang(pages);
+  return combinePagesByLang(ruPages.concat(kzPages));
 };
 
 export const createPage = (

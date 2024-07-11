@@ -20,7 +20,9 @@ export const DeletePageBtn = ({
   name,
   ruId,
   kzId,
+  isChild,
 }: {
+  isChild: boolean;
   name: string;
   ruId: number;
   kzId: number;
@@ -30,7 +32,9 @@ export const DeletePageBtn = ({
     mutationFn: deletePage,
     onSuccess: () => {
       if (closeRef.current) closeRef.current.click();
-      queryClient.invalidateQueries({ queryKey: ["mainPages"] });
+      queryClient.invalidateQueries({
+        queryKey: !isChild ? ["mainPages"] : ["childPages"],
+      });
     },
   });
   const closeRef = useRef<HTMLButtonElement>(null);

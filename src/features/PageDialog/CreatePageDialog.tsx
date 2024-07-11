@@ -26,16 +26,22 @@ import { useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 interface CreatePageDialogProps {
-  parentPage?: IPage;
+  ruParentId: number;
+  kzParentId: number;
+  slug: string;
 }
-export const CreatePageDialog = ({ parentPage }: CreatePageDialogProps) => {
+export const CreatePageDialog = ({
+  ruParentId,
+  kzParentId,
+  slug,
+}: CreatePageDialogProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
     watch,
-  } = useForm<Omit<IPage, "id">>({ mode: "onBlur" });
+  } = useForm<Omit<IPage, "id">>({ mode: "onBlur", defaultValues: { slug } });
 
   const { mutate, error, isPending } = useMutation({
     mutationKey: ["createPage"],
@@ -43,7 +49,9 @@ export const CreatePageDialog = ({ parentPage }: CreatePageDialogProps) => {
     onSuccess: () => {
       reset();
       if (closeRef.current) closeRef.current.click();
-      queryClient.invalidateQueries({ queryKey: ["mainPages"] });
+      queryClient.invalidateQueries({
+        queryKey: !(ruParentId && kzParentId) ? ["mainPages"] : [`childPages`],
+      });
     },
   });
   const { id } = useParams();
@@ -57,7 +65,7 @@ export const CreatePageDialog = ({ parentPage }: CreatePageDialogProps) => {
         slug: data.slug,
         order: data.order,
         language_key: "ru",
-        navigation_id: parentPage ? parentPage.slug : null,
+        navigation_id: ruParentId ? ruParentId : null,
       });
       mutate({
         title: data.kz,
@@ -65,7 +73,7 @@ export const CreatePageDialog = ({ parentPage }: CreatePageDialogProps) => {
         slug: data.slug,
         order: data.order,
         language_key: "kz",
-        navigation_id: parentPage ? parentPage.slug : null,
+        navigation_id: kzParentId ? kzParentId : null,
       });
     }
   };

@@ -15,21 +15,23 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
+import { useEffect } from "react";
 interface PagesListTableProps {
-  parentId?: number;
+  ids?: { ruId: number; kzId: number };
 }
-export const PagesListTable = ({ parentId }: PagesListTableProps) => {
-  const { data, isLoading, error } = useQuery({
-    queryKey: parentId ? [`child Pages ${parentId}`] : ["mainPages"],
-    queryFn: !parentId
+export const PagesListTable = ({ ids }: PagesListTableProps) => {
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ids ? [`childPages`] : ["mainPages"],
+    queryFn: !ids
       ? getPages
       : async () => {
-          const data = await getPagesChildren(1);
+          const data = await getPagesChildren(ids);
           return data;
         },
   });
-  console.log(data);
-
+  // useEffect(() => {
+  //   refetch();
+  // }, [ids?.ruId]);
   if (isLoading)
     return (
       <div className="flex justify-center items-center">
@@ -73,6 +75,7 @@ export const PagesListTable = ({ parentId }: PagesListTableProps) => {
             <TableCell className="text-center">
               {page.ruId && page.kzId && (
                 <DeletePageBtn
+                  isChild={ids ? true : false}
                   kzId={page.kzId}
                   ruId={page.ruId}
                   name={page.ru || ""}
