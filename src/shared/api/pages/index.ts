@@ -9,7 +9,7 @@ export const getPages = async () => {
 };
 export const getPagesChildren = async (id: number) => {
   const pages = await customFetch({
-    path: `navigation-view/navigation/${id}/children`,
+    path: `navigation/${id}/children`,
     method: "GET",
   });
 
@@ -23,5 +23,18 @@ export const createPage = (
     path: "navigation-view/",
     method: "POST",
     body: { json: page },
+  });
+};
+export const editPage = ({
+  id,
+  data,
+}: {
+  id: number;
+  data: Partial<BackedPage>;
+}) => {
+  return customFetch({
+    path: `navigation-view/${id}/`,
+    method: "PATCH",
+    body: { json: data },
   });
 };

@@ -47,7 +47,6 @@ export const CreatePageDialog = ({ parentPage }: CreatePageDialogProps) => {
     },
   });
   const { id } = useParams();
-  console.log(watch("ru"));
 
   const [pageType, setPageType] = useState<PageType>("content");
   const onSave: SubmitHandler<Omit<IPage, "id">> = (data) => {
