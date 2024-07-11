@@ -42,7 +42,7 @@ export const CreateTemplateDialog = ({}: CreatePageTemplateProps) => {
     mutationFn: createPage,
     onSuccess: (data) => {
       reset();
-      setStep(2);
+      setStep(1);
       setTemplateId(data.id);
       queryClient.invalidateQueries({
         queryKey: ["templates"],
@@ -61,8 +61,9 @@ export const CreateTemplateDialog = ({}: CreatePageTemplateProps) => {
   };
 
   const closeRef = useRef<HTMLButtonElement>(null);
+  const [open, setOpen] = useState(false);
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button size={"sm"} className={"mb-3"}>
           Создать шаблон
@@ -82,8 +83,9 @@ export const CreateTemplateDialog = ({}: CreatePageTemplateProps) => {
             pageId="1"
             templateId={templateId}
             onTemplateSave={() => {
-              setStep(3);
-              closeRef.current?.click();
+              setOpen(false);
+              setStep(1);
+              setTemplateId(null);
             }}
           />
         ) : (
@@ -101,7 +103,7 @@ export const CreateTemplateDialog = ({}: CreatePageTemplateProps) => {
           <DialogClose asChild>
             <Button
               onClick={() => {
-                if (templateId && step !== 3) {
+                if (templateId) {
                   deletePage(templateId).then(() => setStep(1));
                 }
               }}
