@@ -38,3 +38,10 @@ export const editPage = ({
     body: { json: data },
   });
 };
+export const deletePage = (id: number) => {
+  return customFetch({
+    path: `navigation-view/${id}`,
+    method: "DELETE",
+    body: { json: { change_type: "delete" } },
+  });
+};

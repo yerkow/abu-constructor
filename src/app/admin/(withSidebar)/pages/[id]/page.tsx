@@ -3,10 +3,8 @@ import { getPagesChildren } from "@/shared/api/pages";
 import { PagesListTable } from "@/widgets";
 
 export default async function Page({
-  params,
   searchParams,
 }: {
-  params: { id: number };
   searchParams: { ruId: number; kzId: number };
 }) {
   return (
@@ -15,7 +13,11 @@ export default async function Page({
         {/* <CreatePageDialog parentPage={{}} /> */}
       </section>
       <h2 className="text-center text-xl font-bold">Дочерние страницы</h2>
-      <PagesListTable parentId={searchParams.ruId} />
+      <PagesListTable
+        ruId={searchParams.ruId}
+        kzId={searchParams.kzId}
+        parentId={searchParams.ruId}
+      />
     </section>
   );
 }

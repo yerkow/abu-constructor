@@ -1,5 +1,7 @@
 "use client";
 import { PageEditor } from "@/features/PageEditor/PageEditor";
+import { queryClient } from "@/shared/lib/client";
+import { createPage, deletePage } from "@/shared/api/pages";
 import {
   Button,
   Input,
@@ -11,10 +13,31 @@ import {
   DialogClose,
   Dialog,
 } from "@/shared/ui";
+import { useMutation } from "@tanstack/react-query";
 import { DeleteIcon, Settings } from "lucide-react";
-export const DeletePageBtn = ({ name, id }: { name: string; id: number }) => {
-  console.log(id);
-
+import { useRef } from "react";
+export const DeletePageBtn = ({
+  name,
+  ruId,
+  kzId,
+}: {
+  name: string;
+  ruId: number;
+  kzId: number;
+}) => {
+  const { mutate, error, isPending } = useMutation({
+    mutationKey: [`deletePage ${ruId} ${kzId}`],
+    mutationFn: deletePage,
+    onSuccess: () => {
+      if (closeRef.current) closeRef.current.click();
+      queryClient.invalidateQueries({ queryKey: ["mainPages"] });
+    },
+  });
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const onDelete = () => {
+    mutate(ruId);
+    mutate(kzId);
+  };
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -30,11 +53,13 @@ export const DeletePageBtn = ({ name, id }: { name: string; id: number }) => {
         </DialogHeader>
         <DialogFooter className=" gap-2 sm:justify-center">
           <DialogClose asChild>
-            <Button type="button" variant="secondary">
+            <Button ref={closeRef} type="button" variant="secondary">
               Отменить
             </Button>
           </DialogClose>
-          <Button onClick={() => {}}>Удалить</Button>
+          <Button onClick={onDelete} loading={isPending} disabled={isPending}>
+            Удалить
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

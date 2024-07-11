@@ -71,8 +71,12 @@ export const PagesListTable = ({ parentId }: PagesListTableProps) => {
               <EditPageDialog page={page} />
             </TableCell>
             <TableCell className="text-center">
-              {page.ruId && (
-                <DeletePageBtn id={page.ruId} name={page.ru || ""} />
+              {page.ruId && page.kzId && (
+                <DeletePageBtn
+                  kzId={page.kzId}
+                  ruId={page.ruId}
+                  name={page.ru || ""}
+                />
               )}
             </TableCell>
           </TableRow>
