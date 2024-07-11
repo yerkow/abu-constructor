@@ -1,5 +1,4 @@
 "use client";
-
 import { EditWidgetContentDialog } from "@/features";
 import { capitalize } from "@/shared/lib";
 import { Button } from "@/shared/ui";

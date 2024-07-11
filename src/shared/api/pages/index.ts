@@ -5,7 +5,10 @@ import { combinePagesByLang } from "@/shared/lib/utils";
 export const getPages = async () => {
   const pages = (
     await customFetch({ path: "navigation-view/", method: "GET" })
-  ).filter((page: BackedPage) => page.navigation_id == null);
+  ).filter(
+    (page: BackedPage) =>
+      page.navigation_id == null && page.navigation_type !== "template",
+  );
 
   return combinePagesByLang(pages);
 };
