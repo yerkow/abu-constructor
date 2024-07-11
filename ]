@@ -23,10 +23,3 @@ export interface BackedPage {
 }
 export interface Template
   extends Omit<BackedPage, "id" | "order" | "create_date" | "update_date"> {}
-export interface Widget {
-  id: number;
-  widget_type: string;
-  options: string;
-  order: number;
-  navigation_id: number;
-}

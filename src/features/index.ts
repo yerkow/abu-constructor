@@ -2,6 +2,7 @@ export { DeletePageBtn } from "./DeletePageBtn";
 export { EditWidgetContentDialog } from "./EditWidgetContentDialog";
 export { CreatePageDialog } from "./PageDialog/CreatePageDialog";
 export { EditPageDialog } from "./PageDialog/EditPageDialog";
+export { CreateTemplateDialog } from "./PageDialog/CreateTemplateDialog";
 export { PageEditor } from "./PageEditor/PageEditor";
 export { PageEditorContent } from "./PageEditor/PageEditorContent";
 export { Pagination } from "./Pagination";

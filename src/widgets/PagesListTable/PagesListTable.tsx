@@ -20,7 +20,7 @@ interface PagesListTableProps {
   ids?: { ruId: number; kzId: number };
 }
 export const PagesListTable = ({ ids }: PagesListTableProps) => {
-  const { data, isLoading, error, refetch } = useQuery({
+  const { data, isFetching, error } = useQuery({
     queryKey: ids ? [`childPages`] : ["mainPages"],
     queryFn: !ids
       ? getPages
@@ -29,10 +29,7 @@ export const PagesListTable = ({ ids }: PagesListTableProps) => {
           return data;
         },
   });
-  // useEffect(() => {
-  //   refetch();
-  // }, [ids?.ruId]);
-  if (isLoading)
+  if (isFetching)
     return (
       <div className="flex justify-center items-center">
         <Loader2 className="animate-spin w-10 h-10 align-middle" />{" "}

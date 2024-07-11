@@ -28,6 +28,10 @@ import {
 import { DeleteIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { PageEditorContentItem } from "./PageEditorContentItem";
+import { SubmitHandler } from "react-hook-form";
+import { Template } from "@/shared/lib/types";
+import { useMutation } from "@tanstack/react-query";
+import { createWidget } from "@/shared/api/widgets";
 const widgetsList = ["Cards", "Carousel", "List", "Text"];
 
 const getModal = (modal: string) => {
@@ -43,19 +47,24 @@ const getModal = (modal: string) => {
   }
 };
 export const PageEditorContent = ({
+  onTemplateSave,
   pageId,
   forTemplate,
+  templateId,
 }: {
+  onTemplateSave?: () => void;
   pageId: string;
   forTemplate?: boolean;
+  templateId?: number;
 }) => {
+  const { mutate, isPending, error } = useMutation({
+    mutationFn: createWidget,
+    mutationKey: ["templateWidget"],
+    onSuccess: () => {
+      if (onTemplateSave) onTemplateSave();
+    },
+  });
   const [list, setList] = useState<any[]>([]);
-  useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem(pageId.toString()) || "[]");
-    setList(
-      saved.map((s: any) => ({ name: capitalize(s.widget_type), id: s.order })),
-    );
-  }, []);
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -142,7 +151,25 @@ export const PageEditorContent = ({
         </DndContext>
       </section>
 
-      {forTemplate && <Button className="align-self-end">Save</Button>}
+      {forTemplate && (
+        <Button
+          onClick={() => {
+            // list.map((li) => {
+            //   if (templateId)
+            //     mutate({
+            //       widget_type: li.name,
+            //       order: li.id,
+            //       options: "",
+            //       navigation_id: templateId,
+            //     });
+            // });
+            if (onTemplateSave) onTemplateSave();
+          }}
+          className="align-self-end"
+        >
+          Save
+        </Button>
+      )}
     </section>
   );
 };
