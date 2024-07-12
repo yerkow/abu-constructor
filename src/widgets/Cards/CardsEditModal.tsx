@@ -26,7 +26,7 @@ import { TextEditModal } from "../Text/TextEditModal";
 import { CardProps } from "@/widgets/Cards/Card";
 import { useSaveToLocalStorage } from "@/shared/lib/hooks";
 import { useSearchParams } from "next/navigation";
-import { BackedPage } from "@/shared/lib/types";
+import { BackedPage, Langs } from "@/shared/lib/types";
 
 interface CardsEditModalProps {
   variant?: "dialog" | "card";
@@ -52,7 +52,6 @@ const cardBase = {
   content: { ru: "", kz: "" },
   image: "",
 };
-type Langs = { ru: string; kz: string };
 type CardsState = Record<
   string,
   {

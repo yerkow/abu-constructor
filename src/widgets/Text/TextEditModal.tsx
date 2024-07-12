@@ -1,6 +1,5 @@
 "use client";
-import { useSaveToLocalStorage } from "@/shared/lib/hooks";
-import { usePageContent } from "@/shared/providers";
+import { createWidget } from "@/shared/api/widgets";
 import {
   Button,
   Card,
@@ -11,7 +10,8 @@ import {
   Input,
   Label,
 } from "@/shared/ui";
-import { useParams, useSearchParams } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+import { useSearchParams } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -29,26 +29,45 @@ const quillModules = {
     ["clean"],
   ],
 };
-export const TextEditModal = ({ order }: { order: number }) => {
+export const TextEditModal = ({
+  order,
+  onSave,
+}: {
+  order: number;
+  onSave: () => void;
+}) => {
   const [title, setTitle] = useState({ ru: "", kz: "" });
   const [content, setContent] = useState({ ru: "", kz: "" });
-  const edittingPageId = useSearchParams().get("editting");
-  const { saveToLocalStorage } = useSaveToLocalStorage();
+  const ruId = useSearchParams().get("ruId");
+  const kzId = useSearchParams().get("kzId");
 
-  const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
+  const { mutate, error, isPending } = useMutation({
+    mutationKey: ["createWidget"],
+    mutationFn: createWidget,
+    onSuccess: () => {
+      setTitle({ ru: "", kz: "" });
+      setContent({ ru: "", kz: "" });
+      onSave();
+    },
+  });
+  const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    saveToLocalStorage(
-      {
-        id: Date.now(),
+    if (ruId && kzId) {
+      mutate({
         widget_type: "Text",
-        options: JSON.stringify({
-          heading: title.ru,
-          content: content.ru,
-        }),
+        navigation_id: Number(ruId),
         order,
-      },
-      order,
-    );
+        language_key: "ru",
+        options: JSON.stringify({ heading: title.ru, content: content.ru }),
+      });
+      mutate({
+        widget_type: "Text",
+        navigation_id: Number(kzId),
+        order,
+        language_key: "kz",
+        options: JSON.stringify({ heading: title.kz, content: content.kz }),
+      });
+    }
   };
 
   return (
@@ -58,17 +77,19 @@ export const TextEditModal = ({ order }: { order: number }) => {
         <CardDescription>There you can edit Text content</CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+        <form onSubmit={onSubmit} className="flex flex-col gap-3">
           <div className="flex flex-col md:flex-row gap-3">
             <Input
               label="Title RU"
               type="text"
               value={title.ru}
+              required
               onChange={(e) => setTitle({ ...title, ru: e.target.value })}
             />
             <Input
               label="Title KZ"
               type="text"
+              required
               value={title.kz}
               onChange={(e) => setTitle({ ...title, kz: e.target.value })}
             />
@@ -93,7 +114,13 @@ export const TextEditModal = ({ order }: { order: number }) => {
               />
             </div>
           </div>
-          <Button type="submit">Save</Button>
+          <Button
+            disabled={isPending || !content.ru || !content.kz}
+            loading={isPending}
+            type="submit"
+          >
+            Save
+          </Button>
         </form>
       </CardContent>
     </Card>

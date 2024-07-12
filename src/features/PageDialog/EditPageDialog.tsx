@@ -110,7 +110,9 @@ export const EditPageDialog = ({ page }: EditPageDialogProps) => {
             {...register("order", { required: true })}
           />
 
-          {page.navigation_type == "content" && <PageEditor slug={page.slug} />}
+          {page.navigation_type == "content" && page.ruId && page.kzId && (
+            <PageEditor ids={{ ruId: page.ruId, kzId: page.kzId }} />
+          )}
           <Button type="submit" loading={isPending} disabled={isPending}>
             Сохранить
           </Button>

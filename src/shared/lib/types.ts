@@ -1,4 +1,5 @@
 export type PageType = "content" | "group";
+export type Langs = { ru: string; kz: string };
 export interface IPage {
   kzId: number | null;
   ruId: number | null;
