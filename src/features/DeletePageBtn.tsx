@@ -18,29 +18,28 @@ import { DeleteIcon, Settings } from "lucide-react";
 import { useRef } from "react";
 export const DeletePageBtn = ({
   name,
-  ruId,
-  kzId,
-  isChild,
+  ids,
+  queryKey,
 }: {
-  isChild: boolean;
+  queryKey: string[];
   name: string;
-  ruId: number;
-  kzId: number;
+  ids: Record<string, number>;
 }) => {
   const { mutate, error, isPending } = useMutation({
-    mutationKey: [`deletePage ${ruId} ${kzId}`],
+    mutationKey: [`deletePage`],
     mutationFn: deletePage,
     onSuccess: () => {
       if (closeRef.current) closeRef.current.click();
       queryClient.invalidateQueries({
-        queryKey: !isChild ? ["mainPages"] : ["childPages"],
+        queryKey,
       });
     },
   });
   const closeRef = useRef<HTMLButtonElement>(null);
   const onDelete = () => {
-    mutate(ruId);
-    mutate(kzId);
+    Object.keys(ids).map((key) => {
+      mutate(ids[key as keyof typeof ids]);
+    });
   };
   return (
     <Dialog>

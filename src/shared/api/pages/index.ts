@@ -12,6 +12,13 @@ export const getPages = async () => {
 
   return combinePagesByLang(pages);
 };
+export const getTemplates = async (): Promise<BackedPage[]> => {
+  return customFetch({
+    path: "navigation-view/",
+    method: "GET",
+    query: { navigation_type: "template" },
+  });
+};
 export const getPagesChildren = async (ids: { ruId: number; kzId: number }) => {
   const ruPages = await customFetch({
     path: `navigation/${ids.ruId}/children`,
@@ -51,6 +58,6 @@ export const deletePage = (id: number) => {
   return customFetch({
     path: `navigation-view/${id}`,
     method: "DELETE",
-    body: { json: { change_type: "delete" } },
+    query: { change_type: "delete" },
   });
 };

@@ -29,4 +29,5 @@ export interface Widget {
   options: string;
   order: number;
   navigation_id: number;
+  language_key: string;
 }

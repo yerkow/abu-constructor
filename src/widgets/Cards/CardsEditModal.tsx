@@ -26,11 +26,8 @@ import { TextEditModal } from "../Text/TextEditModal";
 import { CardProps } from "@/widgets/Cards/Card";
 import { useSaveToLocalStorage } from "@/shared/lib/hooks";
 import { useSearchParams } from "next/navigation";
-const mock = {
-  title: "Test title",
-  variant: "base",
-  items: [],
-};
+import { BackedPage } from "@/shared/lib/types";
+
 interface CardsEditModalProps {
   variant?: "dialog" | "card";
   order: number;
@@ -50,17 +47,21 @@ export const CardsEditModal = ({
     />
   );
 };
-interface Card {
-  id: number;
-  title: { ru: string; kz: string };
-  content: { ru: string; kz: string };
-  image: string;
-}
 const cardBase = {
   title: { ru: "", kz: "" },
   content: { ru: "", kz: "" },
   image: "",
 };
+type Langs = { ru: string; kz: string };
+type CardsState = Record<
+  string,
+  {
+    title: Langs;
+    content: Langs;
+    image: string;
+    page?: BackedPage;
+  }
+>;
 const ModalContent = ({ order }: { order: number }) => {
   const [count, setCount] = useState(0);
   const [hasTemplate, setHasTemplate] = useState(false);
@@ -72,24 +73,9 @@ const ModalContent = ({ order }: { order: number }) => {
   } | null>(null);
   const [variant, setVariant] = useState("base");
   const [title, setTitle] = useState({ ru: "", kz: "" });
-  const [cards, setCards] = useState<Card[]>([]);
-  const saveCard = (card: Card) => {
-    if (cards.findIndex((c) => c.id == card.id) !== -1) {
-      setCards(
-        cards.map((c) => {
-          if (c.id == card.id) {
-            return card;
-          }
-          return c;
-        }),
-      );
-    } else {
-      setCards([...cards, card]);
-    }
-  };
-  const deleteCard = (id: number) => {
-    setCards(cards.filter((c) => c.id !== id));
-  };
+  const [cards, setCards] = useState<CardsState>({});
+  const saveCard = () => {};
+  const deleteCard = () => {};
   const handleSave = () => {
     saveToLocalStorage(
       {

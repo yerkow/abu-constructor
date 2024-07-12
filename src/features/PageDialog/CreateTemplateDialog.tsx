@@ -28,7 +28,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 interface CreatePageTemplateProps {}
 export const CreateTemplateDialog = ({}: CreatePageTemplateProps) => {
-  const [step, setStep] = useState(1);
   const [templateId, setTemplateId] = useState(null);
   const {
     register,
@@ -42,10 +41,9 @@ export const CreateTemplateDialog = ({}: CreatePageTemplateProps) => {
     mutationFn: createPage,
     onSuccess: (data) => {
       reset();
-      setStep(1);
       setTemplateId(data.id);
       queryClient.invalidateQueries({
-        queryKey: ["templates"],
+        queryKey: ["getTemplates"],
       });
     },
   });
@@ -84,7 +82,6 @@ export const CreateTemplateDialog = ({}: CreatePageTemplateProps) => {
             templateId={templateId}
             onTemplateSave={() => {
               setOpen(false);
-              setStep(1);
               setTemplateId(null);
             }}
           />
@@ -104,7 +101,12 @@ export const CreateTemplateDialog = ({}: CreatePageTemplateProps) => {
             <Button
               onClick={() => {
                 if (templateId) {
-                  deletePage(templateId).then(() => setStep(1));
+                  deletePage(templateId).then(() => {
+                    setTemplateId(null);
+                    queryClient.invalidateQueries({
+                      queryKey: ["getTemplates"],
+                    });
+                  });
                 }
               }}
               className="w-full"

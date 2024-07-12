@@ -8,6 +8,7 @@ import { Text } from "./Text/Text";
 import { TextEditModal } from "./Text/TextEditModal";
 export { AdminSidebar } from "./AdminSidebar/AdminSidebar";
 export { PagesListTable } from "./PagesListTable/PagesListTable";
+export { TemplatesListTable } from "./TemplatesListTable/TemplateListTable";
 
 export {
   Cards,

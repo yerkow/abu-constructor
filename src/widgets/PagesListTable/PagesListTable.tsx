@@ -72,9 +72,8 @@ export const PagesListTable = ({ ids }: PagesListTableProps) => {
             <TableCell className="text-center">
               {page.ruId && page.kzId && (
                 <DeletePageBtn
-                  isChild={ids ? true : false}
-                  kzId={page.kzId}
-                  ruId={page.ruId}
+                  queryKey={ids ? ["childPages"] : ["mainPages"]}
+                  ids={{ kz: page.kzId, ru: page.ruId }}
                   name={page.ru || ""}
                 />
               )}

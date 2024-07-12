@@ -153,16 +153,17 @@ export const PageEditorContent = ({
       {forTemplate && (
         <Button
           onClick={() => {
-            // list.map((li) => {
-            //   if (templateId)
-            //     mutate({
-            //       widget_type: li.name,
-            //       order: li.id,
-            //       options: "",
-            //       navigation_id: templateId,
-            //     });
-            // });
-            if (onTemplateSave) onTemplateSave();
+            list.map((li) => {
+              if (templateId)
+                mutate({
+                  language_key: "ru",
+                  widget_type: li.name,
+                  order: li.id,
+                  options: "",
+                  navigation_id: templateId,
+                });
+            });
+            // if (onTemplateSave) onTemplateSave();
           }}
           className="align-self-end"
         >
