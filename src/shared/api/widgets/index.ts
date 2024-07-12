@@ -22,6 +22,19 @@ export const getWidgets = async (ids: Langs) => {
   });
   return combineWidgetsByLang(ruWidgets.concat(kzWidgets));
 };
+export const editWidget = ({
+  id,
+  body,
+}: {
+  id: number;
+  body: Partial<BackedWidget>;
+}) => {
+  return customFetch({
+    path: `widget-view/${id}/`,
+    method: "PATCH",
+    body: { json: body },
+  });
+};
 export const deleteWidget = async ({
   id,
   navigation_id,

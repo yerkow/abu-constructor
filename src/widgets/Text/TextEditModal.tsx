@@ -1,6 +1,7 @@
 "use client";
-import { createWidget } from "@/shared/api/widgets";
+import { createWidget, editWidget } from "@/shared/api/widgets";
 import { queryClient } from "@/shared/lib/client";
+import { Widget } from "@/shared/lib/types";
 import {
   Button,
   Card,
@@ -13,7 +14,7 @@ import {
 } from "@/shared/ui";
 import { useMutation } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 const quillModules = {
@@ -30,45 +31,90 @@ const quillModules = {
     ["clean"],
   ],
 };
+interface TextEditModalProps {
+  ruOptions: { heading: string; content: string };
+  kzOptions: { heading: string; content: string };
+  order: number;
+  ruWidgetId: number | null;
+  kzWidgetId: number | null;
+  onSave: () => void;
+}
 export const TextEditModal = ({
+  ruOptions,
+  kzOptions,
+  ruWidgetId,
+  kzWidgetId,
   order,
   onSave,
-}: {
-  order: number;
-  onSave: () => void;
-}) => {
-  const [title, setTitle] = useState({ ru: "", kz: "" });
-  const [content, setContent] = useState({ ru: "", kz: "" });
+}: TextEditModalProps) => {
+  const [title, setTitle] = useState({
+    ru: ruOptions ? ruOptions.heading : "",
+    kz: kzOptions ? kzOptions.heading : "",
+  });
+  const [content, setContent] = useState({
+    ru: ruOptions ? ruOptions.content : "",
+    kz: kzOptions ? kzOptions.content : "",
+  });
   const ruId = useSearchParams().get("ruId");
   const kzId = useSearchParams().get("kzId");
 
-  const { mutate, error, isPending } = useMutation({
+  const {
+    mutate: createMutate,
+    error: createError,
+    isPending: createIsPending,
+  } = useMutation({
     mutationKey: ["createWidget"],
     mutationFn: createWidget,
     onSuccess: () => {
       setTitle({ ru: "", kz: "" });
       setContent({ ru: "", kz: "" });
-      queryClient.invalidateQueries({ queryKey: ["getWidgets"] });
+      // queryClient.invalidateQueries({ queryKey: ["getWidgets"] });
       // onSave();
     },
   });
-  const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
+  const {
+    mutate: editMutate,
+    error: editError,
+    isPending: editIsPending,
+  } = useMutation({
+    mutationKey: ["createWidget"],
+    mutationFn: editWidget,
+  });
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (ruId && kzId) {
-      mutate({
-        widget_type: "Text",
-        navigation_id: Number(ruId),
-        order,
-        language_key: "ru",
-        options: JSON.stringify({ heading: title.ru, content: content.ru }),
-      });
-      mutate({
-        widget_type: "Text",
-        navigation_id: Number(kzId),
-        order,
-        language_key: "kz",
-        options: JSON.stringify({ heading: title.kz, content: content.kz }),
-      });
+    if (ruOptions && kzOptions) {
+      if (ruWidgetId && kzWidgetId) {
+        editMutate({
+          id: ruWidgetId,
+          body: {
+            options: JSON.stringify({ heading: title.ru, content: content.ru }),
+          },
+        });
+        editMutate({
+          id: kzWidgetId,
+          body: {
+            options: JSON.stringify({ heading: title.kz, content: content.kz }),
+          },
+        });
+      }
+    } else {
+      if (ruId && kzId) {
+        createMutate({
+          widget_type: "Text",
+          navigation_id: Number(ruId),
+          order,
+          language_key: "ru",
+          options: JSON.stringify({ heading: title.ru, content: content.ru }),
+        });
+        createMutate({
+          widget_type: "Text",
+          navigation_id: Number(kzId),
+          order,
+          language_key: "kz",
+          options: JSON.stringify({ heading: title.kz, content: content.kz }),
+        });
+      }
     }
   };
 
@@ -79,7 +125,7 @@ export const TextEditModal = ({
         <CardDescription>There you can edit Text content</CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={onSubmit} className="flex flex-col gap-3">
+        <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col gap-3">
           <div className="flex flex-col md:flex-row gap-3">
             <Input
               label="Title RU"
@@ -117,8 +163,8 @@ export const TextEditModal = ({
             </div>
           </div>
           <Button
-            disabled={isPending || !content.ru || !content.kz}
-            loading={isPending}
+            disabled={createIsPending || !content.ru || !content.kz}
+            loading={createIsPending}
             type="submit"
           >
             Save

@@ -200,6 +200,7 @@ export const PageEditorContent = ({
                       <></>
                     ) : (
                       <EditWidgetContentDialog
+                        widget={item?.props}
                         order={item.id}
                         modal={getModal(item.name)}
                       />
