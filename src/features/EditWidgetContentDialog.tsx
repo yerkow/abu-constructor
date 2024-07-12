@@ -13,6 +13,18 @@ export const EditWidgetContentDialog = ({
   order: number;
   widget: Widget;
 }) => {
+  console.log(widget);
+  const baseProps = {
+    order,
+    onSave: () => {},
+  };
+  const editProps = {
+    ...baseProps,
+    ruOptions: widget && JSON.parse(widget?.ruOptions || ""),
+    kzOptions: widget && JSON.parse(widget?.kzOptions || ""),
+    ruWidgetId: widget?.ruId,
+    kzWidgetId: widget?.kzId,
+  };
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -23,14 +35,10 @@ export const EditWidgetContentDialog = ({
       </DialogTrigger>
       <DialogContent className="max-w-sm sm:max-w-full ">
         {/* TODO */}
-        {cloneElement(modal as React.ReactElement<any>, {
-          order,
-          onSave: () => {},
-          ruOptions: JSON.parse(widget.ruOptions || ""),
-          kzOptions: JSON.parse(widget.kzOptions || ""),
-          ruWidgetId: widget.ruId,
-          kzWidgetId: widget.kzId,
-        })}
+        {cloneElement(
+          modal as React.ReactElement<any>,
+          widget ? editProps : baseProps,
+        )}
       </DialogContent>
     </Dialog>
   );
