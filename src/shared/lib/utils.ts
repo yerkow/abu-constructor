@@ -1,4 +1,10 @@
-import { BackedPage, IPage, PageType } from "@/shared/lib/types";
+import {
+  BackedPage,
+  BackedWidget,
+  IPage,
+  PageType,
+  Widget,
+} from "@/shared/lib/types";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -32,6 +38,36 @@ export const combinePagesByLang = (records: BackedPage[]): IPage[] => {
     } else if (record.language_key === "kz") {
       combinedRecords[record.slug].kz = record.title;
       combinedRecords[record.slug].kzId = record.id;
+    }
+  });
+
+  return Object.values(combinedRecords);
+};
+export const combineWidgetsByLang = (records: BackedWidget[]): Widget[] => {
+  const combinedRecords: { [key: string]: Widget } = {};
+
+  records.forEach((record) => {
+    if (!combinedRecords[record.order]) {
+      combinedRecords[record.order] = {
+        ruId: null,
+        kzId: null,
+        kzOptions: null,
+        ruOptions: null,
+        kz_navigation_id: null,
+        ru_navigation_id: null,
+        order: record.order,
+        widget_type: record.widget_type,
+      };
+    }
+
+    if (record.language_key === "ru") {
+      combinedRecords[record.order].ruOptions = record.options;
+      combinedRecords[record.order].ru_navigation_id = record.navigation_id;
+      combinedRecords[record.order].ruId = record.id;
+    } else if (record.language_key === "kz") {
+      combinedRecords[record.order].kzOptions = record.options;
+      combinedRecords[record.order].kz_navigation_id = record.navigation_id;
+      combinedRecords[record.order].kzId = record.id;
     }
   });
 

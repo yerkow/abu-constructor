@@ -1,5 +1,6 @@
 "use client";
 import { createWidget } from "@/shared/api/widgets";
+import { queryClient } from "@/shared/lib/client";
 import {
   Button,
   Card,
@@ -47,7 +48,8 @@ export const TextEditModal = ({
     onSuccess: () => {
       setTitle({ ru: "", kz: "" });
       setContent({ ru: "", kz: "" });
-      onSave();
+      queryClient.invalidateQueries({ queryKey: ["getWidgets"] });
+      // onSave();
     },
   });
   const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {

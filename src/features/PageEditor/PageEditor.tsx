@@ -11,12 +11,9 @@ import {
 } from "@/shared/ui";
 import { PageEditorContent } from "./PageEditorContent";
 import { usePathname, useRouter } from "next/navigation";
+import { Langs } from "@/shared/lib/types";
 
-export const PageEditor = ({
-  ids,
-}: {
-  ids: { ruId: number; kzId: number };
-}) => {
+export const PageEditor = ({ ids }: { ids: Langs }) => {
   const router = useRouter();
   const path = usePathname();
 
@@ -25,7 +22,7 @@ export const PageEditor = ({
       <DialogTrigger asChild>
         <Button
           onClick={() => {
-            router.push(`${path}?ruId=${ids.ruId}&kzId=${ids.kzId}`);
+            router.push(`${path}?ruId=${ids.ru}&kzId=${ids.kz}`);
           }}
           size={"sm"}
         >
@@ -37,7 +34,7 @@ export const PageEditor = ({
           <DialogTitle>Содержание страницы</DialogTitle>
         </DialogHeader>
         {/* TODO */}
-        <PageEditorContent pageId={""} />
+        <PageEditorContent ids={ids} />
         <DialogFooter className=" gap-2 sm:justify-end">
           <DialogClose asChild>
             <Button type="button" variant="secondary">

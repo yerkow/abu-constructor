@@ -24,11 +24,21 @@ export interface BackedPage {
 }
 export interface Template
   extends Omit<BackedPage, "id" | "order" | "create_date" | "update_date"> {}
-export interface Widget {
+export interface BackedWidget {
   id: number;
   widget_type: string;
   options: string;
   order: number;
   navigation_id: number;
   language_key: string;
+}
+export interface Widget {
+  ruId: number | null;
+  kzId: number | null;
+  kzOptions: string | null;
+  ruOptions: string | null;
+  order: number;
+  widget_type: string;
+  ru_navigation_id: number | null;
+  kz_navigation_id: number | null;
 }

@@ -111,7 +111,9 @@ export const EditPageDialog = ({ page }: EditPageDialogProps) => {
           />
 
           {page.navigation_type == "content" && page.ruId && page.kzId && (
-            <PageEditor ids={{ ruId: page.ruId, kzId: page.kzId }} />
+            <PageEditor
+              ids={{ ru: page.ruId.toString(), kz: page.kzId.toString() }}
+            />
           )}
           <Button type="submit" loading={isPending} disabled={isPending}>
             Сохранить

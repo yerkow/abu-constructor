@@ -24,15 +24,16 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { DeleteIcon } from "lucide-react";
+import { DeleteIcon, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { PageEditorContentItem } from "./PageEditorContentItem";
 import { SubmitHandler } from "react-hook-form";
-import { Template } from "@/shared/lib/types";
-import { useMutation } from "@tanstack/react-query";
-import { createWidget } from "@/shared/api/widgets";
+import { Langs, Template } from "@/shared/lib/types";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { createWidget, deleteWidget, getWidgets } from "@/shared/api/widgets";
+import { queryClient } from "@/shared/lib/client";
 const widgetsList = ["Cards", "Carousel", "List", "Text"];
-
+//TODO: Pass it there, not in EditBtn
 const getModal = (modal: string) => {
   switch (modal) {
     case "Cards":
@@ -47,15 +48,48 @@ const getModal = (modal: string) => {
 };
 export const PageEditorContent = ({
   onTemplateSave,
-  pageId,
+  ids,
   forTemplate,
   templateId,
 }: {
   onTemplateSave?: () => void;
-  pageId: string;
+  ids: Langs;
   forTemplate?: boolean;
   templateId?: number;
 }) => {
+  const {
+    data,
+    isFetching,
+    error: fetchError,
+  } = useQuery({
+    queryKey: [`getWidgets`],
+    queryFn: async () => {
+      const data = await getWidgets(ids);
+      return data;
+    },
+  });
+  useEffect(() => {
+    if (!isFetching && data)
+      setList(
+        data.map((widget) => ({
+          id: widget.order,
+          name: widget.widget_type,
+          props: widget,
+        })),
+      );
+  }, [data, isFetching]);
+  const {
+    mutate: deleteMutation,
+    isPending: deleteIsPending,
+    error: deleteError,
+  } = useMutation({
+    mutationFn: deleteWidget,
+    mutationKey: ["templateWidget"],
+    onSuccess: () => {
+      if (onTemplateSave) onTemplateSave();
+    },
+  });
+
   const { mutate, isPending, error } = useMutation({
     mutationFn: createWidget,
     mutationKey: ["templateWidget"],
@@ -87,8 +121,26 @@ export const PageEditorContent = ({
       });
   };
   const onWidgetDelete = (id: number) => {
-    setList(list.filter((li) => li.id !== id));
+    setList(
+      list.filter((li) => {
+        if (li.id == id) {
+          if (li.props) {
+            deleteMutation({
+              id: li.props.ruId,
+              navigation_id: li.props.ru_navigation_id,
+            });
+            deleteMutation({
+              id: li.props.kzId,
+              navigation_id: li.props.kz_navigation_id,
+            });
+          }
+          return false;
+        }
+        return true;
+      }),
+    );
   };
+
   return (
     <section className="h-[calc(100vh-200px)] w-[90%] grid grid-cols-1 md:grid-cols-[300px_1fr] gap-5">
       <section className="flex flex-col gap-2">
@@ -107,6 +159,15 @@ export const PageEditorContent = ({
       </section>
       <section>
         <h3 className="text-center mb-2">Контент</h3>
+        {deleteError && (
+          <span className="text-red-500">{deleteError.message}</span>
+        )}
+
+        {isFetching && (
+          <div className="flex justify-center items-center">
+            <Loader2 className="animate-spin w-10 h-10 align-middle" />{" "}
+          </div>
+        )}
         {list.length == 0 && (
           <h4 className="text-center text-xl text-slate-500">Нет контента</h4>
         )}
@@ -127,6 +188,7 @@ export const PageEditorContent = ({
                   name={item.name}
                   deleteBtn={
                     <Button
+                      disabled={deleteIsPending}
                       size={"icon"}
                       onClick={() => onWidgetDelete(item.id)}
                     >
