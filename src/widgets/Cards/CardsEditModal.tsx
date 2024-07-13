@@ -27,6 +27,7 @@ import { CardProps } from "@/widgets/Cards/Card";
 import { useSaveToLocalStorage } from "@/shared/lib/hooks";
 import { useSearchParams } from "next/navigation";
 import { BackedPage, Langs } from "@/shared/lib/types";
+import { createPage, deletePage } from "@/shared/api/pages";
 
 interface CardsEditModalProps {
   variant?: "dialog" | "card";
@@ -58,7 +59,10 @@ type CardsState = Record<
     title: Langs;
     content: Langs;
     image: string;
-    page?: BackedPage;
+    page: {
+      ru: BackedPage;
+      kz: BackedPage;
+    };
   }
 >;
 const ModalContent = ({ order }: { order: number }) => {
@@ -73,29 +77,52 @@ const ModalContent = ({ order }: { order: number }) => {
   const [variant, setVariant] = useState("base");
   const [title, setTitle] = useState({ ru: "", kz: "" });
   const [cards, setCards] = useState<CardsState>({});
-  const saveCard = () => {};
-  const deleteCard = () => {};
-  const handleSave = () => {
-    saveToLocalStorage(
-      {
-        id: Date.now(),
-        options: JSON.stringify({
-          title: title.ru,
-          variant,
-          items: cards.map((c) => ({
-            content: c.content.ru,
-            image: c.image,
-            date: new Date(),
-            title: c.title.ru,
-            href: hasTemplate ? `/${slug}/${Date.now()}` : undefined,
-          })),
-        }),
-        order,
-        widget_type: "Cards",
-      },
-      order,
-    );
+  const addCard = async () => {
+    try {
+      const ruPage = await createPage({
+        title: "templatePage",
+        slug: `${template ? template.name : "template"}/${Date.now()}`,
+        navigation_id: null,
+        navigation_type: "template",
+        order: 1,
+        language_key: "ru",
+      });
+      const kzPage = await createPage({
+        title: "templatePage",
+        slug: `${template ? template.name : "template"}/${Date.now()}`,
+        navigation_id: null,
+        navigation_type: "template",
+        order: 1,
+        language_key: "kz",
+      });
+      setCards({
+        ...cards,
+        [`${ruPage.id}*${kzPage.id}`]: {
+          title: { ru: "", kz: "" },
+          image: "",
+          content: { ru: "", kz: "" },
+          page: { ru: ruPage, kz: kzPage },
+        },
+      });
+    } catch (e) {}
   };
+  console.log(Object.keys(cards));
+
+  const saveCard = () => {};
+  const deleteCard = (id: string) => {
+    setCards((prev) => {
+      let temp = prev;
+      delete temp[id];
+      return { ...temp };
+    });
+    const ids = id.split("*");
+    ids.forEach((id) => {
+      try {
+        deletePage(+id);
+      } catch (e) {}
+    });
+  };
+  const handleSave = () => {};
   return (
     <>
       <Button onClick={handleSave}>Save</Button>
@@ -136,19 +163,16 @@ const ModalContent = ({ order }: { order: number }) => {
           onChange={(e) => setTitle({ ...title, kz: e.target.value })}
         />
       </div>
-      <Button
-        onClick={() => saveCard({ ...cardBase, id: Date.now() })}
-        className="w-full"
-      >
+      <Button onClick={addCard} className="w-full">
         Add new Card
       </Button>
       <ScrollArea className="h-[320px] rounded-md border p-4 ">
-        {Object.keys(cards).map(({ id }, idx) => (
+        {Object.keys(cards).map((key, idx) => (
           <EditCardItem
-            deleteCard={deleteCard}
+            deleteCard={() => deleteCard(key)}
             saveCard={saveCard}
             key={idx}
-            id={id}
+            id={key}
             templateWidgets={template?.widgets}
           />
         ))}
@@ -162,10 +186,10 @@ const EditCardItem = ({
   deleteCard,
   templateWidgets,
 }: {
-  id: number;
+  id: string;
   templateWidgets?: string[];
-  saveCard: (card: Card) => void;
-  deleteCard: (id: number) => void;
+  saveCard: () => void;
+  deleteCard: () => void;
 }) => {
   const getTemplatesProps = (w: string, order: number) => {
     switch (w) {
@@ -188,20 +212,8 @@ const EditCardItem = ({
     <EditItem
       buttons={
         <>
-          <Button
-            onClick={() =>
-              saveCard({
-                id,
-                title,
-                content,
-                image:
-                  "https://pbs.twimg.com/media/GR7g0zVWkAAJdw3?format=jpg&name=small",
-              })
-            }
-          >
-            Save
-          </Button>
-          <Button onClick={() => deleteCard(id)}>Delete</Button>
+          <Button onClick={() => saveCard()}>Save</Button>
+          <Button onClick={deleteCard}>Delete</Button>
         </>
       }
       title={"Card" + id}

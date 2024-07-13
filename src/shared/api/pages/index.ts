@@ -34,7 +34,7 @@ export const getPagesChildren = async (ids: { ruId: number; kzId: number }) => {
 
 export const createPage = (
   page: Omit<BackedPage, "id" | "create_date" | "update_date">,
-) => {
+): Promise<BackedPage> => {
   return customFetch({
     path: "navigation-view/",
     method: "POST",
