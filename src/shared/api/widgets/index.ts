@@ -9,6 +9,15 @@ export const createWidget = (widget: Omit<BackedWidget, "id">) => {
     body: { json: widget },
   });
 };
+export const getTemplateWidgets = async (
+  id: number,
+): Promise<BackedWidget[]> => {
+  return customFetch({
+    path: `widget/navigation/${id}`,
+    method: "GET",
+    query: { language_key: "ru" },
+  });
+};
 export const getWidgets = async (ids: Langs) => {
   const ruWidgets = await customFetch({
     path: `widget/navigation/${ids.ru}`,

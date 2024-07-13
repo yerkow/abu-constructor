@@ -143,7 +143,7 @@ const ModalContent = ({ order }: { order: number }) => {
         Add new Card
       </Button>
       <ScrollArea className="h-[320px] rounded-md border p-4 ">
-        {cards.map(({ id }, idx) => (
+        {Object.keys(cards).map(({ id }, idx) => (
           <EditCardItem
             deleteCard={deleteCard}
             saveCard={saveCard}

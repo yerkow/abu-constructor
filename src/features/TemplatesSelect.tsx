@@ -1,4 +1,6 @@
 "use client";
+import { getTemplates } from "@/shared/api/pages";
+import { getTemplateWidgets, getWidgets } from "@/shared/api/widgets";
 import {
   Label,
   Select,
@@ -7,7 +9,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/ui";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { cache, Dispatch, SetStateAction, useEffect, useState } from "react";
 interface TemplatesSelectProps {
   onSelect: Dispatch<SetStateAction<(typeof mockTemplates)[0] | null>>;
 }
@@ -16,10 +19,32 @@ const mockTemplates = [
   { name: "Template2", widgets: ["Text", "Text"] },
 ];
 export const TemplatesSelect = ({ onSelect }: TemplatesSelectProps) => {
+  const {
+    data: templatePages,
+    isFetching: pagesIsFetching,
+    error: pagesError,
+  } = useQuery({
+    queryKey: ["getTemplates"],
+    queryFn: getTemplates,
+  });
   const [templates, setTemplates] = useState<typeof mockTemplates>([]);
   useEffect(() => {
-    setTemplates(mockTemplates);
-  }, []);
+    if (templatePages) {
+      try {
+        const templates: typeof mockTemplates = [];
+        templatePages.forEach((template) => {
+          const widgetNames: string[] = [];
+          getTemplateWidgets(template.id).then((widgets) => {
+            widgets.forEach((w) => widgetNames.push(w.widget_type));
+          });
+          templates.push({ name: template.title, widgets: widgetNames });
+        });
+        setTemplates(templates);
+      } catch (e) {
+        setTemplates([]);
+      }
+    }
+  }, [templatePages]);
   const onValueSelect = (value: string) => {
     onSelect(mockTemplates.filter((t) => t.name == value)[0]);
   };
