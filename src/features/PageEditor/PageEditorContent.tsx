@@ -150,7 +150,8 @@ export const PageEditorContent = ({
             className=" cursor-pointer px-5 py-3 rounded-sm text-center bg-slate-200"
             key={widget}
             onClick={() => {
-              setList([...list, { id: list.length + 1, name: widget }]);
+              if (!isFetching)
+                setList([...list, { id: list.length + 1, name: widget }]);
             }}
           >
             {widget}
@@ -168,7 +169,7 @@ export const PageEditorContent = ({
             <Loader2 className="animate-spin w-10 h-10 align-middle" />{" "}
           </div>
         )}
-        {list.length == 0 && (
+        {list.length == 0 && !isFetching && (
           <h4 className="text-center text-xl text-slate-500">Нет контента</h4>
         )}
         <DndContext

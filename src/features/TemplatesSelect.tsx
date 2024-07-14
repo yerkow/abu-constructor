@@ -33,11 +33,13 @@ export const TemplatesSelect = ({ onSelect }: TemplatesSelectProps) => {
       try {
         const templates: typeof mockTemplates = [];
         templatePages.forEach((template) => {
-          const widgetNames: string[] = [];
-          getTemplateWidgets(template.id).then((widgets) => {
-            widgets.forEach((w) => widgetNames.push(w.widget_type));
-          });
-          templates.push({ name: template.title, widgets: widgetNames });
+          if (template.slug == "template") {
+            const widgetNames: string[] = [];
+            getTemplateWidgets(template.id).then((widgets) => {
+              widgets.forEach((w) => widgetNames.push(w.widget_type));
+            });
+            templates.push({ name: template.title, widgets: widgetNames });
+          }
         });
         setTemplates(templates);
       } catch (e) {
@@ -46,8 +48,9 @@ export const TemplatesSelect = ({ onSelect }: TemplatesSelectProps) => {
     }
   }, [templatePages]);
   const onValueSelect = (value: string) => {
-    onSelect(mockTemplates.filter((t) => t.name == value)[0]);
+    onSelect(templates.filter((t) => t.name == value)[0]);
   };
+
   return (
     <div className="flex gap-2 items-center">
       <Label>Выберите шаблон:</Label>

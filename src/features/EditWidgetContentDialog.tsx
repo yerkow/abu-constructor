@@ -2,6 +2,7 @@
 import { Widget } from "@/shared/lib/types";
 import { Button, Dialog, DialogContent, DialogTrigger } from "@/shared/ui";
 import { Settings } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import { cloneElement, ReactNode, useState } from "react";
 
 export const EditWidgetContentDialog = ({
@@ -13,10 +14,12 @@ export const EditWidgetContentDialog = ({
   order: number;
   widget: Widget;
 }) => {
-  console.log(widget);
+  const ruId = useSearchParams().get("ruId");
+  const kzId = useSearchParams().get("kzId");
   const baseProps = {
     order,
-    onSave: () => {},
+    ruPageId: ruId,
+    kzPageId: kzId,
   };
   const editProps = {
     ...baseProps,

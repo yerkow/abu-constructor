@@ -32,20 +32,22 @@ const quillModules = {
   ],
 };
 interface TextEditModalProps {
-  ruOptions: { heading: string; content: string };
-  kzOptions: { heading: string; content: string };
+  ruOptions?: { heading: string; content: string };
+  kzOptions?: { heading: string; content: string };
   order: number;
-  ruWidgetId: number | null;
-  kzWidgetId: number | null;
-  onSave: () => void;
+  ruPageId: number | null;
+  kzPageId: number | null;
+  ruWidgetId?: number | null | undefined;
+  kzWidgetId?: number | null | undefined;
 }
 export const TextEditModal = ({
   ruOptions,
   kzOptions,
   ruWidgetId,
   kzWidgetId,
+  ruPageId,
+  kzPageId,
   order,
-  onSave,
 }: TextEditModalProps) => {
   const [title, setTitle] = useState({
     ru: ruOptions ? ruOptions.heading : "",
@@ -55,8 +57,6 @@ export const TextEditModal = ({
     ru: ruOptions ? ruOptions.content : "",
     kz: kzOptions ? kzOptions.content : "",
   });
-  const ruId = useSearchParams().get("ruId");
-  const kzId = useSearchParams().get("kzId");
 
   const {
     mutate: createMutate,
@@ -68,8 +68,7 @@ export const TextEditModal = ({
     onSuccess: () => {
       setTitle({ ru: "", kz: "" });
       setContent({ ru: "", kz: "" });
-      // queryClient.invalidateQueries({ queryKey: ["getWidgets"] });
-      // onSave();
+      queryClient.invalidateQueries({ queryKey: ["getWidgets"] });
     },
   });
   const {
@@ -79,10 +78,12 @@ export const TextEditModal = ({
   } = useMutation({
     mutationKey: ["createWidget"],
     mutationFn: editWidget,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["getWidgets"] });
+    },
   });
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSave = () => {
     if (ruOptions && kzOptions) {
       if (ruWidgetId && kzWidgetId) {
         editMutate({
@@ -99,17 +100,17 @@ export const TextEditModal = ({
         });
       }
     } else {
-      if (ruId && kzId) {
+      if (ruPageId && kzPageId) {
         createMutate({
           widget_type: "Text",
-          navigation_id: Number(ruId),
+          navigation_id: Number(ruPageId),
           order,
           language_key: "ru",
           options: JSON.stringify({ heading: title.ru, content: content.ru }),
         });
         createMutate({
           widget_type: "Text",
-          navigation_id: Number(kzId),
+          navigation_id: Number(kzPageId),
           order,
           language_key: "kz",
           options: JSON.stringify({ heading: title.kz, content: content.kz }),
@@ -125,7 +126,7 @@ export const TextEditModal = ({
         <CardDescription>There you can edit Text content</CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col gap-3">
+        <section className="flex flex-col gap-3">
           <div className="flex flex-col md:flex-row gap-3">
             <Input
               label="Title RU"
@@ -165,11 +166,12 @@ export const TextEditModal = ({
           <Button
             disabled={createIsPending || !content.ru || !content.kz}
             loading={createIsPending}
-            type="submit"
+            onClick={handleSave}
+            type="button"
           >
             Save
           </Button>
-        </form>
+        </section>
       </CardContent>
     </Card>
   );
