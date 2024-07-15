@@ -33,7 +33,6 @@ export const TemplatesSelect = ({
   });
   const [templates, setTemplates] = useState<typeof mockTemplates>([]);
   const [template, setTemplate] = useState<string>("");
-  console.log(templates, ">>>TTTT");
   useEffect(() => {
     if (templatePages) {
       try {
@@ -42,8 +41,6 @@ export const TemplatesSelect = ({
           if (template.slug == "template") {
             const widgetNames: string[] = [];
             getTemplateWidgets(template.id).then((widgets) => {
-              console.log(widgets, "FETCH TEMPLATE WIDGETS");
-
               widgets.forEach((w) => widgetNames.push(w.widget_type));
             });
             templates.push({ name: template.title, widgets: widgetNames });
@@ -58,10 +55,6 @@ export const TemplatesSelect = ({
   useEffect(() => {
     if (savedTemplate) {
       setTemplate(savedTemplate);
-      console.log(
-        templates.filter((t) => t.name == savedTemplate),
-        "FILTER RETURN",
-      );
 
       onSelect(templates.filter((t) => t.name == savedTemplate)[0]);
     }

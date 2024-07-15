@@ -5,8 +5,6 @@ import { Cards, Carousel, Text } from "@/widgets";
 
 const getPageContent = async (slug: any) => {
   const page = await getPageBySlug(`/${slug}`, "ru");
-  console.log(page);
-
   if (page[0]) {
     const content = await getWidgetsToDisplay(page[0].id, "ru");
     return content;
@@ -18,8 +16,6 @@ const getPageContent = async (slug: any) => {
 export default async function Page({ params }: { params: { slug: string } }) {
   const data = await getPageContent(params.slug);
   // let content = JSON.parse(localStorage.getItem("1720511119640") || "[]");
-  console.log(data, "conetn");
-
   return (
     <section className="p-10">
       {data.map((m: any) =>

@@ -21,7 +21,7 @@ export const Card = ({
   const Comp = href ? (Link as React.ElementType) : ("div" as "div");
   return (
     <Comp
-      href={`/${href}`}
+      href={`${href}`}
       className={cn(
         {
           horizontal:

@@ -30,6 +30,7 @@ import { Fragment, useEffect, useState } from "react";
 import { CarouselEditModal } from "../Carousel/CarouselEditModal";
 import { ListEditModal } from "../List/ListEditModal";
 import { TextEditModal } from "../Text/TextEditModal";
+import { EditCardItem } from "@/widgets/Cards/EditCardItem";
 type Options = { title: string; items: any[]; variant: string };
 interface CardsEditModalProps {
   variant?: "dialog" | "card";
@@ -75,7 +76,7 @@ export const CardsEditModal = ({
   );
 };
 
-type CardProps = {
+export type EditCardProps = {
   titleRu: string;
   titleKz: string;
   contentRu: string;
@@ -86,7 +87,7 @@ type CardProps = {
     kz: BackedPage;
   };
 };
-type CardsState = Record<string, CardProps>;
+type CardsState = Record<string, EditCardProps>;
 const ModalContent = ({
   order,
   ruOptions,
@@ -131,8 +132,6 @@ const ModalContent = ({
     name: string;
     widgets: string[];
   } | null>(null);
-  console.log(template, "TEMP");
-
   const [savedTemplate, setSavedTemplate] = useState<string | null>(null);
   const [variant, setVariant] = useState(
     ruOptions ? ruOptions.variant : "base",
@@ -144,9 +143,11 @@ const ModalContent = ({
   const [cards, setCards] = useState<CardsState>(() => {
     const temp: CardsState = {};
     if (ruOptions && kzOptions) {
-      if (ruOptions.items[0]?.templateName) {
-        setSavedTemplate(ruOptions.items[0]?.templateName);
-        setHasTemplate(true);
+      if (ruOptions.items[0]) {
+        if (ruOptions.items[0]?.templateName) {
+          setSavedTemplate(ruOptions.items[0]?.templateName);
+          setHasTemplate(true);
+        }
       }
       ruOptions.items.forEach((card, idx) => {
         temp[card.templateId ? card.templateId : Date.now()] = {
@@ -164,7 +165,7 @@ const ModalContent = ({
     try {
       const ruPage = await createPage({
         title: "templatePage",
-        slug: `${template ? template.name : "template"}/${Date.now()}`,
+        slug: `/${template ? template.name.toLowerCase().replace(/\s/g, "") : "template"}-${Date.now()}`,
         navigation_id: null,
         navigation_type: "template",
         order: 1,
@@ -172,7 +173,7 @@ const ModalContent = ({
       });
       const kzPage = await createPage({
         title: "templatePage",
-        slug: `${template ? template.name : "template"}/${Date.now()}`,
+        slug: `/${template ? template.name.toLowerCase().replace(/\s/g, "") : "template"}-${Date.now()}`,
         navigation_id: null,
         navigation_type: "template",
         order: 1,
@@ -191,7 +192,10 @@ const ModalContent = ({
       });
     } catch (e) {}
   };
-  const saveImageAndGetUrl = async (image: File | null) => {
+  const saveImageAndGetUrl = async (image: File | null | string) => {
+    if (typeof image == "string") {
+      return image;
+    }
     if (image) {
       const { file_name } = await uploadFile(image);
       return file_name;
@@ -205,8 +209,6 @@ const ModalContent = ({
   };
   const onSave = async () => {
     if (ruPageId && kzPageId) {
-      console.log(cards, "CARDS >>>>");
-
       const RuItems = await Promise.all(
         Object.keys(cards).map(async (key) => {
           if (!hasTemplate) {
@@ -291,7 +293,7 @@ const ModalContent = ({
           return {
             title: cards[key].titleRu,
             content: cards[key].contentRu,
-            image: image ? image : cards[key].image,
+            image: image,
             href: cards[key].page?.ru.slug,
             templateId: key,
             templateName: template ? template.name : null,
@@ -356,8 +358,6 @@ const ModalContent = ({
       } catch (e) {}
     });
   };
-  console.log(savedTemplate, "HERE 1 SAVED", template, "HERE 1");
-
   return (
     <>
       <div className="flex gap-2 items-center">
@@ -422,151 +422,5 @@ const ModalContent = ({
         Save
       </Button>
     </>
-  );
-};
-const EditCardItem = ({
-  id,
-  deleteCard,
-  card,
-  templateWidgets,
-  writeChanges,
-}: {
-  id: string;
-  card: CardProps;
-  writeChanges: (id: string, field: string, value: string | File) => void;
-  templateWidgets?: string[];
-  deleteCard: () => void;
-}) => {
-  //getWidgetProps for template
-  console.log(card);
-
-  const [image, setImage] = useState<string | ArrayBuffer | null>(() => {
-    if (card.image) {
-      return `http://77.243.80.138/media/${card.image}`;
-    } else {
-      return "";
-    }
-  });
-  const {
-    data: templateWidgetsProps,
-    isFetching,
-    error: fetchError,
-  } = useQuery({
-    queryKey: [`getTemplateWidgets`],
-    queryFn: async () => {
-      const ids = id.split("*");
-      const data = await getWidgets({ ru: ids[0], kz: ids[1] });
-      console.log(data, ">>>GETWIDGETS");
-
-      return data;
-    },
-  });
-  const getTemplatesProps = (w: string, order: number) => {
-    const widgetProps =
-      templateWidgetsProps && templateWidgetsProps.length > 0
-        ? templateWidgetsProps[order]
-        : null;
-    const baseProps = {
-      order,
-      ruPageId: +id.split("*")[0],
-      kzPageId: +id.split("*")[1],
-      queryKey: "getTemplateWidgets",
-    };
-    const editProps = {
-      ...baseProps,
-      ruOptions: widgetProps && JSON.parse(widgetProps?.ruOptions || ""),
-      kzOptions: widgetProps && JSON.parse(widgetProps?.kzOptions || ""),
-      ruWidgetId: widgetProps?.ruId,
-      kzWidgetId: widgetProps?.kzId,
-    };
-
-    switch (w) {
-      case "Cards":
-        return (
-          <CardsEditModal
-            variant="dialog"
-            {...(widgetProps ? editProps : baseProps)}
-          />
-        );
-      case "Carousel":
-        return <CarouselEditModal variant="dialog" />;
-      case "List":
-        return <ListEditModal variant="dialog" />;
-      case "Text":
-        return <TextEditModal {...(widgetProps ? editProps : baseProps)} />;
-      default:
-        return null;
-    }
-  };
-  const [title, setTitle] = useState({ ru: "", kz: "" });
-  const [content, setContent] = useState({ ru: "", kz: "" });
-  const [href, setHref] = useState("");
-  console.log(templateWidgets, "HERE");
-
-  return (
-    <EditItem
-      buttons={
-        <>
-          <Button onClick={deleteCard}>Delete</Button>
-        </>
-      }
-      title={"Card" + id}
-    >
-      <div className="flex flex-col md:flex-row gap-3">
-        <Input
-          label="Card title  RU"
-          type="text"
-          value={card.titleRu}
-          onChange={(e) => writeChanges(id, "titleRu", e.target.value)}
-        />
-        <Input
-          label="Card title KZ"
-          type="text"
-          value={card.titleKz}
-          onChange={(e) => writeChanges(id, "titleKz", e.target.value)}
-        />
-      </div>
-      <div className="flex flex-col md:flex-row gap-3">
-        <Input
-          label="Content RU"
-          type="text"
-          value={card.contentRu}
-          onChange={(e) => writeChanges(id, "contentRu", e.target.value)}
-        />
-        <Input
-          label="Content KZ"
-          type="text"
-          value={card.contentKz}
-          onChange={(e) => writeChanges(id, "contentKz", e.target.value)}
-        />
-      </div>
-      {image && <img className="w-20 h-20" src={image as string} alt="image" />}
-      <Input
-        type="file"
-        label="Image"
-        onChange={(e) => {
-          if (e.target.files && e.target.files[0]) {
-            const file = e.target.files[0];
-            writeChanges(id, "image", file);
-            const reader = new FileReader();
-
-            reader.onload = function (event) {
-              if (event.target) setImage(event.target.result);
-            };
-            reader.readAsDataURL(file);
-
-            writeChanges(id, "image", file);
-          }
-        }}
-      />
-      {templateWidgets && (
-        <div className="flex flex-col gap-3 ">
-          <span>Настройки шаблона</span>
-          {templateWidgets.map((w, idx) => (
-            <Fragment key={idx}>{getTemplatesProps(w, idx)}</Fragment>
-          ))}
-        </div>
-      )}
-    </EditItem>
   );
 };
