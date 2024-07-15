@@ -12,13 +12,17 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { cache, Dispatch, SetStateAction, useEffect, useState } from "react";
 interface TemplatesSelectProps {
+  savedTemplate: string | null;
   onSelect: Dispatch<SetStateAction<(typeof mockTemplates)[0] | null>>;
 }
 const mockTemplates = [
   { name: "Template1", widgets: ["Carousel", "List", "Cards"] },
   { name: "Template2", widgets: ["Text", "Text"] },
 ];
-export const TemplatesSelect = ({ onSelect }: TemplatesSelectProps) => {
+export const TemplatesSelect = ({
+  savedTemplate,
+  onSelect,
+}: TemplatesSelectProps) => {
   const {
     data: templatePages,
     isFetching: pagesIsFetching,
@@ -28,6 +32,8 @@ export const TemplatesSelect = ({ onSelect }: TemplatesSelectProps) => {
     queryFn: getTemplates,
   });
   const [templates, setTemplates] = useState<typeof mockTemplates>([]);
+  const [template, setTemplate] = useState<string>("");
+  console.log(templates, ">>>TTTT");
   useEffect(() => {
     if (templatePages) {
       try {
@@ -36,6 +42,8 @@ export const TemplatesSelect = ({ onSelect }: TemplatesSelectProps) => {
           if (template.slug == "template") {
             const widgetNames: string[] = [];
             getTemplateWidgets(template.id).then((widgets) => {
+              console.log(widgets, "FETCH TEMPLATE WIDGETS");
+
               widgets.forEach((w) => widgetNames.push(w.widget_type));
             });
             templates.push({ name: template.title, widgets: widgetNames });
@@ -47,14 +55,26 @@ export const TemplatesSelect = ({ onSelect }: TemplatesSelectProps) => {
       }
     }
   }, [templatePages]);
+  useEffect(() => {
+    if (savedTemplate) {
+      setTemplate(savedTemplate);
+      console.log(
+        templates.filter((t) => t.name == savedTemplate),
+        "FILTER RETURN",
+      );
+
+      onSelect(templates.filter((t) => t.name == savedTemplate)[0]);
+    }
+  }, [savedTemplate, templates]);
   const onValueSelect = (value: string) => {
+    setTemplate(value);
     onSelect(templates.filter((t) => t.name == value)[0]);
   };
 
   return (
     <div className="flex gap-2 items-center">
       <Label>Выберите шаблон:</Label>
-      <Select onValueChange={(value) => onValueSelect(value)}>
+      <Select value={template} onValueChange={(value) => onValueSelect(value)}>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Шаблон" />
         </SelectTrigger>

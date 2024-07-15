@@ -1,7 +1,12 @@
 "use client";
 import { TemplatesSelect } from "@/features";
 import { createPage, deletePage } from "@/shared/api/pages";
-import { createWidget, editWidget, getWidgets } from "@/shared/api/widgets";
+import {
+  createWidget,
+  editWidget,
+  getWidgets,
+  uploadFile,
+} from "@/shared/api/widgets";
 import { queryClient } from "@/shared/lib/client";
 import { useSaveToLocalStorage } from "@/shared/lib/hooks";
 import { BackedPage, Widget } from "@/shared/lib/types";
@@ -21,7 +26,7 @@ import {
 } from "@/shared/ui";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { CarouselEditModal } from "../Carousel/CarouselEditModal";
 import { ListEditModal } from "../List/ListEditModal";
 import { TextEditModal } from "../Text/TextEditModal";
@@ -35,6 +40,7 @@ interface CardsEditModalProps {
   kzWidgetId?: number | null | undefined;
   ruPageId: number | null;
   kzPageId: number | null;
+  queryKey: string;
 }
 export const CardsEditModal = ({
   variant = "card",
@@ -45,6 +51,7 @@ export const CardsEditModal = ({
   kzPageId,
   ruWidgetId,
   kzWidgetId,
+  queryKey,
 }: CardsEditModalProps) => {
   return (
     <WidgetView
@@ -61,6 +68,7 @@ export const CardsEditModal = ({
           ruOptions={ruOptions}
           kzOptions={kzOptions}
           order={order}
+          queryKey={queryKey}
         />
       }
     />
@@ -72,7 +80,7 @@ type CardProps = {
   titleKz: string;
   contentRu: string;
   contentKz: string;
-  image: string;
+  image: File | null;
   page?: {
     ru: BackedPage;
     kz: BackedPage;
@@ -83,6 +91,7 @@ const ModalContent = ({
   order,
   ruOptions,
   kzOptions,
+  queryKey,
   ruWidgetId,
   kzWidgetId,
   ruPageId,
@@ -92,6 +101,7 @@ const ModalContent = ({
   kzWidgetId: number | null | undefined;
   ruPageId: number | null;
   kzPageId: number | null;
+  queryKey: string;
   order: number;
   ruOptions?: Options | null;
   kzOptions?: Options | null;
@@ -104,24 +114,26 @@ const ModalContent = ({
     mutationKey: ["createCardsWidget"],
     mutationFn: createWidget,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["getWidgets"] });
+      queryClient.invalidateQueries({ queryKey: [queryKey] });
     },
   });
   const { mutate: editCardsWidget, isPending: editIsPending } = useMutation({
     mutationKey: ["editCardsWidget"],
     mutationFn: editWidget,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["getWidgets"] });
+      queryClient.invalidateQueries({ queryKey: [queryKey] });
     },
   });
 
   const [hasTemplate, setHasTemplate] = useState(false);
   const slug = useSearchParams().get("edittingSlug");
-  const { saveToLocalStorage } = useSaveToLocalStorage();
   const [template, setTemplate] = useState<{
     name: string;
     widgets: string[];
   } | null>(null);
+  console.log(template, "TEMP");
+
+  const [savedTemplate, setSavedTemplate] = useState<string | null>(null);
   const [variant, setVariant] = useState(
     ruOptions ? ruOptions.variant : "base",
   );
@@ -131,7 +143,11 @@ const ModalContent = ({
   });
   const [cards, setCards] = useState<CardsState>(() => {
     const temp: CardsState = {};
-    if (ruOptions && kzOptions)
+    if (ruOptions && kzOptions) {
+      if (ruOptions.items[0]?.templateName) {
+        setSavedTemplate(ruOptions.items[0]?.templateName);
+        setHasTemplate(true);
+      }
       ruOptions.items.forEach((card, idx) => {
         temp[card.templateId ? card.templateId : Date.now()] = {
           titleRu: card.title,
@@ -141,6 +157,7 @@ const ModalContent = ({
           image: card.image,
         };
       });
+    }
     return temp;
   });
   const addCard = async () => {
@@ -168,38 +185,79 @@ const ModalContent = ({
           titleKz: "",
           contentRu: "",
           contentKz: "",
-          image: "",
+          image: null,
           page: { ru: ruPage, kz: kzPage },
         },
       });
     } catch (e) {}
   };
-  const writeChanges = (id: string, field: string, value: string) => {
+  const saveImageAndGetUrl = async (image: File | null) => {
+    if (image) {
+      const { file_name } = await uploadFile(image);
+      return file_name;
+    } else {
+      return "";
+    }
+  };
+  const writeChanges = (id: string, field: string, value: string | File) => {
     if (!(id in cards)) return;
     setCards({ ...cards, [id]: { ...cards[id], [field]: value } });
   };
-  const onSave = () => {
+  const onSave = async () => {
     if (ruPageId && kzPageId) {
+      console.log(cards, "CARDS >>>>");
+
+      const RuItems = await Promise.all(
+        Object.keys(cards).map(async (key) => {
+          if (!hasTemplate) {
+            const ids = key.split("*");
+            try {
+              deletePage(+ids[0]);
+            } catch (e) {
+              console.error(e);
+            }
+          }
+          const image = await saveImageAndGetUrl(cards[key].image);
+          return {
+            title: cards[key].titleRu,
+            content: cards[key].contentRu,
+            image,
+            href: cards[key].page?.ru.slug,
+            templateId: key,
+            templateName: template ? template.name : null,
+          };
+        }),
+      );
+      const KzItems = await Promise.all(
+        Object.keys(cards).map(async (key) => {
+          if (!hasTemplate) {
+            const ids = key.split("*");
+            try {
+              deletePage(+ids[0]);
+            } catch (e) {
+              console.error(e);
+            }
+          }
+          const image = await saveImageAndGetUrl(cards[key].image);
+          return {
+            title: cards[key].titleKz,
+            content: cards[key].contentKz,
+            image,
+            href: cards[key].page?.ru.slug,
+            templateId: key,
+            templateName: template ? template.name : null,
+          };
+        }),
+      );
       createCardsWidget({
         widget_type: "Cards",
         order,
         options: JSON.stringify({
           title: title.ru,
           variant,
-          items: Object.keys(cards).map((key) => {
-            if (!hasTemplate) {
-              const ids = key.split("*");
-              try {
-                deletePage(+ids[0]);
-              } catch (e) {}
-            }
-            return {
-              title: cards[key].titleKz,
-              content: cards[key].contentKz,
-              image: cards[key].image,
-              templateId: key,
-            };
-          }),
+          items: RuItems,
+          language_key: "ru",
+          navigation_id: +ruPageId,
         }),
         language_key: "ru",
         navigation_id: +ruPageId,
@@ -210,40 +268,65 @@ const ModalContent = ({
         options: JSON.stringify({
           title: title.kz,
           variant,
-          items: Object.keys(cards).map((key) => {
-            if (!hasTemplate) {
-              const ids = key.split("*");
-              try {
-                deletePage(+ids[1]);
-              } catch (e) {}
-            }
-            return {
-              title: cards[key].titleKz,
-              content: cards[key].contentKz,
-              image: cards[key].image,
-              templateId: key,
-            };
-          }),
+          items: KzItems,
         }),
         language_key: "kz",
         navigation_id: +kzPageId,
       });
     }
   };
-  const onEdit = () => {
+  const onEdit = async () => {
     if (ruWidgetId && kzWidgetId) {
+      const RuItems = await Promise.all(
+        Object.keys(cards).map(async (key) => {
+          if (!hasTemplate) {
+            const ids = key.split("*");
+            try {
+              deletePage(+ids[0]);
+            } catch (e) {
+              console.error(e);
+            }
+          }
+          const image = await saveImageAndGetUrl(cards[key].image);
+          return {
+            title: cards[key].titleRu,
+            content: cards[key].contentRu,
+            image: image ? image : cards[key].image,
+            href: cards[key].page?.ru.slug,
+            templateId: key,
+            templateName: template ? template.name : null,
+          };
+        }),
+      );
+      const KzItems = await Promise.all(
+        Object.keys(cards).map(async (key) => {
+          if (!hasTemplate) {
+            const ids = key.split("*");
+            try {
+              deletePage(+ids[0]);
+            } catch (e) {
+              console.error(e);
+            }
+          }
+          const image = await saveImageAndGetUrl(cards[key].image);
+          return {
+            title: cards[key].titleKz,
+            content: cards[key].contentKz,
+            image,
+            href: cards[key].page?.ru.slug,
+            templateId: key,
+            templateName: template ? template.name : null,
+          };
+        }),
+      );
+
       editCardsWidget({
         id: ruWidgetId,
         body: {
           options: JSON.stringify({
             title: title.ru,
             variant,
-            items: Object.keys(cards).map((key) => ({
-              title: cards[key].titleRu,
-              content: cards[key].contentRu,
-              image: cards[key].image,
-              templateId: key,
-            })),
+            items: RuItems,
           }),
         },
       });
@@ -253,12 +336,7 @@ const ModalContent = ({
           options: JSON.stringify({
             title: title.kz,
             variant,
-            items: Object.keys(cards).map((key) => ({
-              title: cards[key].titleKz,
-              content: cards[key].contentKz,
-              image: cards[key].image,
-              templateId: key,
-            })),
+            items: KzItems,
           }),
         },
       });
@@ -278,15 +356,10 @@ const ModalContent = ({
       } catch (e) {}
     });
   };
+  console.log(savedTemplate, "HERE 1 SAVED", template, "HERE 1");
+
   return (
     <>
-      <Button
-        loading={createIsPending || editIsPending}
-        disabled={createIsPending || editIsPending}
-        onClick={ruOptions ? onEdit : onSave}
-      >
-        Save
-      </Button>
       <div className="flex gap-2 items-center">
         <Label>Select card variant</Label>
         <Select value={variant} onValueChange={(value) => setVariant(value)}>
@@ -309,7 +382,9 @@ const ModalContent = ({
           Есть темплейт
         </Label>
       </div>
-      {hasTemplate && <TemplatesSelect onSelect={setTemplate} />}
+      {hasTemplate && (
+        <TemplatesSelect savedTemplate={savedTemplate} onSelect={setTemplate} />
+      )}
       <div className="flex flex-col md:flex-row gap-3">
         <Input
           label="Title RU"
@@ -339,6 +414,13 @@ const ModalContent = ({
           />
         ))}
       </ScrollArea>
+      <Button
+        loading={createIsPending || editIsPending}
+        disabled={createIsPending || editIsPending}
+        onClick={ruOptions ? onEdit : onSave}
+      >
+        Save
+      </Button>
     </>
   );
 };
@@ -351,11 +433,20 @@ const EditCardItem = ({
 }: {
   id: string;
   card: CardProps;
-  writeChanges: (id: string, field: string, value: string) => void;
+  writeChanges: (id: string, field: string, value: string | File) => void;
   templateWidgets?: string[];
   deleteCard: () => void;
 }) => {
   //getWidgetProps for template
+  console.log(card);
+
+  const [image, setImage] = useState<string | ArrayBuffer | null>(() => {
+    if (card.image) {
+      return `http://77.243.80.138/media/${card.image}`;
+    } else {
+      return "";
+    }
+  });
   const {
     data: templateWidgetsProps,
     isFetching,
@@ -365,7 +456,7 @@ const EditCardItem = ({
     queryFn: async () => {
       const ids = id.split("*");
       const data = await getWidgets({ ru: ids[0], kz: ids[1] });
-      console.log(data, ">>>");
+      console.log(data, ">>>GETWIDGETS");
 
       return data;
     },
@@ -379,6 +470,7 @@ const EditCardItem = ({
       order,
       ruPageId: +id.split("*")[0],
       kzPageId: +id.split("*")[1],
+      queryKey: "getTemplateWidgets",
     };
     const editProps = {
       ...baseProps,
@@ -409,6 +501,8 @@ const EditCardItem = ({
   const [title, setTitle] = useState({ ru: "", kz: "" });
   const [content, setContent] = useState({ ru: "", kz: "" });
   const [href, setHref] = useState("");
+  console.log(templateWidgets, "HERE");
+
   return (
     <EditItem
       buttons={
@@ -446,7 +540,25 @@ const EditCardItem = ({
           onChange={(e) => writeChanges(id, "contentKz", e.target.value)}
         />
       </div>
-      <Input type="file" label="Image" />
+      {image && <img className="w-20 h-20" src={image as string} alt="image" />}
+      <Input
+        type="file"
+        label="Image"
+        onChange={(e) => {
+          if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            writeChanges(id, "image", file);
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+              if (event.target) setImage(event.target.result);
+            };
+            reader.readAsDataURL(file);
+
+            writeChanges(id, "image", file);
+          }
+        }}
+      />
       {templateWidgets && (
         <div className="flex flex-col gap-3 ">
           <span>Настройки шаблона</span>

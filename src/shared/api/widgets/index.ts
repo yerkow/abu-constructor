@@ -18,6 +18,16 @@ export const getTemplateWidgets = async (
     query: { language_key: "ru" },
   });
 };
+export const getWidgetsToDisplay = async (
+  id: number,
+  lang: string,
+): Promise<BackedWidget[]> => {
+  return customFetch({
+    path: `widget/navigation/${id}`,
+    method: "GET",
+    query: { language_key: lang },
+  });
+};
 export const getWidgets = async (ids: Langs) => {
   const ruWidgets = await customFetch({
     path: `widget/navigation/${ids.ru}`,
@@ -55,5 +65,14 @@ export const deleteWidget = async ({
     path: `widget-view/${id}`,
     method: "DELETE",
     query: { navigation_id },
+  });
+};
+export const uploadFile = (file: File) => {
+  const data = new FormData();
+  data.append("file", file);
+  return customFetch({
+    path: "upload/",
+    method: "POST",
+    body: { multipart: data },
   });
 };

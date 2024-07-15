@@ -41,7 +41,7 @@ export const Card = ({
         )}
       >
         <Image
-          src={image}
+          src={`http://77.243.80.138/media/${image}`}
           fill
           alt="te"
           className="absolute left-0 right-0 top-0 bottom-0 "

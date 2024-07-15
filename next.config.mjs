@@ -3,8 +3,8 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "**",
+        protocol: "http",
+        hostname: "77.243.80.138",
       },
     ],
   },
@@ -13,17 +13,6 @@ const nextConfig = {
       fullUrl: true,
     },
   },
-  headers: () => [
-    {
-      source: "/:admin*",
-      headers: [
-        {
-          key: "Cache-Control",
-          value: "no-store",
-        },
-      ],
-    },
-  ],
 };
 
 export default nextConfig;

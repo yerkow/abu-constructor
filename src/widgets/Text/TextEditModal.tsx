@@ -35,6 +35,7 @@ interface TextEditModalProps {
   ruOptions?: { heading: string; content: string };
   kzOptions?: { heading: string; content: string };
   order: number;
+  queryKey: string;
   ruPageId: number | null;
   kzPageId: number | null;
   ruWidgetId?: number | null | undefined;
@@ -45,6 +46,7 @@ export const TextEditModal = ({
   kzOptions,
   ruWidgetId,
   kzWidgetId,
+  queryKey,
   ruPageId,
   kzPageId,
   order,
@@ -68,7 +70,7 @@ export const TextEditModal = ({
     onSuccess: () => {
       setTitle({ ru: "", kz: "" });
       setContent({ ru: "", kz: "" });
-      queryClient.invalidateQueries({ queryKey: ["getWidgets"] });
+      queryClient.invalidateQueries({ queryKey: [queryKey] });
     },
   });
   const {
@@ -79,7 +81,7 @@ export const TextEditModal = ({
     mutationKey: ["createWidget"],
     mutationFn: editWidget,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["getWidgets"] });
+      queryClient.invalidateQueries({ queryKey: [queryKey] });
     },
   });
 

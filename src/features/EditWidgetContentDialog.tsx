@@ -20,6 +20,7 @@ export const EditWidgetContentDialog = ({
     order,
     ruPageId: ruId,
     kzPageId: kzId,
+    queryKey: "getWidgets",
   };
   const editProps = {
     ...baseProps,

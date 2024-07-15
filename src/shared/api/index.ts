@@ -30,6 +30,7 @@ export const customFetch = async (params: CRequest) => {
   const response = await fetch(url, {
     method: params.method,
     body,
+    cache: "no-store",
     headers,
   });
   const isJson =
