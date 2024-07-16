@@ -42,3 +42,12 @@ export interface Widget {
   ru_navigation_id: number | null;
   kz_navigation_id: number | null;
 }
+export type WidgetProps = {
+  ruWidgetId: number;
+  kzWidgetId: number;
+  ruOptions: any;
+  kzOptions: any;
+  order: number;
+  ru_navigation_id: number;
+  kz_navigation_id: number;
+};

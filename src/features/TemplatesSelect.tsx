@@ -1,6 +1,6 @@
-"use client";
 import { getTemplates } from "@/shared/api/pages";
 import { getTemplateWidgets, getWidgets } from "@/shared/api/widgets";
+import { queryClient } from "@/shared/lib/client";
 import {
   Label,
   Select,
@@ -13,7 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 import { cache, Dispatch, SetStateAction, useEffect, useState } from "react";
 interface TemplatesSelectProps {
   savedTemplate: string | null;
-  onSelect: Dispatch<SetStateAction<(typeof mockTemplates)[0] | null>>;
+  onSelect: (template: (typeof mockTemplates)[0]) => void;
 }
 const mockTemplates = [
   { name: "Template1", widgets: ["Carousel", "List", "Cards"] },
@@ -58,7 +58,7 @@ export const TemplatesSelect = ({
 
       onSelect(templates.filter((t) => t.name == savedTemplate)[0]);
     }
-  }, [savedTemplate, templates]);
+  }, [savedTemplate, templates, onSelect]);
   const onValueSelect = (value: string) => {
     setTemplate(value);
     onSelect(templates.filter((t) => t.name == value)[0]);

@@ -1,7 +1,12 @@
 "use client";
-import { createWidget, editWidget } from "@/shared/api/widgets";
+import {
+  createWidget,
+  editWidget,
+  getTemplateWidgets,
+  getWidgetProps,
+} from "@/shared/api/widgets";
 import { queryClient } from "@/shared/lib/client";
-import { Widget } from "@/shared/lib/types";
+import { Widget, WidgetProps } from "@/shared/lib/types";
 import {
   Button,
   Card,
@@ -12,9 +17,9 @@ import {
   Input,
   Label,
 } from "@/shared/ui";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 const quillModules = {
@@ -32,34 +37,39 @@ const quillModules = {
   ],
 };
 interface TextEditModalProps {
-  ruOptions?: { heading: string; content: string };
-  kzOptions?: { heading: string; content: string };
   order: number;
   queryKey: string;
   ruPageId: number | null;
   kzPageId: number | null;
-  ruWidgetId?: number | null | undefined;
-  kzWidgetId?: number | null | undefined;
 }
+
 export const TextEditModal = ({
-  ruOptions,
-  kzOptions,
-  ruWidgetId,
-  kzWidgetId,
   queryKey,
   ruPageId,
   kzPageId,
   order,
 }: TextEditModalProps) => {
+  const [props, setProps] = useState<WidgetProps | null>(null);
+  useEffect(() => {
+    if (ruPageId && kzPageId)
+      getWidgetProps({ ruPageId, kzPageId, order }).then((data) => {
+        setProps(data);
+      });
+  }, [ruPageId, kzPageId, order]);
+  useEffect(() => {
+    if (props) {
+      setTitle({ ru: props.ruOptions.heading, kz: props.kzOptions.heading });
+      setContent({ ru: props.ruOptions.content, kz: props.kzOptions.content });
+    }
+  }, [props]);
   const [title, setTitle] = useState({
-    ru: ruOptions ? ruOptions.heading : "",
-    kz: kzOptions ? kzOptions.heading : "",
+    ru: "",
+    kz: "",
   });
   const [content, setContent] = useState({
-    ru: ruOptions ? ruOptions.content : "",
-    kz: kzOptions ? kzOptions.content : "",
+    ru: "",
+    kz: "",
   });
-
   const {
     mutate: createMutate,
     error: createError,
@@ -86,21 +96,19 @@ export const TextEditModal = ({
   });
 
   const handleSave = () => {
-    if (ruOptions && kzOptions) {
-      if (ruWidgetId && kzWidgetId) {
-        editMutate({
-          id: ruWidgetId,
-          body: {
-            options: JSON.stringify({ heading: title.ru, content: content.ru }),
-          },
-        });
-        editMutate({
-          id: kzWidgetId,
-          body: {
-            options: JSON.stringify({ heading: title.kz, content: content.kz }),
-          },
-        });
-      }
+    if (props) {
+      editMutate({
+        id: props.ruWidgetId,
+        body: {
+          options: JSON.stringify({ heading: title.ru, content: content.ru }),
+        },
+      });
+      editMutate({
+        id: props.kzWidgetId,
+        body: {
+          options: JSON.stringify({ heading: title.kz, content: content.kz }),
+        },
+      });
     } else {
       if (ruPageId && kzPageId) {
         createMutate({

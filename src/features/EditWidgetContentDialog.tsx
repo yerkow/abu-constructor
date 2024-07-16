@@ -22,13 +22,6 @@ export const EditWidgetContentDialog = ({
     kzPageId: kzId,
     queryKey: "getWidgets",
   };
-  const editProps = {
-    ...baseProps,
-    ruOptions: widget && JSON.parse(widget?.ruOptions || ""),
-    kzOptions: widget && JSON.parse(widget?.kzOptions || ""),
-    ruWidgetId: widget?.ruId,
-    kzWidgetId: widget?.kzId,
-  };
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -39,10 +32,7 @@ export const EditWidgetContentDialog = ({
       </DialogTrigger>
       <DialogContent className="max-w-sm sm:max-w-full ">
         {/* TODO */}
-        {cloneElement(
-          modal as React.ReactElement<any>,
-          widget ? editProps : baseProps,
-        )}
+        {cloneElement(modal as React.ReactElement<any>, baseProps)}
       </DialogContent>
     </Dialog>
   );

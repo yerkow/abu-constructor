@@ -1,6 +1,6 @@
 import { customFetch } from "@/shared/api";
 import { Langs, BackedWidget } from "@/shared/lib/types";
-import { combineWidgetsByLang } from "@/shared/lib/utils";
+import { combineWidgetProps, combineWidgetsByLang } from "@/shared/lib/utils";
 
 export const createWidget = (widget: Omit<BackedWidget, "id">) => {
   return customFetch({
@@ -40,6 +40,32 @@ export const getWidgets = async (ids: Langs) => {
     query: { language_key: "kz" },
   });
   return combineWidgetsByLang(ruWidgets.concat(kzWidgets));
+};
+export const getWidgetProps = async ({
+  ruPageId,
+  kzPageId,
+  order,
+}: {
+  ruPageId: number;
+  kzPageId: number;
+  order: number;
+}) => {
+  const ruWidgets: BackedWidget[] = await customFetch({
+    path: `widget/navigation/${ruPageId}`,
+    method: "GET",
+    query: { language_key: "ru" },
+  });
+  const kzWidgets: BackedWidget[] = await customFetch({
+    path: `widget/navigation/${kzPageId}`,
+    method: "GET",
+    query: { language_key: "kz" },
+  });
+  const ruOrder = ruWidgets.filter((w) => w.order === order);
+  const kzOrder = kzWidgets.filter((w) => w.order === order);
+  if (ruOrder[0] && kzOrder[0]) {
+    return combineWidgetProps(ruOrder[0], kzOrder[0]);
+  }
+  return null;
 };
 export const editWidget = ({
   id,

@@ -45,7 +45,6 @@ export const combinePagesByLang = (records: BackedPage[]): IPage[] => {
 };
 export const combineWidgetsByLang = (records: BackedWidget[]): Widget[] => {
   const combinedRecords: { [key: string]: Widget } = {};
-
   records.forEach((record) => {
     if (!combinedRecords[record.order]) {
       combinedRecords[record.order] = {
@@ -72,4 +71,18 @@ export const combineWidgetsByLang = (records: BackedWidget[]): Widget[] => {
   });
 
   return Object.values(combinedRecords);
+};
+export const combineWidgetProps = (
+  ruWidgetProps: BackedWidget,
+  kzWidgetProps: BackedWidget,
+) => {
+  return {
+    ruWidgetId: ruWidgetProps.id,
+    kzWidgetId: kzWidgetProps.id,
+    ruOptions: JSON.parse(ruWidgetProps.options),
+    kzOptions: JSON.parse(kzWidgetProps.options),
+    order: ruWidgetProps.order,
+    ru_navigation_id: ruWidgetProps.navigation_id,
+    kz_navigation_id: kzWidgetProps.navigation_id,
+  };
 };

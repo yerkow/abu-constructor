@@ -4,12 +4,13 @@ import { createPage, deletePage } from "@/shared/api/pages";
 import {
   createWidget,
   editWidget,
+  getWidgetProps,
   getWidgets,
   uploadFile,
 } from "@/shared/api/widgets";
 import { queryClient } from "@/shared/lib/client";
 import { useSaveToLocalStorage } from "@/shared/lib/hooks";
-import { BackedPage, Widget } from "@/shared/lib/types";
+import { BackedPage, Widget, WidgetProps } from "@/shared/lib/types";
 import {
   Button,
   Checkbox,
@@ -35,10 +36,6 @@ type Options = { title: string; items: any[]; variant: string };
 interface CardsEditModalProps {
   variant?: "dialog" | "card";
   order: number;
-  ruOptions?: Options | null;
-  kzOptions?: Options | null;
-  ruWidgetId?: number | null | undefined;
-  kzWidgetId?: number | null | undefined;
   ruPageId: number | null;
   kzPageId: number | null;
   queryKey: string;
@@ -46,12 +43,8 @@ interface CardsEditModalProps {
 export const CardsEditModal = ({
   variant = "card",
   order,
-  kzOptions,
-  ruOptions,
   ruPageId,
   kzPageId,
-  ruWidgetId,
-  kzWidgetId,
   queryKey,
 }: CardsEditModalProps) => {
   return (
@@ -64,10 +57,6 @@ export const CardsEditModal = ({
         <ModalContent
           ruPageId={ruPageId}
           kzPageId={kzPageId}
-          ruWidgetId={ruWidgetId}
-          kzWidgetId={kzWidgetId}
-          ruOptions={ruOptions}
-          kzOptions={kzOptions}
           order={order}
           queryKey={queryKey}
         />
@@ -88,24 +77,20 @@ export type EditCardProps = {
   };
 };
 type CardsState = Record<string, EditCardProps>;
+type Template = {
+  name: string;
+  widgets: string[];
+};
 const ModalContent = ({
-  order,
-  ruOptions,
-  kzOptions,
-  queryKey,
-  ruWidgetId,
-  kzWidgetId,
   ruPageId,
   kzPageId,
+  order,
+  queryKey,
 }: {
-  ruWidgetId: number | null | undefined;
-  kzWidgetId: number | null | undefined;
   ruPageId: number | null;
   kzPageId: number | null;
   queryKey: string;
   order: number;
-  ruOptions?: Options | null;
-  kzOptions?: Options | null;
 }) => {
   const {
     mutate: createCardsWidget,
@@ -128,39 +113,51 @@ const ModalContent = ({
 
   const [hasTemplate, setHasTemplate] = useState(false);
   const slug = useSearchParams().get("edittingSlug");
-  const [template, setTemplate] = useState<{
-    name: string;
-    widgets: string[];
-  } | null>(null);
+  const [template, setTemplate] = useState<Template | null>(null);
   const [savedTemplate, setSavedTemplate] = useState<string | null>(null);
-  const [variant, setVariant] = useState(
-    ruOptions ? ruOptions.variant : "base",
-  );
+  const [variant, setVariant] = useState("base");
   const [title, setTitle] = useState({
-    ru: ruOptions ? ruOptions.title : "",
-    kz: kzOptions ? kzOptions.title : "",
+    ru: "",
+    kz: "",
   });
-  const [cards, setCards] = useState<CardsState>(() => {
-    const temp: CardsState = {};
-    if (ruOptions && kzOptions) {
-      if (ruOptions.items[0]) {
-        if (ruOptions.items[0]?.templateName) {
-          setSavedTemplate(ruOptions.items[0]?.templateName);
-          setHasTemplate(true);
-        }
-      }
-      ruOptions.items.forEach((card, idx) => {
-        temp[card.templateId ? card.templateId : Date.now()] = {
-          titleRu: card.title,
-          titleKz: kzOptions.items[idx].title,
-          contentRu: card.content,
-          contentKz: kzOptions.items[idx].content,
-          image: card.image,
-        };
+  //fetch props if edit
+  const [props, setProps] = useState<WidgetProps | null>(null);
+  useEffect(() => {
+    if (ruPageId && kzPageId)
+      getWidgetProps({ ruPageId, kzPageId, order }).then((data) => {
+        setProps(data);
       });
+  }, [ruPageId, kzPageId, order]);
+  useEffect(() => {
+    if (props) {
+      setTitle({ ru: props.ruOptions.title, kz: props.kzOptions.title });
+      const temp: CardsState = {};
+      const cards = props.ruOptions.items;
+      if (Array.isArray(cards)) {
+        if (cards[0]) {
+          if (cards[0]?.templateName) {
+            setSavedTemplate(cards[0]?.templateName);
+            setHasTemplate(true);
+          }
+        }
+        cards.forEach((card, idx) => {
+          temp[card.templateId ? card.templateId : Date.now()] = {
+            titleRu: card.title,
+            titleKz: props.kzOptions.items[idx].title,
+            contentRu: card.content,
+            contentKz: props.kzOptions.items[idx].content,
+            image: card.image,
+          };
+        });
+      }
+      setCards(temp);
     }
-    return temp;
-  });
+  }, [props]);
+
+  const handleTemplate = (template: Template) => {
+    setTemplate(template);
+  };
+  const [cards, setCards] = useState<CardsState>({});
   const addCard = async () => {
     try {
       const ruPage = await createPage({
@@ -278,7 +275,7 @@ const ModalContent = ({
     }
   };
   const onEdit = async () => {
-    if (ruWidgetId && kzWidgetId) {
+    if (props) {
       const RuItems = await Promise.all(
         Object.keys(cards).map(async (key) => {
           if (!hasTemplate) {
@@ -323,7 +320,7 @@ const ModalContent = ({
       );
 
       editCardsWidget({
-        id: ruWidgetId,
+        id: props.ruWidgetId,
         body: {
           options: JSON.stringify({
             title: title.ru,
@@ -333,7 +330,7 @@ const ModalContent = ({
         },
       });
       editCardsWidget({
-        id: kzWidgetId,
+        id: props.kzWidgetId,
         body: {
           options: JSON.stringify({
             title: title.kz,
@@ -383,7 +380,10 @@ const ModalContent = ({
         </Label>
       </div>
       {hasTemplate && (
-        <TemplatesSelect savedTemplate={savedTemplate} onSelect={setTemplate} />
+        <TemplatesSelect
+          savedTemplate={savedTemplate}
+          onSelect={handleTemplate}
+        />
       )}
       <div className="flex flex-col md:flex-row gap-3">
         <Input
@@ -410,14 +410,14 @@ const ModalContent = ({
             deleteCard={() => deleteCard(key)}
             key={idx}
             id={key}
-            templateWidgets={template?.widgets}
+            templateWidgets={template ? template.widgets : undefined}
           />
         ))}
       </ScrollArea>
       <Button
         loading={createIsPending || editIsPending}
         disabled={createIsPending || editIsPending}
-        onClick={ruOptions ? onEdit : onSave}
+        onClick={props ? onEdit : onSave}
       >
         Save
       </Button>

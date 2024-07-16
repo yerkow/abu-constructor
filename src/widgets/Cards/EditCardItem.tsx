@@ -39,33 +39,26 @@ export const EditCardItem = ({
     queryFn: async () => {
       const ids = id.split("*");
       const data = await getWidgets({ ru: ids[0], kz: ids[1] });
+      console.log(data, "Template Widgets Props");
+
       return data;
     },
   });
 
-  const getTemplatesProps = (w: string, order: number) => {
-    const widgetProps = templateWidgetsProps
-      ? templateWidgetsProps[order]
-      : null;
-    const baseProps = {
-      order,
-      ruPageId: +id.split("*")[0],
-      kzPageId: +id.split("*")[1],
-      queryKey: "getTemplateWidgets",
-    };
-    const editProps = {
-      ...baseProps,
-      ruOptions: widgetProps && JSON.parse(widgetProps?.ruOptions || ""),
-      kzOptions: widgetProps && JSON.parse(widgetProps?.kzOptions || ""),
-      ruWidgetId: widgetProps?.ruId,
-      kzWidgetId: widgetProps?.kzId,
-    };
+  const getTemplatesProps = (
+    w: string,
+    order: number,
+    baseProps: any,
+    editProps: any,
+  ) => {
+    console.log(editProps);
+
     switch (w) {
       case "Cards":
         return (
           <CardsEditModal
             variant="dialog"
-            {...(widgetProps ? editProps : baseProps)}
+            {...(editProps ? editProps : baseProps)}
           />
         );
       case "Carousel":
@@ -73,7 +66,7 @@ export const EditCardItem = ({
       case "List":
         return <ListEditModal variant="dialog" />;
       case "Text":
-        return <TextEditModal {...(widgetProps ? editProps : baseProps)} />;
+        return <TextEditModal {...(editProps ? editProps : baseProps)} />;
       default:
         return null;
     }
@@ -136,12 +129,42 @@ export const EditCardItem = ({
           }
         }}
       />
-      {templateWidgets && (
+      {(templateWidgets || templateWidgetsProps) && (
         <div className="flex flex-col gap-3 ">
           <span>Настройки шаблона</span>
-          {templateWidgets.map((w, idx) => (
-            <Fragment key={idx}>{getTemplatesProps(w, idx)}</Fragment>
-          ))}
+          {templateWidgets?.map((w, idx) => {
+            console.log(w, "-", idx);
+            const baseProps = {
+              order: idx,
+              ruPageId: +id.split("*")[0],
+              kzPageId: +id.split("*")[1],
+              queryKey: "getTemplateWidgets",
+            };
+            let editProps = null;
+            if (templateWidgetsProps) {
+              const widgetProps = templateWidgetsProps.filter((w) => {
+                if (w.order === idx && w.ruOptions && w.kzOptions) return true;
+                return false;
+              })[0];
+              editProps = {
+                ...baseProps,
+                ruOptions: widgetProps
+                  ? JSON.parse(widgetProps?.ruOptions || "")
+                  : undefined,
+                kzOptions: widgetProps
+                  ? JSON.parse(widgetProps?.kzOptions || "")
+                  : undefined,
+                ruWidgetId: widgetProps ? widgetProps.ruId : undefined,
+                kzWidgetId: widgetProps ? widgetProps.kzId : undefined,
+              };
+            }
+
+            return (
+              <Fragment key={idx}>
+                {getTemplatesProps(w, idx, baseProps, editProps)}
+              </Fragment>
+            );
+          })}
         </div>
       )}
     </EditItem>
