@@ -438,7 +438,7 @@ const ModalContent = ({
       <Button onClick={addCard} className="w-full">
         Add new Card
       </Button>
-      <section className="h-[460px] overflow-y-scroll w-full  rounded-md border p-4 ">
+      <section className="max-h-[460px] flex flex-col gap-10 overflow-y-scroll w-full  rounded-md border p-4 ">
         {Object.keys(cards).map((key, idx) => (
           <EditCardItem
             writeChanges={writeChanges}
