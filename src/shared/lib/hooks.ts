@@ -1,37 +1,52 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { title } from "process";
-import { ChangeEvent } from "react";
+import { getTemplates } from "@/shared/api/pages";
+import { getTemplateWidgets } from "@/shared/api/widgets";
+import { TemplateSelectType } from "@/shared/lib/types";
+import { useQuery } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
 
-export const useSaveToLocalStorage = () => {
-  const edittingPageId = useSearchParams().get("editting");
-
-  const saveToLocalStorage = (res: any, order: number) => {
-    if (edittingPageId) {
-      res = { ...res, navigation_id: edittingPageId };
-      let pagesContent: any = localStorage.getItem(edittingPageId);
-      if (pagesContent) {
-        pagesContent = JSON.parse(pagesContent);
-        if (Array.isArray(pagesContent)) {
-          if (pagesContent.findIndex((page) => page.order === order) == -1) {
-            pagesContent.push(res);
-          } else {
-            pagesContent = pagesContent.map((widget) => {
-              if (widget.order === order) {
-                return res;
-              } else {
-                return widget;
-              }
+export const useTemplates = () => {
+  const {
+    data: templatePages,
+    isFetching: pagesIsFetching,
+    error: pagesError,
+    isSuccess,
+  } = useQuery({
+    queryKey: ["getTemplates"],
+    queryFn: getTemplates,
+  });
+  const [templates, setTemplates] = useState<TemplateSelectType[]>([]);
+  const [selectedTemplate, setSelectedTemplate] =
+    useState<TemplateSelectType | null>(null);
+  useEffect(() => {
+    if (templatePages && isSuccess) {
+      try {
+        const templates: TemplateSelectType[] = [];
+        templatePages.forEach((template) => {
+          if (template.slug == "template") {
+            const widgetNames: string[] = [];
+            getTemplateWidgets(template.id).then((widgets) => {
+              widgets.forEach((w) => widgetNames.push(w.widget_type));
             });
+            templates.push({ name: template.title, widgets: widgetNames });
           }
+        });
 
-          localStorage.setItem(edittingPageId, JSON.stringify(pagesContent));
-        }
-      } else {
-        localStorage.setItem(edittingPageId, JSON.stringify([res]));
+        setTemplates(templates);
+      } catch (e) {
+        setTemplates([]);
       }
     }
+  }, [templatePages, isSuccess]);
+  const onSelect = (template: string) => {
+    setSelectedTemplate(templates.filter((t) => t.name === template)[0]);
   };
-  return { saveToLocalStorage };
+  return {
+    templates,
+    setTemplates,
+    selectedTemplate,
+    setSelectedTemplate,
+    onSelect,
+  };
 };

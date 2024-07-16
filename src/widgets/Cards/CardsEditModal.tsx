@@ -9,7 +9,6 @@ import {
   uploadFile,
 } from "@/shared/api/widgets";
 import { queryClient } from "@/shared/lib/client";
-import { useSaveToLocalStorage } from "@/shared/lib/hooks";
 import { BackedPage, Widget, WidgetProps } from "@/shared/lib/types";
 import {
   Button,
@@ -23,6 +22,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  useToast,
   WidgetView,
 } from "@/shared/ui";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -32,6 +32,7 @@ import { CarouselEditModal } from "../Carousel/CarouselEditModal";
 import { ListEditModal } from "../List/ListEditModal";
 import { TextEditModal } from "../Text/TextEditModal";
 import { EditCardItem } from "@/widgets/Cards/EditCardItem";
+import { useTemplates } from "@/shared/lib/hooks";
 type Options = { title: string; items: any[]; variant: string };
 interface CardsEditModalProps {
   variant?: "dialog" | "card";
@@ -55,6 +56,7 @@ export const CardsEditModal = ({
       triggerTitle="Редактировать карточки"
       content={
         <ModalContent
+          modalVariant={variant}
           ruPageId={ruPageId}
           kzPageId={kzPageId}
           order={order}
@@ -86,12 +88,15 @@ const ModalContent = ({
   kzPageId,
   order,
   queryKey,
+  modalVariant,
 }: {
+  modalVariant?: "dialog" | "card";
   ruPageId: number | null;
   kzPageId: number | null;
   queryKey: string;
   order: number;
 }) => {
+  const { toast } = useToast();
   const {
     mutate: createCardsWidget,
     isPending: createIsPending,
@@ -101,6 +106,9 @@ const ModalContent = ({
     mutationFn: createWidget,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [queryKey] });
+      toast({
+        title: "Виджет создан.",
+      });
     },
   });
   const { mutate: editCardsWidget, isPending: editIsPending } = useMutation({
@@ -108,18 +116,31 @@ const ModalContent = ({
     mutationFn: editWidget,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [queryKey] });
+      toast({
+        title: "Виджет изменен.",
+      });
     },
   });
 
   const [hasTemplate, setHasTemplate] = useState(false);
   const slug = useSearchParams().get("edittingSlug");
-  const [template, setTemplate] = useState<Template | null>(null);
+  const { templates, setTemplates, selectedTemplate, setSelectedTemplate } =
+    useTemplates();
+  const handleTemplate = (template: Template) => {
+    setSelectedTemplate(template);
+  };
   const [savedTemplate, setSavedTemplate] = useState<string | null>(null);
+  useEffect(() => {
+    if (savedTemplate) {
+      setSelectedTemplate(templates.filter((t) => t.name === savedTemplate)[0]);
+    }
+  }, [savedTemplate]);
   const [variant, setVariant] = useState("base");
   const [title, setTitle] = useState({
     ru: "",
     kz: "",
   });
+
   //fetch props if edit
   const [props, setProps] = useState<WidgetProps | null>(null);
   useEffect(() => {
@@ -131,6 +152,7 @@ const ModalContent = ({
   useEffect(() => {
     if (props) {
       setTitle({ ru: props.ruOptions.title, kz: props.kzOptions.title });
+      setVariant(props.ruOptions.variant);
       const temp: CardsState = {};
       const cards = props.ruOptions.items;
       if (Array.isArray(cards)) {
@@ -154,15 +176,12 @@ const ModalContent = ({
     }
   }, [props]);
 
-  const handleTemplate = (template: Template) => {
-    setTemplate(template);
-  };
   const [cards, setCards] = useState<CardsState>({});
   const addCard = async () => {
     try {
       const ruPage = await createPage({
         title: "templatePage",
-        slug: `/${template ? template.name.toLowerCase().replace(/\s/g, "") : "template"}-${Date.now()}`,
+        slug: `/${selectedTemplate ? selectedTemplate.name.toLowerCase().replace(/\s/g, "") : "template"}-${Date.now()}`,
         navigation_id: null,
         navigation_type: "template",
         order: 1,
@@ -170,7 +189,7 @@ const ModalContent = ({
       });
       const kzPage = await createPage({
         title: "templatePage",
-        slug: `/${template ? template.name.toLowerCase().replace(/\s/g, "") : "template"}-${Date.now()}`,
+        slug: `/${selectedTemplate ? selectedTemplate.name.toLowerCase().replace(/\s/g, "") : "template"}-${Date.now()}`,
         navigation_id: null,
         navigation_type: "template",
         order: 1,
@@ -221,9 +240,9 @@ const ModalContent = ({
             title: cards[key].titleRu,
             content: cards[key].contentRu,
             image,
-            href: cards[key].page?.ru.slug,
+            href: hasTemplate ? cards[key].page?.ru.slug : "",
             templateId: key,
-            templateName: template ? template.name : null,
+            templateName: selectedTemplate ? selectedTemplate.name : null,
           };
         }),
       );
@@ -244,7 +263,7 @@ const ModalContent = ({
             image,
             href: cards[key].page?.ru.slug,
             templateId: key,
-            templateName: template ? template.name : null,
+            templateName: selectedTemplate ? selectedTemplate.name : null,
           };
         }),
       );
@@ -291,9 +310,9 @@ const ModalContent = ({
             title: cards[key].titleRu,
             content: cards[key].contentRu,
             image: image,
-            href: cards[key].page?.ru.slug,
+            href: savedTemplate ? cards[key].page?.ru.slug : "",
             templateId: key,
-            templateName: template ? template.name : null,
+            templateName: selectedTemplate ? selectedTemplate.name : null,
           };
         }),
       );
@@ -311,10 +330,10 @@ const ModalContent = ({
           return {
             title: cards[key].titleKz,
             content: cards[key].contentKz,
+            href: savedTemplate ? cards[key].page?.kz.slug : "",
             image,
-            href: cards[key].page?.ru.slug,
             templateId: key,
-            templateName: template ? template.name : null,
+            templateName: selectedTemplate ? selectedTemplate.name : null,
           };
         }),
       );
@@ -352,7 +371,9 @@ const ModalContent = ({
     ids.forEach((id) => {
       try {
         deletePage(+id);
-      } catch (e) {}
+      } catch (e) {
+        console.log(e);
+      }
     });
   };
   return (
@@ -369,21 +390,36 @@ const ModalContent = ({
           </SelectContent>
         </Select>
       </div>
-      <div className="flex items-center gap-2">
-        <Checkbox
-          id="template"
-          checked={hasTemplate}
-          onCheckedChange={() => setHasTemplate(!hasTemplate)}
-        />
-        <Label htmlFor="template" className="mt-1">
-          Есть темплейт
-        </Label>
-      </div>
-      {hasTemplate && (
-        <TemplatesSelect
-          savedTemplate={savedTemplate}
-          onSelect={handleTemplate}
-        />
+      {modalVariant === "card" && (
+        <>
+          {!savedTemplate ? (
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="template"
+                disabled={!!props}
+                checked={hasTemplate}
+                onCheckedChange={() => {
+                  if (!props) {
+                    setHasTemplate(!hasTemplate);
+                  }
+                  return;
+                }}
+              />
+              <Label htmlFor="template" className="mt-1">
+                Есть темплейт
+              </Label>
+            </div>
+          ) : (
+            <span>Использованный шаблон {savedTemplate}</span>
+          )}
+          {hasTemplate && !savedTemplate && (
+            <TemplatesSelect
+              savedTemplate={savedTemplate}
+              templates={templates}
+              onSelect={handleTemplate}
+            />
+          )}
+        </>
       )}
       <div className="flex flex-col md:flex-row gap-3">
         <Input
@@ -410,7 +446,9 @@ const ModalContent = ({
             deleteCard={() => deleteCard(key)}
             key={idx}
             id={key}
-            templateWidgets={template ? template.widgets : undefined}
+            templateWidgets={
+              selectedTemplate ? selectedTemplate.widgets : undefined
+            }
           />
         ))}
       </ScrollArea>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Catamaran } from "next/font/google";
 import "./globals.css";
 import { QueryProvider } from "@/shared/providers";
+import { Toaster } from "@/shared/ui";
 
 const inter = Catamaran({ subsets: ["latin"] });
 
@@ -19,6 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <QueryProvider>{children}</QueryProvider>
+        <Toaster />
       </body>
     </html>
   );

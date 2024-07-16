@@ -68,3 +68,5 @@ export {
   TableHeader,
   TableRow,
 } from "./table";
+export { Toaster } from "./toaster";
+export { useToast } from "./use-toast";

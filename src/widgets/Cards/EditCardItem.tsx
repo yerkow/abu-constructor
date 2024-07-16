@@ -39,7 +39,6 @@ export const EditCardItem = ({
     queryFn: async () => {
       const ids = id.split("*");
       const data = await getWidgets({ ru: ids[0], kz: ids[1] });
-      console.log(data, "Template Widgets Props");
 
       return data;
     },
@@ -51,8 +50,6 @@ export const EditCardItem = ({
     baseProps: any,
     editProps: any,
   ) => {
-    console.log(editProps);
-
     switch (w) {
       case "Cards":
         return (
@@ -129,11 +126,10 @@ export const EditCardItem = ({
           }
         }}
       />
-      {(templateWidgets || templateWidgetsProps) && (
+      {templateWidgets && (
         <div className="flex flex-col gap-3 ">
           <span>Настройки шаблона</span>
           {templateWidgets?.map((w, idx) => {
-            console.log(w, "-", idx);
             const baseProps = {
               order: idx,
               ruPageId: +id.split("*")[0],
