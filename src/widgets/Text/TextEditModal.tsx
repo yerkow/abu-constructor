@@ -16,6 +16,7 @@ import {
   CardTitle,
   Input,
   Label,
+  useToast,
   WidgetView,
 } from "@/shared/ui";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -81,6 +82,7 @@ const ModalContent = ({
   kzPageId,
   order,
 }: TextEditModalProps) => {
+  const { toast } = useToast();
   const [props, setProps] = useState<WidgetProps | null>(null);
   useEffect(() => {
     if (ruPageId && kzPageId)
@@ -113,6 +115,9 @@ const ModalContent = ({
       setTitle({ ru: "", kz: "" });
       setContent({ ru: "", kz: "" });
       queryClient.invalidateQueries({ queryKey: [queryKey] });
+      toast({
+        title: "Виджет создан.",
+      });
     },
   });
   const {
@@ -124,6 +129,9 @@ const ModalContent = ({
     mutationFn: editWidget,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [queryKey] });
+      toast({
+        title: "Виджет изменен.",
+      });
     },
   });
 
