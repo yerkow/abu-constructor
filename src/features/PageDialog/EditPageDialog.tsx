@@ -78,8 +78,9 @@ export const EditPageDialog = ({ page }: EditPageDialogProps) => {
       });
     }
   };
+  const [open, setOpen] = useState(false);
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button size={"sm"}>
           <Settings />

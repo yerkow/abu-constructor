@@ -44,26 +44,16 @@ export const EditCardItem = ({
     },
   });
 
-  const getTemplatesProps = (
-    w: string,
-    order: number,
-    baseProps: any,
-    editProps: any,
-  ) => {
+  const getTemplatesProps = (w: string, order: number, baseProps: any) => {
     switch (w) {
       case "Cards":
-        return (
-          <CardsEditModal
-            variant="dialog"
-            {...(editProps ? editProps : baseProps)}
-          />
-        );
+        return <CardsEditModal variant="dialog" {...baseProps} />;
       case "Carousel":
         return <CarouselEditModal variant="dialog" />;
       case "List":
         return <ListEditModal variant="dialog" />;
       case "Text":
-        return <TextEditModal {...(editProps ? editProps : baseProps)} />;
+        return <TextEditModal variant="dialog" {...baseProps} />;
       default:
         return null;
     }
@@ -136,28 +126,10 @@ export const EditCardItem = ({
               kzPageId: +id.split("*")[1],
               queryKey: "getTemplateWidgets",
             };
-            let editProps = null;
-            if (templateWidgetsProps) {
-              const widgetProps = templateWidgetsProps.filter((w) => {
-                if (w.order === idx && w.ruOptions && w.kzOptions) return true;
-                return false;
-              })[0];
-              editProps = {
-                ...baseProps,
-                ruOptions: widgetProps
-                  ? JSON.parse(widgetProps?.ruOptions || "")
-                  : undefined,
-                kzOptions: widgetProps
-                  ? JSON.parse(widgetProps?.kzOptions || "")
-                  : undefined,
-                ruWidgetId: widgetProps ? widgetProps.ruId : undefined,
-                kzWidgetId: widgetProps ? widgetProps.kzId : undefined,
-              };
-            }
 
             return (
               <Fragment key={idx}>
-                {getTemplatesProps(w, idx, baseProps, editProps)}
+                {getTemplatesProps(w, idx, baseProps)}
               </Fragment>
             );
           })}

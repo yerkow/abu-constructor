@@ -16,6 +16,7 @@ import {
   CardTitle,
   Input,
   Label,
+  WidgetView,
 } from "@/shared/ui";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
@@ -37,13 +38,44 @@ const quillModules = {
   ],
 };
 interface TextEditModalProps {
+  modalVariant?: "card" | "dialog";
   order: number;
   queryKey: string;
   ruPageId: number | null;
   kzPageId: number | null;
 }
-
 export const TextEditModal = ({
+  variant = "card",
+  order,
+  ruPageId,
+  kzPageId,
+  queryKey,
+}: {
+  variant?: "dialog" | "card";
+  order: number;
+  ruPageId: number | null;
+  kzPageId: number | null;
+  queryKey: string;
+}) => {
+  return (
+    <WidgetView
+      variant={variant}
+      cardTitle="Edit Text"
+      desc="There you can edit Text content"
+      triggerTitle="Редактировать текст"
+      content={
+        <ModalContent
+          modalVariant={variant}
+          ruPageId={ruPageId}
+          kzPageId={kzPageId}
+          order={order}
+          queryKey={queryKey}
+        />
+      }
+    />
+  );
+};
+const ModalContent = ({
   queryKey,
   ruPageId,
   kzPageId,
@@ -130,59 +162,53 @@ export const TextEditModal = ({
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Edit Text</CardTitle>
-        <CardDescription>There you can edit Text content</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <section className="flex flex-col gap-3">
-          <div className="flex flex-col md:flex-row gap-3">
-            <Input
-              label="Title RU"
-              type="text"
-              value={title.ru}
-              required
-              onChange={(e) => setTitle({ ...title, ru: e.target.value })}
-            />
-            <Input
-              label="Title KZ"
-              type="text"
-              required
-              value={title.kz}
-              onChange={(e) => setTitle({ ...title, kz: e.target.value })}
-            />
-          </div>
-          <div className="flex flex-col  gap-3 w-full justify-between">
-            <div>
-              <Label>Content RU</Label>
-              <ReactQuill
-                value={content.ru}
-                onChange={(value) => setContent({ ...content, ru: value })}
-                modules={quillModules}
-                theme="snow"
-              />
-            </div>
-            <div>
-              <Label>Content KZ</Label>
-              <ReactQuill
-                value={content.kz}
-                onChange={(value) => setContent({ ...content, kz: value })}
-                modules={quillModules}
-                theme="snow"
-              />
-            </div>
-          </div>
-          <Button
-            disabled={createIsPending || !content.ru || !content.kz}
-            loading={createIsPending}
-            onClick={handleSave}
-            type="button"
-          >
-            Save
-          </Button>
-        </section>
-      </CardContent>
-    </Card>
+    <section className="flex flex-col gap-3 h-full">
+      <div className="flex flex-col   gap-3">
+        <Input
+          label="Title RU"
+          type="text"
+          value={title.ru}
+          required
+          onChange={(e) => setTitle({ ...title, ru: e.target.value })}
+        />
+        <Input
+          label="Title KZ"
+          type="text"
+          required
+          value={title.kz}
+          onChange={(e) => setTitle({ ...title, kz: e.target.value })}
+        />
+      </div>
+      <div className="flex flex-col flex-grow   gap-3 w-full justify-between">
+        <div>
+          <Label>Content RU</Label>
+          <ReactQuill
+            value={content.ru}
+            className="h-[250px] overflow-scroll"
+            onChange={(value) => setContent({ ...content, ru: value })}
+            modules={quillModules}
+            theme="snow"
+          />
+        </div>
+        <div>
+          <Label>Content KZ</Label>
+          <ReactQuill
+            value={content.kz}
+            className="h-[250px] overflow-scroll"
+            onChange={(value) => setContent({ ...content, kz: value })}
+            modules={quillModules}
+            theme="snow"
+          />
+        </div>
+      </div>
+      <Button
+        disabled={createIsPending || !content.ru || !content.kz}
+        loading={createIsPending}
+        onClick={handleSave}
+        type="button"
+      >
+        Save
+      </Button>
+    </section>
   );
 };

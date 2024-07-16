@@ -438,7 +438,7 @@ const ModalContent = ({
       <Button onClick={addCard} className="w-full">
         Add new Card
       </Button>
-      <ScrollArea className="h-[320px] rounded-md border p-4 ">
+      <section className="h-[460px] overflow-y-scroll w-full  rounded-md border p-4 ">
         {Object.keys(cards).map((key, idx) => (
           <EditCardItem
             writeChanges={writeChanges}
@@ -451,7 +451,7 @@ const ModalContent = ({
             }
           />
         ))}
-      </ScrollArea>
+      </section>
       <Button
         loading={createIsPending || editIsPending}
         disabled={createIsPending || editIsPending}

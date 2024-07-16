@@ -24,7 +24,7 @@ export const WidgetView = ({
   content,
 }: WidgetViewProps) => {
   return variant == "card" ? (
-    <Card>
+    <Card className="w-full  h-[calc(100vh-50px)]">
       <CardHeader>
         <CardTitle>{cardTitle}</CardTitle>
         <CardDescription>{desc}</CardDescription>
