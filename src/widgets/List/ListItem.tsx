@@ -10,7 +10,11 @@ interface ListItemProps {
 export const ListItem = ({ children, icon, href }: ListItemProps) => {
   return (
     <li className="font-bold cursor-pointer min-h-[90px] border-b-2 border-cyan-400 flex items-center justify-start pl-5 bg-gray-50">
-      <Link href={href} className={cn(icon && "flex gap-2 w-full")}>
+      <Link
+        target="_blank"
+        href={href}
+        className={cn(icon && "flex gap-2 w-full")}
+      >
         {icon} {children}
       </Link>
     </li>

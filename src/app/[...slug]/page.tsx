@@ -1,7 +1,7 @@
 import { getPageBySlug } from "@/shared/api/pages";
 import { getWidgetsToDisplay } from "@/shared/api/widgets";
 import { capitalize } from "@/shared/lib";
-import { Cards, Carousel, Text } from "@/widgets";
+import { Cards, Carousel, Text, List } from "@/widgets";
 
 const getPageContent = async (slug: any) => {
   const page = await getPageBySlug(`/${slug}`, "ru");
@@ -33,6 +33,8 @@ const getWidgetByName = (name: string, props: any) => {
       return <Carousel {...props} />;
     case "Cards":
       return <Cards {...props} />;
+    case "List":
+      return <List {...props} />;
 
     case "Text":
       return <Text {...props} />;

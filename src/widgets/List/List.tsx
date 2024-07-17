@@ -12,15 +12,16 @@ import {
 import { FileArchive } from "lucide-react";
 import { useState } from "react";
 import { ListItem } from "./ListItem";
+import { backendImageUrl } from "@/shared/lib/constants";
 interface ListItem {
-  href: string;
+  file: string;
   content: string;
 }
 interface ListProps {
-  listItems: ListItem[];
-  files?: boolean;
+  items: ListItem[];
+  // files?: boolean;
 }
-export const List = ({ listItems, files }: ListProps) => {
+export const List = ({ items: listItems }: ListProps) => {
   const [current, setCurrent] = useState(1);
   const pagination =
     listItems.length > 5 ? paginate(listItems.length, 5, current) : null;
@@ -53,8 +54,12 @@ export const List = ({ listItems, files }: ListProps) => {
       <ul className="h-[450px]">
         {listItems
           .slice((current - 1) * 5, (current - 1) * 5 + 5)
-          .map((list) => (
-            <ListItem icon={files && <FileArchive />} href={list.href}>
+          .map((list, idx) => (
+            <ListItem
+              key={idx}
+              icon={<FileArchive />}
+              href={`${backendImageUrl}${list.file}`}
+            >
               {list.content}
             </ListItem>
           ))}
@@ -86,7 +91,7 @@ export const List = ({ listItems, files }: ListProps) => {
                     idx + 1 == 1 &&
                       (current == pagination.totalPages - 1 ||
                         current == pagination.totalPages) &&
-                      "block"
+                      "block",
                   )}
                   onClick={() => setCurrent(idx + 1)}
                 >
@@ -114,7 +119,7 @@ export const List = ({ listItems, files }: ListProps) => {
 function paginate(
   totalItems: number,
   itemsPerPage: number,
-  currentPage: number
+  currentPage: number,
 ) {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 

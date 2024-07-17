@@ -28,6 +28,7 @@ export const PagesListTable = ({ ids }: PagesListTableProps) => {
           const data = await getPagesChildren(ids);
           return data;
         },
+    refetchOnWindowFocus: false,
   });
   if (isFetching)
     return (

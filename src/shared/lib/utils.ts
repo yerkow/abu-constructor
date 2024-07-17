@@ -1,3 +1,4 @@
+import { uploadFile } from "@/shared/api/widgets";
 import {
   BackedPage,
   BackedWidget,
@@ -85,4 +86,17 @@ export const combineWidgetProps = (
     ru_navigation_id: ruWidgetProps.navigation_id,
     kz_navigation_id: kzWidgetProps.navigation_id,
   };
+};
+export const saveToServerAndGetUrl = async (image: File | null | string) => {
+  if (typeof image == "string") {
+    return image;
+  }
+  if (image) {
+    const { file_name } = await uploadFile(image);
+    console.log(file_name ? file_name : "NOT UPLOADD");
+
+    return file_name;
+  } else {
+    return "";
+  }
 };

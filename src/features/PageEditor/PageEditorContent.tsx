@@ -67,8 +67,8 @@ export const PageEditorContent = ({
       const data = await getWidgets(ids);
       return data;
     },
+    refetchOnWindowFocus: false,
   });
-  console.log(data);
 
   useEffect(() => {
     if (!isFetching && data)
@@ -168,56 +168,55 @@ export const PageEditorContent = ({
           <span className="text-red-500">{deleteError.message}</span>
         )}
 
-        {isFetching && (
+        {isFetching ? (
           <div className="flex justify-center items-center">
-            <Loader2 className="animate-spin w-10 h-10 align-middle" />{" "}
+            <Loader2 className="animate-spin w-10 h-10 align-middle" />
           </div>
-        )}
-        {list.length == 0 && !isFetching && (
+        ) : list.length == 0 ? (
           <h4 className="text-center text-xl text-slate-500">Нет контента</h4>
+        ) : (
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCorners}
+            onDragEnd={handleDragEnd}
+          >
+            <ul className="flex flex-col gap-3">
+              <SortableContext
+                items={list}
+                strategy={verticalListSortingStrategy}
+              >
+                {list.map((item) => (
+                  <PageEditorContentItem
+                    key={item.id}
+                    id={item.id}
+                    name={item.name}
+                    deleteBtn={
+                      <Button
+                        disabled={deleteIsPending}
+                        size={"icon"}
+                        onClick={() => onWidgetDelete(item.id)}
+                      >
+                        <DeleteIcon />
+                      </Button>
+                    }
+                    editContentBtn={
+                      forTemplate ? (
+                        <></>
+                      ) : (
+                        <EditWidgetContentDialog
+                          widget={item?.props}
+                          order={item.id}
+                          modal={getModal(item.name)}
+                        />
+                      )
+                    }
+                  />
+                ))}
+              </SortableContext>
+            </ul>
+          </DndContext>
         )}
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCorners}
-          onDragEnd={handleDragEnd}
-        >
-          <ul className="flex flex-col gap-3">
-            <SortableContext
-              items={list}
-              strategy={verticalListSortingStrategy}
-            >
-              {list.map((item) => (
-                <PageEditorContentItem
-                  key={item.id}
-                  id={item.id}
-                  name={item.name}
-                  deleteBtn={
-                    <Button
-                      disabled={deleteIsPending}
-                      size={"icon"}
-                      onClick={() => onWidgetDelete(item.id)}
-                    >
-                      <DeleteIcon />
-                    </Button>
-                  }
-                  editContentBtn={
-                    forTemplate ? (
-                      <></>
-                    ) : (
-                      <EditWidgetContentDialog
-                        widget={item?.props}
-                        order={item.id}
-                        modal={getModal(item.name)}
-                      />
-                    )
-                  }
-                />
-              ))}
-            </SortableContext>
-          </ul>
-        </DndContext>
       </section>
-
       {forTemplate && (
         <Button
           onClick={() => {

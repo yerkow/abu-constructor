@@ -33,6 +33,7 @@ import { ListEditModal } from "../List/ListEditModal";
 import { TextEditModal } from "../Text/TextEditModal";
 import { EditCardItem } from "@/widgets/Cards/EditCardItem";
 import { useTemplates } from "@/shared/lib/hooks";
+import { saveToServerAndGetUrl } from "@/shared/lib/utils";
 type Options = { title: string; items: any[]; variant: string };
 interface CardsEditModalProps {
   variant?: "dialog" | "card";
@@ -210,17 +211,6 @@ const ModalContent = ({
       });
     } catch (e) {}
   };
-  const saveImageAndGetUrl = async (image: File | null | string) => {
-    if (typeof image == "string") {
-      return image;
-    }
-    if (image) {
-      const { file_name } = await uploadFile(image);
-      return file_name;
-    } else {
-      return "";
-    }
-  };
   const writeChanges = (id: string, field: string, value: string | File) => {
     if (!(id in cards)) return;
     setCards({ ...cards, [id]: { ...cards[id], [field]: value } });
@@ -237,7 +227,7 @@ const ModalContent = ({
               console.error(e);
             }
           }
-          const image = await saveImageAndGetUrl(cards[key].image);
+          const image = await saveToServerAndGetUrl(cards[key].image);
           return {
             title: cards[key].titleRu,
             content: cards[key].contentRu,
@@ -258,7 +248,7 @@ const ModalContent = ({
               console.error(e);
             }
           }
-          const image = await saveImageAndGetUrl(cards[key].image);
+          const image = await saveToServerAndGetUrl(cards[key].image);
           return {
             title: cards[key].titleKz,
             content: cards[key].contentKz,
@@ -307,7 +297,7 @@ const ModalContent = ({
               console.error(e);
             }
           }
-          const image = await saveImageAndGetUrl(cards[key].image);
+          const image = await saveToServerAndGetUrl(cards[key].image);
           return {
             title: cards[key].titleRu,
             content: cards[key].contentRu,
@@ -328,7 +318,7 @@ const ModalContent = ({
               console.error(e);
             }
           }
-          const image = await saveImageAndGetUrl(cards[key].image);
+          const image = await saveToServerAndGetUrl(cards[key].image);
           return {
             title: cards[key].titleKz,
             content: cards[key].contentKz,

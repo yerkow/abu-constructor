@@ -15,7 +15,7 @@ import {
   TemplateSelectType,
   WidgetProps,
 } from "@/shared/lib/types";
-import { cn } from "@/shared/lib/utils";
+import { cn, saveToServerAndGetUrl } from "@/shared/lib/utils";
 import {
   Button,
   Card,
@@ -222,17 +222,6 @@ const ModalContent = ({
       });
     } catch (e) {}
   };
-  const saveImageAndGetUrl = async (image: File | null | string) => {
-    if (typeof image == "string") {
-      return image;
-    }
-    if (image) {
-      const { file_name } = await uploadFile(image);
-      return file_name;
-    } else {
-      return "";
-    }
-  };
   const writeChanges = (id: string, field: string, value: string | File) => {
     if (!(id in carouselItems)) return;
     setCarouselItems({
@@ -252,7 +241,7 @@ const ModalContent = ({
               console.error(e);
             }
           }
-          const image = await saveImageAndGetUrl(carouselItems[key].image);
+          const image = await saveToServerAndGetUrl(carouselItems[key].image);
           return {
             title: carouselItems[key].titleRu,
             content: carouselItems[key].contentRu,
@@ -273,7 +262,7 @@ const ModalContent = ({
               console.error(e);
             }
           }
-          const image = await saveImageAndGetUrl(carouselItems[key].image);
+          const image = await saveToServerAndGetUrl(carouselItems[key].image);
           return {
             title: carouselItems[key].titleKz,
             content: carouselItems[key].contentKz,
@@ -325,7 +314,7 @@ const ModalContent = ({
             }
           }
 
-          const image = await saveImageAndGetUrl(carouselItems[key].image);
+          const image = await saveToServerAndGetUrl(carouselItems[key].image);
           return {
             title: carouselItems[key].titleRu,
             content: carouselItems[key].contentRu,
@@ -348,7 +337,7 @@ const ModalContent = ({
               console.error(e);
             }
           }
-          const image = await saveImageAndGetUrl(carouselItems[key].image);
+          const image = await saveToServerAndGetUrl(carouselItems[key].image);
           return {
             title: carouselItems[key].titleKz,
             content: carouselItems[key].contentKz,
