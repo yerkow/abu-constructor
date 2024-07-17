@@ -16,6 +16,8 @@ const getPageContent = async (slug: any) => {
 export default async function Page({ params }: { params: { slug: string } }) {
   const data = await getPageContent(params.slug);
   // let content = JSON.parse(localStorage.getItem("1720511119640") || "[]");
+  console.log(data);
+
   return (
     <section className="p-10">
       {data.map((m: any) =>

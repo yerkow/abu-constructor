@@ -1,3 +1,4 @@
+import { backendImageUrl } from "@/shared/lib/constants";
 import { cn } from "@/shared/lib/utils";
 import {
   Card,
@@ -13,7 +14,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 type CarouselItemType = {
-  img: string;
+  image: string;
   title: string;
   content: string;
   href?: string;
@@ -33,26 +34,28 @@ export const Carousel = ({ items, position }: CarouselProps) => {
       >
         <CarouselContent>
           {items.map((item, idx) => {
-            const Component = item.href ? Link : "div";
+            const Comp = item.href
+              ? (Link as React.ElementType)
+              : ("div" as "div");
             return (
               <CarouselItem key={idx} className="">
                 <div className="p-1  ">
                   <Card className="p-4 flex flex-col gap-4">
                     <CardTitle>{item.title}</CardTitle>
                     <CardContent className="flex  cursor-grab overflow-hidden   items-center justify-center p-6">
-                      <Component
+                      <Comp
                         /* @ts-ignore */
                         href={item.href}
                         className="relative w-full h-[200px] md:h-[400px]"
                       >
                         <Image
-                          src={item.img}
+                          src={`${backendImageUrl}/${item.image}`}
                           className="absolute rounded-md"
                           objectFit="cover"
                           fill
                           alt={item.title}
                         />
-                      </Component>
+                      </Comp>
                     </CardContent>
                     <CardDescription className={cn("text-justify")}>
                       {item.content}

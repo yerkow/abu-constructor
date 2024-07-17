@@ -1,32 +1,30 @@
-import { getWidgets } from "@/shared/api/widgets";
 import { backendImageUrl } from "@/shared/lib/constants";
-import { Widget } from "@/shared/lib/types";
 import { EditItem, Button, Input } from "@/shared/ui";
-import { CardProps } from "@/widgets/Cards/Card";
-import { CardsEditModal, EditCardProps } from "@/widgets/Cards/CardsEditModal";
-import { CarouselEditModal } from "@/widgets/Carousel/CarouselEditModal";
+import { CardsEditModal } from "@/widgets/Cards/CardsEditModal";
+import {
+  CarouselEditModal,
+  EditCarouselItemProps,
+} from "@/widgets/Carousel/CarouselEditModal";
 import { ListEditModal } from "@/widgets/List/ListEditModal";
 import { TextEditModal } from "@/widgets/Text/TextEditModal";
-import { useQuery } from "@tanstack/react-query";
-import { useState, Fragment, useEffect } from "react";
+import { useState, Fragment } from "react";
 
-export const EditCardItem = ({
+export const EditCarouselItem = ({
   id,
-  deleteCard,
-  card,
+  deleteCarouselItem,
+  carouselItem,
   templateWidgets,
   writeChanges,
 }: {
   id: string;
-  card: EditCardProps;
+  carouselItem: EditCarouselItemProps;
   writeChanges: (id: string, field: string, value: string | File) => void;
   templateWidgets?: string[];
-  deleteCard: () => void;
+  deleteCarouselItem: () => void;
 }) => {
-  //getWidgetProps for template
   const [image, setImage] = useState<string | ArrayBuffer | null>(() => {
-    if (card.image) {
-      return `${backendImageUrl}${card.image}`;
+    if (carouselItem.image) {
+      return `${backendImageUrl}${carouselItem.image}`;
     } else {
       return "";
     }
@@ -46,46 +44,18 @@ export const EditCardItem = ({
         return null;
     }
   };
-  const [title, setTitle] = useState({ ru: "", kz: "" });
-  const [content, setContent] = useState({ ru: "", kz: "" });
+
   return (
     <EditItem
+      title={"Carousel Item" + id}
       buttons={
         <>
-          <Button onClick={deleteCard}>Delete</Button>
+          <Button onClick={deleteCarouselItem} size={"sm"}>
+            Delete
+          </Button>
         </>
       }
-      title={"Card" + id}
     >
-      <div className="flex flex-col md:flex-row gap-3">
-        <Input
-          label="Card title  RU"
-          type="text"
-          value={card.titleRu}
-          onChange={(e) => writeChanges(id, "titleRu", e.target.value)}
-        />
-        <Input
-          label="Card title KZ"
-          type="text"
-          value={card.titleKz}
-          onChange={(e) => writeChanges(id, "titleKz", e.target.value)}
-        />
-      </div>
-      <div className="flex flex-col md:flex-row gap-3">
-        <Input
-          label="Content RU"
-          type="text"
-          value={card.contentRu}
-          onChange={(e) => writeChanges(id, "contentRu", e.target.value)}
-        />
-        <Input
-          label="Content KZ"
-          type="text"
-          value={card.contentKz}
-          onChange={(e) => writeChanges(id, "contentKz", e.target.value)}
-        />
-      </div>
-      {image && <img className="w-20 h-20" src={image as string} alt="image" />}
       <Input
         type="file"
         label="Image"
@@ -104,6 +74,24 @@ export const EditCardItem = ({
           }
         }}
       />
+
+      {image && <img className="w-20 h-20" src={image as string} alt="image" />}
+
+      <div className="flex flex-col md:flex-row gap-3">
+        <Input
+          label="Content RU"
+          type="text"
+          value={carouselItem.contentRu}
+          onChange={(e) => writeChanges(id, "contentRu", e.target.value)}
+        />
+        <Input
+          label="Content KZ"
+          type="text"
+          value={carouselItem.contentKz}
+          onChange={(e) => writeChanges(id, "contentKz", e.target.value)}
+        />
+      </div>
+
       {templateWidgets && (
         <div className="flex flex-col gap-3 ">
           <span>Настройки шаблона</span>

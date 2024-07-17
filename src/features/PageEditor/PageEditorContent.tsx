@@ -73,11 +73,13 @@ export const PageEditorContent = ({
   useEffect(() => {
     if (!isFetching && data)
       setList(
-        data.map((widget) => ({
-          id: widget.order,
-          name: widget.widget_type,
-          props: widget,
-        })),
+        data
+          .map((widget) => ({
+            id: widget.order,
+            name: widget.widget_type,
+            props: widget,
+          }))
+          .sort((a, b) => b.id - a.id),
       );
   }, [data, isFetching]);
   const {

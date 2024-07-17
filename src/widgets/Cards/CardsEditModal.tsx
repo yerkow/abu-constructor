@@ -72,6 +72,7 @@ export type EditCardProps = {
   titleKz: string;
   contentRu: string;
   contentKz: string;
+  href?: string;
   image: File | null;
   page?: {
     ru: BackedPage;
@@ -166,6 +167,7 @@ const ModalContent = ({
           temp[card.templateId ? card.templateId : Date.now()] = {
             titleRu: card.title,
             titleKz: props.kzOptions.items[idx].title,
+            href: card.href,
             contentRu: card.content,
             contentKz: props.kzOptions.items[idx].content,
             image: card.image,
@@ -310,7 +312,7 @@ const ModalContent = ({
             title: cards[key].titleRu,
             content: cards[key].contentRu,
             image: image,
-            href: savedTemplate ? cards[key].page?.ru.slug : "",
+            href: cards[key].href ? cards[key].href : cards[key].page?.ru.slug,
             templateId: key,
             templateName: selectedTemplate ? selectedTemplate.name : null,
           };
@@ -330,7 +332,7 @@ const ModalContent = ({
           return {
             title: cards[key].titleKz,
             content: cards[key].contentKz,
-            href: savedTemplate ? cards[key].page?.kz.slug : "",
+            href: cards[key].href ? cards[key].href : cards[key].page?.kz.slug,
             image,
             templateId: key,
             templateName: selectedTemplate ? selectedTemplate.name : null,
