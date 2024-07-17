@@ -396,14 +396,8 @@ const ModalContent = ({
             <div className="flex items-center gap-2">
               <Checkbox
                 id="template"
-                disabled={!!props}
                 checked={hasTemplate}
-                onCheckedChange={() => {
-                  if (!props) {
-                    setHasTemplate(!hasTemplate);
-                  }
-                  return;
-                }}
+                onCheckedChange={() => setHasTemplate(!hasTemplate)}
               />
               <Label htmlFor="template" className="mt-1">
                 Есть темплейт

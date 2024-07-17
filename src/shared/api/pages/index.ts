@@ -22,11 +22,14 @@ export const getPages = async () => {
   return combinePagesByLang(pages);
 };
 export const getTemplates = async (): Promise<BackedPage[]> => {
-  return customFetch({
+  const templates: BackedPage[] = await customFetch({
     path: "navigation-view/",
     method: "GET",
     query: { navigation_type: "template" },
   });
+  console.log(templates);
+
+  return templates.filter((t) => t.slug == "template");
 };
 export const getPagesChildren = async (ids: { ruId: number; kzId: number }) => {
   const ruPages = await customFetch({

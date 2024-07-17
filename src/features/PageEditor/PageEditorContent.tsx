@@ -68,6 +68,8 @@ export const PageEditorContent = ({
       return data;
     },
   });
+  console.log(data);
+
   useEffect(() => {
     if (!isFetching && data)
       setList(
