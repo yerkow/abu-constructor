@@ -9,7 +9,12 @@ import {
   uploadFile,
 } from "@/shared/api/widgets";
 import { queryClient } from "@/shared/lib/client";
-import { BackedPage, Widget, WidgetProps } from "@/shared/lib/types";
+import {
+  BackedPage,
+  TemplateSelectType,
+  Widget,
+  WidgetProps,
+} from "@/shared/lib/types";
 import {
   Button,
   Checkbox,
@@ -34,7 +39,6 @@ import { TextEditModal } from "../Text/TextEditModal";
 import { EditCardItem } from "@/widgets/Cards/EditCardItem";
 import { useTemplates } from "@/shared/lib/hooks";
 import { saveToServerAndGetUrl } from "@/shared/lib/utils";
-type Options = { title: string; items: any[]; variant: string };
 interface CardsEditModalProps {
   variant?: "dialog" | "card";
   order: number;
@@ -128,7 +132,7 @@ const ModalContent = ({
   const slug = useSearchParams().get("edittingSlug");
   const { templates, setTemplates, selectedTemplate, setSelectedTemplate } =
     useTemplates();
-  const handleTemplate = (template: Template) => {
+  const handleTemplate = (template: TemplateSelectType) => {
     setSelectedTemplate(template);
   };
   const [savedTemplate, setSavedTemplate] = useState<string | null>(null);
@@ -156,15 +160,28 @@ const ModalContent = ({
       setTitle({ ru: props.ruOptions.title, kz: props.kzOptions.title });
       setVariant(props.ruOptions.variant);
       const temp: CardsState = {};
-      const cards = props.ruOptions.items;
+      let cards = props.ruOptions.items;
       if (Array.isArray(cards)) {
         if (cards[0]) {
-          if (cards[0]?.templateName) {
+          const templateName = cards[0].templateName;
+          if (
+            templateName &&
+            templates.findIndex((t) => t.name === templateName) !== -1
+          ) {
             setSavedTemplate(cards[0]?.templateName);
             setHasTemplate(true);
           }
         }
-        cards.forEach((card, idx) => {
+        cards = cards.filter((card) => {
+          if (
+            card.templateName &&
+            templates.findIndex((t) => t.name === card.templateName) !== -1
+          ) {
+            return true;
+          }
+          return false;
+        });
+        cards.forEach((card: any, idx: number) => {
           temp[card.templateId ? card.templateId : Date.now()] = {
             titleRu: card.title,
             titleKz: props.kzOptions.items[idx].title,
@@ -180,24 +197,29 @@ const ModalContent = ({
   }, [props]);
 
   const [cards, setCards] = useState<CardsState>({});
+  const createTemplatePagesForCard = async () => {
+    const ruPage = await createPage({
+      title: "templatePage",
+      slug: `/${selectedTemplate ? selectedTemplate.name.toLowerCase().replace(/\s/g, "") : "template"}-${Date.now()}`,
+      navigation_id: selectedTemplate ? selectedTemplate.id : null,
+      navigation_type: "template",
+      order: 1,
+      language_key: "ru",
+    });
+    const kzPage = await createPage({
+      title: "templatePage",
+      slug: `/${selectedTemplate ? selectedTemplate.name.toLowerCase().replace(/\s/g, "") : "template"}-${Date.now()}`,
+      navigation_id: selectedTemplate ? selectedTemplate.id : null,
+      navigation_type: "template",
+      order: 1,
+      language_key: "kz",
+    });
+
+    return { ruPage, kzPage };
+  };
   const addCard = async () => {
     try {
-      const ruPage = await createPage({
-        title: "templatePage",
-        slug: `/${selectedTemplate ? selectedTemplate.name.toLowerCase().replace(/\s/g, "") : "template"}-${Date.now()}`,
-        navigation_id: null,
-        navigation_type: "template",
-        order: 1,
-        language_key: "ru",
-      });
-      const kzPage = await createPage({
-        title: "templatePage",
-        slug: `/${selectedTemplate ? selectedTemplate.name.toLowerCase().replace(/\s/g, "") : "template"}-${Date.now()}`,
-        navigation_id: null,
-        navigation_type: "template",
-        order: 1,
-        language_key: "kz",
-      });
+      const { ruPage, kzPage } = await createTemplatePagesForCard();
       setCards({
         ...cards,
         [`${ruPage.id}*${kzPage.id}`]: {
@@ -254,7 +276,7 @@ const ModalContent = ({
             content: cards[key].contentKz,
             image,
             href: cards[key].page?.ru.slug,
-            templateId: key,
+            templateId: selectedTemplate ? key : null,
             templateName: selectedTemplate ? selectedTemplate.name : null,
           };
         }),
@@ -290,42 +312,63 @@ const ModalContent = ({
       const RuItems = await Promise.all(
         Object.keys(cards).map(async (key) => {
           if (!hasTemplate) {
-            const ids = key.split("*");
-            try {
-              deletePage(+ids[0]);
-            } catch (e) {
-              console.error(e);
+            if (key.includes("*")) {
+              const ids = key.split("*");
+              try {
+                deletePage(+ids[0]);
+              } catch (e) {
+                console.error(e);
+              }
             }
           }
+          console.log(
+            savedTemplate
+              ? cards[key].href
+              : selectedTemplate
+                ? cards[key].page?.ru.slug
+                : null,
+          );
+
           const image = await saveToServerAndGetUrl(cards[key].image);
           return {
             title: cards[key].titleRu,
             content: cards[key].contentRu,
             image: image,
-            href: cards[key].href ? cards[key].href : cards[key].page?.ru.slug,
-            templateId: key,
-            templateName: selectedTemplate ? selectedTemplate.name : null,
+            href: savedTemplate
+              ? cards[key].href
+              : selectedTemplate
+                ? cards[key].page?.ru.slug
+                : null,
+            templateId: savedTemplate ? key : null,
+            templateName: savedTemplate ? savedTemplate : null,
           };
         }),
       );
+
       const KzItems = await Promise.all(
         Object.keys(cards).map(async (key) => {
           if (!hasTemplate) {
-            const ids = key.split("*");
-            try {
-              deletePage(+ids[0]);
-            } catch (e) {
-              console.error(e);
+            if (key.includes("*")) {
+              const ids = key.split("*");
+              try {
+                deletePage(+ids[0]);
+              } catch (e) {
+                console.error(e);
+              }
             }
           }
           const image = await saveToServerAndGetUrl(cards[key].image);
           return {
             title: cards[key].titleKz,
             content: cards[key].contentKz,
-            href: cards[key].href ? cards[key].href : cards[key].page?.kz.slug,
+            href: savedTemplate
+              ? cards[key].href
+              : selectedTemplate
+                ? cards[key].page?.ru.slug
+                : null,
             image,
-            templateId: key,
-            templateName: selectedTemplate ? selectedTemplate.name : null,
+            templateId: savedTemplate ? key : null,
+            templateName: savedTemplate ? savedTemplate : null,
           };
         }),
       );
@@ -384,19 +427,22 @@ const ModalContent = ({
       </div>
       {modalVariant === "card" && (
         <>
-          {!savedTemplate ? (
+          {savedTemplate ? (
+            <span>Использованный шаблон {savedTemplate}</span>
+          ) : (
             <div className="flex items-center gap-2">
               <Checkbox
                 id="template"
                 checked={hasTemplate}
-                onCheckedChange={() => setHasTemplate(!hasTemplate)}
+                onCheckedChange={() => {
+                  setHasTemplate(!hasTemplate);
+                  setSelectedTemplate(null);
+                }}
               />
               <Label htmlFor="template" className="mt-1">
                 Есть темплейт
               </Label>
             </div>
-          ) : (
-            <span>Использованный шаблон {savedTemplate}</span>
           )}
           {hasTemplate && !savedTemplate && (
             <TemplatesSelect

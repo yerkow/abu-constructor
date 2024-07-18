@@ -37,7 +37,7 @@ export const EditCarouselItem = ({
       case "Carousel":
         return <CarouselEditModal variant="dialog" {...baseProps} />;
       case "List":
-        return <ListEditModal variant="dialog" />;
+        return <ListEditModal variant="dialog" {...baseProps} />;
       case "Text":
         return <TextEditModal variant="dialog" {...baseProps} />;
       default:

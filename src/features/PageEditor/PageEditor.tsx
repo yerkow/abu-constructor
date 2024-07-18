@@ -37,12 +37,10 @@ export const PageEditor = ({ ids }: { ids: Langs }) => {
         <PageEditorContent ids={ids} />
         <DialogFooter className=" gap-2 sm:justify-end">
           <DialogClose asChild>
-            <Button type="button" variant="secondary">
+            <Button type="button" variant="secondary" className="w-full">
               Отменить
             </Button>
           </DialogClose>
-
-          <Button>Сохранить</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

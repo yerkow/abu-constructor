@@ -29,7 +29,11 @@ export const useTemplates = () => {
             getTemplateWidgets(template.id).then((widgets) => {
               widgets.forEach((w) => widgetNames.push(w.widget_type));
             });
-            templates.push({ name: template.title, widgets: widgetNames });
+            templates.push({
+              id: template.id,
+              name: template.title,
+              widgets: widgetNames,
+            });
           }
         });
 

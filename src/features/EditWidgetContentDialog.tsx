@@ -14,14 +14,6 @@ export const EditWidgetContentDialog = ({
   order: number;
   widget: Widget;
 }) => {
-  const ruId = useSearchParams().get("ruId");
-  const kzId = useSearchParams().get("kzId");
-  const baseProps = {
-    order,
-    ruPageId: ruId,
-    kzPageId: kzId,
-    queryKey: "getWidgets",
-  };
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -32,7 +24,7 @@ export const EditWidgetContentDialog = ({
       </DialogTrigger>
       <DialogContent className="max-w-sm sm:max-w-full ">
         {/* TODO */}
-        {cloneElement(modal as React.ReactElement<any>, baseProps)}
+        {modal}
       </DialogContent>
     </Dialog>
   );

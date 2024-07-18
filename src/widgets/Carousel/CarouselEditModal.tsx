@@ -166,15 +166,29 @@ const ModalContent = ({
       setTitle({ ru: props.ruOptions.title, kz: props.kzOptions.title });
       setVariant(props.ruOptions.variant);
       const temp: CarouselState = {};
-      const carouselItems = props.ruOptions.items;
+      let carouselItems = props.ruOptions.items;
       if (Array.isArray(carouselItems)) {
         if (carouselItems[0]) {
-          if (carouselItems[0]?.templateName) {
+          const templateName = carouselItems[0].templateName;
+          if (
+            templateName &&
+            templates.findIndex((t) => t.name === templateName) !== -1
+          ) {
             setSavedTemplate(carouselItems[0]?.templateName);
             setHasTemplate(true);
           }
         }
-        carouselItems.forEach((carouselItem, idx) => {
+        carouselItems = carouselItems.filter((item) => {
+          if (
+            item.templateName &&
+            templates.findIndex((t) => t.name === item.templateName) !== -1
+          ) {
+            return true;
+          }
+          return false;
+        });
+
+        carouselItems.forEach((carouselItem: any, idx: number) => {
           temp[carouselItem.templateId ? carouselItem.templateId : Date.now()] =
             {
               titleRu: carouselItem.title,
@@ -191,24 +205,29 @@ const ModalContent = ({
   }, [props]);
 
   const [carouselItems, setCarouselItems] = useState<CarouselState>({});
+  const createTemplatePagesForCarouselItem = async () => {
+    const ruPage = await createPage({
+      title: "templatePage",
+      slug: `/${selectedTemplate ? selectedTemplate.name.toLowerCase().replace(/\s/g, "") : "template"}-${Date.now()}`,
+      navigation_id: selectedTemplate ? selectedTemplate.id : null,
+      navigation_type: "template",
+      order: 1,
+      language_key: "ru",
+    });
+    const kzPage = await createPage({
+      title: "templatePage",
+      slug: `/${selectedTemplate ? selectedTemplate.name.toLowerCase().replace(/\s/g, "") : "template"}-${Date.now()}`,
+      navigation_id: selectedTemplate ? selectedTemplate.id : null,
+      navigation_type: "template",
+      order: 1,
+      language_key: "kz",
+    });
+
+    return { ruPage, kzPage };
+  };
   const addCarouselItem = async () => {
     try {
-      const ruPage = await createPage({
-        title: "templatePage",
-        slug: `/${selectedTemplate ? selectedTemplate.name.toLowerCase().replace(/\s/g, "") : "template"}-${Date.now()}`,
-        navigation_id: null,
-        navigation_type: "template",
-        order: 1,
-        language_key: "ru",
-      });
-      const kzPage = await createPage({
-        title: "templatePage",
-        slug: `/${selectedTemplate ? selectedTemplate.name.toLowerCase().replace(/\s/g, "") : "template"}-${Date.now()}`,
-        navigation_id: null,
-        navigation_type: "template",
-        order: 1,
-        language_key: "kz",
-      });
+      const { ruPage, kzPage } = await createTemplatePagesForCarouselItem();
       setCarouselItems({
         ...carouselItems,
         [`${ruPage.id}*${kzPage.id}`]: {
@@ -268,7 +287,7 @@ const ModalContent = ({
             content: carouselItems[key].contentKz,
             image,
             href: carouselItems[key].page?.ru.slug,
-            templateId: key,
+            templateId: selectedTemplate ? key : null,
             templateName: selectedTemplate ? selectedTemplate.name : null,
           };
         }),
@@ -306,11 +325,13 @@ const ModalContent = ({
       const RuItems = await Promise.all(
         Object.keys(carouselItems).map(async (key) => {
           if (!hasTemplate) {
-            const ids = key.split("*");
-            try {
-              deletePage(+ids[0]);
-            } catch (e) {
-              console.error(e);
+            if (key.includes("*")) {
+              const ids = key.split("*");
+              try {
+                deletePage(+ids[0]);
+              } catch (e) {
+                console.error(e);
+              }
             }
           }
 
@@ -319,35 +340,41 @@ const ModalContent = ({
             title: carouselItems[key].titleRu,
             content: carouselItems[key].contentRu,
             image: image,
-            href: carouselItems[key].href
+            href: savedTemplate
               ? carouselItems[key].href
-              : carouselItems[key].page?.ru.slug,
-            templateId: key,
-            templateName: selectedTemplate ? selectedTemplate.name : null,
+              : selectedTemplate
+                ? carouselItems[key].page?.ru.slug
+                : null,
+            templateId: savedTemplate ? key : null,
+            templateName: savedTemplate ? savedTemplate : null,
           };
         }),
       );
       const KzItems = await Promise.all(
         Object.keys(carouselItems).map(async (key) => {
           if (!hasTemplate) {
-            const ids = key.split("*");
-            try {
-              deletePage(+ids[0]);
-            } catch (e) {
-              console.error(e);
+            if (key.includes("*")) {
+              const ids = key.split("*");
+              try {
+                deletePage(+ids[0]);
+              } catch (e) {
+                console.error(e);
+              }
             }
           }
           const image = await saveToServerAndGetUrl(carouselItems[key].image);
           return {
             title: carouselItems[key].titleKz,
             content: carouselItems[key].contentKz,
-            href: carouselItems[key].href
+            href: savedTemplate
               ? carouselItems[key].href
-              : carouselItems[key].page?.kz.slug,
+              : selectedTemplate
+                ? carouselItems[key].page?.ru.slug
+                : null,
 
             image,
-            templateId: key,
-            templateName: selectedTemplate ? selectedTemplate.name : null,
+            templateId: savedTemplate ? key : null,
+            templateName: savedTemplate ? savedTemplate : null,
           };
         }),
       );

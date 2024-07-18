@@ -1,3 +1,4 @@
+import { createPage } from "@/shared/api/pages";
 import { getWidgets } from "@/shared/api/widgets";
 import { backendImageUrl } from "@/shared/lib/constants";
 import { Widget } from "@/shared/lib/types";
@@ -31,6 +32,7 @@ export const EditCardItem = ({
       return "";
     }
   });
+  console.log(card.page);
 
   const getTemplatesProps = (w: string, order: number, baseProps: any) => {
     switch (w) {
@@ -39,7 +41,7 @@ export const EditCardItem = ({
       case "Carousel":
         return <CarouselEditModal variant="dialog" {...baseProps} />;
       case "List":
-        return <ListEditModal variant="dialog" />;
+        return <ListEditModal variant="dialog" {...baseProps} />;
       case "Text":
         return <TextEditModal variant="dialog" {...baseProps} />;
       default:

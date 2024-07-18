@@ -51,4 +51,8 @@ export type WidgetProps = {
   ru_navigation_id: number;
   kz_navigation_id: number;
 };
-export type TemplateSelectType = { name: string; widgets: string[] };
+export type TemplateSelectType = {
+  id: number;
+  name: string;
+  widgets: string[];
+};
