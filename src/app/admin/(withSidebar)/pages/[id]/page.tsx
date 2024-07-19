@@ -15,7 +15,7 @@ export default async function Page({
         <CreatePageDialog
           ruParentId={searchParams.ruId}
           kzParentId={searchParams.kzId}
-          slug={`${params.id}/`}
+          slug={`${decodeURIComponent(params.id)}/`}
         />
       </section>
       <h2 className="text-center text-xl font-bold">Дочерние страницы</h2>

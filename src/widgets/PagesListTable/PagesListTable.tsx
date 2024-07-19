@@ -61,7 +61,7 @@ export const PagesListTable = ({ ids }: PagesListTableProps) => {
             <TableCell className="text-center">
               {page.navigation_type == "group" && (
                 <Link
-                  href={`/admin/pages/${page.slug}?ruId=${page.ruId}&kzId=${page.kzId}`}
+                  href={`/admin/pages/${encodeURIComponent(page.slug)}?ruId=${page.ruId}&kzId=${page.kzId}`}
                 >
                   <Button size={"sm"}>Перейти</Button>
                 </Link>
