@@ -2,6 +2,7 @@ import { getPageBySlug } from "@/shared/api/pages";
 import { getWidgetsToDisplay } from "@/shared/api/widgets";
 import { capitalize } from "@/shared/lib";
 import { Cards, Carousel, Text, List } from "@/widgets";
+import { notFound } from "next/navigation";
 
 const getPageContent = async (slug: any) => {
   const page = await getPageBySlug(`/${slug}`, "ru");
@@ -17,7 +18,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
   const data = await getPageContent(params.slug);
   // let content = JSON.parse(localStorage.getItem("1720511119640") || "[]");
   console.log(data);
-
+  if (data.length == 0) return notFound();
   return (
     <section className="p-10">
       {data

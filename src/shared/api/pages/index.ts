@@ -21,6 +21,16 @@ export const getPages = async () => {
 
   return combinePagesByLang(pages);
 };
+export const getNavbarPages = async (lang: string): Promise<BackedPage[]> => {
+  const pages = await customFetch({
+    path: "navigation-view/",
+    method: "GET",
+  });
+  return pages.filter(
+    (page: BackedPage) =>
+      page.navigation_type !== "template" && page.language_key == lang,
+  );
+};
 export const getTemplates = async (): Promise<BackedPage[]> => {
   const templates: BackedPage[] = await customFetch({
     path: "navigation-view/",
