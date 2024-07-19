@@ -1,5 +1,5 @@
 import { customFetch } from "@/shared/api";
-import { BackedPage } from "@/shared/lib/types";
+import { BackedPage, NavPage } from "@/shared/lib/types";
 import { combinePagesByLang } from "@/shared/lib/utils";
 export const getPageBySlug = async (
   slug: string,
@@ -21,9 +21,9 @@ export const getPages = async () => {
 
   return combinePagesByLang(pages);
 };
-export const getNavbarPages = async (lang: string): Promise<BackedPage[]> => {
+export const getNavbarPages = async (lang: string): Promise<NavPage[]> => {
   const pages = await customFetch({
-    path: "navigation-view/",
+    path: "navigation-children-all",
     method: "GET",
   });
   return pages.filter(

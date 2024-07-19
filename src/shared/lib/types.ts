@@ -1,3 +1,4 @@
+export type NavPage = BackedPage & { children: NavPage[] };
 export type PageType = "content" | "group";
 export type Langs = { ru: string | number; kz: string | number };
 export interface IPage {
