@@ -31,22 +31,23 @@ export const TemplatesListTable = ({}: TemplateListTableProps) => {
       <TableHeader>
         <TableRow>
           <TableHead>Название</TableHead>
-          <TableHead className="text-center">Редактировать</TableHead>
-          <TableHead className="text-center">Удалить страницy</TableHead>
+          <TableHead className="text-center">Структура</TableHead>
+          {/* <TableHead className="text-center">Удалить страницy</TableHead> */}
         </TableRow>
       </TableHeader>
       <TableBody>
         {data.map((page) => (
           <TableRow key={page.id}>
             <TableCell>{page.title}</TableCell>
-            <TableCell className="text-center"></TableCell>
-            <TableCell className="text-center">
-              <DeletePageBtn
-                name={page.title}
-                queryKey={["getTemplates"]}
-                ids={{ id: page.id }}
-              />
-            </TableCell>
+            <TableCell className="text-center">Widgets</TableCell>
+            {/* <TableCell className="text-center"></TableCell> */}
+            {/* <TableCell className="text-center"> */}
+            {/*   <DeletePageBtn */}
+            {/*     name={page.title} */}
+            {/*     queryKey={["getTemplates"]} */}
+            {/*     ids={{ id: page.id }} */}
+            {/*   /> */}
+            {/* </TableCell> */}
           </TableRow>
         ))}
       </TableBody>

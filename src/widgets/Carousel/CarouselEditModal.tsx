@@ -178,15 +178,15 @@ const ModalContent = ({
             setHasTemplate(true);
           }
         }
-        carouselItems = carouselItems.filter((item) => {
-          if (
-            item.templateName &&
-            templates.findIndex((t) => t.name === item.templateName) !== -1
-          ) {
-            return true;
-          }
-          return false;
-        });
+        // carouselItems = carouselItems.filter((item) => {
+        //   if (
+        //     item.templateName &&
+        //     templates.findIndex((t) => t.name === item.templateName) !== -1
+        //   ) {
+        //     return true;
+        //   }
+        //   return false;
+        // });
 
         carouselItems.forEach((carouselItem: any, idx: number) => {
           temp[carouselItem.templateId ? carouselItem.templateId : Date.now()] =

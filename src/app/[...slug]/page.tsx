@@ -20,9 +20,11 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   return (
     <section className="p-10">
-      {data.map((m: any) =>
-        getWidgetByName(capitalize(m.widget_type), JSON.parse(m.options)),
-      )}
+      {data
+        .sort((a, b) => a.order - b.order)
+        .map((m: any) =>
+          getWidgetByName(capitalize(m.widget_type), JSON.parse(m.options)),
+        )}
     </section>
   );
 }

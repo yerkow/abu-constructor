@@ -84,8 +84,10 @@ export const PageEditorContent = ({
   } = useQuery({
     queryKey: [`getWidgets`],
     queryFn: async () => {
-      const data = await getWidgets(ids);
-      return data;
+      if (!forTemplate) {
+        const data = await getWidgets(ids);
+        return data;
+      }
     },
     refetchOnWindowFocus: false,
   });

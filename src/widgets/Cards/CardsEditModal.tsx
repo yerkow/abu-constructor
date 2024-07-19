@@ -172,15 +172,15 @@ const ModalContent = ({
             setHasTemplate(true);
           }
         }
-        cards = cards.filter((card) => {
-          if (
-            card.templateName &&
-            templates.findIndex((t) => t.name === card.templateName) !== -1
-          ) {
-            return true;
-          }
-          return false;
-        });
+        // cards = cards.filter((card) => {
+        //   if (
+        //     card.templateName &&
+        //     templates.findIndex((t) => t.name === card.templateName) !== -1
+        //   ) {
+        //     return true;
+        //   }
+        //   return false;
+        // });
         cards.forEach((card: any, idx: number) => {
           temp[card.templateId ? card.templateId : Date.now()] = {
             titleRu: card.title,
