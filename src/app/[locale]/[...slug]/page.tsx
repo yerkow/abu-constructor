@@ -4,14 +4,12 @@ import { capitalize } from "@/shared/lib";
 import { Cards, Carousel, Text, List } from "@/widgets";
 import { notFound } from "next/navigation";
 
-const getPageContent = async (slug: string[]) => {
+const getPageContent = async (slug: string[], locale: string) => {
   console.log(slug);
 
-  const page = await getPageBySlug(`/${slug.join("/")}`, "ru");
-  console.log(page);
+  const page = await getPageBySlug(`/${slug.join("/")}`, locale);
   if (page[0]) {
-    const content = await getWidgetsToDisplay(page[0].id, "ru");
-    console.log(content);
+    const content = await getWidgetsToDisplay(page[0].id, locale);
 
     return content;
   } else {
@@ -19,10 +17,13 @@ const getPageContent = async (slug: string[]) => {
   }
 };
 
-export default async function Page({ params }: { params: { slug: string[] } }) {
-  const data = await getPageContent(params.slug);
+export default async function Page({
+  params,
+}: {
+  params: { locale: string; slug: string[] };
+}) {
+  const data = await getPageContent(params.slug, params.locale);
   // let content = JSON.parse(localStorage.getItem("1720511119640") || "[]");
-  console.log(data);
   // if (data.length == 0) return notFound();
   return (
     <section className="p-10">

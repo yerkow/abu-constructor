@@ -50,10 +50,11 @@ import {
   ChevronLeft,
 } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import React, { useState } from "react";
 
 export const Navbar = () => {
+  const params = useParams();
   const {
     data: pages,
     isFetching,
@@ -61,8 +62,10 @@ export const Navbar = () => {
   } = useQuery({
     queryKey: ["navbar"],
     queryFn: async () => {
-      const pages = await getNavbarPages("ru");
-      return pages;
+      if (!Array.isArray(params.locale)) {
+        const pages = await getNavbarPages(params.locale);
+        return pages;
+      }
     },
     refetchOnWindowFocus: false,
   });
@@ -74,7 +77,7 @@ export const Navbar = () => {
           <Skeleton className="w-[500px] h-10" />
         ) : pages ? (
           <section className="flex text-cyan-500  text-start gap-5 text-xl">
-            <NavList pages={pages} />
+            <NavList locale={params.locale} pages={pages} />
           </section>
         ) : (
           <span>Навигация не найдена</span>
@@ -84,18 +87,25 @@ export const Navbar = () => {
   );
 };
 
-const NavList = ({ pages }: { pages: NavPage[] }) => {
+const NavList = ({
+  pages,
+  locale,
+}: {
+  pages: NavPage[];
+  locale: string | string[];
+}) => {
   const [open, setOpen] = useState(false);
   const path = usePathname();
+
   return pages.map((page) => {
     if (page.children.length === 0) {
       return (
         <Link
           className={clsx(
             "text-center p-3 rounded-md  hover:bg-gray-100",
-            path == page.slug && "font-bold",
+            path == `/${locale}${page.slug}` && "font-bold",
           )}
-          href={page.slug}
+          href={`/${locale}/${page.slug}`}
           key={page.id}
         >
           {page.title}
@@ -116,7 +126,7 @@ const NavList = ({ pages }: { pages: NavPage[] }) => {
             align="start"
             className=" flex flex-col gap-3  text-cyan-500 "
           >
-            <NavList pages={page.children} />
+            <NavList locale={locale} pages={page.children} />
           </DropdownMenuContent>
         </DropdownMenu>
       );

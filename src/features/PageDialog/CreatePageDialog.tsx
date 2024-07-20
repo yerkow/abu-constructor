@@ -101,6 +101,7 @@ export const CreatePageDialog = ({
             error={errors.kz?.message}
           />
           <Select
+            value={pageType}
             defaultValue="content"
             onValueChange={(value) => setPageType(value as PageType)}
           >
