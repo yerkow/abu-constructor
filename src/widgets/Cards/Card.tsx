@@ -1,6 +1,8 @@
+"use client";
 import { cn } from "@/shared/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { ReactNode } from "react";
 export interface CardProps {
   variant: "horizontal" | "base";
@@ -19,9 +21,11 @@ export const Card = ({
   title,
 }: CardProps) => {
   const Comp = href ? (Link as React.ElementType) : ("div" as "div");
+  const params = useParams();
+
   return (
     <Comp
-      href={`${href}`}
+      href={`/${params.locale}${href}`}
       className={cn(
         {
           horizontal:

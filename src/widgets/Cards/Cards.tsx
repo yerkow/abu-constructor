@@ -14,7 +14,7 @@ export const Cards = ({ title, variant, items }: CardsProps) => {
         className={cn(
           variant == "base"
             ? "grid grid-cols-[auto] sm:grid-cols-[auto_auto] md:grid-cols-[auto_auto_auto] lg:grid-cols-[repeat(3_auto)]  gap-10 "
-            : "flex flex-col gap-2"
+            : "flex flex-col gap-2",
         )}
       >
         {items.map((i, idx) => (
