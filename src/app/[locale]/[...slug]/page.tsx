@@ -8,6 +8,7 @@ const getPageContent = async (slug: string[], locale: string) => {
   console.log(slug);
 
   const page = await getPageBySlug(`/${slug.join("/")}`, locale);
+  console.log(page, "PAGE");
   if (page[0]) {
     const content = await getWidgetsToDisplay(page[0].id, locale);
 
@@ -23,6 +24,8 @@ export default async function Page({
   params: { locale: string; slug: string[] };
 }) {
   const data = await getPageContent(params.slug, params.locale);
+  console.log(data, "DATA");
+
   // let content = JSON.parse(localStorage.getItem("1720511119640") || "[]");
   // if (data.length == 0) return notFound();
   return (

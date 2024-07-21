@@ -79,6 +79,7 @@ export type EditCardProps = {
   contentKz: string;
   href?: string;
   image: File | null;
+  templateSlug: string;
   page?: {
     ru: BackedPage;
     kz: BackedPage;
@@ -185,7 +186,8 @@ const ModalContent = ({
         //   return false;
         // });
         cards.forEach((card: any, idx: number) => {
-          temp[card.templateId ? card.templateId : Date.now()] = {
+          temp[card.templateId] = {
+            templateSlug: card.templateSlug,
             titleRu: card.title,
             titleKz: props.kzOptions.items[idx].title,
             href: card.href,
@@ -211,7 +213,7 @@ const ModalContent = ({
     });
     const kzPage = await createPage({
       title: "templatePage",
-      slug: `/${selectedTemplate ? selectedTemplate.name.toLowerCase().replace(/\s/g, "") : "template"}-${Date.now()}`,
+      slug: ruPage.slug,
       navigation_id: selectedTemplate ? selectedTemplate.id : null,
       navigation_type: "template",
       order: 1,
@@ -231,6 +233,7 @@ const ModalContent = ({
           contentRu: "",
           contentKz: "",
           image: null,
+          templateSlug: ruPage.slug,
           page: { ru: ruPage, kz: kzPage },
         },
       });
@@ -244,14 +247,14 @@ const ModalContent = ({
     if (ruPageId && kzPageId) {
       const RuItems = await Promise.all(
         Object.keys(cards).map(async (key) => {
-          if (!hasTemplate) {
-            const ids = key.split("*");
-            try {
-              deletePage(+ids[0]);
-            } catch (e) {
-              console.error(e);
-            }
-          }
+          // if (!hasTemplate) {
+          //   const ids = key.split("*");
+          //   try {
+          //     deletePage(+ids[0]);
+          //   } catch (e) {
+          //     console.error(e);
+          //   }
+          // }
           const image = await saveToServerAndGetUrl(cards[key].image);
           return {
             title: cards[key].titleRu,
@@ -259,27 +262,29 @@ const ModalContent = ({
             image,
             href: hasTemplate ? cards[key].page?.ru.slug : "",
             templateId: key,
+            templateSlug: cards[key].page?.ru.slug,
             templateName: selectedTemplate ? selectedTemplate.name : null,
           };
         }),
       );
       const KzItems = await Promise.all(
         Object.keys(cards).map(async (key) => {
-          if (!hasTemplate) {
-            const ids = key.split("*");
-            try {
-              deletePage(+ids[0]);
-            } catch (e) {
-              console.error(e);
-            }
-          }
+          // if (!hasTemplate) {
+          //   const ids = key.split("*");
+          //   try {
+          //     deletePage(+ids[0]);
+          //   } catch (e) {
+          //     console.error(e);
+          //   }
+          // }
           const image = await saveToServerAndGetUrl(cards[key].image);
           return {
             title: cards[key].titleKz,
             content: cards[key].contentKz,
             image,
-            href: cards[key].page?.ru.slug,
-            templateId: selectedTemplate ? key : null,
+            href: hasTemplate ? cards[key].page?.kz.slug : "",
+            templateId: key,
+            templateSlug: cards[key].page?.ru.slug,
             templateName: selectedTemplate ? selectedTemplate.name : null,
           };
         }),
@@ -314,57 +319,65 @@ const ModalContent = ({
     if (props) {
       const RuItems = await Promise.all(
         Object.keys(cards).map(async (key) => {
-          if (!hasTemplate) {
-            if (key.includes("*")) {
-              const ids = key.split("*");
-              try {
-                deletePage(+ids[0]);
-              } catch (e) {
-                console.error(e);
-              }
-            }
-          }
-          console.log(
-            savedTemplate
-              ? cards[key].href
-              : selectedTemplate
-                ? cards[key].page?.ru.slug
-                : null,
-          );
-
+          // if (!hasTemplate) {
+          //   if (key.includes("*")) {
+          //     const ids = key.split("*");
+          //     try {
+          //       deletePage(+ids[0]);
+          //     } catch (e) {
+          //       console.error(e);
+          //     }
+          //   }
+          // }
           const image = await saveToServerAndGetUrl(cards[key].image);
           return {
             title: cards[key].titleRu,
             content: cards[key].contentRu,
             image: image,
-            href: cards[key].href ? cards[key].href : cards[key].page?.ru.slug,
-            templateId: savedTemplate ? key : null,
-            templateName: savedTemplate ? savedTemplate : null,
+            href: cards[key].href
+              ? cards[key].href
+              : cards[key].page
+                ? cards[key].page.ru.slug
+                : cards[key].templateSlug,
+            templateId: key,
+            templateName: savedTemplate
+              ? savedTemplate
+              : selectedTemplate
+                ? selectedTemplate.name
+                : null,
           };
         }),
       );
 
       const KzItems = await Promise.all(
         Object.keys(cards).map(async (key) => {
-          if (!hasTemplate) {
-            if (key.includes("*")) {
-              const ids = key.split("*");
-              try {
-                deletePage(+ids[0]);
-              } catch (e) {
-                console.error(e);
-              }
-            }
-          }
+          // if (!hasTemplate) {
+          //   if (key.includes("*")) {
+          //     const ids = key.split("*");
+          //     try {
+          //       deletePage(+ids[0]);
+          //     } catch (e) {
+          //       console.error(e);
+          //     }
+          //   }
+          // }
           const image = await saveToServerAndGetUrl(cards[key].image);
           return {
             title: cards[key].titleKz,
             content: cards[key].contentKz,
             //TODO: wrong check if templates is saved  and selectedTEmplate is null
-            href: cards[key].href ? cards[key].href : cards[key].page?.ru.slug,
+            href: cards[key].href
+              ? cards[key].href
+              : cards[key].page
+                ? cards[key].page.ru.slug
+                : cards[key].templateSlug,
             image,
-            templateId: savedTemplate ? key : null,
-            templateName: savedTemplate ? savedTemplate : null,
+            templateId: key,
+            templateName: savedTemplate
+              ? savedTemplate
+              : selectedTemplate
+                ? selectedTemplate.name
+                : null,
           };
         }),
       );
