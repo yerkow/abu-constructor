@@ -52,7 +52,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export const Navbar = () => {
   const params = useParams();
@@ -70,11 +70,28 @@ export const Navbar = () => {
     },
     refetchOnWindowFocus: false,
   });
-
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    if (document && window) {
+      const onscroll = () => {
+        if (window.scrollY >= 172) {
+          setScrolled(true);
+        } else {
+          setScrolled(false);
+        }
+      };
+      document.addEventListener("scroll", onscroll);
+    }
+    return document.removeEventListener("scroll", onscroll);
+  }, []);
   return (
-    <nav className="min-h-[76px] flex justify-center items-center  bg-white">
-      <BurgerMenu />
-      <ul className="max-w-[1200px] mx-auto flex gap-5 items-center justify-center">
+    <nav
+      className={clsx(
+        "min-h-[76px]   md:z-50 md:top-0 hidden md:flex justify-center items-center  bg-white shadow-2xl",
+        scrolled ? "md:fixed md:left-0 md:right-0 md:top-0" : "md:static",
+      )}
+    >
+      <ul className="max-w-[1200px] mx-auto gap-5 items-center justify-center flex ">
         {isFetching ? (
           <Skeleton className="w-[500px] h-10" />
         ) : pages ? (
@@ -120,7 +137,10 @@ const NavList = ({
             <button className="p-3 rounded-md flex gap-2 items-center text-center  justify-normal hover:bg-gray-100">
               <span className="ml-5">{page.title}</span>
               <ChevronRight
-                className={clsx("transition", !open ? "rotate-0" : "rotate-90")}
+                className={clsx(
+                  "transition mt-1",
+                  !open ? "rotate-0" : "rotate-90",
+                )}
               />
             </button>
           </DropdownMenuTrigger>
