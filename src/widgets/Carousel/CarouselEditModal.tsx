@@ -54,6 +54,7 @@ export type EditCarouselItemProps = {
   titleRu: string;
   titleKz: string;
   contentRu: string;
+  templateSlug: string;
   contentKz: string;
   image: File | null;
   href?: string;
@@ -192,15 +193,15 @@ const ModalContent = ({
         // });
 
         carouselItems.forEach((carouselItem: any, idx: number) => {
-          temp[carouselItem.templateId ? carouselItem.templateId : Date.now()] =
-            {
-              titleRu: carouselItem.title,
-              href: carouselItem.href,
-              titleKz: props.kzOptions.items[idx].title,
-              contentRu: carouselItem.content,
-              contentKz: props.kzOptions.items[idx].content,
-              image: carouselItem.image,
-            };
+          temp[carouselItem.templateId] = {
+            templateSlug: carouselItem.templateSlug,
+            titleRu: carouselItem.title,
+            href: carouselItem.href,
+            titleKz: props.kzOptions.items[idx].title,
+            contentRu: carouselItem.content,
+            contentKz: props.kzOptions.items[idx].content,
+            image: carouselItem.image,
+          };
         });
       }
       setCarouselItems(temp);
@@ -235,6 +236,7 @@ const ModalContent = ({
         ...carouselItems,
         [`${ruPage.id}*${kzPage.id}`]: {
           titleRu: "",
+          templateSlug: ruPage.slug,
           titleKz: "",
           contentRu: "",
           contentKz: "",
@@ -255,14 +257,14 @@ const ModalContent = ({
     if (ruPageId && kzPageId) {
       const RuItems = await Promise.all(
         Object.keys(carouselItems).map(async (key) => {
-          if (!hasTemplate) {
-            const ids = key.split("*");
-            try {
-              deletePage(+ids[0]);
-            } catch (e) {
-              console.error(e);
-            }
-          }
+          // if (!hasTemplate) {
+          //   const ids = key.split("*");
+          //   try {
+          //     deletePage(+ids[0]);
+          //   } catch (e) {
+          //     console.error(e);
+          //   }
+          // }
           const image = await saveToServerAndGetUrl(carouselItems[key].image);
           return {
             title: carouselItems[key].titleRu,
@@ -270,20 +272,21 @@ const ModalContent = ({
             image,
             href: hasTemplate ? carouselItems[key].page?.ru.slug : "",
             templateId: key,
+            templateSlug: carouselItems[key].page?.ru.slug,
             templateName: selectedTemplate ? selectedTemplate.name : null,
           };
         }),
       );
       const KzItems = await Promise.all(
         Object.keys(carouselItems).map(async (key) => {
-          if (!hasTemplate) {
-            const ids = key.split("*");
-            try {
-              deletePage(+ids[0]);
-            } catch (e) {
-              console.error(e);
-            }
-          }
+          // if (!hasTemplate) {
+          //   const ids = key.split("*");
+          //   try {
+          //     deletePage(+ids[0]);
+          //   } catch (e) {
+          //     console.error(e);
+          //   }
+          // }
           const image = await saveToServerAndGetUrl(carouselItems[key].image);
           return {
             title: carouselItems[key].titleKz,
@@ -291,6 +294,7 @@ const ModalContent = ({
             image,
             href: hasTemplate ? carouselItems[key].page?.kz.slug : "",
             templateId: selectedTemplate ? key : null,
+            templateSlug: carouselItems[key].page?.ru.slug,
             templateName: selectedTemplate ? selectedTemplate.name : null,
           };
         }),
@@ -345,9 +349,15 @@ const ModalContent = ({
             image: image,
             href: carouselItems[key].href
               ? carouselItems[key].href
-              : carouselItems[key].page?.ru.slug,
-            templateId: savedTemplate ? key : null,
-            templateName: savedTemplate ? savedTemplate : null,
+              : carouselItems[key].page
+                ? carouselItems[key].page.ru.slug
+                : carouselItems[key].templateSlug,
+            templateId: key,
+            templateName: savedTemplate
+              ? savedTemplate
+              : selectedTemplate
+                ? selectedTemplate.name
+                : null,
           };
         }),
       );
@@ -370,11 +380,17 @@ const ModalContent = ({
 
             href: carouselItems[key].href
               ? carouselItems[key].href
-              : carouselItems[key].page?.kz.slug,
+              : carouselItems[key].page
+                ? carouselItems[key].page.ru.slug
+                : carouselItems[key].templateSlug,
 
             image,
-            templateId: savedTemplate ? key : null,
-            templateName: savedTemplate ? savedTemplate : null,
+            templateId: key,
+            templateName: savedTemplate
+              ? savedTemplate
+              : selectedTemplate
+                ? selectedTemplate.name
+                : null,
           };
         }),
       );
