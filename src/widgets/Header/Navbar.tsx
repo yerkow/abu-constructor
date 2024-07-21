@@ -26,6 +26,7 @@ import {
   navigationMenuTriggerStyle,
   Skeleton,
 } from "@/shared/ui";
+import { BurgerMenu } from "@/widgets/BurgerMenu/BurgetMenu";
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
 import {
@@ -72,6 +73,7 @@ export const Navbar = () => {
 
   return (
     <nav className="min-h-[76px] flex justify-center items-center  bg-white">
+      <BurgerMenu />
       <ul className="max-w-[1200px] mx-auto flex gap-5 items-center justify-center">
         {isFetching ? (
           <Skeleton className="w-[500px] h-10" />

@@ -1,4 +1,5 @@
 import { ChangeLocale } from "@/features";
+import { BurgerMenu } from "@/widgets";
 import { Navbar } from "@/widgets/Header/Navbar";
 import Image from "next/image";
 

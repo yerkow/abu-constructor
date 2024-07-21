@@ -1,5 +1,6 @@
 import { Cards } from "./Cards/Cards";
 import { CardsEditModal } from "./Cards/CardsEditModal";
+export { BurgerMenu } from "./BurgerMenu/BurgetMenu";
 import { Carousel } from "./Carousel/Carousel";
 import { CarouselEditModal } from "./Carousel/CarouselEditModal";
 import { List } from "./List/List";
