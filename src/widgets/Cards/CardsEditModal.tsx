@@ -103,6 +103,7 @@ const ModalContent = ({
   order: number;
 }) => {
   const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
   const {
     mutate: createCardsWidget,
     isPending: createIsPending,
@@ -112,6 +113,7 @@ const ModalContent = ({
     mutationFn: createWidget,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [queryKey] });
+      setLoading(false);
       toast({
         title: "Виджет создан.",
       });
@@ -121,6 +123,7 @@ const ModalContent = ({
     mutationKey: ["editCardsWidget"],
     mutationFn: editWidget,
     onSuccess: () => {
+      setLoading(false);
       queryClient.invalidateQueries({ queryKey: [queryKey] });
       toast({
         title: "Виджет изменен.",
@@ -334,11 +337,7 @@ const ModalContent = ({
             title: cards[key].titleRu,
             content: cards[key].contentRu,
             image: image,
-            href: savedTemplate
-              ? cards[key].href
-              : selectedTemplate
-                ? cards[key].page?.ru.slug
-                : null,
+            href: cards[key].href ? cards[key].href : cards[key].page?.ru.slug,
             templateId: savedTemplate ? key : null,
             templateName: savedTemplate ? savedTemplate : null,
           };
@@ -361,11 +360,8 @@ const ModalContent = ({
           return {
             title: cards[key].titleKz,
             content: cards[key].contentKz,
-            href: savedTemplate
-              ? cards[key].href
-              : selectedTemplate
-                ? cards[key].page?.ru.slug
-                : null,
+            //TODO: wrong check if templates is saved  and selectedTEmplate is null
+            href: cards[key].href ? cards[key].href : cards[key].page?.ru.slug,
             image,
             templateId: savedTemplate ? key : null,
             templateName: savedTemplate ? savedTemplate : null,
@@ -485,9 +481,12 @@ const ModalContent = ({
         ))}
       </section>
       <Button
-        loading={createIsPending || editIsPending}
-        disabled={createIsPending || editIsPending}
-        onClick={props ? onEdit : onSave}
+        loading={loading}
+        disabled={loading}
+        onClick={() => {
+          setLoading(true);
+          props ? onEdit() : onSave();
+        }}
       >
         Save
       </Button>
