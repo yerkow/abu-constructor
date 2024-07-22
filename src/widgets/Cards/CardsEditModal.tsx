@@ -77,8 +77,8 @@ const ModalContent = ({
   order: number;
 }) => {
   const {
-    addCard,
-    deleteCard,
+    addItem,
+    deleteItem,
     onEdit,
     onSave,
     props,
@@ -165,7 +165,7 @@ const ModalContent = ({
           onChange={(e) => writeMainPropsChanges("titleKz", e.target.value)}
         />
       </div>
-      <Button onClick={addCard} className="w-full">
+      <Button onClick={addItem} className="w-full">
         Add new Card
       </Button>
       <section className="max-h-[460px] flex flex-col gap-10 overflow-y-scroll w-full  rounded-md border p-4 ">
@@ -173,7 +173,7 @@ const ModalContent = ({
           <EditCardItem
             writeChanges={writeChanges}
             card={items[key]}
-            deleteCard={() => deleteCard(key)}
+            deleteCard={() => deleteItem(key)}
             key={idx}
             id={key}
             templateWidgets={

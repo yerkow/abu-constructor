@@ -201,7 +201,7 @@ export function useTemplateWidget<StateProps>({
 
     return { ruPage, kzPage };
   };
-  const addCard = async () => {
+  const addItem = async () => {
     try {
       const { ruPage, kzPage } = await createTemplatePagesForCard();
       setItems({
@@ -353,7 +353,7 @@ export function useTemplateWidget<StateProps>({
     }
   };
 
-  const deleteCard = (id: string) => {
+  const deleteItem = (id: string) => {
     setItems((prev) => {
       let temp = prev;
       delete temp[id];
@@ -369,11 +369,11 @@ export function useTemplateWidget<StateProps>({
     });
   };
   return {
-    addCard,
+    addItem,
     writeChanges: writeItemsChanges,
     onSave,
     onEdit,
-    deleteCard,
+    deleteItem,
     items,
     loading,
     setLoading,
