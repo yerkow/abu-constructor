@@ -38,13 +38,9 @@ export const BurgerMenu = () => {
   return (
     <Drawer direction="right">
       <DrawerTrigger>
-        <Button
-          size={"icon"}
-          className="flex justify-center items-center md:hidden "
-          variant={"secondary"}
-        >
+        <div className="flex justify-center items-center md:hidden ">
           <Menu size={32} />
-        </Button>
+        </div>
       </DrawerTrigger>
       <DrawerContent className="rounded-none bg-cyan-500  border-none px-4 py-10">
         <div className="flex flex-col gap-3 text-xl text-white">

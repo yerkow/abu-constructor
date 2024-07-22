@@ -134,15 +134,12 @@ const NavList = ({
       return (
         <DropdownMenu open={open} onOpenChange={setOpen} key={page.id}>
           <DropdownMenuTrigger asChild>
-            <button className="p-3 rounded-md flex gap-2 items-center text-center  justify-normal hover:bg-gray-100">
+            <div className="p-3 rounded-md flex gap-2 items-center text-center  justify-normal hover:bg-gray-100">
               <span className="ml-5">{page.title}</span>
               <ChevronRight
-                className={clsx(
-                  "transition mt-1",
-                  !open ? "rotate-0" : "rotate-90",
-                )}
+                className={clsx("transition", !open ? "rotate-0" : "rotate-90")}
               />
-            </button>
+            </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="start"
