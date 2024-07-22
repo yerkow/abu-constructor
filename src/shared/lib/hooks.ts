@@ -9,7 +9,7 @@ import {
 } from "@/shared/api/widgets";
 import { queryClient } from "@/shared/lib/client";
 import { TemplateSelectType, WidgetProps } from "@/shared/lib/types";
-import { saveToServerAndGetUrl } from "@/shared/lib/utils";
+import { GetValuesByLang, saveToServerAndGetUrl } from "@/shared/lib/utils";
 import { useToast } from "@/shared/ui";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
@@ -132,13 +132,17 @@ export function useTemplateWidget<StateProps>({
   }, [ruPageId, kzPageId, order]);
   useEffect(() => {
     if (props) {
+      console.log(props, ">>>");
+
       setWidgetMainProps(
         widgetStateFields.reduce((obj: any, field: string) => {
-          if (field.endsWith("kz")) {
+          if (field.endsWith("Kz")) {
             obj[field] = props.kzOptions[field];
           } else {
             obj[field] = props.ruOptions[field];
           }
+          obj[field] = props.ruOptions[field];
+          return obj;
         }, {}),
       );
       const temp: Record<string, StateProps> = {};
@@ -157,11 +161,13 @@ export function useTemplateWidget<StateProps>({
         items.forEach((item: any, idx: number) => {
           temp[item.templateId] = itemsStateFields.reduce(
             (obj: any, field: string) => {
-              if (field.endsWith("kz")) {
+              if (field.endsWith("Kz")) {
                 obj[field] = props.kzOptions.items[idx][field.slice(0, -2)];
               } else {
                 obj[field] = item[field.slice(0, -2)];
               }
+              obj[field] = item[field];
+              return obj;
             },
             {
               templateSlug: item.templateSlug,
@@ -213,7 +219,14 @@ export function useTemplateWidget<StateProps>({
       });
     } catch (e) {}
   };
-  const writeChanges = (id: string, field: string, value: string | File) => {
+  const writeMainPropsChanges = (key: string, value: string) => {
+    setWidgetMainProps({ ...widgetMainProps, [key]: value });
+  };
+  const writeItemsChanges = (
+    id: string,
+    field: string,
+    value: string | File,
+  ) => {
     if (!(id in items)) return;
     setItems({ ...items, [id]: { ...items[id], [field]: value } });
   };
@@ -223,8 +236,8 @@ export function useTemplateWidget<StateProps>({
         Object.keys(items).map(async (key) => {
           const image = await saveToServerAndGetUrl(items[key].image);
           return {
-            title: items[key].titleRu,
-            content: items[key].contentRu,
+            //TODO Нужна функция которая будет определять есть ли Ru или Kz => создавать
+            ...GetValuesByLang("Ru", items[key]),
             image,
             href: hasTemplate ? items[key].page?.ru.slug : "",
             templateId: key,
@@ -237,8 +250,7 @@ export function useTemplateWidget<StateProps>({
         Object.keys(items).map(async (key) => {
           const image = await saveToServerAndGetUrl(items[key].image);
           return {
-            title: items[key].titleKz,
-            content: items[key].contentKz,
+            ...GetValuesByLang("Kz", items[key]),
             image,
             href: hasTemplate ? items[key].page?.kz.slug : "",
             templateId: key,
@@ -248,10 +260,10 @@ export function useTemplateWidget<StateProps>({
         }),
       );
       createCardsWidget({
-        widget_type: "Cards",
+        widget_type: widgetName,
         order,
         options: JSON.stringify({
-          ...widgetStateFields,
+          ...GetValuesByLang("Ru", widgetMainProps),
           items: RuItems,
           language_key: "ru",
           navigation_id: +ruPageId,
@@ -260,10 +272,10 @@ export function useTemplateWidget<StateProps>({
         navigation_id: +ruPageId,
       });
       createCardsWidget({
-        widget_type: "Cards",
+        widget_type: widgetName,
         order,
         options: JSON.stringify({
-          ...widgetStateFields,
+          ...widgetMainProps,
           items: KzItems,
         }),
         language_key: "kz",
@@ -277,9 +289,8 @@ export function useTemplateWidget<StateProps>({
         Object.keys(items).map(async (key) => {
           const image = await saveToServerAndGetUrl(items[key].image);
           return {
-            title: items[key].titleRu,
-            content: items[key].contentRu,
-            image: image,
+            ...GetValuesByLang("Ru", items[key]),
+            image,
             href: items[key].href
               ? items[key].href
               : items[key].page
@@ -299,15 +310,13 @@ export function useTemplateWidget<StateProps>({
         Object.keys(items).map(async (key) => {
           const image = await saveToServerAndGetUrl(items[key].image);
           return {
-            title: items[key].titleKz,
-            content: items[key].contentKz,
-            //TODO: wrong check if templates is saved  and selectedTEmplate is null
+            ...GetValuesByLang("Kz", items[key]),
+            image,
             href: items[key].href
               ? items[key].href
               : items[key].page
                 ? items[key].page.ru.slug
                 : items[key].templateSlug,
-            image,
             templateId: key,
             templateName: savedTemplate
               ? savedTemplate
@@ -323,7 +332,7 @@ export function useTemplateWidget<StateProps>({
           navigation_id: ruPageId,
           body: {
             options: JSON.stringify({
-              ...widgetStateFields,
+              ...widgetMainProps,
               items: RuItems,
             }),
           },
@@ -333,7 +342,7 @@ export function useTemplateWidget<StateProps>({
           navigation_id: kzPageId,
           body: {
             options: JSON.stringify({
-              ...widgetStateFields,
+              ...widgetMainProps,
               items: KzItems,
             }),
           },
@@ -357,5 +366,24 @@ export function useTemplateWidget<StateProps>({
       }
     });
   };
-  return { addCard, writeChanges, onSave, onEdit, deleteCard, items };
+  return {
+    addCard,
+    writeChanges: writeItemsChanges,
+    onSave,
+    onEdit,
+    deleteCard,
+    items,
+    loading,
+    setLoading,
+    savedTemplate,
+    hasTemplate,
+    props,
+    widgetMainProps,
+    writeMainPropsChanges,
+    setHasTemplate,
+    selectedTemplate,
+    setSelectedTemplate,
+    templates,
+    handleTemplate,
+  };
 }

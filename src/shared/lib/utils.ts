@@ -100,3 +100,16 @@ export const saveToServerAndGetUrl = async (image: File | null | string) => {
     return "";
   }
 };
+
+export const GetValuesByLang = (lang: string, obj: Record<string, string>) => {
+  const newObj: Record<string, string> = {};
+  Object.keys(obj).forEach((key) => {
+    if (key.endsWith(lang)) {
+      newObj[key.slice(0, -2)] = obj[key];
+    } else {
+      newObj[key] = obj[key];
+    }
+  });
+
+  return newObj;
+};
