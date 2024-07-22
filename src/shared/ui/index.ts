@@ -111,3 +111,12 @@ export {
   DrawerTitle,
   DrawerDescription,
 } from "./drawer";
+export {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+  BreadcrumbEllipsis,
+} from "./breadcrumb";

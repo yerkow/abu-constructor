@@ -70,24 +70,30 @@ export const Navbar = () => {
     },
     refetchOnWindowFocus: false,
   });
+
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     if (document && window) {
-      const onscroll = () => {
+      document.addEventListener("scroll", () => {
         if (window.scrollY >= 172) {
           setScrolled(true);
         } else {
           setScrolled(false);
         }
-      };
-      document.addEventListener("scroll", onscroll);
+      });
     }
-    return document.removeEventListener("scroll", onscroll);
+    return document.removeEventListener("scroll", () => {
+      if (window.scrollY >= 172) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    });
   }, []);
   return (
     <nav
       className={clsx(
-        "min-h-[76px]   md:z-50 md:top-0 hidden md:flex justify-center items-center  bg-white shadow-2xl",
+        "min-h-[76px]   md:z-50 md:top-0 hidden md:flex justify-center items-center  bg-white shadow-xl",
         scrolled ? "md:fixed md:left-0 md:right-0 md:top-0" : "md:static",
       )}
     >
@@ -117,7 +123,7 @@ const NavList = ({
   const path = usePathname();
 
   return pages.map((page) => {
-    if (page.children.length === 0) {
+    if (page.children.length === 0 && page.navigation_type == "content") {
       return (
         <Link
           className={clsx(

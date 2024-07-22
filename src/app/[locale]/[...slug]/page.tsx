@@ -28,15 +28,11 @@ export default async function Page({
 
   // let content = JSON.parse(localStorage.getItem("1720511119640") || "[]");
   // if (data.length == 0) return notFound();
-  return (
-    <section className="p-10">
-      {data
-        .sort((a, b) => a.order - b.order)
-        .map((m: any) =>
-          getWidgetByName(capitalize(m.widget_type), JSON.parse(m.options)),
-        )}
-    </section>
-  );
+  return data
+    .sort((a, b) => a.order - b.order)
+    .map((m: any) =>
+      getWidgetByName(capitalize(m.widget_type), JSON.parse(m.options)),
+    );
 }
 
 const getWidgetByName = (name: string, props: any) => {
