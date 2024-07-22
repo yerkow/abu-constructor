@@ -394,27 +394,30 @@ const ModalContent = ({
           };
         }),
       );
-
-      editCarouselWidget({
-        id: props.ruWidgetId,
-        body: {
-          options: JSON.stringify({
-            title: title.ru,
-            variant,
-            items: RuItems,
-          }),
-        },
-      });
-      editCarouselWidget({
-        id: props.kzWidgetId,
-        body: {
-          options: JSON.stringify({
-            title: title.kz,
-            variant,
-            items: KzItems,
-          }),
-        },
-      });
+      if (ruPageId && kzPageId) {
+        editCarouselWidget({
+          id: props.ruWidgetId,
+          navigation_id: ruPageId,
+          body: {
+            options: JSON.stringify({
+              title: title.ru,
+              variant,
+              items: RuItems,
+            }),
+          },
+        });
+        editCarouselWidget({
+          id: props.kzWidgetId,
+          navigation_id: kzPageId,
+          body: {
+            options: JSON.stringify({
+              title: title.kz,
+              variant,
+              items: KzItems,
+            }),
+          },
+        });
+      }
     }
   };
 

@@ -70,14 +70,17 @@ export const getWidgetProps = async ({
 export const editWidget = ({
   id,
   body,
+  navigation_id,
 }: {
   id: number;
   body: Partial<BackedWidget>;
+  navigation_id: number;
 }) => {
   return customFetch({
     path: `widget-view/${id}/`,
     method: "PATCH",
     body: { json: body },
+    query: { navigation_id },
   });
 };
 export const deleteWidget = async ({

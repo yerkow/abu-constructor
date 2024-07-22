@@ -137,18 +137,22 @@ const ModalContent = ({
 
   const handleSave = () => {
     if (props) {
-      editMutate({
-        id: props.ruWidgetId,
-        body: {
-          options: JSON.stringify({ heading: title.ru, content: content.ru }),
-        },
-      });
-      editMutate({
-        id: props.kzWidgetId,
-        body: {
-          options: JSON.stringify({ heading: title.kz, content: content.kz }),
-        },
-      });
+      if (ruPageId && kzPageId) {
+        editMutate({
+          id: props.ruWidgetId,
+          navigation_id: ruPageId,
+          body: {
+            options: JSON.stringify({ heading: title.ru, content: content.ru }),
+          },
+        });
+        editMutate({
+          id: props.kzWidgetId,
+          navigation_id: kzPageId,
+          body: {
+            options: JSON.stringify({ heading: title.kz, content: content.kz }),
+          },
+        });
+      }
     } else {
       if (ruPageId && kzPageId) {
         createMutate({

@@ -217,23 +217,26 @@ const ModalContent = ({
           };
         }),
       );
-
-      editListWidget({
-        id: props.ruWidgetId,
-        body: {
-          options: JSON.stringify({
-            items: RuItems,
-          }),
-        },
-      });
-      editListWidget({
-        id: props.kzWidgetId,
-        body: {
-          options: JSON.stringify({
-            items: KzItems,
-          }),
-        },
-      });
+      if (ruPageId && kzPageId) {
+        editListWidget({
+          id: props.ruWidgetId,
+          navigation_id: ruPageId,
+          body: {
+            options: JSON.stringify({
+              items: RuItems,
+            }),
+          },
+        });
+        editListWidget({
+          id: props.kzWidgetId,
+          navigation_id: kzPageId,
+          body: {
+            options: JSON.stringify({
+              items: KzItems,
+            }),
+          },
+        });
+      }
     }
   };
   return (
