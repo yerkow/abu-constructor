@@ -37,7 +37,7 @@ import {
   getWidgets,
 } from "@/shared/api/widgets";
 import { queryClient } from "@/shared/lib/client";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 const widgetsList = ["Cards", "Carousel", "List", "Text"];
 //TODO: Pass it there, not in EditBtn
 const getModal = (
@@ -91,7 +91,11 @@ export const PageEditorContent = ({
     },
     refetchOnWindowFocus: false,
   });
-
+  useEffect(() => {
+    if (forTemplate) {
+      setList([]);
+    }
+  }, [forTemplate]);
   useEffect(() => {
     if (!isFetching && data)
       setList(

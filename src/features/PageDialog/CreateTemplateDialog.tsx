@@ -28,7 +28,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 interface CreatePageTemplateProps {}
 export const CreateTemplateDialog = ({}: CreatePageTemplateProps) => {
-  const [templateId, setTemplateId] = useState(null);
+  const [templateId, setTemplateId] = useState<number | null>(null);
   const {
     register,
     handleSubmit,
@@ -78,7 +78,7 @@ export const CreateTemplateDialog = ({}: CreatePageTemplateProps) => {
         {templateId ? (
           <PageEditorContent
             forTemplate
-            pageId="1"
+            ids={{ ru: 1, kz: 1 }}
             templateId={templateId}
             onTemplateSave={() => {
               setOpen(false);

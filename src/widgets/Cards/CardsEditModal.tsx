@@ -86,10 +86,7 @@ export type EditCardProps = {
   };
 };
 type CardsState = Record<string, EditCardProps>;
-type Template = {
-  name: string;
-  widgets: string[];
-};
+
 const ModalContent = ({
   ruPageId,
   kzPageId,
