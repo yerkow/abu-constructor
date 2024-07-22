@@ -132,16 +132,15 @@ export function useTemplateWidget<StateProps>({
   }, [ruPageId, kzPageId, order]);
   useEffect(() => {
     if (props) {
-      console.log(props, ">>>");
-
       setWidgetMainProps(
         widgetStateFields.reduce((obj: any, field: string) => {
           if (field.endsWith("Kz")) {
-            obj[field] = props.kzOptions[field];
+            obj[field] = props.kzOptions[field.slice(0, -2)];
+          } else if (field.endsWith("Ru")) {
+            obj[field] = props.ruOptions[field.slice(0, -2)];
           } else {
             obj[field] = props.ruOptions[field];
           }
-          obj[field] = props.ruOptions[field];
           return obj;
         }, {}),
       );
@@ -163,10 +162,11 @@ export function useTemplateWidget<StateProps>({
             (obj: any, field: string) => {
               if (field.endsWith("Kz")) {
                 obj[field] = props.kzOptions.items[idx][field.slice(0, -2)];
-              } else {
+              } else if (field.endsWith("Ru")) {
                 obj[field] = item[field.slice(0, -2)];
+              } else {
+                obj[field] = item[field];
               }
-              obj[field] = item[field];
               return obj;
             },
             {
@@ -237,7 +237,7 @@ export function useTemplateWidget<StateProps>({
           const image = await saveToServerAndGetUrl(items[key].image);
           return {
             //TODO Нужна функция которая будет определять есть ли Ru или Kz => создавать
-            ...GetValuesByLang("Ru", items[key]),
+            ...GetValuesByLang("Ru", items[key], itemsStateFields),
             image,
             href: hasTemplate ? items[key].page?.ru.slug : "",
             templateId: key,
@@ -250,7 +250,7 @@ export function useTemplateWidget<StateProps>({
         Object.keys(items).map(async (key) => {
           const image = await saveToServerAndGetUrl(items[key].image);
           return {
-            ...GetValuesByLang("Kz", items[key]),
+            ...GetValuesByLang("Kz", items[key], itemsStateFields),
             image,
             href: hasTemplate ? items[key].page?.kz.slug : "",
             templateId: key,
@@ -259,11 +259,12 @@ export function useTemplateWidget<StateProps>({
           };
         }),
       );
+
       createCardsWidget({
         widget_type: widgetName,
         order,
         options: JSON.stringify({
-          ...GetValuesByLang("Ru", widgetMainProps),
+          ...GetValuesByLang("Ru", widgetMainProps, widgetStateFields),
           items: RuItems,
           language_key: "ru",
           navigation_id: +ruPageId,
@@ -275,7 +276,7 @@ export function useTemplateWidget<StateProps>({
         widget_type: widgetName,
         order,
         options: JSON.stringify({
-          ...widgetMainProps,
+          ...GetValuesByLang("Kz", widgetMainProps, widgetStateFields),
           items: KzItems,
         }),
         language_key: "kz",
@@ -283,13 +284,14 @@ export function useTemplateWidget<StateProps>({
       });
     }
   };
+
   const onEdit = async () => {
     if (props) {
       const RuItems = await Promise.all(
         Object.keys(items).map(async (key) => {
           const image = await saveToServerAndGetUrl(items[key].image);
           return {
-            ...GetValuesByLang("Ru", items[key]),
+            ...GetValuesByLang("Ru", items[key], itemsStateFields),
             image,
             href: items[key].href
               ? items[key].href
@@ -310,7 +312,7 @@ export function useTemplateWidget<StateProps>({
         Object.keys(items).map(async (key) => {
           const image = await saveToServerAndGetUrl(items[key].image);
           return {
-            ...GetValuesByLang("Kz", items[key]),
+            ...GetValuesByLang("Kz", items[key], itemsStateFields),
             image,
             href: items[key].href
               ? items[key].href
@@ -332,7 +334,7 @@ export function useTemplateWidget<StateProps>({
           navigation_id: ruPageId,
           body: {
             options: JSON.stringify({
-              ...widgetMainProps,
+              ...GetValuesByLang("Ru", widgetMainProps, widgetStateFields),
               items: RuItems,
             }),
           },
@@ -342,7 +344,7 @@ export function useTemplateWidget<StateProps>({
           navigation_id: kzPageId,
           body: {
             options: JSON.stringify({
-              ...widgetMainProps,
+              ...GetValuesByLang("Kz", widgetMainProps, widgetStateFields),
               items: KzItems,
             }),
           },

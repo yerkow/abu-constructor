@@ -101,15 +101,23 @@ export const saveToServerAndGetUrl = async (image: File | null | string) => {
   }
 };
 
-export const GetValuesByLang = (lang: string, obj: Record<string, string>) => {
+export const GetValuesByLang = (
+  lang: string,
+  obj: Record<string, string>,
+  fields: string[],
+) => {
   const newObj: Record<string, string> = {};
-  Object.keys(obj).forEach((key) => {
-    if (key.endsWith(lang)) {
-      newObj[key.slice(0, -2)] = obj[key];
+  const oppositeLang = lang == "Ru" ? "Kz" : "Ru";
+  for (let i = 0; i < fields.length; i++) {
+    if (fields[i].endsWith(oppositeLang)) {
+      continue;
+    } else if (fields[i].endsWith(lang)) {
+      newObj[fields[i].slice(0, -2)] = obj[fields[i]];
     } else {
-      newObj[key] = obj[key];
+      newObj[fields[i]] = obj[fields[i]];
     }
-  });
+  }
+  console.log(newObj, lang, oppositeLang);
 
   return newObj;
 };
