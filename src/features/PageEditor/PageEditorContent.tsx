@@ -82,7 +82,7 @@ export const PageEditorContent = ({
     isFetching,
     error: fetchError,
   } = useQuery({
-    queryKey: [`getWidgets`],
+    queryKey: [`pageEditWidgets`],
     queryFn: async () => {
       if (!forTemplate) {
         const data = await getWidgets(ids);
@@ -150,39 +150,43 @@ export const PageEditorContent = ({
         return arrayMove(list, originalPos, newPos);
       });
   };
-  const onWidgetDelete = (id: number) => {
-    setList((prev) => {
-      let temp;
-      temp = prev.filter((li) => {
-        if (li.id == id) {
-          if (li.props) {
-            deleteMutation({
-              id: li.props.ruId,
-              navigation_id: li.props.ru_navigation_id,
-            });
-            deleteMutation({
-              id: li.props.kzId,
-              navigation_id: li.props.kz_navigation_id,
-            });
-          }
-          return false;
-        }
-        return true;
-      });
-      updateOrder(temp);
-      return temp;
+  const onWidgetDelete = async (id: number) => {
+    let temp = list;
+    //check if props exists - delete widget on Back
+    const promises = list.map((li) => {
+      if (li.id == id && li.props) {
+        return Promise.all([
+          deleteMutation({
+            id: li.props.ruId,
+            navigation_id: li.props.ru_navigation_id,
+          }),
+          deleteMutation({
+            id: li.props.kzId,
+            navigation_id: li.props.kz_navigation_id,
+          }),
+        ]);
+      }
+    });
+    Promise.all(promises).then(() => {
+      updateOrder(list);
     });
   };
   const updateOrder = (listState: typeof list) => {
-    console.log(listState, "LIST ON UPDATE ORDER");
-
     listState.forEach((widget, idx) => {
-      if (widget.props) {
+      if (widget.props && ruId && kzId) {
         Promise.all([
-          editWidget({ id: widget.props.ruId, body: { order: idx + 1 } }),
-          editWidget({ id: widget.props.kzId, body: { order: idx + 1 } }),
+          editWidget({
+            id: widget.props.ruId,
+            body: { order: idx + 1 },
+            navigation_id: +ruId,
+          }),
+          editWidget({
+            id: widget.props.kzId,
+            body: { order: idx + 1 },
+            navigation_id: +kzId,
+          }),
         ]).then(() => {
-          queryClient.invalidateQueries({ queryKey: ["getWidgets"] });
+          queryClient.invalidateQueries({ queryKey: ["pageEditWidgets"] });
         });
       }
     });
