@@ -57,7 +57,6 @@ export const CreateTemplateDialog = ({}: CreatePageTemplateProps) => {
       navigation_id: null,
     });
   };
-
   const closeRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   return (

@@ -18,6 +18,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { editPage } from "@/shared/api/pages";
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "@/shared/lib/client";
+import { DialogDescription } from "@radix-ui/react-dialog";
 
 interface EditPageDialogProps {
   page: IPage;
@@ -89,6 +90,9 @@ export const EditPageDialog = ({ page }: EditPageDialogProps) => {
       <DialogContent className="max-w-sm sm:max-w-3xl">
         <DialogHeader>
           <DialogTitle>Редактирование страницы ${page?.ru}</DialogTitle>
+          <DialogDescription>
+            Здесь Вы можете отредактировать страницу.
+          </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(onEdit)} className="flex flex-col gap-3">
           <div className="flex flex-col md:flex-row gap-3">

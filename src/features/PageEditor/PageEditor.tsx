@@ -4,6 +4,7 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -29,9 +30,12 @@ export const PageEditor = ({ ids }: { ids: Langs }) => {
           Контент страницы
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-sm sm:max-w-[90%]">
+      <DialogContent className="max-w-sm sm:max-w-[90%]  gap-4 ">
         <DialogHeader>
           <DialogTitle>Содержание страницы</DialogTitle>
+          <DialogDescription>
+            Здесь Вы можете отредактировать контент страницы.
+          </DialogDescription>
         </DialogHeader>
         {/* TODO */}
         <PageEditorContent ids={ids} />
