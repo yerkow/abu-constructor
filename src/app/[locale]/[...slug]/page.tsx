@@ -2,13 +2,13 @@ import { getPageBySlug } from "@/shared/api/pages";
 import { getWidgetsToDisplay } from "@/shared/api/widgets";
 import { capitalize } from "@/shared/lib";
 import { Cards, Carousel, Text, List } from "@/widgets";
+import { ResolvingMetadata, Metadata } from "next";
 import { notFound } from "next/navigation";
-
+interface PageProps {
+  params: { locale: string; slug: string[] };
+}
 const getPageContent = async (slug: string[], locale: string) => {
-  console.log(slug);
-
   const page = await getPageBySlug(`/${slug.join("/")}`, locale);
-  console.log(page, "PAGE");
   if (page[0]) {
     const content = await getWidgetsToDisplay(page[0].id, locale);
 
@@ -17,12 +17,21 @@ const getPageContent = async (slug: string[], locale: string) => {
     return [];
   }
 };
+export async function generateMetadata(
+  { params }: PageProps,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const { slug, locale } = params;
+  const page = (await getPageBySlug(`/${slug.join("/")}`, locale))[0];
 
-export default async function Page({
-  params,
-}: {
-  params: { locale: string; slug: string[] };
-}) {
+  return {
+    title: page
+      ? page.title
+      : "Профсоюз работников образования «Әділет» г. Нур-Султан",
+  };
+}
+
+export default async function Page({ params }: PageProps) {
   const data = await getPageContent(params.slug, params.locale);
   console.log(data, "DATA");
 
