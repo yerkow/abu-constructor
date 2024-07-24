@@ -47,7 +47,8 @@ import {
 } from "@/shared/api/widgets";
 import { queryClient } from "@/shared/lib/client";
 import { usePathname, useSearchParams } from "next/navigation";
-const widgetsList = ["Cards", "Carousel", "List", "Text"];
+import { LinksEditModal } from "@/widgets/Links/LinksEditModal";
+const widgetsList = ["Cards", "Carousel", "List", "Text", "Links"];
 //TODO: Pass it there, not in EditBtn
 const getModal = (
   modal: string,
@@ -72,6 +73,8 @@ const getModal = (
         return <ListEditModal {...baseProps} />;
       case "Text":
         return <TextEditModal {...baseProps} />;
+      case "Links":
+        return <LinksEditModal {...baseProps} />;
     }
   }
 };

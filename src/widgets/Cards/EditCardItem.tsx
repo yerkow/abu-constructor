@@ -6,6 +6,7 @@ import { EditItem, Button, Input } from "@/shared/ui";
 import { CardProps } from "@/widgets/Cards/Card";
 import { CardsEditModal, EditCardProps } from "@/widgets/Cards/CardsEditModal";
 import { CarouselEditModal } from "@/widgets/Carousel/CarouselEditModal";
+import { LinksEditModal } from "@/widgets/Links/LinksEditModal";
 import { ListEditModal } from "@/widgets/List/ListEditModal";
 import { TextEditModal } from "@/widgets/Text/TextEditModal";
 import { useQuery } from "@tanstack/react-query";
@@ -44,6 +45,9 @@ export const EditCardItem = ({
         return <ListEditModal variant="dialog" {...baseProps} />;
       case "Text":
         return <TextEditModal variant="dialog" {...baseProps} />;
+      case "Links":
+        return <LinksEditModal variant="dialog" {...baseProps} />;
+
       default:
         return null;
     }

@@ -70,8 +70,6 @@ const ModalContent = ({
   kzPageId,
   order,
 }: ListEditModalProps) => {
-  // const [isFiles, setIsFiles] = useState(false);
-  // const [hasTemplate, setHasTemplate] = useState(false);
   const { toast } = useToast();
   const {
     mutate: createListWidget,
@@ -241,33 +239,6 @@ const ModalContent = ({
   };
   return (
     <>
-      {/* <div className="flex gap-2 items-center"> */}
-      {/*   <Label>List of Files</Label> */}
-      {/*   <Checkbox */}
-      {/*     onCheckedChange={() => { */}
-      {/*       setIsFiles(!isFiles); */}
-      {/*     }} */}
-      {/*     checked={isFiles} */}
-      {/*   /> */}
-      {/* </div> */}
-      {/* <div className="flex items-center gap-2"> */}
-      {/*   <Checkbox */}
-      {/*     id="template" */}
-      {/*     checked={hasTemplate} */}
-      {/*     onCheckedChange={() => */}
-      {/*       setHasTemplate((prev) => { */}
-      {/*         if (prev) { */}
-      {/*           setTemplate(null); */}
-      {/*         } */}
-      {/*         return !prev; */}
-      {/*       }) */}
-      {/*     } */}
-      {/*   /> */}
-      {/*   <Label htmlFor="template" className="mt-1"> */}
-      {/*     Есть темплейт */}
-      {/*   </Label> */}
-      {/* </div> */}
-      {/* {hasTemplate && <TemplatesSelect onSelect={setTemplate} />} */}
       <Button className="w-full" onClick={() => addNewListItem()}>
         Add new List item
       </Button>
@@ -297,30 +268,12 @@ const EditListItem = ({
   listItem,
   deleteListItem,
   writeChanges,
-  // templateWidgets,
 }: {
   id: string;
   listItem: EditListItemProps;
   writeChanges: (id: string, field: string, value: string | File) => void;
   deleteListItem: () => void;
-  // templateWidgets?: string[];
 }) => {
-  // const getTemplatesProps = (w: string) => {
-  //   switch (w) {
-  //     case "Cards":
-  //       return <CardsEditModal />;
-  //     case "Carousel":
-  //       return <CarouselEditModal variant="dialog" />;
-  //     case "List":
-  //       return <ListEditModal variant="dialog" />;
-  //     case "Text":
-  //       return <TextEditModal />;
-  //     default:
-  //       return null;
-  //   }
-  // };
-  console.log(listItem);
-
   return (
     <EditItem
       title={"List " + id}
@@ -346,7 +299,7 @@ const EditListItem = ({
           onChange={(e) => writeChanges(id, "contentKz", e.target.value)}
         />
       </div>
-      {listItem.file && (
+      {typeof listItem.file == "string" && (
         <a
           href={`${backendImageUrl}${listItem.file as string}`}
           target="_blank"

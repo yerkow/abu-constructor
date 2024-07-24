@@ -2,6 +2,7 @@ import { getPageBySlug } from "@/shared/api/pages";
 import { getWidgetsToDisplay } from "@/shared/api/widgets";
 import { capitalize } from "@/shared/lib";
 import { Cards, Carousel, Text, List } from "@/widgets";
+import { Links } from "@/widgets/Links/Links";
 import { ResolvingMetadata, Metadata } from "next";
 import { notFound } from "next/navigation";
 interface PageProps {
@@ -57,6 +58,9 @@ const getWidgetByName = (name: string, props: any) => {
 
     case "Text":
       return <Text {...props} />;
+    case "Links":
+      return <Links {...props} />;
+
     default:
       return <></>;
   }

@@ -1,13 +1,11 @@
 import { backendImageUrl } from "@/shared/lib/constants";
-import { EditItem, Button, Input } from "@/shared/ui";
+import { Button, EditItem, Input } from "@/shared/ui";
 import { CardsEditModal } from "@/widgets/Cards/CardsEditModal";
-import {
-  CarouselEditModal,
-  EditCarouselItemProps,
-} from "@/widgets/Carousel/CarouselEditModal";
+import { CarouselEditModal } from "@/widgets/Carousel/CarouselEditModal";
+import { LinksEditModal } from "@/widgets/Links/LinksEditModal";
 import { ListEditModal } from "@/widgets/List/ListEditModal";
 import { TextEditModal } from "@/widgets/Text/TextEditModal";
-import { useState, Fragment } from "react";
+import { Fragment, useState } from "react";
 
 export const EditCarouselItem = ({
   id,
@@ -17,7 +15,7 @@ export const EditCarouselItem = ({
   writeChanges,
 }: {
   id: string;
-  carouselItem: EditCarouselItemProps;
+  carouselItem: any;
   writeChanges: (id: string, field: string, value: string | File) => void;
   templateWidgets?: string[];
   deleteCarouselItem: () => void;
@@ -40,6 +38,9 @@ export const EditCarouselItem = ({
         return <ListEditModal variant="dialog" {...baseProps} />;
       case "Text":
         return <TextEditModal variant="dialog" {...baseProps} />;
+      case "Links":
+        return <LinksEditModal variant="dialog" {...baseProps} />;
+
       default:
         return null;
     }
