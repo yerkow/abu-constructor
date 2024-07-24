@@ -15,7 +15,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 
-export const useTemplates = () => {
+export const useTemplates = ({ savedTemplate }: { savedTemplate: string }) => {
   const {
     data: templatePages,
     isFetching: pagesIsFetching,
@@ -25,6 +25,9 @@ export const useTemplates = () => {
     queryKey: ["getTemplates"],
     queryFn: getTemplates,
   });
+  const [saved, setSaved] = useState<string | null>(() =>
+    savedTemplate ? savedTemplate : null,
+  );
   const [templates, setTemplates] = useState<TemplateSelectType[]>([]);
   const [selectedTemplate, setSelectedTemplate] =
     useState<TemplateSelectType | null>(null);
@@ -52,10 +55,18 @@ export const useTemplates = () => {
       }
     }
   }, [templatePages, isSuccess]);
-  const onSelect = (template: string) => {
-    setSelectedTemplate(templates.filter((t) => t.name === template)[0]);
+  const onSelect = (
+    template: string,
+    saveWidgets: (widget: TemplateSelectType) => void,
+  ) => {
+    setSelectedTemplate((prev) => {
+      const selected = templates.filter((t) => t.name === template)[0];
+      saveWidgets(selected);
+      return selected;
+    });
   };
   return {
+    saved,
     templates,
     setTemplates,
     selectedTemplate,
@@ -110,18 +121,6 @@ export function useTemplateWidget<StateProps>({
     },
   });
 
-  const [hasTemplate, setHasTemplate] = useState(false);
-  const { templates, setTemplates, selectedTemplate, setSelectedTemplate } =
-    useTemplates();
-  const handleTemplate = (template: TemplateSelectType) => {
-    setSelectedTemplate(template);
-  };
-  const [savedTemplate, setSavedTemplate] = useState<string | null>(null);
-  useEffect(() => {
-    if (savedTemplate) {
-      setSelectedTemplate(templates.filter((t) => t.name === savedTemplate)[0]);
-    }
-  }, [savedTemplate]);
   const [widgetMainProps, setWidgetMainProps] = useState<any>({});
   const [props, setProps] = useState<WidgetProps | null>(null);
   useEffect(() => {
@@ -147,16 +146,6 @@ export function useTemplateWidget<StateProps>({
       const temp: Record<string, StateProps> = {};
       let items = props.ruOptions.items;
       if (Array.isArray(items)) {
-        if (items[0]) {
-          const templateName = items[0].templateName;
-          if (
-            templateName &&
-            templates.findIndex((t) => t.name === templateName) !== -1
-          ) {
-            setSavedTemplate(items[0]?.templateName);
-            setHasTemplate(true);
-          }
-        }
         items.forEach((item: any, idx: number) => {
           temp[item.templateId] = itemsStateFields.reduce(
             (obj: any, field: string) => {
@@ -184,8 +173,8 @@ export function useTemplateWidget<StateProps>({
   const createTemplatePagesForCard = async () => {
     const ruPage = await createPage({
       title: "templatePage",
-      slug: `/${selectedTemplate ? selectedTemplate.name.toLowerCase().replace(/\s/g, "") : "template"}-${Date.now()}`,
-      navigation_id: selectedTemplate ? selectedTemplate.id : null,
+      slug: `/template-${Date.now()}`,
+      navigation_id: null,
       navigation_type: "template",
       order: 1,
       language_key: "ru",
@@ -193,7 +182,7 @@ export function useTemplateWidget<StateProps>({
     const kzPage = await createPage({
       title: "templatePage",
       slug: ruPage.slug,
-      navigation_id: selectedTemplate ? selectedTemplate.id : null,
+      navigation_id: null,
       navigation_type: "template",
       order: 1,
       language_key: "kz",
@@ -228,7 +217,7 @@ export function useTemplateWidget<StateProps>({
     value: string | File,
   ) => {
     if (!(id in items)) return;
-    setItems({ ...items, [id]: { ...items[id], [field]: value } });
+    setItems((prev) => ({ ...prev, [id]: { ...prev[id], [field]: value } }));
   };
   const onSave = async () => {
     if (ruPageId && kzPageId) {
@@ -236,13 +225,10 @@ export function useTemplateWidget<StateProps>({
         Object.keys(items).map(async (key) => {
           const image = await saveToServerAndGetUrl(items[key].image);
           return {
-            //TODO Нужна функция которая будет определять есть ли Ru или Kz => создавать
             ...GetValuesByLang("Ru", items[key], itemsStateFields),
             image,
-            href: hasTemplate ? items[key].page?.ru.slug : "",
             templateId: key,
             templateSlug: items[key].page?.ru.slug,
-            templateName: selectedTemplate ? selectedTemplate.name : null,
           };
         }),
       );
@@ -252,10 +238,8 @@ export function useTemplateWidget<StateProps>({
           return {
             ...GetValuesByLang("Kz", items[key], itemsStateFields),
             image,
-            href: hasTemplate ? items[key].page?.kz.slug : "",
             templateId: key,
             templateSlug: items[key].page?.ru.slug,
-            templateName: selectedTemplate ? selectedTemplate.name : null,
           };
         }),
       );
@@ -299,11 +283,6 @@ export function useTemplateWidget<StateProps>({
                 ? items[key].page.ru.slug
                 : items[key].templateSlug,
             templateId: key,
-            templateName: savedTemplate
-              ? savedTemplate
-              : selectedTemplate
-                ? selectedTemplate.name
-                : null,
           };
         }),
       );
@@ -320,11 +299,6 @@ export function useTemplateWidget<StateProps>({
                 ? items[key].page.ru.slug
                 : items[key].templateSlug,
             templateId: key,
-            templateName: savedTemplate
-              ? savedTemplate
-              : selectedTemplate
-                ? selectedTemplate.name
-                : null,
           };
         }),
       );
@@ -377,15 +351,8 @@ export function useTemplateWidget<StateProps>({
     items,
     loading,
     setLoading,
-    savedTemplate,
-    hasTemplate,
     props,
     widgetMainProps,
     writeMainPropsChanges,
-    setHasTemplate,
-    selectedTemplate,
-    setSelectedTemplate,
-    templates,
-    handleTemplate,
   };
 }

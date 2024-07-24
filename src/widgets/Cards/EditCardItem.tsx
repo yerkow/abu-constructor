@@ -1,31 +1,34 @@
-import { createPage } from "@/shared/api/pages";
-import { getWidgets } from "@/shared/api/widgets";
+import { TemplatesSelect } from "@/features";
 import { backendImageUrl } from "@/shared/lib/constants";
-import { Widget } from "@/shared/lib/types";
-import { EditItem, Button, Input } from "@/shared/ui";
-import { CardProps } from "@/widgets/Cards/Card";
-import { CardsEditModal, EditCardProps } from "@/widgets/Cards/CardsEditModal";
+import { useTemplates } from "@/shared/lib/hooks";
+import { Button, EditItem, Input } from "@/shared/ui";
+import { CardsEditModal } from "@/widgets/Cards/CardsEditModal";
 import { CarouselEditModal } from "@/widgets/Carousel/CarouselEditModal";
 import { LinksEditModal } from "@/widgets/Links/LinksEditModal";
 import { ListEditModal } from "@/widgets/List/ListEditModal";
 import { TextEditModal } from "@/widgets/Text/TextEditModal";
-import { useQuery } from "@tanstack/react-query";
-import { useState, Fragment, useEffect } from "react";
+import { Fragment, useState } from "react";
 
 export const EditCardItem = ({
+  modalVariant,
   id,
   deleteCard,
   card,
-  templateWidgets,
   writeChanges,
 }: {
+  modalVariant?: string;
   id: string;
-  card: EditCardProps;
+  card: any;
   writeChanges: (id: string, field: string, value: string | File) => void;
-  templateWidgets?: string[];
   deleteCard: () => void;
 }) => {
+  console.log(card);
+
   //getWidgetProps for template
+  const { templates, saved, setTemplates, selectedTemplate, onSelect } =
+    useTemplates({
+      savedTemplate: card.savedTemplate,
+    });
   const [image, setImage] = useState<string | ArrayBuffer | null>(() => {
     if (card.image) {
       return `${backendImageUrl}${card.image}`;
@@ -60,6 +63,19 @@ export const EditCardItem = ({
       }
       title={"Карточка " + id}
     >
+      {modalVariant === "card" && (
+        <TemplatesSelect
+          savedTemplate={saved}
+          templates={templates}
+          onSelect={(template) => {
+            onSelect(template, (w) => {
+              writeChanges(id, "templateWidgets", JSON.stringify(w.widgets));
+              writeChanges(id, "savedTemplate", w.name);
+            });
+          }}
+        />
+      )}
+
       <div className="flex flex-col md:flex-row gap-3">
         <Input
           label="Заголовок RU"
@@ -107,10 +123,13 @@ export const EditCardItem = ({
           }
         }}
       />
-      {templateWidgets && (
+      {(card.templateWidgets || selectedTemplate) && (
         <div className="flex flex-col gap-3 ">
           <span>Настройки шаблона</span>
-          {templateWidgets?.map((w, idx) => {
+          {(card.templateWidgets
+            ? JSON.parse(card.templateWidgets || "[]")
+            : selectedTemplate?.widgets
+          ).map((w: string, idx: number) => {
             const baseProps = {
               order: idx,
               ruPageId: +id.split("*")[0],

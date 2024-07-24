@@ -48,21 +48,6 @@ export const CardsEditModal = ({
   );
 };
 
-export type EditCardProps = {
-  titleRu: string;
-  titleKz: string;
-  contentRu: string;
-  contentKz: string;
-  href?: string;
-  image: File | null;
-  templateSlug: string;
-  page?: {
-    ru: BackedPage;
-    kz: BackedPage;
-  };
-};
-type CardsState = Record<string, EditCardProps>;
-
 const ModalContent = ({
   ruPageId,
   kzPageId,
@@ -84,17 +69,10 @@ const ModalContent = ({
     props,
     loading,
     setLoading,
-    hasTemplate,
-    savedTemplate,
     items,
     writeChanges,
     writeMainPropsChanges,
-    templates,
-    handleTemplate,
     widgetMainProps,
-    setSelectedTemplate,
-    selectedTemplate,
-    setHasTemplate,
   } = useTemplateWidget({
     widgetName: "Cards",
     ruPageId,
@@ -102,7 +80,15 @@ const ModalContent = ({
     queryKey,
     order,
     widgetStateFields: ["titleRu", "titleKz", "variant"],
-    itemsStateFields: ["titleRu", "titleKz", "contentRu", "contentKz", "image"],
+    itemsStateFields: [
+      "titleRu",
+      "titleKz",
+      "contentRu",
+      "contentKz",
+      "image",
+      "savedTemplate",
+      "templateWidgets",
+    ],
   });
   console.log(widgetMainProps);
 
@@ -123,34 +109,6 @@ const ModalContent = ({
           </SelectContent>
         </Select>
       </div>
-      {modalVariant === "card" && (
-        <>
-          {savedTemplate ? (
-            <span>Использованный шаблон {savedTemplate}</span>
-          ) : (
-            <div className="flex items-center gap-2">
-              <Checkbox
-                id="template"
-                checked={hasTemplate}
-                onCheckedChange={() => {
-                  setHasTemplate(!hasTemplate);
-                  setSelectedTemplate(null);
-                }}
-              />
-              <Label htmlFor="template" className="mt-1">
-                Есть шаблон
-              </Label>
-            </div>
-          )}
-          {hasTemplate && !savedTemplate && (
-            <TemplatesSelect
-              savedTemplate={savedTemplate}
-              templates={templates}
-              onSelect={handleTemplate}
-            />
-          )}
-        </>
-      )}
       <div className="flex flex-col md:flex-row gap-3">
         <Input
           label="Title RU"
@@ -171,14 +129,12 @@ const ModalContent = ({
       <section className="max-h-[460px] flex flex-col gap-10 overflow-y-scroll w-full  rounded-md border p-4 ">
         {Object.keys(items).map((key, idx) => (
           <EditCardItem
+            modalVariant={modalVariant}
             writeChanges={writeChanges}
             card={items[key]}
             deleteCard={() => deleteItem(key)}
             key={idx}
             id={key}
-            templateWidgets={
-              selectedTemplate ? selectedTemplate.widgets : undefined
-            }
           />
         ))}
       </section>
