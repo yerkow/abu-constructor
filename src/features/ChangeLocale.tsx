@@ -23,7 +23,7 @@ export const ChangeLocale = () => {
       value={params.locale as string}
       onValueChange={(value) => handleChange(value)}
     >
-      <SelectTrigger className="w-[60px]">
+      <SelectTrigger className="w-[75px] font-bold text-cyan-800 flex">
         <SelectValue placeholder={params.locale} />
       </SelectTrigger>
       <SelectContent>
