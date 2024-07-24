@@ -21,8 +21,8 @@ export const CarouselEditModal = ({
   return (
     <WidgetView
       variant={variant}
-      cardTitle="Edit Carousel"
-      desc="There you can edit Carousel content"
+      cardTitle="Редактировать карусель"
+      desc="Здесь Вы можете редактировать виджен карусель"
       triggerTitle="Редактировать карусель"
       content={
         <ModalContent
@@ -77,6 +77,7 @@ const ModalContent = ({
     widgetStateFields: [],
     itemsStateFields: ["contentRu", "contentKz", "image"],
   });
+  console.log(selectedTemplate, "HERE");
 
   return (
     <>
@@ -90,7 +91,7 @@ const ModalContent = ({
                 onCheckedChange={() => setHasTemplate(!hasTemplate)}
               />
               <Label htmlFor="template" className="mt-1">
-                Есть темплейт
+                Есть шаблон
               </Label>
             </div>
           ) : (
@@ -106,7 +107,7 @@ const ModalContent = ({
         </>
       )}
       <Button onClick={addItem} className="w-full">
-        Add new Carousel Item
+        Добавить
       </Button>
       <section className="max-h-[460px] flex flex-col gap-10 overflow-y-scroll w-full  rounded-md border p-4 ">
         {Object.keys(items).map((key, idx) => (
@@ -130,7 +131,7 @@ const ModalContent = ({
           props ? onEdit() : onSave();
         }}
       >
-        Save
+        Сохранить
       </Button>
     </>
   );

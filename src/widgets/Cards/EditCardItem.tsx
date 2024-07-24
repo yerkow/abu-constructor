@@ -33,7 +33,6 @@ export const EditCardItem = ({
       return "";
     }
   });
-  console.log(card.page);
 
   const getTemplatesProps = (w: string, order: number, baseProps: any) => {
     switch (w) {
@@ -52,8 +51,6 @@ export const EditCardItem = ({
         return null;
     }
   };
-  const [title, setTitle] = useState({ ru: "", kz: "" });
-  const [content, setContent] = useState({ ru: "", kz: "" });
   return (
     <EditItem
       buttons={
@@ -61,17 +58,17 @@ export const EditCardItem = ({
           <Button onClick={deleteCard}>Delete</Button>
         </>
       }
-      title={"Card" + id}
+      title={"Карточка " + id}
     >
       <div className="flex flex-col md:flex-row gap-3">
         <Input
-          label="Card title  RU"
+          label="Заголовок RU"
           type="text"
           value={card.titleRu}
           onChange={(e) => writeChanges(id, "titleRu", e.target.value)}
         />
         <Input
-          label="Card title KZ"
+          label="Заголовок KZ"
           type="text"
           value={card.titleKz}
           onChange={(e) => writeChanges(id, "titleKz", e.target.value)}
@@ -79,13 +76,13 @@ export const EditCardItem = ({
       </div>
       <div className="flex flex-col md:flex-row gap-3">
         <Input
-          label="Content RU"
+          label="Контент RU"
           type="text"
           value={card.contentRu}
           onChange={(e) => writeChanges(id, "contentRu", e.target.value)}
         />
         <Input
-          label="Content KZ"
+          label="Контент KZ"
           type="text"
           value={card.contentKz}
           onChange={(e) => writeChanges(id, "contentKz", e.target.value)}

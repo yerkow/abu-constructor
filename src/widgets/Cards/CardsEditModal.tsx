@@ -32,8 +32,8 @@ export const CardsEditModal = ({
   return (
     <WidgetView
       variant={variant}
-      cardTitle="Edit Cards"
-      desc="There you can edit Cards content"
+      cardTitle="Редактировать карточки"
+      desc="Здесь вы можете отредактировать виджен карточки"
       triggerTitle="Редактировать карточки"
       content={
         <ModalContent
@@ -109,7 +109,7 @@ const ModalContent = ({
   return (
     <>
       <div className="flex gap-2 items-center">
-        <Label>Select card variant</Label>
+        <Label>Выберите вид карточек</Label>
         <Select
           value={widgetMainProps.variant}
           onValueChange={(value) => writeMainPropsChanges("variant", value)}
@@ -118,8 +118,8 @@ const ModalContent = ({
             <SelectValue placeholder="Variant" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="base">Base</SelectItem>
-            <SelectItem value="horizontal">Horizontal</SelectItem>
+            <SelectItem value="base">Стандартный</SelectItem>
+            <SelectItem value="horizontal">Горизонтальный</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -138,7 +138,7 @@ const ModalContent = ({
                 }}
               />
               <Label htmlFor="template" className="mt-1">
-                Есть темплейт
+                Есть шаблон
               </Label>
             </div>
           )}
@@ -166,7 +166,7 @@ const ModalContent = ({
         />
       </div>
       <Button onClick={addItem} className="w-full">
-        Add new Card
+        Добавить карточку
       </Button>
       <section className="max-h-[460px] flex flex-col gap-10 overflow-y-scroll w-full  rounded-md border p-4 ">
         {Object.keys(items).map((key, idx) => (
@@ -190,7 +190,7 @@ const ModalContent = ({
           props ? onEdit() : onSave();
         }}
       >
-        Save
+        Сохранить
       </Button>
     </>
   );

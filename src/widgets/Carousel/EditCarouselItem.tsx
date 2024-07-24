@@ -40,7 +40,6 @@ export const EditCarouselItem = ({
         return <TextEditModal variant="dialog" {...baseProps} />;
       case "Links":
         return <LinksEditModal variant="dialog" {...baseProps} />;
-
       default:
         return null;
     }
@@ -48,7 +47,7 @@ export const EditCarouselItem = ({
 
   return (
     <EditItem
-      title={"Carousel Item" + id}
+      title={"Слайд" + id}
       buttons={
         <>
           <Button onClick={deleteCarouselItem} size={"sm"}>
@@ -79,13 +78,13 @@ export const EditCarouselItem = ({
 
       <div className="flex flex-col md:flex-row gap-3">
         <Input
-          label="Content RU"
+          label="Контент RU"
           type="text"
           value={carouselItem.contentRu}
           onChange={(e) => writeChanges(id, "contentRu", e.target.value)}
         />
         <Input
-          label="Content KZ"
+          label="Контент KZ"
           type="text"
           value={carouselItem.contentKz}
           onChange={(e) => writeChanges(id, "contentKz", e.target.value)}

@@ -74,7 +74,7 @@ const ModalContent = ({
     queryKey,
     order,
     widgetStateFields: ["titleRu", "titleKz"],
-    itemsStateFields: ["nameRu", "nameKz", "link"],
+    itemsStateFields: ["nameRu", "nameKz", "linkRu", "linkKz"],
   });
 
   return (

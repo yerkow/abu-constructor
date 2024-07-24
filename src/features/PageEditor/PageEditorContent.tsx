@@ -313,9 +313,7 @@ const DeleteWidgetDialog = ({
   return (
     <Dialog>
       <DialogTrigger>
-        <Button size={"icon"}>
-          <DeleteIcon />
-        </Button>
+        <DeleteIcon />
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>Удаление виджета</DialogHeader>
