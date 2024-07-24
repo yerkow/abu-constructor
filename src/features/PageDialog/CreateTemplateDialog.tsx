@@ -2,9 +2,8 @@
 
 import { PageEditorContent } from "@/features/PageEditor/PageEditorContent";
 import { createPage, deletePage } from "@/shared/api/pages";
-import { IPage, PageType } from "@/shared/lib";
 import { queryClient } from "@/shared/lib/client";
-import { BackedPage, Template } from "@/shared/lib/types";
+import { Template } from "@/shared/lib/types";
 import {
   Button,
   Dialog,
@@ -15,14 +14,8 @@ import {
   DialogTitle,
   DialogTrigger,
   Input,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
 } from "@/shared/ui";
 import { useMutation } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
 import { useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 

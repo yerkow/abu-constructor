@@ -73,8 +73,8 @@ export const Navbar = () => {
 
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
-    if (document && window) {
-      document.addEventListener("scroll", () => {
+    if (window) {
+      window.addEventListener("scroll", () => {
         if (window.scrollY >= 172) {
           setScrolled(true);
         } else {
@@ -82,7 +82,7 @@ export const Navbar = () => {
         }
       });
     }
-    return document.removeEventListener("scroll", () => {
+    return window.removeEventListener("scroll", () => {
       if (window.scrollY >= 172) {
         setScrolled(true);
       } else {

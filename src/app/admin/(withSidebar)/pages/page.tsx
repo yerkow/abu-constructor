@@ -1,10 +1,9 @@
-import { CreatePageDialog } from "@/features/PageDialog/CreatePageDialog";
+import { CreatePageDialog, withNoSSR } from "@/features";
 import { customFetch } from "@/shared/api";
 import { getPages } from "@/shared/api/pages";
 import { combinePagesByLang } from "@/shared/lib/utils";
 import { PagesListTable } from "@/widgets";
-
-export default async function PagesPage() {
+function PagesPage() {
   return (
     <section className="h-full">
       <CreatePageDialog />
@@ -12,3 +11,4 @@ export default async function PagesPage() {
     </section>
   );
 }
+export default withNoSSR(PagesPage);

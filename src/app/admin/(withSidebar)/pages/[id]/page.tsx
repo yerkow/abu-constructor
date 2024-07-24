@@ -1,8 +1,9 @@
+"use client";
 import { CreatePageDialog } from "@/features";
 import { getPagesChildren } from "@/shared/api/pages";
 import { PagesListTable } from "@/widgets";
 
-export default async function Page({
+export default function Page({
   params,
   searchParams,
 }: {

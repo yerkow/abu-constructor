@@ -67,6 +67,5 @@ export const withIcon: Story = {
       { file: "hello2", content: "8" },
       { file: "hello3", content: "9" },
     ],
-    files: true,
   },
 };

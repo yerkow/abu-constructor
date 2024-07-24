@@ -1,4 +1,5 @@
 export { DeletePageBtn } from "./DeletePageBtn";
+export { withNoSSR } from "./WithNoSSR";
 export { ChangeLocale } from "./ChangeLocale";
 export { EditWidgetContentDialog } from "./EditWidgetContentDialog";
 export { CreatePageDialog } from "./PageDialog/CreatePageDialog";

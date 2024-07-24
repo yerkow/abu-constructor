@@ -49,9 +49,9 @@ export const ListEditModal = ({
   return (
     <WidgetView
       variant={variant}
-      cardTitle="Edit List"
-      desc="There you can edit List content"
-      triggerTitle="Редактировать лист"
+      cardTitle="Редактировать список"
+      desc="Здесь Вы можете редактировать виджет список"
+      triggerTitle="Редактировать список"
       content={
         <ModalContent
           variant={variant}
@@ -240,7 +240,7 @@ const ModalContent = ({
   return (
     <>
       <Button className="w-full" onClick={() => addNewListItem()}>
-        Add new List item
+        Добавить новый
       </Button>
       <section className="h-[320px] overflow-y-scroll rounded-md border p-4">
         {Object.keys(listItems).map((key) => (
@@ -276,7 +276,7 @@ const EditListItem = ({
 }) => {
   return (
     <EditItem
-      title={"List " + id}
+      title={"Номер " + id}
       buttons={
         <>
           <Button onClick={deleteListItem} size={"sm"}>
@@ -287,13 +287,13 @@ const EditListItem = ({
     >
       <div className="flex gap-3">
         <Input
-          label="Content RU"
+          label="Контент RU"
           type="text"
           value={listItem.contentRu}
           onChange={(e) => writeChanges(id, "contentRu", e.target.value)}
         />
         <Input
-          label="Content KZ"
+          label="Контент KZ"
           type="text"
           value={listItem.contentKz}
           onChange={(e) => writeChanges(id, "contentKz", e.target.value)}

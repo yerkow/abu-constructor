@@ -26,9 +26,9 @@ import { useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 interface CreatePageDialogProps {
-  ruParentId: number;
-  kzParentId: number;
-  slug: string;
+  ruParentId?: number;
+  kzParentId?: number;
+  slug?: string;
 }
 export const CreatePageDialog = ({
   ruParentId,

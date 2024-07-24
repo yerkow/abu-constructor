@@ -26,13 +26,13 @@ export const Base: Story = {
   args: {
     title: "Base title",
     variant: "base",
-    items: mockBase,
+    items: [],
   },
 };
 export const Horizontal: Story = {
   args: {
     title: "Horizontal title",
     variant: "horizontal",
-    items: mockHorizontal,
+    items: [],
   },
 };

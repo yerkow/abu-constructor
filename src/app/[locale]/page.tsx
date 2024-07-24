@@ -1,3 +1,5 @@
-export default function Locale({ params }: { params: { locale: string } }) {
-  return;
+import { redirect } from "next/navigation";
+
+export default function Page() {
+  return redirect("/ru/main");
 }
