@@ -25,9 +25,11 @@ export async function generateMetadata(
   const page = (await getPageBySlug(`/${slug.join("/")}`, locale))[0];
 
   return {
-    title: page
-      ? page.title
-      : "Профсоюз работников образования «Әділет» г. Нур-Султан",
+    title: !page
+      ? "Профсоюз работников образования «Әділет» г. Нур-Султан"
+      : page.title.includes("template")
+        ? "Профсоюз"
+        : page.title,
   };
 }
 

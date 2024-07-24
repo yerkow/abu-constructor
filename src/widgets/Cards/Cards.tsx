@@ -13,7 +13,7 @@ export const Cards = ({ title, variant, items }: CardsProps) => {
       <div
         className={cn(
           variant == "base"
-            ? "grid grid-cols-[auto] sm:grid-cols-[auto_auto] md:grid-cols-[auto_auto_auto] lg:grid-cols-[repeat(3_auto)]  gap-10 "
+            ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3   gap-10 "
             : "flex flex-col gap-2",
         )}
       >
