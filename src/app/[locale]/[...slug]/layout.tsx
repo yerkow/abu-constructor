@@ -20,7 +20,7 @@ export default async function Layout({
   return (
     <section>
       <Header />
-      <main className="max-w-[1200px] min-h-[calc(100svh-683px)] mx-auto   mb-10 mt-24 ">
+      <main className="max-w-[1200px] min-h-[calc(100svh-683px)] mx-auto px-5 xl:px-0   mb-10 mt-24 ">
         <BreadCrumbs locale={params.locale} slug={params.slug} pages={pages} />
         <div className="shadow-lg rounded-3xl flex p-10  flex-col gap-10">
           {children}
@@ -28,7 +28,7 @@ export default async function Layout({
       </main>
       <footer className="w-full h-[435px]  bg-cyan-400">
         <div className=" max-w-[1200px] mx-auto p-10 ">
-          <div className=" flex justify-between items-center mb-10">
+          <div className=" flex flex-col gap-5 md:flex-row md:justify-between md:items-center mb-3 md:mb-10">
             <div className="flex flex-col gap-4 items-start">
               <h2 className="text-2xl mb-4 text-white">Навигация</h2>
               {pages

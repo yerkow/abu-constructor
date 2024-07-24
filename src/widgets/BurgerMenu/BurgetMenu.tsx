@@ -39,7 +39,7 @@ export const BurgerMenu = () => {
     <Drawer direction="right">
       <DrawerTrigger>
         <div className="flex justify-center items-center md:hidden ">
-          <Menu size={32} />
+          <Menu size={32} color="white" />
         </div>
       </DrawerTrigger>
       <DrawerContent className="rounded-none bg-cyan-500  border-none px-4 py-10">
