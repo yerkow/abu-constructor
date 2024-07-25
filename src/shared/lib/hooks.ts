@@ -14,7 +14,7 @@ import { GetValuesByLang, saveToServerAndGetUrl } from "@/shared/lib/utils";
 import { useToast } from "@/shared/ui";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactNode } from "react";
 
 export const useTemplates = ({ savedTemplate }: { savedTemplate: string }) => {
   const [isSaved, setIsSaved] = useState(() => !!savedTemplate);
@@ -276,11 +276,8 @@ export function useTemplateWidget<StateProps>({
           return {
             ...GetValuesByLang("Ru", items[key], itemsStateFields),
             image,
-            href: items[key].href
-              ? items[key].href
-              : items[key].page
-                ? items[key].page.ru.slug
-                : items[key].templateSlug,
+            href: items[key].savedTemplate ? items[key].templateSlug : "",
+            templateSlug: items[key].templateSlug,
             templateId: key,
           };
         }),
@@ -355,19 +352,3 @@ export function useTemplateWidget<StateProps>({
     writeMainPropsChanges,
   };
 }
-
-export const useUploadFile = ({
-  img,
-  writeChanges,
-}: {
-  img: string;
-  writeChanges: (id: string, field: string, value: File | string) => void;
-}) => {
-  const [image, setImage] = useState<string | ArrayBuffer | null>(() => {
-    if (img) {
-      return `${backendImageUrl}${img}`;
-    } else {
-      return "";
-    }
-  });
-};

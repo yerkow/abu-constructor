@@ -1,4 +1,5 @@
 import { TemplatesSelect } from "@/features";
+import { useUploadFile } from "@/shared/lib";
 import { backendImageUrl } from "@/shared/lib/constants";
 import { useTemplates } from "@/shared/lib/hooks";
 import { TemplateSelectType } from "@/shared/lib/types";
@@ -31,12 +32,10 @@ export const EditCardItem = ({
     useTemplates({
       savedTemplate: card.savedTemplate,
     });
-  const [image, setImage] = useState<string | ArrayBuffer | null>(() => {
-    if (card.image) {
-      return `${backendImageUrl}${card.image}`;
-    } else {
-      return "";
-    }
+  const { Preview, FileInput } = useUploadFile({
+    id,
+    writeChanges,
+    img: card.image,
   });
   return (
     <EditItem
@@ -88,25 +87,8 @@ export const EditCardItem = ({
           onChange={(e) => writeChanges(id, "contentKz", e.target.value)}
         />
       </div>
-      {image && <img className="w-20 h-20" src={image as string} alt="image" />}
-      <Input
-        type="file"
-        label="Image"
-        onChange={(e) => {
-          if (e.target.files && e.target.files[0]) {
-            const file = e.target.files[0];
-            writeChanges(id, "image", file);
-            const reader = new FileReader();
-
-            reader.onload = function (event) {
-              if (event.target) setImage(event.target.result);
-            };
-            reader.readAsDataURL(file);
-
-            writeChanges(id, "image", file);
-          }
-        }}
-      />
+      {Preview}
+      {FileInput}
       {(card.templateWidgets || selectedTemplate) && (
         <TemplateWidgetsList
           id={id}
