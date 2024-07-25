@@ -36,7 +36,6 @@ export async function generateMetadata(
 
 export default async function Page({ params }: PageProps) {
   const data = await getPageContent(params.slug, params.locale);
-  console.log(data, "DATA");
 
   // let content = JSON.parse(localStorage.getItem("1720511119640") || "[]");
   // if (data.length == 0) return notFound();

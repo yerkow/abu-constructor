@@ -98,7 +98,6 @@ const ModalContent = ({
 
   const [listItems, setListItems] = useState<ListState>({});
   const [props, setProps] = useState<WidgetProps | null>(null);
-  console.log(props, "PRPOS");
 
   useEffect(() => {
     if (ruPageId && kzPageId)
@@ -120,7 +119,6 @@ const ModalContent = ({
       setListItems(temp);
     }
   }, [props]);
-  console.log(props, "PROPS", listItems, "LIST");
 
   const addNewListItem = () => {
     setListItems({
@@ -148,7 +146,6 @@ const ModalContent = ({
     if (ruPageId && kzPageId) {
       const RuItems = await Promise.all(
         Object.keys(listItems).map(async (key) => {
-          console.log(listItems[key].file);
           const file = await saveToServerAndGetUrl(listItems[key].file);
           return {
             id: key,

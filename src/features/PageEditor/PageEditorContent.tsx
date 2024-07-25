@@ -151,7 +151,6 @@ export const PageEditorContent = ({
   const getLiPos = (id: UniqueIdentifier) =>
     list.findIndex((li) => li.id === id);
 
-  console.log(list);
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
 
@@ -178,7 +177,6 @@ export const PageEditorContent = ({
     }
     updateOrder(list.filter((li) => li.id !== id));
   };
-  console.log(list);
 
   const updateOrder = async (listState: typeof list) => {
     try {
@@ -222,7 +220,6 @@ export const PageEditorContent = ({
   const onSave = () => {
     updateOrder(list);
   };
-  console.log(list);
 
   return (
     <section>

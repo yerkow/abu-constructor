@@ -37,7 +37,6 @@ export const getTemplates = async (): Promise<BackedPage[]> => {
     method: "GET",
     query: { navigation_type: "template" },
   });
-  console.log(templates);
 
   return templates.filter((t) => t.slug == "template");
 };

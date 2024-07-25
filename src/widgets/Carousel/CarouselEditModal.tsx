@@ -52,6 +52,7 @@ const ModalContent = ({
   const {
     addItem,
     deleteItem,
+    lockSaveBtn,
     onEdit,
     onSave,
     props,
@@ -96,7 +97,7 @@ const ModalContent = ({
       </section>
       <Button
         loading={loading}
-        disabled={loading}
+        disabled={loading || lockSaveBtn}
         onClick={() => {
           setLoading(true);
           props ? onEdit() : onSave();

@@ -25,8 +25,6 @@ export const PagesListTable = ({ ids }: PagesListTableProps) => {
     queryFn: !ids
       ? getPages
       : async () => {
-          console.log(ids);
-
           const data = await getPagesChildren(ids);
           return data;
         },

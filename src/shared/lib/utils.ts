@@ -93,7 +93,6 @@ export const saveToServerAndGetUrl = async (image: File | null | string) => {
   }
   if (image) {
     const { file_name } = await uploadFile(image);
-    console.log(file_name ? file_name : "NOT UPLOADD");
 
     return file_name;
   } else {
@@ -117,7 +116,8 @@ export const GetValuesByLang = (
       newObj[fields[i]] = obj[fields[i]];
     }
   }
-  console.log(newObj, lang, oppositeLang);
 
   return newObj;
 };
+
+export const Mutate = () => {};

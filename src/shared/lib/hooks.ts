@@ -121,6 +121,7 @@ export function useTemplateWidget<StateProps>({
   });
 
   const [widgetMainProps, setWidgetMainProps] = useState<any>({});
+
   const [props, setProps] = useState<WidgetProps | null>(null);
   useEffect(() => {
     if (ruPageId && kzPageId)
@@ -128,6 +129,7 @@ export function useTemplateWidget<StateProps>({
         setProps(data);
       });
   }, [ruPageId, kzPageId, order]);
+  const [toCompare, setToCompare] = useState({});
   useEffect(() => {
     if (props) {
       setWidgetMainProps(
@@ -142,6 +144,7 @@ export function useTemplateWidget<StateProps>({
           return obj;
         }, {}),
       );
+      setToCompare({ ...widgetMainProps });
       const temp: Record<string, StateProps> = {};
       let items = props.ruOptions.items;
       if (Array.isArray(items)) {
@@ -164,11 +167,23 @@ export function useTemplateWidget<StateProps>({
           );
         });
         setItems(temp);
+        setToCompare((prev) => ({ ...prev, items: temp }));
       }
     }
   }, [props]);
-
   const [items, setItems] = useState<Record<string, any>>({});
+  const [lockSaveBtn, setLockSaveBtn] = useState(true);
+  useEffect(() => {
+    if (
+      JSON.stringify({ ...widgetMainProps, items }) !==
+      JSON.stringify(toCompare)
+    ) {
+      setLockSaveBtn(false);
+    } else {
+      setLockSaveBtn(true);
+    }
+  }, [widgetMainProps, items]);
+
   const createTemplatePagesForCard = async () => {
     const ruPage = await createPage({
       title: "templatePage",
@@ -345,6 +360,7 @@ export function useTemplateWidget<StateProps>({
     writeChanges: writeItemsChanges,
     onSave,
     onEdit,
+    lockSaveBtn,
     deleteItem,
     items,
     loading,

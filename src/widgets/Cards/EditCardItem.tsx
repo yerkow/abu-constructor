@@ -18,8 +18,6 @@ export const EditCardItem = ({
   writeChanges: (id: string, field: string, value: string | File) => void;
   deleteCard: () => void;
 }) => {
-  console.log(card);
-
   //getWidgetProps for template
   const { isSaved, templates, setTemplates, selectedTemplate, onSelect } =
     useTemplates({

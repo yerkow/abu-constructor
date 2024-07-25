@@ -29,7 +29,6 @@ export const EditCarouselItem = ({
     writeChanges,
     img: carouselItem.image,
   });
-  console.log(carouselItem);
 
   return (
     <EditItem
