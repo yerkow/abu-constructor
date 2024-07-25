@@ -2,6 +2,7 @@ import { getPageBySlug } from "@/shared/api/pages";
 import { getWidgetsToDisplay } from "@/shared/api/widgets";
 import { capitalize } from "@/shared/lib";
 import { Cards, Carousel, Text, List } from "@/widgets";
+import { Info } from "@/widgets/Info/Info";
 import { Links } from "@/widgets/Links/Links";
 import { ResolvingMetadata, Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -36,6 +37,7 @@ export async function generateMetadata(
 
 export default async function Page({ params }: PageProps) {
   const data = await getPageContent(params.slug, params.locale);
+  console.log(data);
 
   // let content = JSON.parse(localStorage.getItem("1720511119640") || "[]");
   // if (data.length == 0) return notFound();
@@ -59,6 +61,8 @@ const getWidgetByName = (name: string, props: any) => {
       return <Text {...props} />;
     case "Links":
       return <Links {...props} />;
+    case "Info":
+      return <Info {...props} />;
 
     default:
       return <></>;

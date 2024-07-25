@@ -48,8 +48,9 @@ import {
 import { queryClient } from "@/shared/lib/client";
 import { usePathname, useSearchParams } from "next/navigation";
 import { LinksEditModal } from "@/widgets/Links/LinksEditModal";
-const widgetsList = ["Cards", "Carousel", "List", "Text", "Links"];
-//TODO: Pass it there, not in EditBtn
+import { InfoEditModal } from "@/widgets/Info/InfoEditWidget";
+//EDIT PAGE CONTENT
+const widgetsList = ["Cards", "Carousel", "List", "Text", "Links", "Info"];
 const getModal = (
   modal: string,
   order: number,
@@ -75,6 +76,8 @@ const getModal = (
         return <TextEditModal {...baseProps} />;
       case "Links":
         return <LinksEditModal {...baseProps} />;
+      case "Info":
+        return <InfoEditModal {...baseProps} />;
     }
   }
 };
