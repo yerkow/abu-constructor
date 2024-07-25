@@ -225,6 +225,7 @@ export function useTemplateWidget<StateProps>({
           const image = await saveToServerAndGetUrl(items[key].image);
           return {
             ...GetValuesByLang("Ru", items[key], itemsStateFields),
+            href: items[key].savedTemplate ? items[key].templateSlug : "",
             image,
             templateId: key,
             templateSlug: items[key].page?.ru.slug,
@@ -236,6 +237,7 @@ export function useTemplateWidget<StateProps>({
           const image = await saveToServerAndGetUrl(items[key].image);
           return {
             ...GetValuesByLang("Kz", items[key], itemsStateFields),
+            href: items[key].savedTemplate ? items[key].templateSlug : "",
             image,
             templateId: key,
             templateSlug: items[key].page?.ru.slug,

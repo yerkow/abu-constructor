@@ -57,17 +57,10 @@ const ModalContent = ({
     props,
     loading,
     setLoading,
-    hasTemplate,
-    savedTemplate,
     items,
     writeChanges,
     writeMainPropsChanges,
-    templates,
-    handleTemplate,
     widgetMainProps,
-    setSelectedTemplate,
-    selectedTemplate,
-    setHasTemplate,
   } = useTemplateWidget({
     widgetName: "Carousel",
     ruPageId,
@@ -75,37 +68,17 @@ const ModalContent = ({
     queryKey,
     order,
     widgetStateFields: [],
-    itemsStateFields: ["contentRu", "contentKz", "image"],
+    itemsStateFields: [
+      "contentRu",
+      "contentKz",
+      "image",
+      "savedTemplate",
+      "templateWidgets",
+    ],
   });
-  console.log(selectedTemplate, "HERE");
 
   return (
     <>
-      {modalVariant === "card" && (
-        <>
-          {!savedTemplate ? (
-            <div className="flex items-center gap-2">
-              <Checkbox
-                id="template"
-                checked={hasTemplate}
-                onCheckedChange={() => setHasTemplate(!hasTemplate)}
-              />
-              <Label htmlFor="template" className="mt-1">
-                Есть шаблон
-              </Label>
-            </div>
-          ) : (
-            <span>Использованный шаблон {savedTemplate}</span>
-          )}
-          {hasTemplate && !savedTemplate && (
-            <TemplatesSelect
-              savedTemplate={savedTemplate}
-              templates={templates}
-              onSelect={handleTemplate}
-            />
-          )}
-        </>
-      )}
       <Button onClick={addItem} className="w-full">
         Добавить
       </Button>
@@ -117,9 +90,7 @@ const ModalContent = ({
             deleteCarouselItem={() => deleteItem(key)}
             key={idx}
             id={key}
-            templateWidgets={
-              selectedTemplate ? selectedTemplate.widgets : undefined
-            }
+            modalVariant={modalVariant}
           />
         ))}
       </section>

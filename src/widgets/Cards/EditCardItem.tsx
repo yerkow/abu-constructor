@@ -1,16 +1,8 @@
 import { TemplatesSelect } from "@/features";
 import { useUploadFile } from "@/shared/lib";
-import { backendImageUrl } from "@/shared/lib/constants";
 import { useTemplates } from "@/shared/lib/hooks";
-import { TemplateSelectType } from "@/shared/lib/types";
 import { Button, EditItem, Input } from "@/shared/ui";
-import { CardsEditModal } from "@/widgets/Cards/CardsEditModal";
-import { CarouselEditModal } from "@/widgets/Carousel/CarouselEditModal";
-import { LinksEditModal } from "@/widgets/Links/LinksEditModal";
-import { ListEditModal } from "@/widgets/List/ListEditModal";
 import { TemplateWidgetsList } from "@/widgets/TemplateWidgetsList";
-import { TextEditModal } from "@/widgets/Text/TextEditModal";
-import { Fragment, useState } from "react";
 
 export const EditCardItem = ({
   modalVariant,

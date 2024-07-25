@@ -90,7 +90,6 @@ const ModalContent = ({
       "templateWidgets",
     ],
   });
-  console.log(widgetMainProps);
 
   return (
     <>
