@@ -8,6 +8,7 @@ import {
   getWidgetProps,
 } from "@/shared/api/widgets";
 import { queryClient } from "@/shared/lib/client";
+import { backendImageUrl } from "@/shared/lib/constants";
 import { TemplateSelectType, WidgetProps } from "@/shared/lib/types";
 import { GetValuesByLang, saveToServerAndGetUrl } from "@/shared/lib/utils";
 import { useToast } from "@/shared/ui";
@@ -16,6 +17,7 @@ import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 
 export const useTemplates = ({ savedTemplate }: { savedTemplate: string }) => {
+  const [isSaved, setIsSaved] = useState(() => !!savedTemplate);
   const {
     data: templatePages,
     isFetching: pagesIsFetching,
@@ -25,9 +27,6 @@ export const useTemplates = ({ savedTemplate }: { savedTemplate: string }) => {
     queryKey: ["getTemplates"],
     queryFn: getTemplates,
   });
-  const [saved, setSaved] = useState<string | null>(() =>
-    savedTemplate ? savedTemplate : null,
-  );
   const [templates, setTemplates] = useState<TemplateSelectType[]>([]);
   const [selectedTemplate, setSelectedTemplate] =
     useState<TemplateSelectType | null>(null);
@@ -66,7 +65,7 @@ export const useTemplates = ({ savedTemplate }: { savedTemplate: string }) => {
     });
   };
   return {
-    saved,
+    isSaved,
     templates,
     setTemplates,
     selectedTemplate,
@@ -356,3 +355,19 @@ export function useTemplateWidget<StateProps>({
     writeMainPropsChanges,
   };
 }
+
+export const useUploadFile = ({
+  img,
+  writeChanges,
+}: {
+  img: string;
+  writeChanges: (id: string, field: string, value: File | string) => void;
+}) => {
+  const [image, setImage] = useState<string | ArrayBuffer | null>(() => {
+    if (img) {
+      return `${backendImageUrl}${img}`;
+    } else {
+      return "";
+    }
+  });
+};
