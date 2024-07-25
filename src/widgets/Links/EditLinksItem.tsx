@@ -5,6 +5,7 @@ import { CarouselEditModal } from "@/widgets/Carousel/CarouselEditModal";
 import { LinksEditModal } from "@/widgets/Links/LinksEditModal";
 import { ListEditModal } from "@/widgets/List/ListEditModal";
 import { TextEditModal } from "@/widgets/Text/TextEditModal";
+import { DeleteIcon } from "lucide-react";
 import { useState, Fragment } from "react";
 
 export const EditLinksItem = ({
@@ -33,8 +34,8 @@ export const EditLinksItem = ({
       title={"Cсылка " + id}
       buttons={
         <>
-          <Button onClick={deleteItem} size={"sm"}>
-            Delete
+          <Button onClick={deleteItem} size={"icon"}>
+            <DeleteIcon />
           </Button>
         </>
       }

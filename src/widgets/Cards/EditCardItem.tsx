@@ -3,6 +3,7 @@ import { useUploadFile } from "@/shared/lib";
 import { useTemplates } from "@/shared/lib/hooks";
 import { Button, EditItem, Input } from "@/shared/ui";
 import { TemplateWidgetsList } from "@/widgets/TemplateWidgetsList";
+import { DeleteIcon } from "lucide-react";
 
 export const EditCardItem = ({
   modalVariant,
@@ -33,7 +34,9 @@ export const EditCardItem = ({
     <EditItem
       buttons={
         <>
-          <Button onClick={deleteCard}>Delete</Button>
+          <Button onClick={deleteCard} size={"icon"}>
+            <DeleteIcon />
+          </Button>
         </>
       }
       title={"Карточка " + id}

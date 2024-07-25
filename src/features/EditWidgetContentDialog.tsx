@@ -39,6 +39,7 @@ export const EditWidgetContentDialog = ({
         </Button>
       </DialogTrigger>
       <DialogContent
+        alertBtn={true}
         onInteractOutside={(e) => e.preventDefault()}
         className="max-w-sm sm:max-w-full "
       >
