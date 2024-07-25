@@ -5,16 +5,16 @@ import { useState, ReactNode } from "react";
 
 export const useUploadFile = ({
   id,
-  img,
+  file,
   writeChanges,
 }: {
   id: string;
-  img: string;
+  file: string;
   writeChanges: (id: string, field: string, value: File | string) => void;
 }) => {
   const [image, setImage] = useState<string | ArrayBuffer | null>(() => {
-    if (img) {
-      return `${backendImageUrl}${img}`;
+    if (file) {
+      return `${backendImageUrl}${file}`;
     } else {
       return "";
     }
@@ -24,6 +24,7 @@ export const useUploadFile = ({
   ) : (
     <></>
   );
+
   const FileInput: ReactNode = (
     <Input
       type="file"
@@ -41,5 +42,6 @@ export const useUploadFile = ({
       }}
     />
   );
+
   return { Preview, FileInput };
 };
