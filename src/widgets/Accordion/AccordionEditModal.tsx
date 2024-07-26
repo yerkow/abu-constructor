@@ -1,27 +1,28 @@
 import { TemplatesSelect } from "@/features";
 import { useTemplateWidget } from "@/shared/lib/hooks";
 import { Button, Input, WidgetView } from "@/shared/ui";
+import { EditAccordionItem } from "@/widgets/Accordion/EditAccordionItem";
 import { EditLinksItem } from "@/widgets/Links/EditLinksItem";
 
-interface LinksEditModalProps {
+interface AccordionEditModalProps {
   variant?: "dialog" | "card";
   order: number;
   ruPageId: number | null;
   kzPageId: number | null;
   queryKey: string;
 }
-export const LinksEditModal = ({
+export const AccordionEditModal = ({
   variant = "card",
   order,
   ruPageId,
   kzPageId,
   queryKey,
-}: LinksEditModalProps) => {
+}: AccordionEditModalProps) => {
   return (
     <WidgetView
       variant={variant}
-      cardTitle="Редактировать Links"
-      desc="Здесь мы можете отредактировать виджет Links"
+      cardTitle="Редактировать Accordion"
+      desc="Здесь мы можете отредактировать виджен Accordion"
       triggerTitle="Редактировать ссылки"
       content={
         <ModalContent
@@ -62,38 +63,23 @@ const ModalContent = ({
     writeMainPropsChanges,
     widgetMainProps,
   } = useTemplateWidget({
-    widgetName: "Links",
+    widgetName: "Accordion",
     ruPageId,
     kzPageId,
     queryKey,
     order,
-    widgetStateFields: ["titleRu", "titleKz"],
-    itemsStateFields: ["nameRu", "nameKz", "linkRu", "linkKz"],
+    widgetStateFields: [],
+    itemsStateFields: ["questionRu", "questionKz", "answerRu", "answerKz"],
   });
 
   return (
     <>
-      <div className="flex flex-col md:flex-row gap-3">
-        <Input
-          label="Заголовок на русском"
-          type="text"
-          value={widgetMainProps.titleRu}
-          onChange={(e) => writeMainPropsChanges("titleRu", e.target.value)}
-        />
-        <Input
-          label="Заголовок на казахском"
-          type="text"
-          value={widgetMainProps.titleKz}
-          onChange={(e) => writeMainPropsChanges("titleKz", e.target.value)}
-        />
-      </div>
-
       <Button onClick={addItem} className="w-full">
         Добавить
       </Button>
       <section className="max-h-[460px] flex flex-col gap-10 overflow-y-scroll w-full  rounded-md border p-4 ">
         {Object.keys(items).map((key, idx) => (
-          <EditLinksItem
+          <EditAccordionItem
             writeChanges={writeChanges}
             item={items[key]}
             deleteItem={() => deleteItem(key)}

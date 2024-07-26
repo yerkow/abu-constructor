@@ -2,6 +2,7 @@ import { getPageBySlug } from "@/shared/api/pages";
 import { getWidgetsToDisplay } from "@/shared/api/widgets";
 import { capitalize } from "@/shared/lib";
 import { Cards, Carousel, Text, List } from "@/widgets";
+import { Accordion } from "@/widgets/Accordion/Accordion";
 import { Info } from "@/widgets/Info/Info";
 import { Links } from "@/widgets/Links/Links";
 import { ResolvingMetadata, Metadata } from "next";
@@ -63,6 +64,8 @@ const getWidgetByName = (name: string, props: any) => {
       return <Links {...props} />;
     case "Info":
       return <Info {...props} />;
+    case "Accordion":
+      return <Accordion {...props} />;
 
     default:
       return <></>;

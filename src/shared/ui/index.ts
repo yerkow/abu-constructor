@@ -135,3 +135,10 @@ export {
   AlertDialogAction,
   AlertDialogCancel,
 } from "./alert-dialog";
+
+export {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "./accordion";

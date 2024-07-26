@@ -51,8 +51,17 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { LinksEditModal } from "@/widgets/Links/LinksEditModal";
 import { InfoEditModal } from "@/widgets/Info/InfoEditWidget";
 import { DialogTitle } from "@radix-ui/react-dialog";
+import { AccordionEditModal } from "@/widgets/Accordion/AccordionEditModal";
 //EDIT PAGE CONTENT
-const widgetsList = ["Cards", "Carousel", "List", "Text", "Links", "Info"];
+const widgetsList = [
+  "Cards",
+  "Carousel",
+  "List",
+  "Text",
+  "Links",
+  "Info",
+  "Accordion",
+];
 const getModal = (
   modal: string,
   order: number,
@@ -80,6 +89,8 @@ const getModal = (
         return <LinksEditModal {...baseProps} />;
       case "Info":
         return <InfoEditModal {...baseProps} />;
+      case "Accordion":
+        return <AccordionEditModal {...baseProps} />;
     }
   }
 };
