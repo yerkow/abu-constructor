@@ -18,16 +18,16 @@ export default async function Layout({
 }) {
   const pages = await getPages(params.locale);
   return (
-    <section>
+    <section >
       <Header />
-      <main className="max-w-[1200px] min-h-[calc(100svh-683px)] mx-auto px-5 xl:px-0   mb-10 mt-24 ">
+      <main className="max-w-[1200px] min-h-[100svh] overflow-y-auto mx-auto px-5 xl:px-0   mb-10 mt-20 ">
         <BreadCrumbs locale={params.locale} slug={params.slug} pages={pages} />
         <div className="shadow-lg rounded-3xl flex p-10  flex-col gap-10">
           {children}
         </div>
       </main>
-      <footer className="w-full h-[435px]  bg-cyan-400">
-        <div className=" max-w-[1200px] mx-auto p-10 ">
+      <footer className="w-full h-auto  bg-cyan-400">
+        <div className=" max-w-[1200px] mx-auto px-10 py-5 ">
           <div className=" flex flex-col gap-5 md:flex-row md:justify-between md:items-center mb-3 md:mb-10">
             <div className="flex flex-col gap-4 items-start">
               <h2 className="text-2xl mb-4 text-white">Навигация</h2>

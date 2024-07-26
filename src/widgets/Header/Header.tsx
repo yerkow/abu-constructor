@@ -7,20 +7,20 @@ import Image from "next/image";
 
 export const Header = () => {
   return (
-    <header className="h-[248px] relative   bg-cyan-500 flex flex-col gap-5  w-full ">
+    <header className="h-auto relative   bg-cyan-500 flex flex-col gap-2   w-full ">
       <section className="min-h-10 mr-0 md:mr-10 flex gap-6 items-center  justify-end pt-3 pr-3">
+      <Links/>
         <SocialLinks />
         <ChangeLocale />
         <BurgerMenu />
       </section>
-      <section className="grid  grid-cols-1  md:grid-cols-3  md:items-center gap-10">
-        <div className="flex px-5 md:px-0  gap-5 md:gap-10 items-center w-full justify-center  md:col-start-2 md:col-end-3">
+      <section className=" md:px-20 px-5 grid    grid-cols-[100px_1fr]  md:items-center gap-5">
           <Image
             src={"/logo.svg"}
-            height={120}
-            width={120}
+            height={80}
+            width={80}
             alt="Logo"
-            className="w-[100px] h-[100px] md:w-[120px] md:h-[120px]"
+            className=" w-[100px] h-[100px] md:w-[100px] md:h-[100px]"
           />
           <AnimatedText
             text={[
@@ -28,8 +28,6 @@ export const Header = () => {
               "АСТАНА ҚАЛАСЫНЫҢ БІЛІМ БЕРУ ҚЫЗМЕТКЕРЛЕРІНІҢ КӘСІПОДАҒЫ",
             ]}
           />
-        </div>
-        <Links />
       </section>
       <Navbar />
     </header>
@@ -37,7 +35,7 @@ export const Header = () => {
 };
 const Links = () => {
   return (
-    <div className="text-white col-start-3 col-end-4 justify-self-center hidden lg:block">
+    <div className="text-white gap-10  hidden lg:flex">
       <div className="flex gap-4">
         <Phone />
         <a href="tel:+7 /7172/ 21-71-06">+7 /7172/ 21-71-06</a>
