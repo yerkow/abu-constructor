@@ -82,7 +82,9 @@ type useTemplateWidgetProps = {
   order: number;
   itemsStateFields: string[];
   widgetStateFields: string[];
+  withTemplate: boolean;
 };
+const fieldsWithTemplate = ["savedTemplate", "templateWidgets"];
 export function useTemplateWidget<StateProps>({
   widgetName,
   queryKey,
@@ -90,6 +92,7 @@ export function useTemplateWidget<StateProps>({
   kzPageId,
   itemsStateFields,
   widgetStateFields,
+  withTemplate,
   order,
 }: useTemplateWidgetProps) {
   const { toast } = useToast();
@@ -178,10 +181,12 @@ export function useTemplateWidget<StateProps>({
               }
               return obj;
             },
-            {
-              templateSlug: item.templateSlug,
-              href: item.href,
-            },
+            withTemplate
+              ? {
+                  templateSlug: item.templateSlug,
+                  href: item.href,
+                }
+              : {},
           );
         });
         setItems(temp);
@@ -224,21 +229,40 @@ export function useTemplateWidget<StateProps>({
   };
   const addItem = async () => {
     try {
-      const { ruPage, kzPage } = await createTemplatePagesForCard();
-      setItems({
-        ...items,
-        [`${ruPage.id}*${kzPage.id}`]: itemsStateFields.reduce(
-          (obj: any, field: string) => {
-            obj[field] = "";
-            return obj;
-          },
-          {
-            templateSlug: ruPage.slug,
-            page: { ru: ruPage, kz: kzPage },
-          },
-        ),
-      });
-    } catch (e) {}
+      let ruPage: any, kzPage: any;
+
+      if (withTemplate) {
+        ({ ruPage, kzPage } = await createTemplatePagesForCard());
+      }
+
+      const key = withTemplate
+        ? `${ruPage.id}*${kzPage.id}`
+        : Date.now().toString();
+
+      const newItem = (
+        withTemplate
+          ? itemsStateFields
+          : itemsStateFields.concat(fieldsWithTemplate)
+      ).reduce(
+        (obj: any, field: string) => {
+          obj[field] = "";
+          return obj;
+        },
+        withTemplate
+          ? {
+              templateSlug: ruPage.slug,
+              page: { ru: ruPage, kz: kzPage },
+            }
+          : {},
+      );
+
+      setItems((prevItems) => ({
+        ...prevItems,
+        [key]: newItem,
+      }));
+    } catch (e) {
+      console.log(e);
+    }
   };
   const writeMainPropsChanges = (key: string, value: string) => {
     setWidgetMainProps({ ...widgetMainProps, [key]: value });
@@ -257,7 +281,13 @@ export function useTemplateWidget<StateProps>({
         Object.keys(items).map(async (key) => {
           const image = await saveToServerAndGetUrl(items[key].image);
           return {
-            ...GetValuesByLang("Ru", items[key], itemsStateFields),
+            ...GetValuesByLang(
+              "Ru",
+              items[key],
+              withTemplate
+                ? itemsStateFields.concat(fieldsWithTemplate)
+                : itemsStateFields,
+            ),
             href: items[key].savedTemplate ? items[key].templateSlug : "",
             image,
             templateId: key,
@@ -269,7 +299,13 @@ export function useTemplateWidget<StateProps>({
         Object.keys(items).map(async (key) => {
           const image = await saveToServerAndGetUrl(items[key].image);
           return {
-            ...GetValuesByLang("Kz", items[key], itemsStateFields),
+            ...GetValuesByLang(
+              "Kz",
+              items[key],
+              withTemplate
+                ? itemsStateFields.concat(fieldsWithTemplate)
+                : itemsStateFields,
+            ),
             href: items[key].savedTemplate ? items[key].templateSlug : "",
             image,
             templateId: key,
@@ -309,7 +345,13 @@ export function useTemplateWidget<StateProps>({
         Object.keys(items).map(async (key) => {
           const image = await saveToServerAndGetUrl(items[key].image);
           return {
-            ...GetValuesByLang("Ru", items[key], itemsStateFields),
+            ...GetValuesByLang(
+              "Ru",
+              items[key],
+              withTemplate
+                ? itemsStateFields.concat(fieldsWithTemplate)
+                : itemsStateFields,
+            ),
             image,
             href: items[key].savedTemplate ? items[key].templateSlug : "",
             templateSlug: items[key].templateSlug,
@@ -322,7 +364,13 @@ export function useTemplateWidget<StateProps>({
         Object.keys(items).map(async (key) => {
           const image = await saveToServerAndGetUrl(items[key].image);
           return {
-            ...GetValuesByLang("Kz", items[key], itemsStateFields),
+            ...GetValuesByLang(
+              "Kz",
+              items[key],
+              withTemplate
+                ? itemsStateFields.concat(fieldsWithTemplate)
+                : itemsStateFields,
+            ),
             image,
             href: items[key].href
               ? items[key].href
@@ -364,14 +412,16 @@ export function useTemplateWidget<StateProps>({
       delete temp[id];
       return { ...temp };
     });
-    const ids = id.split("*");
-    ids.forEach((id) => {
-      try {
-        deletePage(+id);
-      } catch (e) {
-        console.log(e);
-      }
-    });
+    if (withTemplate) {
+      const ids = id.split("*");
+      ids.forEach((id) => {
+        try {
+          deletePage(+id);
+        } catch (e) {
+          console.log(e);
+        }
+      });
+    }
   };
   return {
     addItem,

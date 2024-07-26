@@ -80,16 +80,9 @@ const ModalContent = ({
     kzPageId,
     queryKey,
     order,
+    withTemplate: true,
     widgetStateFields: ["titleRu", "titleKz", "variant"],
-    itemsStateFields: [
-      "titleRu",
-      "titleKz",
-      "contentRu",
-      "contentKz",
-      "image",
-      "savedTemplate",
-      "templateWidgets",
-    ],
+    itemsStateFields: ["titleRu", "titleKz", "contentRu", "contentKz", "image"],
   });
 
   return (

@@ -65,6 +65,7 @@ const ModalContent = ({
   } = useTemplateWidget({
     widgetName: "Carousel",
     ruPageId,
+    withTemplate: false,
     kzPageId,
     queryKey,
     order,

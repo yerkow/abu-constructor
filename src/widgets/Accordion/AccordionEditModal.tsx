@@ -65,6 +65,7 @@ const ModalContent = ({
   } = useTemplateWidget({
     widgetName: "Accordion",
     ruPageId,
+    withTemplate: false,
     kzPageId,
     queryKey,
     order,
