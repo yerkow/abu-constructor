@@ -64,7 +64,7 @@ export const useTemplates = ({ savedTemplate }: { savedTemplate: string }) => {
       return selected;
     });
   };
-  
+
   return {
     isSaved,
     templates,
@@ -108,6 +108,14 @@ export function useTemplateWidget<StateProps>({
         title: "Виджет создан.",
       });
     },
+    onError: (error) => {
+      toast({
+        variant: "destructive",
+        title: "Ошибка при создании виджета.",
+      });
+      setLoading(false);
+      console.log(error);
+    },
   });
   const { mutate: editWidgetMutation, isPending: editIsPending } = useMutation({
     mutationKey: ["editCardsWidget"],
@@ -119,13 +127,20 @@ export function useTemplateWidget<StateProps>({
         title: "Виджет изменен.",
       });
     },
+    onError: (error) => {
+      toast({
+        variant: "destructive",
+        title: "Ошибка при изменении виджета.",
+      });
+      setLoading(false);
+      console.log(error);
+    },
   });
 
   const [widgetMainProps, setWidgetMainProps] = useState<any>({});
 
   const [props, setProps] = useState<WidgetProps | null>(null);
 
-  console.log(props)
   useEffect(() => {
     if (ruPageId && kzPageId)
       getWidgetProps({ ruPageId, kzPageId, order }).then((data) => {

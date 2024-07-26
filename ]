@@ -50,7 +50,6 @@ import { queryClient } from "@/shared/lib/client";
 import { usePathname, useSearchParams } from "next/navigation";
 import { LinksEditModal } from "@/widgets/Links/LinksEditModal";
 import { InfoEditModal } from "@/widgets/Info/InfoEditWidget";
-import { DialogTitle } from "@radix-ui/react-dialog";
 //EDIT PAGE CONTENT
 const widgetsList = ["Cards", "Carousel", "List", "Text", "Links", "Info"];
 const getModal = (
@@ -128,7 +127,7 @@ export const PageEditorContent = ({
   }, [data, isFetching]);
   const { toast } = useToast();
   const {
-    mutateAsync: deleteMutation,
+    mutate: deleteMutation,
     isPending: deleteIsPending,
     error: deleteError,
   } = useMutation({
@@ -139,10 +138,7 @@ export const PageEditorContent = ({
       toast({ title: "Виджет удален" });
     },
     onError: (error) => {
-      toast({
-        title: "При удалении виджета произошла ошибка",
-        variant: "destructive",
-      });
+      toast({ title: "При удалении виджета произошла ошибка" });
       console.log(error);
     },
   });
@@ -155,14 +151,7 @@ export const PageEditorContent = ({
     },
   });
   const [list, setList] = useState<any[]>([]);
-  useEffect(() => {
-    for (let i = 0; i < list.length; i++) {
-      if (list[i].id !== i + 1) {
-        updateOrder(list);
-        break;
-      }
-    }
-  }, [list]);
+  useEffect(() => {}, [list]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -189,63 +178,57 @@ export const PageEditorContent = ({
   const onWidgetDelete = async (id: number) => {
     const widgetToDelete = list.find((li) => li.id === id);
     if (widgetToDelete && widgetToDelete.props) {
-      Promise.all([
-        deleteMutation({
-          id: widgetToDelete.props.ruId,
-          navigation_id: widgetToDelete.props.ru_navigation_id,
-        }),
+      deleteMutation({
+        id: widgetToDelete.props.ruId,
+        navigation_id: widgetToDelete.props.ru_navigation_id,
+      }),
         deleteMutation({
           id: widgetToDelete.props.kzId,
           navigation_id: widgetToDelete.props.kz_navigation_id,
-        }),
-      ]).then(() => {
-        console.log("updated");
-
-        updateOrder(list.filter((li) => li.id !== id));
-      });
+        });
     }
+    updateOrder(list.filter((li) => li.id !== id));
   };
   console.log(list);
 
   const updateOrder = async (listState: typeof list) => {
+    let error = false;
     try {
-      // Use map to create an array of promises
-      const updatePromises = listState.map(async (li, idx) => {
+      const updatedList = listState.map((li, idx) => {
         if (li.props && ruId && kzId) {
-          try {
-            // Await Promise.all to ensure both operations complete successfully
-            await Promise.all([
-              editWidget({
-                id: li.props.ruId,
-                body: { order: idx + 1 },
-                navigation_id: +ruId,
-              }),
-              editWidget({
-                id: li.props.kzId,
-                body: { order: idx + 1 },
-                navigation_id: +kzId,
-              }),
-            ]);
-          } catch (e) {
-            // Handle the error in the inner try block
-            throw new Error(`Error updating widget order`);
-          }
+          Promise.all([
+            editWidget({
+              id: li.props.ruId,
+              body: { order: idx + 1 },
+              navigation_id: +ruId,
+            }),
+            editWidget({
+              id: li.props.kzId,
+              body: { order: idx + 1 },
+              navigation_id: +kzId,
+            }),
+          ]).catch((e) => {
+            error = true;
+          });
+          return { ...li, id: idx + 1 };
+        } else {
+          return { ...li, id: idx + 1 };
         }
-        return { ...li, id: idx + 1 };
       });
-
-      // Await all update promises and check for any errors
-      const updatedList = await Promise.all(updatePromises);
-      setList(updatedList);
-      toast({
-        title: "Порядок виджетов обновлен",
-      });
+      if (error) {
+        toast({
+          title: "Произошла ошибка при обновлении порядка виджетов",
+          variant: "destructive",
+        });
+      } else {
+        setList(updatedList);
+      }
     } catch (error) {
       console.error("Error updating widget order:", error);
-      toast({
-        title: "Произошла ошибка при обновлении порядка виджетов",
-        variant: "destructive",
-      });
+      // toast({
+      //   title: "Произошла ошибка при обновлении порядка виджетов",
+      //   variant: "destructive",
+      // });
     }
   };
   const ruId = useSearchParams().get("ruId");
@@ -359,12 +342,10 @@ const DeleteWidgetDialog = ({
         <DeleteIcon />
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Удаление виджета</DialogTitle>
-          <DialogDescription>
-            Вы действительно хотите удалить виджет {name}
-          </DialogDescription>
-        </DialogHeader>
+        <DialogHeader>Удаление виджета</DialogHeader>
+        <DialogDescription>
+          Вы действительно хотите удалить виджет {name}
+        </DialogDescription>
         <DialogFooter className="flex gap-10">
           <Button
             className="flex-1"
