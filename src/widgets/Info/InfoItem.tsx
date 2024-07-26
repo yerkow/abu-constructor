@@ -18,7 +18,7 @@ export const InfoItem = ({
   return (
     <div
       className={clsx(
-        "flex  gap-10 bg-slate-50 p-3 rounded-md shadow-slate-400 shadow-md",
+        "flex  gap-10 bg-slate-50 p-3 rounded-md shadow-slate-400 shadow-sm",
         imagePosition == "left"
           ? "flex-col lg:flex-row "
           : "flex-col lg:flex-row-reverse",

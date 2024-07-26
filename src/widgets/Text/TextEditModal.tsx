@@ -77,27 +77,27 @@ const ModalContent = ({
     kzPageId,
     queryKey,
     order,
-    widgetStateFields: ["titleRu", "titleKz", "contentRu", "contentKz"],
+    widgetStateFields: ["headingRu", "headingKz", "contentRu", "contentKz"],
     itemsStateFields: [],
   });
   console.log(widgetMainProps);
 
   return (
-    <section className="flex flex-col gap-3 h-full">
+    <section className="flex h-full  flex-col gap-3  ">
       <div className="flex flex-col   gap-3">
         <Input
           label="Заголовок RU"
           type="text"
-          value={widgetMainProps.titleRu}
+          value={widgetMainProps.headingRu}
           required
-          onChange={(e) => writeMainPropsChanges("titleRu", e.target.value)}
+          onChange={(e) => writeMainPropsChanges("headingRu", e.target.value)}
         />
         <Input
           label="Заголовок KZ"
           type="text"
           required
-          value={widgetMainProps.titleKz}
-          onChange={(e) => writeMainPropsChanges("titleKz", e.target.value)}
+          value={widgetMainProps.headingKz}
+          onChange={(e) => writeMainPropsChanges("headingKz", e.target.value)}
         />
       </div>
       <div className="flex flex-col flex-grow   gap-3 w-full justify-between">
@@ -105,7 +105,7 @@ const ModalContent = ({
           <Label>Контент RU</Label>
           <ReactQuill
             value={widgetMainProps.contentRu}
-            className="h-[250px] overflow-scroll"
+            className=" overflow-y-auto max-h-[200px]"
             onChange={(value) => writeMainPropsChanges("contentRu", value)}
             modules={quillModules}
             theme="snow"
@@ -115,7 +115,7 @@ const ModalContent = ({
           <Label>Контент KZ</Label>
           <ReactQuill
             value={widgetMainProps.contentKz}
-            className="h-[250px] overflow-scroll"
+            className="overflow-y-auto max-h-[200px]"
             onChange={(value) => writeMainPropsChanges("contentKz", value)}
             modules={quillModules}
             theme="snow"
