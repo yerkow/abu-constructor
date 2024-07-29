@@ -49,7 +49,7 @@ import {
 import { queryClient } from "@/shared/lib/client";
 import { usePathname, useSearchParams } from "next/navigation";
 import { LinksEditModal } from "@/widgets/Links/LinksEditModal";
-import { InfoEditModal } from "@/widgets/Info/InfoEditWidget";
+import { InfoEditModal } from "@/widgets/Info/InfoEditModal";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { AccordionEditModal } from "@/widgets/Accordion/AccordionEditModal";
 //EDIT PAGE CONTENT

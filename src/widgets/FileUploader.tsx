@@ -29,7 +29,7 @@ export const FileUploader = ({
     }
   });
   return (
-    <>
+    <div className="flex flex-col gap-4">
       {forImage && image && (
         <img className="w-20 h-20" src={image as string} alt="image" />
       )}
@@ -48,6 +48,6 @@ export const FileUploader = ({
           }
         }}
       />
-    </>
+    </div>
   );
 };

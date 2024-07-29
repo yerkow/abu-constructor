@@ -29,7 +29,9 @@ export const WidgetView = ({
         <CardTitle>{cardTitle}</CardTitle>
         <CardDescription>{desc}</CardDescription>
       </CardHeader>
-      <CardContent className="flex  flex-col gap-3">{content}</CardContent>
+      <CardContent className="flex max-h-[calc(100svh-200px)] overflow-y-auto  flex-col gap-3">
+        {content}
+      </CardContent>
     </Card>
   ) : (
     <Dialog>
