@@ -141,7 +141,7 @@ const ModalContent = ({
                 key={idx}
                 id={key}
                 title="Элемент"
-                withTemplate
+                withTemplate={withTemplate}
               />
             ))}
           </section>

@@ -177,6 +177,8 @@ export const EditItem = ({
   deleteItem,
   writeChanges,
 }: EditItemProps) => {
+  console.log(withTemplate);
+
   return (
     <EditItemWrapper
       buttons={

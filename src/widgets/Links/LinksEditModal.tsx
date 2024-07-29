@@ -25,7 +25,7 @@ export const LinksEditModal = (props: BaseEditModalProps) => {
     mainInputs,
     itemKeys,
     itemInputs,
-    withTemplate: true,
+    withTemplate: false,
   };
   return <EditModal {...modalProps} />;
 };
