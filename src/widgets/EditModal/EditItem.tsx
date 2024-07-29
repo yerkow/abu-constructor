@@ -1,3 +1,4 @@
+"use client";
 import { TemplatesSelect } from "@/features";
 import { useTemplates } from "@/shared/lib/hooks";
 import { InputComponent } from "@/shared/lib/types";
@@ -5,6 +6,7 @@ import {
   Button,
   EditItemWrapper,
   Input,
+  Label,
   Select,
   SelectContent,
   SelectItem,
@@ -15,6 +17,21 @@ import { FileUploader } from "@/widgets/FileUploader";
 import { TemplateWidgetsList } from "@/widgets/TemplateWidgetsList";
 import { DeleteIcon } from "lucide-react";
 import { Fragment } from "react";
+import ReactQuill from "react-quill";
+const quillModules = {
+  toolbar: [
+    [{ size: [] }],
+    ["bold", "italic", "underline", "strike", "blockquote"],
+    [
+      { list: "ordered" },
+      { list: "bullet" },
+      { indent: "-1" },
+      { indent: "+1" },
+    ],
+    ["link", "image", "video"],
+    ["clean"],
+  ],
+};
 
 interface EditItemProps {
   id: string;
@@ -60,6 +77,19 @@ export const getInput = (
           value={item[field]}
           onChange={(e) => writeFn({ id: id, field, value: e.target.value })}
         />
+      );
+    case "quill":
+      return (
+        <div>
+          <Label>Контент KZ</Label>
+          <ReactQuill
+            value={item[field]}
+            className="overflow-y-auto max-h-[200px]"
+            onChange={(value) => writeFn({ id, field, value })}
+            modules={quillModules}
+            theme="snow"
+          />
+        </div>
       );
     case "select":
       return (

@@ -124,25 +124,29 @@ const ModalContent = ({
           </Fragment>
         ))}
       </div>
-      <Button onClick={addItem} className="w-full">
-        Добавить
-      </Button>
-      <section className="max-h-[460px] flex flex-col gap-10 overflow-y-auto w-full  rounded-md border p-4 ">
-        {Object.keys(items).map((key, idx) => (
-          <EditItem
-            inputs={itemInputs}
-            keys={itemKeys}
-            modalVariant={modalVariant}
-            writeChanges={writeChanges}
-            item={items[key]}
-            deleteItem={() => deleteItem(key)}
-            key={idx}
-            id={key}
-            title="Элемент"
-            withTemplate
-          />
-        ))}
-      </section>
+      {itemKeys.length > 0 && (
+        <>
+          <Button onClick={addItem} className="w-full">
+            Добавить
+          </Button>
+          <section className="max-h-[460px] flex flex-col gap-10 overflow-y-auto w-full  rounded-md border p-4 ">
+            {Object.keys(items).map((key, idx) => (
+              <EditItem
+                inputs={itemInputs}
+                keys={itemKeys}
+                modalVariant={modalVariant}
+                writeChanges={writeChanges}
+                item={items[key]}
+                deleteItem={() => deleteItem(key)}
+                key={idx}
+                id={key}
+                title="Элемент"
+                withTemplate
+              />
+            ))}
+          </section>
+        </>
+      )}
       <Button
         loading={loading}
         disabled={loading || lockSaveBtn}
