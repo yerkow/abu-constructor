@@ -1,12 +1,5 @@
-import { backendImageUrl } from "@/shared/lib/constants";
-import { EditItem, Button, Input } from "@/shared/ui";
-import { CardsEditModal } from "@/widgets/Cards/CardsEditModal";
-import { CarouselEditModal } from "@/widgets/Carousel/CarouselEditModal";
-import { LinksEditModal } from "@/widgets/Links/LinksEditModal";
-import { ListEditModal } from "@/widgets/List/ListEditModal";
-import { TextEditModal } from "@/widgets/Text/TextEditModal";
+import { Button, EditItemWrapper, Input } from "@/shared/ui";
 import { DeleteIcon } from "lucide-react";
-import { useState, Fragment } from "react";
 
 export const EditLinksItem = ({
   id,
@@ -21,16 +14,8 @@ export const EditLinksItem = ({
   templateWidgets?: string[];
   deleteItem: () => void;
 }) => {
-  const [image, setImage] = useState<string | ArrayBuffer | null>(() => {
-    if (item.image) {
-      return `${backendImageUrl}${item.image}`;
-    } else {
-      return "";
-    }
-  });
-
   return (
-    <EditItem
+    <EditItemWrapper
       title={"Cсылка " + id}
       buttons={
         <>
@@ -66,6 +51,6 @@ export const EditLinksItem = ({
           onChange={(e) => writeChanges(id, "linkKz", e.target.value)}
         />
       </div>
-    </EditItem>
+    </EditItemWrapper>
   );
 };

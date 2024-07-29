@@ -1,7 +1,7 @@
 import { TemplatesSelect } from "@/features";
 import { useUploadFile } from "@/shared/lib";
 import { useTemplates } from "@/shared/lib/hooks";
-import { Button, EditItem, Input } from "@/shared/ui";
+import { Button, EditItemWrapper, Input } from "@/shared/ui";
 import { TemplateWidgetsList } from "@/widgets/TemplateWidgetsList";
 import { DeleteIcon } from "lucide-react";
 
@@ -31,7 +31,7 @@ export const EditCarouselItem = ({
   });
 
   return (
-    <EditItem
+    <EditItemWrapper
       title={"Слайд" + id}
       buttons={
         <>
@@ -77,6 +77,6 @@ export const EditCarouselItem = ({
           selectedTemplate={selectedTemplate}
         />
       )}
-    </EditItem>
+    </EditItemWrapper>
   );
 };

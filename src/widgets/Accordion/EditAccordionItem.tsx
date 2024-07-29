@@ -1,4 +1,4 @@
-import { Button, EditItem, Input } from "@/shared/ui";
+import { Button, EditItemWrapper, Input } from "@/shared/ui";
 import { DeleteIcon } from "lucide-react";
 
 export const EditAccordionItem = ({
@@ -13,7 +13,7 @@ export const EditAccordionItem = ({
   deleteItem: () => void;
 }) => {
   return (
-    <EditItem
+    <EditItemWrapper
       title={"Вопрос " + id}
       buttons={
         <>
@@ -49,6 +49,6 @@ export const EditAccordionItem = ({
           onChange={(e) => writeChanges(id, "answerKz", e.target.value)}
         />
       </div>
-    </EditItem>
+    </EditItemWrapper>
   );
 };

@@ -11,6 +11,24 @@ export interface IPage {
   navigation_type: PageType;
   slug: string;
 }
+export interface InputComponent {
+  label?: string;
+  value: string;
+  select?: {
+    placeholder: string;
+    values: {
+      value: string;
+      label: string;
+    }[];
+  };
+}
+export interface BaseEditModalProps {
+  variant?: "dialog" | "card";
+  order: number;
+  ruPageId: number | null;
+  kzPageId: number | null;
+  queryKey: string;
+}
 
 export interface BackedPage {
   id: number;

@@ -264,14 +264,25 @@ export function useTemplateWidget<StateProps>({
       console.log(e);
     }
   };
-  const writeMainPropsChanges = (key: string, value: string) => {
-    setWidgetMainProps({ ...widgetMainProps, [key]: value });
+  const writeMainPropsChanges = ({
+    field,
+    value,
+  }: {
+    field: string;
+    value: string | File;
+  }) => {
+    setWidgetMainProps({ ...widgetMainProps, [field]: value });
   };
-  const writeItemsChanges = (
-    id: string,
-    field: string,
-    value: string | File,
-  ) => {
+  const writeItemsChanges = ({
+    id,
+    field,
+    value,
+  }: {
+    id?: string;
+    field: string;
+    value: string | File;
+  }) => {
+    if (!id) return;
     if (!(id in items)) return;
     setItems((prev) => ({ ...prev, [id]: { ...prev[id], [field]: value } }));
   };

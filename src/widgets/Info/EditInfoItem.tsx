@@ -3,7 +3,7 @@ import { useUploadFile } from "@/shared/lib";
 import { useTemplates } from "@/shared/lib/hooks";
 import {
   Button,
-  EditItem,
+  EditItemWrapper,
   Input,
   Label,
   Select,
@@ -39,7 +39,7 @@ export const EditInfoItem = ({
     file: item.image,
   });
   return (
-    <EditItem
+    <EditItemWrapper
       buttons={
         <>
           <Button onClick={deleteItem} size={"icon"}>
@@ -64,7 +64,7 @@ export const EditInfoItem = ({
       <div className="flex gap-2 items-center">
         <Label>Выберите положение картинки</Label>
         <Select
-          value={item.variant}
+          value={item.imagePosition}
           onValueChange={(value) => writeChanges(id, "imagePosition", value)}
         >
           <SelectTrigger className="w-[180px]">
@@ -127,6 +127,6 @@ export const EditInfoItem = ({
           selectedTemplate={selectedTemplate}
         />
       )}
-    </EditItem>
+    </EditItemWrapper>
   );
 };

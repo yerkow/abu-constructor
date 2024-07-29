@@ -1,7 +1,7 @@
 import { TemplatesSelect } from "@/features";
 import { useUploadFile } from "@/shared/lib";
 import { useTemplates } from "@/shared/lib/hooks";
-import { Button, EditItem, Input } from "@/shared/ui";
+import { Button, EditItemWrapper, Input } from "@/shared/ui";
 import { TemplateWidgetsList } from "@/widgets/TemplateWidgetsList";
 import { DeleteIcon } from "lucide-react";
 
@@ -26,10 +26,10 @@ export const EditCardItem = ({
   const { Preview, FileInput } = useUploadFile({
     id,
     writeChanges,
-    img: card.image,
+    file: card.image,
   });
   return (
-    <EditItem
+    <EditItemWrapper
       buttons={
         <>
           <Button onClick={deleteCard} size={"icon"}>
@@ -51,7 +51,6 @@ export const EditCardItem = ({
           }}
         />
       )}
-
       <div className="flex flex-col md:flex-row gap-3">
         <Input
           label="Заголовок RU"
@@ -89,6 +88,6 @@ export const EditCardItem = ({
           selectedTemplate={selectedTemplate}
         />
       )}
-    </EditItem>
+    </EditItemWrapper>
   );
 };

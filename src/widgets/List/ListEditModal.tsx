@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
   Checkbox,
-  EditItem,
+  EditItemWrapper,
   Input,
   ScrollArea,
   useToast,
@@ -272,7 +272,7 @@ const EditListItem = ({
   deleteListItem: () => void;
 }) => {
   return (
-    <EditItem
+    <EditItemWrapper
       title={"Номер " + id}
       buttons={
         <>
@@ -315,6 +315,6 @@ const EditListItem = ({
           }
         }}
       />
-    </EditItem>
+    </EditItemWrapper>
   );
 };
