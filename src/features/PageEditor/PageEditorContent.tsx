@@ -216,7 +216,6 @@ export const PageEditorContent = ({
       });
     }
   };
-  console.log(list);
 
   const updateOrder = async (listState: typeof list) => {
     try {

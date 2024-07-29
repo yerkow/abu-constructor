@@ -6,8 +6,8 @@ import { useState } from "react";
 interface FileUploaderProps {
   id?: string;
   file: string;
-  forImage: boolean;
   field: string;
+  label: string;
   writeChanges: (val: {
     id?: string;
     field: string;
@@ -17,9 +17,9 @@ interface FileUploaderProps {
 export const FileUploader = ({
   id,
   file,
+  label,
   writeChanges,
   field,
-  forImage,
 }: FileUploaderProps) => {
   const [image, setImage] = useState<string | ArrayBuffer | null>(() => {
     if (file) {
@@ -30,12 +30,22 @@ export const FileUploader = ({
   });
   return (
     <div className="flex flex-col gap-4">
-      {forImage && image && (
+      {field == "image" && image && (
         <img className="w-20 h-20" src={image as string} alt="image" />
       )}
+      {field == "file" && typeof file === "string" && file.length > 0 && (
+        <a
+          href={`${backendImageUrl}${file as string}`}
+          target="_blank"
+          className="text-lg"
+        >
+          Посмотреть прикрепленный файл
+        </a>
+      )}
+
       <Input
         type="file"
-        label="Image"
+        label={label}
         onChange={(e) => {
           if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];

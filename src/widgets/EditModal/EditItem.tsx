@@ -116,10 +116,10 @@ export const getInput = (
     case "file":
       return (
         <FileUploader
+          label={input.label ?? ""}
           field={field}
           id={id}
           file={item[field]}
-          forImage
           writeChanges={writeFn}
         />
       );
@@ -177,8 +177,6 @@ export const EditItem = ({
   deleteItem,
   writeChanges,
 }: EditItemProps) => {
-  console.log(withTemplate);
-
   return (
     <EditItemWrapper
       buttons={

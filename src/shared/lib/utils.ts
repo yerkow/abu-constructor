@@ -7,6 +7,7 @@ import {
   Widget,
 } from "@/shared/lib/types";
 import { type ClassValue, clsx } from "clsx";
+import { FileEdit } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -100,7 +101,7 @@ export const saveToServerAndGetUrl = async (image: File | null | string) => {
   }
 };
 
-export const GetValuesByLang = (
+export const GetValuesByLang = async (
   lang: string,
   obj: Record<string, string>,
   fields: string[],
@@ -108,6 +109,11 @@ export const GetValuesByLang = (
   const newObj: Record<string, string> = {};
   const oppositeLang = lang == "Ru" ? "Kz" : "Ru";
   for (let i = 0; i < fields.length; i++) {
+    if (fields[i] == "image" || fields[i] == "file") {
+      const res = await saveToServerAndGetUrl(obj[fields[i]]);
+      newObj[fields[i]] = res;
+      continue;
+    }
     if (fields[i].endsWith(oppositeLang)) {
       continue;
     } else if (fields[i].endsWith(lang)) {
@@ -116,8 +122,33 @@ export const GetValuesByLang = (
       newObj[fields[i]] = obj[fields[i]];
     }
   }
+  console.log(newObj, "NEW");
 
   return newObj;
 };
 
-export const Mutate = () => {};
+export function deepEqual(
+  obj1: Record<string, any>,
+  obj2: Record<string, any>,
+) {
+  const keys1 = Object.keys(obj1);
+  const keys2 = Object.keys(obj2);
+  if (keys1.length !== keys2.length) {
+    return false;
+  }
+  for (const key of keys1) {
+    if (!obj2.hasOwnProperty(key)) {
+      return false;
+    }
+    if (typeof obj1[key] === "object" && typeof obj2[key] === "object") {
+      if (!deepEqual(obj1[key], obj2[key])) {
+        return false;
+      }
+    } else {
+      if (obj1[key] !== obj2[key]) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
