@@ -22,6 +22,9 @@ const config = {
       gridTemplateColumns: {
         gallery: "repeat(3, minmax(200px, 1fr))",
       },
+      backgroundImage: {
+        "footer-texture": "url('/brush.svg')",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

@@ -122,8 +122,6 @@ export const GetValuesByLang = async (
       newObj[fields[i]] = obj[fields[i]];
     }
   }
-  console.log(newObj, "NEW");
-
   return newObj;
 };
 
