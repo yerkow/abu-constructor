@@ -1,6 +1,9 @@
 import { TemplateSelectType } from "@/shared/lib/types";
+import { AccordionEditModal } from "@/widgets/Accordion/AccordionEditModal";
 import { CardsEditModal } from "@/widgets/Cards/CardsEditModal";
 import { CarouselEditModal } from "@/widgets/Carousel/CarouselEditModal";
+import { GalleryEditModal } from "@/widgets/Gallery/GalleryEditModal";
+import { InfoEditModal } from "@/widgets/Info/InfoEditModal";
 import { LinksEditModal } from "@/widgets/Links/LinksEditModal";
 import { ListEditModal } from "@/widgets/List/ListEditModal";
 import { TextEditModal } from "@/widgets/Text/TextEditModal";
@@ -17,6 +20,12 @@ const getTemplatesProps = (w: string, order: number, baseProps: any) => {
       return <TextEditModal variant="dialog" {...baseProps} />;
     case "Links":
       return <LinksEditModal variant="dialog" {...baseProps} />;
+    case "Info":
+      return <InfoEditModal variant="dialog" {...baseProps} />;
+    case "Accordion":
+      return <AccordionEditModal variant="dialog" {...baseProps} />;
+    case "Gallery":
+      return <GalleryEditModal variant="dialog" {...baseProps} />;
 
     default:
       return null;

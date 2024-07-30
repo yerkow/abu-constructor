@@ -51,7 +51,7 @@ export const List = ({ items: listItems }: ListProps) => {
 
   return (
     <section className="flex flex-col gap-4  h-full">
-      <ul className="h-[450px]">
+      <ul className="h-auto">
         {listItems
           .slice((current - 1) * 5, (current - 1) * 5 + 5)
           .map((list, idx) => (

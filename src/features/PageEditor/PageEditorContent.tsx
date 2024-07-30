@@ -52,6 +52,7 @@ import { LinksEditModal } from "@/widgets/Links/LinksEditModal";
 import { InfoEditModal } from "@/widgets/Info/InfoEditModal";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { AccordionEditModal } from "@/widgets/Accordion/AccordionEditModal";
+import { GalleryEditModal } from "@/widgets/Gallery/GalleryEditModal";
 //EDIT PAGE CONTENT
 const widgetsList = [
   "Cards",
@@ -61,6 +62,7 @@ const widgetsList = [
   "Links",
   "Info",
   "Accordion",
+  "Gallery",
 ];
 const getModal = (
   modal: string,
@@ -91,6 +93,8 @@ const getModal = (
         return <InfoEditModal {...baseProps} />;
       case "Accordion":
         return <AccordionEditModal {...baseProps} />;
+      case "Gallery":
+        return <GalleryEditModal {...baseProps} />;
     }
   }
 };

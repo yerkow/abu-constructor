@@ -19,6 +19,9 @@ const config = {
       },
     },
     extend: {
+      gridTemplateColumns: {
+        gallery: "repeat(3, minmax(200px, 1fr))",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

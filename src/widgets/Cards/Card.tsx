@@ -1,4 +1,5 @@
 "use client";
+import { backendImageUrl } from "@/shared/lib/constants";
 import { cn } from "@/shared/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
@@ -45,7 +46,7 @@ export const Card = ({
         )}
       >
         <Image
-          src={`http://77.243.80.138/media/${image}`}
+          src={`${backendImageUrl}/${image}`}
           fill
           alt="te"
           className="absolute left-0 right-0 top-0 bottom-0 "
