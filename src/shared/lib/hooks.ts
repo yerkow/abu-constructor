@@ -191,12 +191,28 @@ export function useTemplateWidget<StateProps>({
           );
         });
         setItems(temp);
-        setToCompare((prev) => ({ ...prev, items: temp }));
+        setToCompare({ ...toCompare, items: temp });
       }
     }
     console.log("useEffect PROPS");
   }, [props]);
   const [items, setItems] = useState<Record<string, any>>({});
+  const [lockSaveBtn, setLockSaveBtn] = useState(true);
+  useEffect(() => {
+    if (deepEqual(widgetMainProps, toCompare.widgetMainProps)) {
+      setLockSaveBtn(true);
+    } else {
+      setLockSaveBtn(false);
+    }
+  }, [widgetMainProps, toCompare.widgetMainProps]);
+  useEffect(() => {
+    if (deepEqual(items, toCompare.items)) {
+      setLockSaveBtn(true);
+    } else {
+      setLockSaveBtn(false);
+    }
+  }, [items, toCompare.items]);
+  console.log(toCompare, "toCompare");
 
   const createTemplatePagesForCard = async () => {
     const ruPage = await createPage({
@@ -451,7 +467,7 @@ export function useTemplateWidget<StateProps>({
     writeChanges: writeItemsChanges,
     onSave,
     onEdit,
-    lockSaveBtn: false,
+    lockSaveBtn,
     deleteItem,
     items,
     loading,
