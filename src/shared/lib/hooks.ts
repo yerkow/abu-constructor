@@ -194,7 +194,7 @@ export function useTemplateWidget<StateProps>({
     }
   }, [props]);
   const [items, setItems] = useState<Record<string, any>>({});
-  const [lockSaveBtn, setLockSaveBtn] = useState(true);
+  const [lockSaveBtn, setLockSaveBtn] = useState(false);
   useEffect(() => {
     if (initialToCompareRef.current) {
       if (
