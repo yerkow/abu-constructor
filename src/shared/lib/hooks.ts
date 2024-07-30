@@ -12,7 +12,7 @@ import { TemplateSelectType, WidgetProps } from "@/shared/lib/types";
 import { GetValuesByLang, deepEqual } from "@/shared/lib/utils";
 import { useToast } from "@/shared/ui";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const useTemplates = ({ savedTemplate }: { savedTemplate: string }) => {
   const [isSaved, setIsSaved] = useState(() => !!savedTemplate);
@@ -141,32 +141,26 @@ export function useTemplateWidget<StateProps>({
   const [widgetMainProps, setWidgetMainProps] = useState<any>({});
 
   const [props, setProps] = useState<WidgetProps | null>(null);
-
+  const initialToCompareRef = useRef<any | null>(null);
   useEffect(() => {
     if (ruPageId && kzPageId)
       getWidgetProps({ ruPageId, kzPageId, order }).then((data) => {
         setProps(data);
       });
   }, [ruPageId, kzPageId, order]);
-  const [toCompare, setToCompare] = useState<{
-    widgetMainProps: any;
-    items: any;
-  }>({ widgetMainProps: {}, items: {} });
   useEffect(() => {
     if (props) {
-      setWidgetMainProps(
-        widgetStateFields.reduce((obj: any, field: string) => {
-          if (field.endsWith("Kz")) {
-            obj[field] = props.kzOptions[field.slice(0, -2)];
-          } else if (field.endsWith("Ru")) {
-            obj[field] = props.ruOptions[field.slice(0, -2)];
-          } else {
-            obj[field] = props.ruOptions[field];
-          }
-          return obj;
-        }, {}),
-      );
-      setToCompare({ ...toCompare, widgetMainProps });
+      const mainProps = widgetStateFields.reduce((obj: any, field: string) => {
+        if (field.endsWith("Kz")) {
+          obj[field] = props.kzOptions[field.slice(0, -2)];
+        } else if (field.endsWith("Ru")) {
+          obj[field] = props.ruOptions[field.slice(0, -2)];
+        } else {
+          obj[field] = props.ruOptions[field];
+        }
+        return obj;
+      }, {});
+      setWidgetMainProps(mainProps);
       const temp: Record<string, StateProps> = {};
       let items = props.ruOptions.items;
       if (Array.isArray(items)) {
@@ -191,28 +185,28 @@ export function useTemplateWidget<StateProps>({
           );
         });
         setItems(temp);
-        setToCompare({ ...toCompare, items: temp });
+        const initialToCompare = {
+          ...mainProps,
+          items: { ...temp },
+        };
+        initialToCompareRef.current = initialToCompare;
       }
     }
-    console.log("useEffect PROPS");
   }, [props]);
   const [items, setItems] = useState<Record<string, any>>({});
   const [lockSaveBtn, setLockSaveBtn] = useState(true);
   useEffect(() => {
-    if (deepEqual(widgetMainProps, toCompare.widgetMainProps)) {
-      setLockSaveBtn(true);
-    } else {
-      setLockSaveBtn(false);
+    if (initialToCompareRef.current) {
+      if (
+        JSON.stringify({ ...widgetMainProps, items }) !==
+        JSON.stringify(initialToCompareRef.current)
+      ) {
+        setLockSaveBtn(false);
+      } else {
+        setLockSaveBtn(true);
+      }
     }
-  }, [widgetMainProps, toCompare.widgetMainProps]);
-  useEffect(() => {
-    if (deepEqual(items, toCompare.items)) {
-      setLockSaveBtn(true);
-    } else {
-      setLockSaveBtn(false);
-    }
-  }, [items, toCompare.items]);
-  console.log(toCompare, "toCompare");
+  }, [widgetMainProps, items, initialToCompareRef]);
 
   const createTemplatePagesForCard = async () => {
     const ruPage = await createPage({
@@ -321,7 +315,6 @@ export function useTemplateWidget<StateProps>({
               ? itemsStateFields.concat(fieldsWithTemplate)
               : itemsStateFields,
           );
-          console.log(props, "RUPORPS");
 
           return {
             ...props,
@@ -451,6 +444,7 @@ export function useTemplateWidget<StateProps>({
       delete temp[id];
       return { ...temp };
     });
+
     if (withTemplate) {
       const ids = id.split("*");
       ids.forEach((id) => {

@@ -109,7 +109,6 @@ const ModalContent = ({
     widgetStateFields: mainKeys,
     itemsStateFields: itemKeys,
   });
-  console.log(widgetName, lockSaveBtn);
 
   return (
     <>
