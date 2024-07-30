@@ -1,7 +1,8 @@
 "use client";
 import { backendImageUrl } from "@/shared/lib/constants";
 import { Input } from "@/shared/ui";
-import { useState } from "react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 
 interface FileUploaderProps {
   id?: string;
@@ -21,17 +22,16 @@ export const FileUploader = ({
   writeChanges,
   field,
 }: FileUploaderProps) => {
-  const [image, setImage] = useState<string | ArrayBuffer | null>(() => {
+  const [image, setImage] = useState<string | ArrayBuffer | null>(null);
+  useEffect(() => {
     if (file) {
-      return `${backendImageUrl}${file}`;
-    } else {
-      return "";
+      setImage(`${backendImageUrl}${file}`);
     }
-  });
+  }, [file]);
   return (
     <div className="flex flex-col gap-4">
       {field == "image" && image && (
-        <img className="w-20 h-20" src={image as string} alt="image" />
+        <Image width={80} height={80} src={image as string} alt="image" />
       )}
       {field == "file" && typeof file === "string" && file.length > 0 && (
         <a
