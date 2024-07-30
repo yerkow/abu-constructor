@@ -52,10 +52,10 @@ export const Carousel = ({ items, position }: CarouselProps) => {
                       >
                         <Image
                           src={`${backendImageUrl}/${item.image}`}
-                          className="absolute rounded-md"
-                          objectFit="cover"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          className="absolute object-cover rounded-md"
                           fill
-                          alt={item.title}
+                          alt={item.title ?? `carousel item ${idx}`}
                         />
                       </Comp>
                     </CardContent>

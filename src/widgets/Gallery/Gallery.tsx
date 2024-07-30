@@ -22,12 +22,13 @@ export const Gallery = ({ items }: GalleryProps) => {
       <div className="flex relative w-[290px] h-[290px] md:w-[400px] md:h-[400px] justify-self-center">
         <Image
           className="rounded-lg"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           src={`${backendImageUrl}/${items[selected].image}`}
           alt=""
           fill
         />
       </div>
-      <div className="grid flex-nowrap  grid-cols-gallery lg:grid-cols-5 gap-4 overflow-x-auto">
+      <div className="grid flex-nowrap  grid-cols-gallery lg:grid-cols-4 gap-4 overflow-x-auto">
         {items.map((item, idx) => (
           <div
             onClick={() => setSelected(idx)}
@@ -38,6 +39,7 @@ export const Gallery = ({ items }: GalleryProps) => {
             )}
           >
             <Image
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="w-full   h-full object-cover rounded-md"
               fill
               src={`${backendImageUrl}/${item.image}`}
