@@ -22,7 +22,7 @@ const mockProps = {
   },
   Cards: {
     options:
-      '{"variant":"horizontal","title":"123","items":[{"title":"123","content":"123","image":"uploads/20240729115725.webp","href":"","templateSlug":"/template-1722254220633","templateId":"679*680"},{"title":"123","content":"123","image":"uploads/20240730103228.jpeg","href":"","templateSlug":"/template-1722335539079","templateId":"683*684"}]}',
+      '{"variant":"horizontal","title":"123","items":[{"title":"123","content":"1test223","image":"uploads/20240729115725.webp","href":"","templateSlug":"/template-1722254220633","templateId":"679*680"},{"title":"123","content":"123","image":"uploads/20240730103228.jpeg","href":"","templateSlug":"/template-1722335539079","templateId":"683*684"}]}',
   },
   Carousel: {
     options:

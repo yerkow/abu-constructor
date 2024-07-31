@@ -36,7 +36,11 @@ export const useTemplates = ({ savedTemplate }: { savedTemplate: string }) => {
           if (template.slug == "template") {
             const widgetNames: string[] = [];
             getTemplateWidgets(template.id).then((widgets) => {
-              widgets.forEach((w) => widgetNames.push(w.widget_type));
+              console.log(widgets, "HOOK");
+
+              widgets
+                .sort((a, b) => a.order - b.order)
+                .forEach((w) => widgetNames.push(w.widget_type));
             });
             templates.push({
               id: template.id,

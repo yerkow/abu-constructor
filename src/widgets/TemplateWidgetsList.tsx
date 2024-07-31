@@ -14,6 +14,7 @@ const getTemplateWidgetList = (
   selected: TemplateSelectType | null,
 ) => {
   if (selected) {
+    console.log(selected.widgets);
     return selected.widgets;
   }
   if (saved) {
@@ -39,7 +40,14 @@ export const TemplateWidgetsList = ({
           const kzPageId = id.split("*")[1];
           return (
             <Fragment key={idx}>
-              {getEditModal(w, idx, ruPageId, kzPageId, "getTemplateWidgets")}
+              {getEditModal(
+                w,
+                idx,
+                ruPageId,
+                kzPageId,
+                "getTemplateWidgets",
+                true,
+              )}
             </Fragment>
           );
         },
