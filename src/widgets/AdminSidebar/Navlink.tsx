@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/shared/lib/utils";
+import clsx from "clsx";
 import Link, { LinkProps } from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
@@ -13,9 +13,9 @@ export const Navlink = ({ href, children }: NavlinkProps) => {
 
   return (
     <Link
-      className={cn(
+      className={clsx(
         "font-bold text-lg md:text-2xl",
-        path == href && "underline"
+        path == href && "underline",
       )}
       href={href}
     >

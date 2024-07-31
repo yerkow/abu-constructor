@@ -1,5 +1,5 @@
-import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui";
+import clsx from "clsx";
 import { ComponentProps } from "react";
 import { Navlink } from "./Navlink";
 
@@ -15,7 +15,7 @@ export const AdminSidebar = ({
 }: ComponentProps<"nav">) => {
   return (
     <nav
-      className={cn(
+      className={clsx(
         className,
         "flex z-10 items-center md:items-start md:static flex-row md:flex-col fixed left-0 right-0 h-20 justify-center md:justify-between gap-3 bg-slate-950 text-white p-10 md:h-full",
       )}

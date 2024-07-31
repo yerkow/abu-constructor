@@ -1,6 +1,5 @@
 "use client";
 import { backendImageUrl } from "@/shared/lib/constants";
-import withServerComponent from "@/shared/lib/hocs/withServer";
 import { cn } from "@/shared/lib/utils";
 import {
   Card,

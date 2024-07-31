@@ -1,3 +1,4 @@
+import { withNoSSR } from "@/features";
 import {
   Button,
   Card,
@@ -7,7 +8,7 @@ import {
   Separator,
 } from "@/shared/ui";
 
-export default function AdminLoginPage() {
+function AdminLoginPage() {
   return (
     <section className="w-full h-screen flex items-center justify-center">
       <Card className="p-4">
@@ -24,3 +25,4 @@ export default function AdminLoginPage() {
     </section>
   );
 }
+export default withNoSSR(AdminLoginPage);

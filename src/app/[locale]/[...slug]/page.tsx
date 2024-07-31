@@ -2,13 +2,7 @@ import { getPageBySlug } from "@/shared/api/pages";
 import { getWidgetsToDisplay } from "@/shared/api/widgets";
 import { capitalize } from "@/shared/lib";
 import { getWidgetByName } from "@/shared/lib/utils";
-import { Cards, Carousel, Text, List } from "@/widgets";
-import { Accordion } from "@/widgets/Accordion/Accordion";
-import { Gallery } from "@/widgets/Gallery/Gallery";
-import { Info } from "@/widgets/Info/Info";
-import { Links } from "@/widgets/Links/Links";
-import { ResolvingMetadata, Metadata } from "next";
-import { notFound } from "next/navigation";
+import { Metadata, ResolvingMetadata } from "next";
 interface PageProps {
   params: { locale: string; slug: string[] };
 }
