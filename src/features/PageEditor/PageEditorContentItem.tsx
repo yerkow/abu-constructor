@@ -7,10 +7,12 @@ interface PageEditorContentItemProps {
   name: string;
   deleteBtn: ReactNode;
   editContentBtn: ReactNode;
+  previewBtn: ReactNode;
 }
 export const PageEditorContentItem = ({
   id,
   name,
+  previewBtn,
   deleteBtn,
   editContentBtn,
 }: PageEditorContentItemProps) => {
@@ -41,6 +43,7 @@ export const PageEditorContentItem = ({
       </span>
       <section className="flex gap-2">
         {editContentBtn}
+        {previewBtn}
         {deleteBtn}
       </section>
     </li>
