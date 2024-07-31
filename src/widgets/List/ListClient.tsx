@@ -17,11 +17,11 @@ interface ListItem {
   file: string;
   content: string;
 }
-interface ListProps {
+export interface ListProps {
   items: ListItem[];
   // files?: boolean;
 }
-export const List = ({ items: listItems }: ListProps) => {
+export const ListClient = ({ items: listItems }: ListProps) => {
   const [current, setCurrent] = useState(1);
   const pagination =
     listItems.length > 5 ? paginate(listItems.length, 5, current) : null;

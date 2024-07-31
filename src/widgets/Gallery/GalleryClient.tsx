@@ -1,21 +1,16 @@
 "use client";
-
 import { backendImageUrl } from "@/shared/lib/constants";
 import clsx from "clsx";
 import Image from "next/image";
 import { useState } from "react";
 
-interface GalleryProps {
+export interface GalleryProps {
   items: GalleryItem[];
 }
 interface GalleryItem {
   image: string;
 }
-function deleteElementByIndex(arr: GalleryItem[], index: number) {
-  arr.splice(index, 1);
-  return arr;
-}
-export const Gallery = ({ items }: GalleryProps) => {
+function GalleryClient({ items }: GalleryProps) {
   const [selected, setSelected] = useState(0);
   return (
     <div className="grid gap-4 justify-center w-full">
@@ -50,4 +45,5 @@ export const Gallery = ({ items }: GalleryProps) => {
       </div>
     </div>
   );
-};
+}
+export { GalleryClient };

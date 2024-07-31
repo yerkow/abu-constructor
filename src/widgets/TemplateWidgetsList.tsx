@@ -1,4 +1,5 @@
 import { TemplateSelectType } from "@/shared/lib/types";
+import { getEditModal } from "@/shared/lib/utils";
 import { AccordionEditModal } from "@/widgets/Accordion/AccordionEditModal";
 import { CardsEditModal } from "@/widgets/Cards/CardsEditModal";
 import { CarouselEditModal } from "@/widgets/Carousel/CarouselEditModal";
@@ -8,29 +9,6 @@ import { LinksEditModal } from "@/widgets/Links/LinksEditModal";
 import { ListEditModal } from "@/widgets/List/ListEditModal";
 import { TextEditModal } from "@/widgets/Text/TextEditModal";
 import { Fragment } from "react";
-const getTemplatesProps = (w: string, order: number, baseProps: any) => {
-  switch (w) {
-    case "Cards":
-      return <CardsEditModal variant="dialog" {...baseProps} />;
-    case "Carousel":
-      return <CarouselEditModal variant="dialog" {...baseProps} />;
-    case "List":
-      return <ListEditModal variant="dialog" {...baseProps} />;
-    case "Text":
-      return <TextEditModal variant="dialog" {...baseProps} />;
-    case "Links":
-      return <LinksEditModal variant="dialog" {...baseProps} />;
-    case "Info":
-      return <InfoEditModal variant="dialog" {...baseProps} />;
-    case "Accordion":
-      return <AccordionEditModal variant="dialog" {...baseProps} />;
-    case "Gallery":
-      return <GalleryEditModal variant="dialog" {...baseProps} />;
-
-    default:
-      return null;
-  }
-};
 const getTemplateWidgetList = (
   saved: string,
   selected: TemplateSelectType | null,
@@ -57,16 +35,11 @@ export const TemplateWidgetsList = ({
       <span>Настройки шаблона</span>
       {getTemplateWidgetList(saved, selectedTemplate).map(
         (w: string, idx: number) => {
-          const baseProps = {
-            order: idx,
-            ruPageId: +id.split("*")[0],
-            kzPageId: +id.split("*")[1],
-            queryKey: "getTemplateWidgets",
-          };
-
+          const ruPageId = id.split("*")[0];
+          const kzPageId = id.split("*")[1];
           return (
             <Fragment key={idx}>
-              {getTemplatesProps(w, idx, baseProps)}
+              {getEditModal(w, idx, ruPageId, kzPageId, "getTemplateWidgets")}
             </Fragment>
           );
         },

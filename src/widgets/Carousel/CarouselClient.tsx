@@ -1,5 +1,6 @@
 "use client";
 import { backendImageUrl } from "@/shared/lib/constants";
+import withServerComponent from "@/shared/lib/hocs/withServer";
 import { cn } from "@/shared/lib/utils";
 import {
   Card,
@@ -21,11 +22,11 @@ type CarouselItemType = {
   content: string;
   href?: string;
 };
-interface CarouselProps {
+export interface CarouselProps {
   items: CarouselItemType[];
   position: "left" | "center" | "right";
 }
-export const Carousel = ({ items, position }: CarouselProps) => {
+const CarouselClient = ({ items, position }: CarouselProps) => {
   const params = useParams();
   return (
     <section className="w-full flex items-center justify-center">
@@ -74,3 +75,4 @@ export const Carousel = ({ items, position }: CarouselProps) => {
     </section>
   );
 };
+export { CarouselClient };
