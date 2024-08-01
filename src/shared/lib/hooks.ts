@@ -36,8 +36,6 @@ export const useTemplates = ({ savedTemplate }: { savedTemplate: string }) => {
           if (template.slug == "template") {
             const widgetNames: string[] = [];
             getTemplateWidgets(template.id).then((widgets) => {
-              console.log(widgets, "HOOK");
-
               widgets
                 .sort((a, b) => a.order - b.order)
                 .forEach((w) => widgetNames.push(w.widget_type));
@@ -123,7 +121,7 @@ export function useTemplateWidget<StateProps>({
     },
   });
   const { mutate: editWidgetMutation, isPending: editIsPending } = useMutation({
-    mutationKey: ["editCardsWidget"],
+    mutationKey: ["editWidget"],
     mutationFn: editWidget,
     onSuccess: () => {
       setLoading(false);

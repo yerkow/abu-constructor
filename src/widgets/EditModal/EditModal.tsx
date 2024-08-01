@@ -3,6 +3,7 @@ import { InputComponent } from "@/shared/lib/types";
 import { Button, WidgetView } from "@/shared/ui";
 import { EditItem, getInput } from "./EditItem";
 import { Fragment } from "react";
+import { HistoryButton } from "@/features/HistoryButton/HistoryButton";
 
 interface EditModalProps {
   variant?: "dialog" | "card";
@@ -112,6 +113,16 @@ const ModalContent = ({
 
   return (
     <>
+      {props && (
+        <HistoryButton
+          ids={{
+            ruId: props.ruWidgetId,
+            kzId: props.kzWidgetId,
+            ruPageId: props.ru_navigation_id,
+            kzPageId: props.kz_navigation_id,
+          }}
+        />
+      )}
       <div className="flex flex-col gap-2">
         {mainInputs.map((input, idx) => (
           <Fragment key={idx}>

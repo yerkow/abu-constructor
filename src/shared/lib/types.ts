@@ -45,6 +45,8 @@ export interface Template
   extends Omit<BackedPage, "id" | "order" | "create_date" | "update_date"> {}
 export interface BackedWidget {
   id: number;
+  idn: number;
+  create_date: string;
   widget_type: string;
   options: string;
   order: number;

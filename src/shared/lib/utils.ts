@@ -16,7 +16,15 @@ export function cn(...inputs: ClassValue[]) {
 export function capitalize(input: string) {
   return input[0] + input.slice(1, input.length);
 }
+export function formatDateToDDMMYYYY(dateString: string) {
+  const date = new Date(dateString);
 
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // Months are zero-based
+  const year = date.getUTCFullYear();
+
+  return `${day}-${month}-${year}`;
+}
 export const combinePagesByLang = (records: BackedPage[]): IPage[] => {
   const combinedRecords: { [key: string]: IPage } = {};
 

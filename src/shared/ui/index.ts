@@ -1,6 +1,8 @@
 export { Button, type ButtonProps } from "./button";
 export { AnimatedText } from "./animated-text";
 export { SocialLinks } from "./social-links";
+
+export { Tabs, TabsList, TabsTrigger, TabsContent } from "./tabs";
 export {
   Card,
   CardContent,

@@ -2,7 +2,9 @@ import { customFetch } from "@/shared/api";
 import { Langs, BackedWidget } from "@/shared/lib/types";
 import { combineWidgetProps, combineWidgetsByLang } from "@/shared/lib/utils";
 
-export const createWidget = (widget: Omit<BackedWidget, "id">) => {
+export const createWidget = (
+  widget: Omit<BackedWidget, "id" | "idn" | "create_date">,
+) => {
   return customFetch({
     path: "widget-view/",
     method: "POST",
@@ -16,6 +18,19 @@ export const getTemplateWidgets = async (
     path: `widget/navigation/${id}`,
     method: "GET",
     query: { language_key: "ru" },
+  });
+};
+export const getWidgetHistory = async ({
+  ruId,
+  kzId,
+}: {
+  ruId: number;
+  kzId: number;
+}): Promise<{ ru: BackedWidget; kz: BackedWidget }[]> => {
+  return customFetch({
+    path: `widget-history`,
+    method: "GET",
+    query: { ruidn: ruId, kzidn: kzId },
   });
 };
 export const getWidgetsToDisplay = async (
