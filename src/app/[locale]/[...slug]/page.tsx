@@ -1,7 +1,7 @@
 import { getPageBySlug } from "@/shared/api/pages";
 import { getWidgetsToDisplay } from "@/shared/api/widgets";
 import { capitalize } from "@/shared/lib";
-import { getWidgetByName } from "@/shared/lib/utils";
+import { getWidgetByName } from "@/widgets";
 import { Metadata, ResolvingMetadata } from "next";
 interface PageProps {
   params: { locale: string; slug: string[] };

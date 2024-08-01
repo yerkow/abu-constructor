@@ -1,4 +1,4 @@
-import { getWidgetByName } from "@/shared/lib/utils";
+import { getWidgetByName } from "@/widgets";
 import {
   DialogContent,
   DialogDescription,

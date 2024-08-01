@@ -1,5 +1,5 @@
 import { TemplateSelectType } from "@/shared/lib/types";
-import { getEditModal } from "@/shared/lib/utils";
+import { getEditModal } from "@/widgets";
 import { AccordionEditModal } from "@/widgets/Accordion/AccordionEditModal";
 import { CardsEditModal } from "@/widgets/Cards/CardsEditModal";
 import { CarouselEditModal } from "@/widgets/Carousel/CarouselEditModal";

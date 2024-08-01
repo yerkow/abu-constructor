@@ -1,15 +1,11 @@
-"use client";
-import { CreatePageDialog } from "@/features";
+import { CreatePageDialog, withNoSSR } from "@/features";
 import { getPagesChildren } from "@/shared/api/pages";
 import { PagesListTable } from "@/widgets";
-
-export default function Page({
-  params,
-  searchParams,
-}: {
+interface PageProps {
   params: { id: string };
   searchParams: { ruId: number; kzId: number };
-}) {
+}
+export default function Page({ params, searchParams }: PageProps) {
   return (
     <section>
       <section className="flex gap-4">

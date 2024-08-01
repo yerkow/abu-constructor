@@ -1,6 +1,5 @@
-import { cn } from "@/shared/lib/utils";
 import { AdminSidebar } from "@/widgets";
-import "react-quill/dist/quill.snow.css";
+import clsx from "clsx";
 export default function AdminLayout({
   children,
 }: Readonly<{
@@ -8,7 +7,7 @@ export default function AdminLayout({
 }>) {
   return (
     <section
-      className={cn(
+      className={clsx(
         "w-full h-screen grid grid-cols-1 md:grid-cols-[290px_1fr]",
       )}
     >

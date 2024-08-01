@@ -7,9 +7,8 @@ import {
   getWidgets,
 } from "@/shared/api/widgets";
 import { queryClient } from "@/shared/lib/client";
-import { widgetsList } from "@/shared/lib/constants";
+import { widgetsList, getEditModal } from "@/widgets";
 import { Langs } from "@/shared/lib/types";
-import { getEditModal } from "@/shared/lib/utils";
 import {
   Button,
   Dialog,

@@ -6,7 +6,6 @@ import {
   Button,
   EditItemWrapper,
   Input,
-  Label,
   Select,
   SelectContent,
   SelectItem,
@@ -16,23 +15,11 @@ import {
 import { FileUploader } from "@/widgets/FileUploader";
 import { TemplateWidgetsList } from "@/widgets/TemplateWidgetsList";
 import { DeleteIcon } from "lucide-react";
+import dynamic from "next/dynamic";
 import { Fragment } from "react";
-import ReactQuill from "react-quill";
-const quillModules = {
-  toolbar: [
-    [{ size: [] }],
-    ["bold", "italic", "underline", "strike", "blockquote"],
-    [
-      { list: "ordered" },
-      { list: "bullet" },
-      { indent: "-1" },
-      { indent: "+1" },
-    ],
-    ["link", "image", "video"],
-    ["clean"],
-  ],
-};
-
+const QuillEditor = dynamic(() => import("../../shared/ui/quill-editor"), {
+  ssr: false,
+});
 interface EditItemProps {
   id: string;
   item: any;
@@ -80,16 +67,11 @@ export const getInput = (
       );
     case "quill":
       return (
-        <div>
-          <Label>Контент KZ</Label>
-          <ReactQuill
-            value={item[field]}
-            className="overflow-y-auto max-h-[200px]"
-            onChange={(value) => writeFn({ id, field, value })}
-            modules={quillModules}
-            theme="snow"
-          />
-        </div>
+        <QuillEditor
+          label={input.label}
+          value={item[field]}
+          onChange={(value) => writeFn({ id, field, value })}
+        />
       );
     case "select":
       return (
