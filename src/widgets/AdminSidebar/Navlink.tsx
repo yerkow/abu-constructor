@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import Link, { LinkProps } from "next/link";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { ReactNode } from "react";
 
 interface NavlinkProps extends LinkProps {
@@ -10,14 +10,15 @@ interface NavlinkProps extends LinkProps {
 }
 export const Navlink = ({ href, children }: NavlinkProps) => {
   const path = usePathname();
+  const { locale } = useParams();
 
   return (
     <Link
       className={clsx(
         "font-bold text-lg md:text-2xl",
-        path == href && "underline",
+        path == `/${locale}${href}` && "underline",
       )}
-      href={href}
+      href={`/${locale}/${href}`}
     >
       {children}
     </Link>

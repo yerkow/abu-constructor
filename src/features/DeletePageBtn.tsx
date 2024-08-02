@@ -12,17 +12,19 @@ import {
   DialogContent,
   DialogClose,
   Dialog,
+  DialogDescription,
 } from "@/shared/ui";
 import { useMutation } from "@tanstack/react-query";
 import { DeleteIcon, Settings } from "lucide-react";
 import { useRef } from "react";
+import { useTranslations } from "next-intl";
 export const DeletePageBtn = ({
   name,
   ids,
   queryKey,
 }: {
   queryKey: string[];
-  name: string;
+  name: string | null;
   ids: Record<string, number>;
 }) => {
   const { mutate, error, isPending } = useMutation({
@@ -41,6 +43,7 @@ export const DeletePageBtn = ({
       mutate(ids[key as keyof typeof ids]);
     });
   };
+  const t = useTranslations("pages.delete");
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -50,18 +53,19 @@ export const DeletePageBtn = ({
       </DialogTrigger>
       <DialogContent className="max-w-sm sm:max-w-3xl">
         <DialogHeader>
-          <DialogTitle className="text-center">
-            Вы уверены, что хотите удалить страницу {name}
+          <DialogTitle>
+            {t("title")} - {name}
           </DialogTitle>
+          <DialogDescription>{t("desc")}</DialogDescription>
         </DialogHeader>
         <DialogFooter className=" gap-2 sm:justify-center">
           <DialogClose asChild>
             <Button ref={closeRef} type="button" variant="secondary">
-              Отменить
+              {t("decline")}
             </Button>
           </DialogClose>
           <Button onClick={onDelete} loading={isPending} disabled={isPending}>
-            Удалить
+            {t("delete")}
           </Button>
         </DialogFooter>
       </DialogContent>

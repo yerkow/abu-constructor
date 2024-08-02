@@ -18,9 +18,6 @@ export const LinksEditModal = (props: BaseEditModalProps) => {
   const modalProps = {
     ...props,
     widgetName: "Links",
-    cardTitle: "Редактировать ссылки",
-    desc: "Здесь вы можете отредактировать виджет ссылки",
-    triggerTitle: "Редактировать ссылки",
     mainKeys,
     mainInputs,
     itemKeys,

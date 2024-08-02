@@ -4,6 +4,7 @@ import { Button, WidgetView } from "@/shared/ui";
 import { EditItem, getInput } from "./EditItem";
 import { Fragment } from "react";
 import { HistoryButton } from "@/features/HistoryButton/HistoryButton";
+import { useTranslations } from "next-intl";
 
 interface EditModalProps {
   variant?: "dialog" | "card";
@@ -11,9 +12,6 @@ interface EditModalProps {
   ruPageId: number | null;
   kzPageId: number | null;
   queryKey: string;
-  cardTitle: string;
-  desc: string;
-  triggerTitle: string;
   mainKeys: string[];
   mainInputs: InputComponent[];
   itemKeys: string[];
@@ -27,9 +25,6 @@ export const EditModal = ({
   ruPageId,
   kzPageId,
   queryKey,
-  cardTitle,
-  desc,
-  triggerTitle,
   mainKeys,
   mainInputs,
   itemKeys,
@@ -40,9 +35,7 @@ export const EditModal = ({
   return (
     <WidgetView
       variant={variant}
-      cardTitle={cardTitle}
-      desc={desc}
-      triggerTitle={triggerTitle}
+      widgetName={widgetName}
       content={
         <ModalContent
           widgetName={widgetName}
@@ -110,7 +103,7 @@ const ModalContent = ({
     widgetStateFields: mainKeys,
     itemsStateFields: itemKeys,
   });
-
+  const t = useTranslations("widget");
   return (
     <>
       {props && (
@@ -138,7 +131,7 @@ const ModalContent = ({
       {itemKeys.length > 0 && (
         <>
           <Button onClick={addItem} className="w-full">
-            Добавить
+            {t("add")}
           </Button>
           <section className="max-h-[460px] flex flex-col gap-10 overflow-y-auto w-full  rounded-md border p-4 ">
             {Object.keys(items).map((key, idx) => (
@@ -166,7 +159,7 @@ const ModalContent = ({
           props ? onEdit() : onSave();
         }}
       >
-        Сохранить
+        {t("save")}
       </Button>
     </>
   );

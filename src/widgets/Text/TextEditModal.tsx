@@ -12,9 +12,6 @@ export const TextEditModal = (props: BaseEditModalProps) => {
   const modalProps = {
     ...props,
     widgetName: "Text",
-    cardTitle: "Редактировать текст",
-    desc: "Здесь вы можете отредактировать виджет текст",
-    triggerTitle: "Редактировать текст",
     mainKeys,
     mainInputs,
     itemKeys: [],

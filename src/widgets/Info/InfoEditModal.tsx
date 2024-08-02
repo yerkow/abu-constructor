@@ -39,9 +39,6 @@ export const InfoEditModal = (props: BaseEditModalProps) => {
   const modalProps = {
     ...props,
     widgetName: "Info",
-    cardTitle: "Редактировать инфо",
-    desc: "Здесь вы можете отредактировать виджет инфо",
-    triggerTitle: "Редактировать инфо",
     mainKeys,
     mainInputs,
     itemKeys,

@@ -1,16 +1,14 @@
-import type { NextRequest } from "next/server";
-import { NextResponse } from "next/server";
+import createMiddleware from "next-intl/middleware";
 
-export function middleware(request: NextRequest) {
-  // Add a new header x-current-path which passes the path to downstream components
-  const headers = new Headers(request.headers);
-  headers.set("x-current-path", request.nextUrl.pathname);
-  return NextResponse.next({ headers });
-}
+export default createMiddleware({
+  // A list of all locales that are supported
+  locales: ["ru", "kz"],
+
+  // Used when no locale matches
+  defaultLocale: "ru",
+});
 
 export const config = {
-  matcher: [
-    // match all routes except static files and APIs
-    "/((?!api|_next/static|_next/image|favicon.ico).*)",
-  ],
+  // Match only internationalized pathnames
+  matcher: ["/", "/(ru|kz)/:path*"],
 };

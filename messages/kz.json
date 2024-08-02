@@ -1,0 +1,13 @@
+{
+  "sidebar": {
+    "links": {
+      "home": { "label": "", "href": "/admin" },
+      "settings": { "label": "", "href": "/admin/settings" },
+      "pages": { "label": "", "href": "/admin/pages" },
+      "templates": { "label": "", "href": "/admin/pages/templates" }
+    }
+  },
+  "settings": {
+    "updateBtn": ""
+  }
+}

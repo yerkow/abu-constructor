@@ -1,13 +1,14 @@
-import { getWidgetByName } from "@/widgets";
 import {
+  Dialog,
   DialogContent,
   DialogDescription,
-  DialogTitle,
-  Dialog,
   DialogHeader,
+  DialogTitle,
   DialogTrigger,
 } from "@/shared/ui";
+import { getWidgetByName } from "@/widgets";
 import { Image as ImageIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 interface PreviewButtonProps {
   modal: string;
 }
@@ -46,6 +47,7 @@ const mockProps = {
   },
 };
 export const PreviewButton = ({ modal }: PreviewButtonProps) => {
+  const t = useTranslations("pages.pageEditorContent");
   return (
     <Dialog>
       <DialogTrigger className="bg-black rounded-md px-3">
@@ -54,10 +56,10 @@ export const PreviewButton = ({ modal }: PreviewButtonProps) => {
       <DialogContent className="h-[calc(100svh-200px)] min-w-[calc(100vw-100px)]">
         <DialogHeader>
           <DialogTitle className="text-xl">
-            Предпросмотр виджета {modal}
+            {t("preview.title")} {modal}
           </DialogTitle>
           <DialogDescription className="">
-            Здесь вы можете посмотреть как выглядит виджет
+            {t("preview.desc")}
           </DialogDescription>
         </DialogHeader>
         <div className="max-w-[1200px] w-full mx-auto">

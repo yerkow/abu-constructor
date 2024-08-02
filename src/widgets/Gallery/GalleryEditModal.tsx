@@ -7,9 +7,6 @@ export const GalleryEditModal = (props: BaseEditModalProps) => {
   const modalProps = {
     ...props,
     widgetName: "Gallery",
-    cardTitle: "Редактировать галлерею",
-    desc: "Здесь вы можете отредактировать виджет галлерею",
-    triggerTitle: "Редактировать галлерею",
     mainKeys: [],
     mainInputs: [],
     itemKeys,

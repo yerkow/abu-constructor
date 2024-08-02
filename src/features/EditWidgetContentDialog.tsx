@@ -19,6 +19,7 @@ import {
   DialogTrigger,
 } from "@/shared/ui";
 import { Settings, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { cloneElement, ReactNode, useState } from "react";
 
@@ -30,6 +31,7 @@ export const EditWidgetContentDialog = ({
   name: string;
 }) => {
   const [open, setOpen] = useState(false);
+  const t = useTranslations("pages.pageEditorContent");
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -44,9 +46,11 @@ export const EditWidgetContentDialog = ({
         className="max-w-sm sm:max-w-full "
       >
         <DialogHeader>
-          <DialogTitle className="hidden">Виджет {name}</DialogTitle>
+          <DialogTitle className="hidden">
+            {t("edit.title")} {name}
+          </DialogTitle>
           <DialogDescription className="hidden">
-            Редактирование виджета {name}
+            {t("edit.desc")} {name}
           </DialogDescription>
         </DialogHeader>
         <CloseButton close={() => setOpen(false)} />
@@ -57,6 +61,7 @@ export const EditWidgetContentDialog = ({
 };
 
 const CloseButton = ({ close }: { close: () => void }) => {
+  const t = useTranslations("pages.pageEditorContent");
   return (
     <AlertDialog>
       <AlertDialogTrigger className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
@@ -64,16 +69,14 @@ const CloseButton = ({ close }: { close: () => void }) => {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>
-            Вы уверены, что хотите закрыть модальное окно?
-          </AlertDialogTitle>
-          <AlertDialogDescription>
-            При закрытии все не сохраненные данные будут утерены.
-          </AlertDialogDescription>
+          <AlertDialogTitle>{t("close.title")}</AlertDialogTitle>
+          <AlertDialogDescription>{t("close.desc")}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Отменить</AlertDialogCancel>
-          <AlertDialogAction onClick={close}>Закрыть</AlertDialogAction>
+          <AlertDialogCancel>{t("close.decline")}</AlertDialogCancel>
+          <AlertDialogAction onClick={close}>
+            {t("close.close")}
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

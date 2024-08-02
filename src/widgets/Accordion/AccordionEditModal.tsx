@@ -24,9 +24,6 @@ export const AccordionEditModal = (props: BaseEditModalProps) => {
   const modalProps = {
     ...props,
     widgetName: "Accordion",
-    cardTitle: "Редактировать аккордион",
-    desc: "Здесь вы можете отредактировать виджет аккордион",
-    triggerTitle: "Редактировать аккордион",
     mainKeys: [],
     mainInputs: [],
     itemKeys,

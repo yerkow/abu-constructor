@@ -13,11 +13,12 @@ import {
 import { PageEditorContent } from "./PageEditorContent";
 import { usePathname, useRouter } from "next/navigation";
 import { Langs } from "@/shared/lib/types";
+import { useTranslations } from "next-intl";
 
 export const PageEditor = ({ ids }: { ids: Langs }) => {
   const router = useRouter();
   const path = usePathname();
-
+  const t = useTranslations("pages.pageEditor");
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -27,22 +28,20 @@ export const PageEditor = ({ ids }: { ids: Langs }) => {
           }}
           size={"sm"}
         >
-          Контент страницы
+          {t("btn")}
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-sm sm:max-w-[90%]  gap-4 ">
         <DialogHeader>
-          <DialogTitle>Содержание страницы</DialogTitle>
-          <DialogDescription>
-            Здесь Вы можете отредактировать контент страницы.
-          </DialogDescription>
+          <DialogTitle>{t("title")}</DialogTitle>
+          <DialogDescription>{t("desc")}</DialogDescription>
         </DialogHeader>
         {/* TODO */}
         <PageEditorContent ids={ids} />
         <DialogFooter className=" gap-2 sm:justify-end">
           <DialogClose asChild>
             <Button type="button" variant="secondary" className="w-full">
-              Отменить
+              {t("decline")}
             </Button>
           </DialogClose>
         </DialogFooter>

@@ -14,7 +14,9 @@ import {
 } from "@/shared/ui";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { useEffect } from "react";
 interface PagesListTableProps {
   ids?: { ruId: number; kzId: number };
@@ -31,26 +33,27 @@ export const PagesListTable = ({ ids }: PagesListTableProps) => {
     refetchOnMount: true,
     refetchOnWindowFocus: false,
   });
-
+  const t = useTranslations("pages.table");
+  const { locale } = useParams();
   if (isFetching)
     return (
       <div className="flex justify-center items-center">
         <Loader2 className="animate-spin w-10 h-10 align-middle" />{" "}
       </div>
     );
-  if (!data) return <div>Страницы не найдены</div>;
+  if (!data) return <div>{t("notFound")}</div>;
   return (
     <Table className="w-[90%] max-w-[390px] sm:max-w-full overflow-x-auto m-auto h-full overflow-hidden">
-      <TableCaption>Доступные страницы</TableCaption>
+      <TableCaption>{t("caption")}</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead>На русском</TableHead>
-          <TableHead>На казахском</TableHead>
-          <TableHead>Slug</TableHead>
-          <TableHead>Порядок</TableHead>
-          <TableHead className="text-center">Дочерние страницы</TableHead>
-          <TableHead className="text-center">Редактировать</TableHead>
-          <TableHead className="text-center">Удалить страницy</TableHead>
+          <TableHead>{t("nameRu")}</TableHead>
+          <TableHead>{t("nameKz")}</TableHead>
+          <TableHead>{t("slug")}</TableHead>
+          <TableHead>{t("order")}</TableHead>
+          <TableHead className="text-center">{t("childPages")}</TableHead>
+          <TableHead className="text-center">{t("edit")}</TableHead>
+          <TableHead className="text-center">{t("delete")}</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -63,9 +66,9 @@ export const PagesListTable = ({ ids }: PagesListTableProps) => {
             <TableCell className="text-center">
               {page.navigation_type == "group" && (
                 <Link
-                  href={`/admin/pages/${encodeURIComponent(page.slug)}?ruId=${page.ruId}&kzId=${page.kzId}`}
+                  href={`/${locale}/admin/pages/${encodeURIComponent(page.slug)}?ruId=${page.ruId}&kzId=${page.kzId}`}
                 >
-                  <Button size={"sm"}>Перейти</Button>
+                  <Button size={"sm"}>{t("follow")}</Button>
                 </Link>
               )}
             </TableCell>
@@ -77,7 +80,7 @@ export const PagesListTable = ({ ids }: PagesListTableProps) => {
                 <DeletePageBtn
                   queryKey={ids ? ["childPages"] : ["mainPages"]}
                   ids={{ kz: page.kzId, ru: page.ruId }}
-                  name={page.ru || ""}
+                  name={locale == "ru" ? page.ru : page.kz}
                 />
               )}
             </TableCell>

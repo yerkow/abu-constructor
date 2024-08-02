@@ -12,9 +12,6 @@ export const ListEditModal = (props: BaseEditModalProps) => {
   const modalProps = {
     ...props,
     widgetName: "List",
-    cardTitle: "Редактировать список",
-    desc: "Здесь вы можете отредактировать виджет список",
-    triggerTitle: "Редактировать список",
     mainKeys: [],
     mainInputs: [],
     itemKeys,

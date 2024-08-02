@@ -19,6 +19,7 @@ import { editPage } from "@/shared/api/pages";
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "@/shared/lib/client";
 import { DialogDescription } from "@radix-ui/react-dialog";
+import { useTranslations } from "next-intl";
 
 interface EditPageDialogProps {
   page: IPage;
@@ -80,6 +81,7 @@ export const EditPageDialog = ({ page }: EditPageDialogProps) => {
     }
   };
   const [open, setOpen] = useState(false);
+  const t = useTranslations("pages");
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -89,29 +91,29 @@ export const EditPageDialog = ({ page }: EditPageDialogProps) => {
       </DialogTrigger>
       <DialogContent className="max-w-sm sm:max-w-3xl">
         <DialogHeader>
-          <DialogTitle>Редактирование страницы ${page?.ru}</DialogTitle>
-          <DialogDescription>
-            Здесь Вы можете отредактировать страницу.
-          </DialogDescription>
+          <DialogTitle>
+            {t("edit.title")} - {page?.ru}
+          </DialogTitle>
+          <DialogDescription>{t("edit.desc")}</DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(onEdit)} className="flex flex-col gap-3">
           <div className="flex flex-col md:flex-row gap-3">
             <Input
-              label="Название на русском"
+              label={t("form.nameRu")}
               {...register("ru", { required: true })}
             />
             <Input
-              label="Название на казахском"
+              label={t("form.nameKz")}
               {...register("kz", { required: true })}
             />
           </div>
           <Input
-            label="Slug страницы"
+            label={t("form.slug")}
             {...register("slug", { required: true })}
           />
           <Input
             type="number"
-            label="Порядок страницы"
+            label={t("form.number")}
             {...register("order", { required: true })}
           />
 
@@ -121,7 +123,7 @@ export const EditPageDialog = ({ page }: EditPageDialogProps) => {
             />
           )}
           <Button type="submit" loading={isPending} disabled={isPending}>
-            Сохранить
+            {t("form.save")}
           </Button>
         </form>
         <DialogFooter className=" gap-2 sm:justify-start">
@@ -132,7 +134,7 @@ export const EditPageDialog = ({ page }: EditPageDialogProps) => {
               type="button"
               variant="secondary"
             >
-              Отменить
+              {t("edit.decline")}
             </Button>
           </DialogClose>
         </DialogFooter>

@@ -42,6 +42,7 @@ import { DeleteIcon, Loader2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { PageEditorContentItem } from "./PageEditorContentItem";
+import { useTranslations } from "next-intl";
 //EDIT PAGE CONTENT
 export const PageEditorContent = ({
   onTemplateSave,
@@ -87,6 +88,7 @@ export const PageEditorContent = ({
       );
   }, [data, isFetching]);
   const { toast } = useToast();
+  const t = useTranslations("pages.pageEditorContent");
   const {
     mutateAsync: deleteMutation,
     isPending: deleteIsPending,
@@ -96,11 +98,11 @@ export const PageEditorContent = ({
     mutationKey: ["templateWidget"],
     onSuccess: () => {
       if (onTemplateSave) onTemplateSave();
-      toast({ title: "Виджет удален" });
+      toast({ title: t("toast.delete.success") });
     },
     onError: (error) => {
       toast({
-        title: "При удалении виджета произошла ошибка",
+        title: t("toast.delete.error"),
         variant: "destructive",
       });
       console.log(error);
@@ -161,8 +163,6 @@ export const PageEditorContent = ({
           navigation_id: widgetToDelete.props.kz_navigation_id,
         }),
       ]).then(() => {
-        console.log("updated");
-
         updateOrder(list.filter((li) => li.id !== id));
       });
     }
@@ -199,12 +199,12 @@ export const PageEditorContent = ({
       const updatedList = await Promise.all(updatePromises);
       setList(updatedList);
       toast({
-        title: "Порядок виджетов обновлен",
+        title: t("toast.updatedList.success"),
       });
     } catch (error) {
       console.error("Error updating widget order:", error);
       toast({
-        title: "Произошла ошибка при обновлении порядка виджетов",
+        title: t("toast.updatedList.error"),
         variant: "destructive",
       });
     }
@@ -229,7 +229,7 @@ export const PageEditorContent = ({
     <section>
       <section className=" h-[calc(100vh-300px)] w-[90%] grid grid-cols-1 md:grid-cols-[300px_1fr] gap-5">
         <section className="flex flex-col gap-2">
-          <h3>Список виджетов</h3>
+          <h3>{t("leftTitle")}</h3>
           {widgetsList.map(({ name }) => (
             <span
               className=" cursor-pointer px-5 py-3 rounded-sm text-center bg-slate-200"
@@ -244,13 +244,15 @@ export const PageEditorContent = ({
           ))}
         </section>
         <section>
-          <h3 className="text-center mb-2">Контент</h3>
+          <h3 className="text-center mb-2">{t("rightTitle")}</h3>
           {isFetching ? (
             <div className="flex justify-center items-center">
               <Loader2 className="animate-spin w-10 h-10 align-middle" />
             </div>
           ) : list.length == 0 ? (
-            <h4 className="text-center text-xl text-slate-500">Нет контента</h4>
+            <h4 className="text-center text-xl text-slate-500">
+              {t("notFound")}
+            </h4>
           ) : (
             <DndContext
               sensors={sensors}
@@ -304,7 +306,7 @@ export const PageEditorContent = ({
           onClick={templateSave}
           className="w-full  col-span-2 align-self-end"
         >
-          Coxранить
+          {t("save")}
         </Button>
       )}
     </section>
@@ -320,6 +322,7 @@ const DeleteWidgetDialog = ({
   loading: boolean;
   deleteWidget: () => void;
 }) => {
+  const t = useTranslations("pages.pageEditorContent");
   return (
     <Dialog>
       <DialogTrigger className="bg-black px-3 rounded-md">
@@ -327,9 +330,9 @@ const DeleteWidgetDialog = ({
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Удаление виджета</DialogTitle>
+          <DialogTitle>{t("delete.title")}</DialogTitle>
           <DialogDescription>
-            Вы действительно хотите удалить виджет {name}
+            {t("delete.desc")} {name}
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="flex gap-10">
@@ -339,11 +342,11 @@ const DeleteWidgetDialog = ({
             size={"icon"}
             onClick={deleteWidget}
           >
-            Удалить
+            {t("delete.delete")}
           </Button>
           <DialogClose asChild className="flex-1">
             <Button type="button" variant="secondary" className="w-full">
-              Отменить
+              {t("delete.decline")}
             </Button>
           </DialogClose>
         </DialogFooter>

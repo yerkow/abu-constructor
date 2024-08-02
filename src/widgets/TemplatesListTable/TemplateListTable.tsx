@@ -12,26 +12,29 @@ import {
 } from "@/shared/ui";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 interface TemplateListTableProps {}
 export const TemplatesListTable = ({}: TemplateListTableProps) => {
   const { data, isFetching, error } = useQuery({
     queryKey: ["getTemplates"],
     queryFn: getTemplates,
+    refetchOnWindowFocus: false,
   });
+  const t = useTranslations("templates.table");
   if (isFetching)
     return (
       <div className="flex justify-center items-center">
         <Loader2 className="animate-spin w-10 h-10 align-middle" />{" "}
       </div>
     );
-  if (!data || data.length == 0) return <div>Шаблоны не найдены</div>;
+  if (!data || data.length == 0) return <div>{t("notFound")}</div>;
   return (
     <Table className="w-[90%] max-w-[390px] sm:max-w-full overflow-x-auto m-auto h-full overflow-hidden">
-      <TableCaption>Доступные шаблоны</TableCaption>
+      <TableCaption>{t("caption")}</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead>Название</TableHead>
-          <TableHead className="text-center">Структура</TableHead>
+          <TableHead>{t("name")}</TableHead>
+          <TableHead className="text-center">{t("structure")}</TableHead>
           {/* <TableHead className="text-center">Удалить страницy</TableHead> */}
         </TableRow>
       </TableHeader>

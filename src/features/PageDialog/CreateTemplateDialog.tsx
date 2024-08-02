@@ -9,6 +9,7 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -16,6 +17,7 @@ import {
   Input,
 } from "@/shared/ui";
 import { useMutation } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -52,11 +54,12 @@ export const CreateTemplateDialog = ({}: CreatePageTemplateProps) => {
   };
   const closeRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
+  const t = useTranslations("templates");
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button size={"sm"} className={"mb-3"}>
-          Создать шаблон
+          {t("create.btn")}
         </Button>
       </DialogTrigger>
       <DialogContent
@@ -65,7 +68,8 @@ export const CreateTemplateDialog = ({}: CreatePageTemplateProps) => {
         className="max-w-sm sm:max-w-3xl"
       >
         <DialogHeader>
-          <DialogTitle>Создание шаблона</DialogTitle>
+          <DialogTitle>{t("create.title")}</DialogTitle>
+          <DialogDescription>{t("create.desc")}</DialogDescription>
         </DialogHeader>
         {templateId ? (
           <PageEditorContent
@@ -80,11 +84,11 @@ export const CreateTemplateDialog = ({}: CreatePageTemplateProps) => {
         ) : (
           <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSave)}>
             <Input
-              label="Название шаблона"
+              label={t("create.name")}
               {...register("title", { required: true })}
             />
             <Button loading={isPending} disabled={isPending} type="submit">
-              Далее
+              {t("create.next")}
             </Button>
           </form>
         )}
@@ -106,7 +110,7 @@ export const CreateTemplateDialog = ({}: CreatePageTemplateProps) => {
               type="button"
               variant="secondary"
             >
-              Отменить
+              {t("create.decline")}
             </Button>
           </DialogClose>
         </DialogFooter>
