@@ -26,7 +26,7 @@ export default async function Layout({
           {children}
         </div>
       </main>
-      <footer className="w-full h-auto mt-16  bg-cyan-400 before:w-full before:h-10 relative before:absolute before:left-0 before:right-0 before:bg-footer-texture before:-top-10 before:text-cyan-500 ">
+      <footer className="w-full h-auto mt-16  bg-cyan-400 before:w-full before:h-2 md:before:h-5  relative before:absolute before:left-0 before:right-0 before:bg-footer-texture before:bg-repeat-x before:-top-2  md:before:-top-5 before:text-cyan-500 ">
         <div className=" max-w-[1200px] mx-auto px-10 py-5 ">
           <div className=" flex flex-col gap-5 md:flex-row md:justify-between md:items-center mb-3 md:mb-10">
             <div className="flex flex-col gap-5 items-start">
