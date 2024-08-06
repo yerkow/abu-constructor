@@ -14,7 +14,7 @@ const itemInputs = [
   { label: "Ccылка KZ", value: "text" },
 ];
 
-export const LinksEditModal = (props: BaseEditModalProps) => {
+function LinksEditModal(props: BaseEditModalProps) {
   const modalProps = {
     ...props,
     widgetName: "Links",
@@ -25,4 +25,6 @@ export const LinksEditModal = (props: BaseEditModalProps) => {
     withTemplate: false,
   };
   return <EditModal {...modalProps} />;
-};
+}
+LinksEditModal.displayName = "LinksEditModal";
+export default LinksEditModal;

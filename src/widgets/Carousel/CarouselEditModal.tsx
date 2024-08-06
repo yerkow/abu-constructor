@@ -7,7 +7,7 @@ const itemInputs = [
   { value: "file" },
 ];
 
-export const CarouselEditModal = (props: BaseEditModalProps) => {
+function CarouselEditModal(props: BaseEditModalProps) {
   const modalProps = {
     ...props,
     widgetName: "Carousel",
@@ -18,4 +18,6 @@ export const CarouselEditModal = (props: BaseEditModalProps) => {
     withTemplate: true,
   };
   return <EditModal {...modalProps} />;
-};
+}
+CarouselEditModal.displayName = "CarouselEditModal";
+export default CarouselEditModal;

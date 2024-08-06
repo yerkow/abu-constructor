@@ -39,7 +39,12 @@ export const PageEditor = ({ ids }: { ids: Langs }) => {
         {/* TODO */}
         <PageEditorContent ids={ids} />
         <DialogFooter className=" gap-2 sm:justify-end">
-          <DialogClose asChild>
+          <DialogClose
+            asChild
+            onClick={() => {
+              router.back();
+            }}
+          >
             <Button type="button" variant="secondary" className="w-full">
               {t("decline")}
             </Button>

@@ -2,7 +2,7 @@ interface LinksProps {
   title: string;
   items: { name: string; link: string }[];
 }
-export const Links = ({ title, items }: LinksProps) => {
+function Links({ title, items }: LinksProps) {
   return (
     <section className="flex flex-col gap-3">
       <h2 className="text-xl text-cyan-500 font-bold">{title}</h2>
@@ -20,4 +20,7 @@ export const Links = ({ title, items }: LinksProps) => {
       </ul>
     </section>
   );
-};
+}
+Links.displayName = "Links";
+
+export default Links;

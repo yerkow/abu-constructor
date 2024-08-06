@@ -1,19 +1,19 @@
-import { Accordion } from "./Accordion/Accordion";
-import { AccordionEditModal } from "./Accordion/AccordionEditModal";
-import { Cards } from "./Cards/Cards";
-import { CardsEditModal } from "./Cards/CardsEditModal";
-import { Carousel } from "./Carousel/CarouselServer";
-import { CarouselEditModal } from "./Carousel/CarouselEditModal";
-import { Gallery } from "./Gallery/GalleryServer";
-import { GalleryEditModal } from "./Gallery/GalleryEditModal";
-import { Info } from "./Info/Info";
-import { InfoEditModal } from "./Info/InfoEditModal";
-import { Links } from "./Links/Links";
-import { LinksEditModal } from "@/widgets/Links/LinksEditModal";
-import { List } from "./List/ListServer";
-import { ListEditModal } from "./List/ListEditModal";
-import { Text } from "./Text/Text";
-import { TextEditModal } from "./Text/TextEditModal";
+import Accordion from "./Accordion/Accordion";
+import AccordionEditModal from "./Accordion/AccordionEditModal";
+import Cards from "./Cards/Cards";
+import CardsEditModal from "./Cards/CardsEditModal";
+import Carousel from "./Carousel/CarouselServer";
+import CarouselEditModal from "./Carousel/CarouselEditModal";
+import Gallery from "./Gallery/GalleryServer";
+import GalleryEditModal from "./Gallery/GalleryEditModal";
+import Info from "./Info/Info";
+import InfoEditModal from "./Info/InfoEditModal";
+import Links from "./Links/Links";
+import LinksEditModal from "@/widgets/Links/LinksEditModal";
+import List from "./List/ListServer";
+import ListEditModal from "./List/ListEditModal";
+import Text from "./Text/Text";
+import TextEditModal from "./Text/TextEditModal";
 
 export { AdminSidebar } from "./AdminSidebar/AdminSidebar";
 export { BreadCrumbs } from "./BreadCrumbs";
@@ -61,7 +61,10 @@ export const widgetsList = [
 ];
 export const getWidgetByName = (name: string, props: any) => {
   const widget = widgetsList.find((w, idx) => {
-    return w.name === name;
+    return w.displayName == name;
+  });
+  widgetsList.forEach((w, idx) => {
+    console.log(w);
   });
   if (widget) {
     return widget({ ...props });
@@ -83,7 +86,7 @@ export const getEditModal = (
       kzPageId: +kzPageId,
       queryKey,
     };
-    const editModal = editModalList.find((m) => m.name.includes(modal));
+    const editModal = editModalList.find((m) => m.displayName.includes(modal));
     if (editModal) {
       const variant = template ? "dialog" : "card";
       return editModal({ variant, ...baseProps });

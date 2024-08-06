@@ -18,7 +18,7 @@ export interface InfoItemProps {
   content: string;
   linkText: string;
 }
-export const Info = ({ title, content, items }: InfoProps) => {
+function Info({ title, content, items }: InfoProps) {
   return (
     <section className="flex flex-col gap-10">
       <h2 className="text-3xl text-center">{title}</h2>
@@ -28,4 +28,6 @@ export const Info = ({ title, content, items }: InfoProps) => {
       ))}
     </section>
   );
-};
+}
+Info.displayName = "Info";
+export default Info;

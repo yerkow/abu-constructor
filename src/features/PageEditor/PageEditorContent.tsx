@@ -230,16 +230,19 @@ export const PageEditorContent = ({
       <section className=" h-[calc(100vh-300px)] w-[90%] grid grid-cols-1 md:grid-cols-[300px_1fr] gap-5">
         <section className="flex flex-col gap-2">
           <h3>{t("leftTitle")}</h3>
-          {widgetsList.map(({ name }) => (
+          {widgetsList.map(({ displayName }) => (
             <span
               className=" cursor-pointer px-5 py-3 rounded-sm text-center bg-slate-200"
-              key={name}
+              key={displayName}
               onClick={() => {
                 if (!isFetching)
-                  setList([...list, { id: list.length + 1, name }]);
+                  setList([
+                    ...list,
+                    { id: list.length + 1, name: displayName },
+                  ]);
               }}
             >
-              {name}
+              {displayName}
             </span>
           ))}
         </section>

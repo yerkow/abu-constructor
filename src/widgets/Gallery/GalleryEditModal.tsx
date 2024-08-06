@@ -3,7 +3,7 @@ import { EditModal } from "@/widgets/EditModal/EditModal";
 const itemKeys = ["image"];
 const itemInputs = [{ label: "Картинка", value: "file" }];
 
-export const GalleryEditModal = (props: BaseEditModalProps) => {
+function GalleryEditModal(props: BaseEditModalProps) {
   const modalProps = {
     ...props,
     widgetName: "Gallery",
@@ -14,4 +14,6 @@ export const GalleryEditModal = (props: BaseEditModalProps) => {
     withTemplate: false,
   };
   return <EditModal {...modalProps} />;
-};
+}
+GalleryEditModal.displayName = "GalleryEditModal";
+export default GalleryEditModal;

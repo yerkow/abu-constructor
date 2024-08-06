@@ -1,4 +1,7 @@
 {
+  "NotFoundPage": {
+    "title": "Страница не найдена"
+  },
   "sidebar": {
     "links": {
       "home": { "label": "Главная", "href": "/admin" },

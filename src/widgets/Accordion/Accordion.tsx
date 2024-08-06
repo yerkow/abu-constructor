@@ -11,7 +11,7 @@ interface AccordionItem {
   question: string;
   answer: string;
 }
-export const Accordion = ({ items }: AccordionProps) => {
+function Accordion({ items }: AccordionProps) {
   return (
     <AccordionUI type="single" collapsible>
       {items.map((item, idx) => (
@@ -24,4 +24,6 @@ export const Accordion = ({ items }: AccordionProps) => {
       ))}
     </AccordionUI>
   );
-};
+}
+Accordion.displayName = "Accordion";
+export default Accordion;

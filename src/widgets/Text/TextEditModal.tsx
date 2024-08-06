@@ -8,7 +8,7 @@ const mainInputs = [
   { label: "Контент KZ", value: "quill" },
 ];
 
-export const TextEditModal = (props: BaseEditModalProps) => {
+function TextEditModal(props: BaseEditModalProps) {
   const modalProps = {
     ...props,
     widgetName: "Text",
@@ -19,4 +19,6 @@ export const TextEditModal = (props: BaseEditModalProps) => {
     withTemplate: false,
   };
   return <EditModal {...modalProps} />;
-};
+}
+TextEditModal.displayName = "TextEditModal";
+export default TextEditModal;

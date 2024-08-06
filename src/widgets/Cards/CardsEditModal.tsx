@@ -25,7 +25,7 @@ const itemInputs = [
   { value: "file" },
 ];
 
-export const CardsEditModal = (props: BaseEditModalProps) => {
+function CardsEditModal(props: BaseEditModalProps) {
   const modalProps = {
     ...props,
     widgetName: "Cards",
@@ -36,4 +36,6 @@ export const CardsEditModal = (props: BaseEditModalProps) => {
     withTemplate: true,
   };
   return <EditModal {...modalProps} />;
-};
+}
+CardsEditModal.displayName = "CardsEditModal";
+export default CardsEditModal;

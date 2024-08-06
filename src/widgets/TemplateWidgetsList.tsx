@@ -1,13 +1,5 @@
 import { TemplateSelectType } from "@/shared/lib/types";
 import { getEditModal } from "@/widgets";
-import { AccordionEditModal } from "@/widgets/Accordion/AccordionEditModal";
-import { CardsEditModal } from "@/widgets/Cards/CardsEditModal";
-import { CarouselEditModal } from "@/widgets/Carousel/CarouselEditModal";
-import { GalleryEditModal } from "@/widgets/Gallery/GalleryEditModal";
-import { InfoEditModal } from "@/widgets/Info/InfoEditModal";
-import { LinksEditModal } from "@/widgets/Links/LinksEditModal";
-import { ListEditModal } from "@/widgets/List/ListEditModal";
-import { TextEditModal } from "@/widgets/Text/TextEditModal";
 import { Fragment } from "react";
 const getTemplateWidgetList = (
   saved: string,

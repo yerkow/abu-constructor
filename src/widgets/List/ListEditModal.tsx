@@ -8,7 +8,7 @@ const itemInputs = [
   { value: "file" },
 ];
 
-export const ListEditModal = (props: BaseEditModalProps) => {
+function ListEditModal(props: BaseEditModalProps) {
   const modalProps = {
     ...props,
     widgetName: "List",
@@ -19,4 +19,6 @@ export const ListEditModal = (props: BaseEditModalProps) => {
     withTemplate: false,
   };
   return <EditModal {...modalProps} />;
-};
+}
+ListEditModal.displayName = "ListEditModal";
+export default ListEditModal;

@@ -20,7 +20,7 @@ const itemInputs = [
     value: "text",
   },
 ];
-export const AccordionEditModal = (props: BaseEditModalProps) => {
+function AccordionEditModal(props: BaseEditModalProps) {
   const modalProps = {
     ...props,
     widgetName: "Accordion",
@@ -31,4 +31,6 @@ export const AccordionEditModal = (props: BaseEditModalProps) => {
     withTemplate: false,
   };
   return <EditModal {...modalProps} />;
-};
+}
+AccordionEditModal.displayName = "AccordionEditModal";
+export default AccordionEditModal;

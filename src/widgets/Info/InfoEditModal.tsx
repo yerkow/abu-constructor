@@ -35,7 +35,7 @@ const itemInputs = [
   { label: "Текст ссылки KZ", value: "text" },
 ];
 
-export const InfoEditModal = (props: BaseEditModalProps) => {
+function InfoEditModal(props: BaseEditModalProps) {
   const modalProps = {
     ...props,
     widgetName: "Info",
@@ -46,4 +46,6 @@ export const InfoEditModal = (props: BaseEditModalProps) => {
     withTemplate: true,
   };
   return <EditModal {...modalProps} />;
-};
+}
+InfoEditModal.displayName = "InfoEditModal";
+export default InfoEditModal;

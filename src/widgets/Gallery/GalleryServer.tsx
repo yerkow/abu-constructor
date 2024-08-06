@@ -1,3 +1,8 @@
 import { GalleryProps, GalleryClient } from "@/widgets/Gallery/GalleryClient";
 
-export const Gallery = (props: GalleryProps) => <GalleryClient {...props} />;
+function Gallery(props: GalleryProps) {
+  return <GalleryClient {...props} />;
+}
+
+Gallery.displayName = "Gallery";
+export default Gallery;

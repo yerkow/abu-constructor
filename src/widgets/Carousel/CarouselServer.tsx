@@ -2,5 +2,10 @@ import {
   CarouselClient,
   CarouselProps,
 } from "@/widgets/Carousel/CarouselClient";
+function Carousel(props: CarouselProps) {
+  return <CarouselClient {...props} />;
+}
 
-export const Carousel = (props: CarouselProps) => <CarouselClient {...props} />;
+Carousel.displayName = "Carousel";
+
+export default Carousel;
