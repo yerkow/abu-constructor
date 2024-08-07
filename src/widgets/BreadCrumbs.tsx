@@ -14,7 +14,10 @@ function getBreadCrumbs(slug: string[], pages: NavPage[]) {
   const search = (pages: NavPage[], start: number) => {
     pages.map((page) => {
       for (let i = start; i < slugLength; i++) {
-        if (page.slug.endsWith(slug[i])) {
+        const slugEnd = i == 0 ? slug[i] : `${slug[i - 1]}/${slug[i]}`;
+        if (page.slug.endsWith(slugEnd)) {
+          console.log(page.slug, slug[i]);
+
           res.push({
             title: page.title,
             slug: page.slug,
@@ -40,6 +43,7 @@ export const BreadCrumbs = ({
   pages: NavPage[];
 }) => {
   const crumbs = getBreadCrumbs(slug, pages);
+
   return (
     <Breadcrumb>
       <BreadcrumbList>
