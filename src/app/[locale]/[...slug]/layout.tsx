@@ -20,29 +20,15 @@ export default async function Layout({
   return (
     <section>
       <Header />
-      <main className="max-w-[1200px] min-h-[100svh] overflow-y-auto mx-auto px-5 xl:px-0   mb-10 mt-20 ">
+      <main className="max-w-[1200px] min-h-[100svh] overflow-y-auto mx-auto px-5 xl:px-0   mb-10 mt-5 md:mt-20 ">
         <BreadCrumbs locale={params.locale} slug={params.slug} pages={pages} />
-        <div className="shadow-lg rounded-3xl flex p-10  flex-col gap-10">
+        <div className="shadow-lg rounded-3xl flex lg:p-10 p-3  flex-col gap-10">
           {children}
         </div>
       </main>
       <footer className="w-full h-auto mt-16  bg-cyan-400 before:w-full before:h-2 md:before:h-5  relative before:absolute before:left-0 before:right-0 before:bg-footer-texture before:bg-repeat-x before:-top-2  md:before:-top-5 before:text-cyan-500 ">
         <div className=" max-w-[1200px] mx-auto px-10 py-5 ">
           <div className=" flex flex-col gap-5 md:flex-row md:justify-between md:items-center mb-3 md:mb-10">
-            <div className="flex flex-col gap-5 items-start">
-              <h2 className="text-2xl mb-4 text-white">Навигация</h2>
-              {pages
-                .filter((page) => page.navigation_type === "content")
-                .map((page) => (
-                  <Link
-                    className="text-xl text-white"
-                    key={page.id}
-                    href={`/${params.locale}${page.slug}`}
-                  >
-                    {page.title}
-                  </Link>
-                ))}
-            </div>
             <div className="flex flex-col gap-4  text-white">
               <h2 className="text-2xl">Наши контакты</h2>
               <div className="flex flex-col gap-3">

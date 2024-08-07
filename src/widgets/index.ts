@@ -63,9 +63,7 @@ export const getWidgetByName = (name: string, props: any) => {
   const widget = widgetsList.find((w, idx) => {
     return w.displayName == name;
   });
-  widgetsList.forEach((w, idx) => {
-    console.log(w);
-  });
+
   if (widget) {
     return widget({ ...props });
   }
@@ -86,7 +84,7 @@ export const getEditModal = (
       kzPageId: +kzPageId,
       queryKey,
     };
-    const editModal = editModalList.find((m) => m.displayName.includes(modal));
+    const editModal = editModalList.find((m) => m.name.includes(modal));
     if (editModal) {
       const variant = template ? "dialog" : "card";
       return editModal({ variant, ...baseProps });
