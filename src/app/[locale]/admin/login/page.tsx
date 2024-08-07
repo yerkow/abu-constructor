@@ -1,4 +1,5 @@
-import { withNoSSR } from "@/features";
+import { LoginForm } from "@/features";
+import { Login } from "@/shared/api/login";
 import {
   Button,
   Card,
@@ -7,22 +8,21 @@ import {
   Input,
   Separator,
 } from "@/shared/ui";
+import { getTranslations } from "next-intl/server";
+import { FormEvent } from "react";
 
-function AdminLoginPage() {
+async function AdminLoginPage() {
+  const t = await getTranslations("login");
   return (
     <section className="w-full h-screen flex items-center justify-center">
       <Card className="p-4">
-        <CardTitle className="text-center mb-3">Login</CardTitle>
+        <CardTitle className="text-center mb-3">{t("title")}</CardTitle>
         <Separator />
         <CardContent className="p-4">
-          <form className="flex flex-col gap-2">
-            <Input label="Login" type="text" />
-            <Input label="Password" type="password" />
-            <Button className="w-full">Login</Button>
-          </form>
+          <LoginForm />
         </CardContent>
       </Card>
     </section>
   );
 }
-export default withNoSSR(AdminLoginPage);
+export default AdminLoginPage;

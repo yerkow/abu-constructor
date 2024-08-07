@@ -2,8 +2,9 @@ import { Button } from "@/shared/ui";
 import clsx from "clsx";
 import { ComponentProps } from "react";
 import { Navlink } from "./Navlink";
-import { ChangeLocale } from "@/features";
+import { ChangeLocale, LogoutButton } from "@/features";
 import { getTranslations } from "next-intl/server";
+import { cookies } from "next/headers";
 
 const links = [
   { label: "Главная", href: "/admin" },
@@ -15,7 +16,7 @@ export const AdminSidebar = async ({
   className,
   ...props
 }: ComponentProps<"nav">) => {
-  const t = await getTranslations("sidebar.links");
+  const t = await getTranslations("sidebar");
   const keys = ["home", "settings", "pages", "templates"] as const;
 
   return (
@@ -30,16 +31,11 @@ export const AdminSidebar = async ({
       <div className="flex flex-row md:flex-col gap-3">
         {keys.map((key) => (
           <Navlink key={key} href={t(`${key}.href`)}>
-            {t(`${key}.label`)}
+            {t(`links.${key}.label`)}
           </Navlink>
         ))}
       </div>
-      <Button
-        variant={"outline"}
-        className="text-black font-bold md:justify-self-center md:w-full"
-      >
-        Выйти
-      </Button>
+      <LogoutButton />
     </nav>
   );
 };

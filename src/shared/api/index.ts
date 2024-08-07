@@ -1,3 +1,6 @@
+import { getCookie } from "cookies-next";
+import { cookies } from "next/headers";
+
 const backendUrl = "http://77.243.80.138:8000";
 interface CRequest {
   path: string;
@@ -23,8 +26,11 @@ export const customFetch = async (params: CRequest) => {
   if (params.body?.json) {
     headers.set("Content-Type", "application/json");
   }
-  if (params.token) {
-    headers.set("authorization", params.token);
+  if (params.method !== "GET") {
+    const token = getCookie("token");
+    if (token) {
+      headers.set("authorization", `Token ${token}`);
+    }
   }
 
   const response = await fetch(url, {

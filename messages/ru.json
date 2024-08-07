@@ -1,8 +1,15 @@
 {
+  "login": {
+    "title": "Авторизация",
+    "login": "Логин",
+    "password": "Пароль",
+    "btn": "Вход"
+  },
   "NotFoundPage": {
     "title": "Страница не найдена"
   },
   "sidebar": {
+    "logout": "Выйти",
     "links": {
       "home": { "label": "Главная", "href": "/admin" },
       "settings": { "label": "Настройки", "href": "/admin/settings" },

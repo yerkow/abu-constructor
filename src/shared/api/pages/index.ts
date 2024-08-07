@@ -73,6 +73,7 @@ export const editPage = ({
     path: `navigation-view/${id}/`,
     method: "PATCH",
     body: { json: data },
+    query: { change_type: "edit" },
   });
 };
 export const deletePage = (id: number) => {

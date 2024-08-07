@@ -1,4 +1,6 @@
 export { DeletePageBtn } from "./DeletePageBtn";
+export { LogoutButton } from "./LogoutButton";
+export { LoginForm } from "./LoginForm";
 export { PreviewButton } from "./PreviewButton";
 export { withNoSSR } from "./WithNoSSR";
 export { ChangeLocale } from "./ChangeLocale";
