@@ -17,6 +17,9 @@
       "templates": { "label": "Шаблоны", "href": "/admin/pages/templates" }
     }
   },
+  "burger": {
+    "back": "Назад"
+  },
   "widget": {
     "add": "Добавить",
     "save": "Сохранить",

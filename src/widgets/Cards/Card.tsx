@@ -49,8 +49,8 @@ export const Card = ({
           src={`${backendImageUrl}/${image}`}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          alt="te"
-          className="absolute left-0 right-0 top-0 bottom-0 "
+          alt={title}
+          className="absolute rounded-sm left-0 right-0 top-0 bottom-0 "
         />
       </div>
       <div>
