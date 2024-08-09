@@ -97,12 +97,16 @@ export const Navbar = () => {
         scrolled ? "md:fixed md:left-0 md:right-0 md:top-0" : "md:static",
       )}
     >
-      <ul className="max-w-[1200px] mx-auto gap-5 items-center justify-center flex ">
+      <ul className="max-w-[1200px]  overflow-hidden  mx-auto gap-5 items-center justify-center flex ">
         {isFetching ? (
           <Skeleton className="w-[500px] h-10" />
         ) : pages ? (
           <section className="flex text-cyan-500  text-start gap-5 text-xl">
-            <NavList locale={params.locale} pages={pages} />
+            <NavList locale={params.locale} pages={pages.slice(0, 3)} />
+            <HoverMenu
+              locale={params.locale}
+              pages={pages.slice(3, pages.length)}
+            />
           </section>
         ) : (
           <span>Навигация не найдена</span>
@@ -112,6 +116,31 @@ export const Navbar = () => {
   );
 };
 
+const HoverMenu = ({
+  pages,
+  locale,
+}: {
+  pages: NavPage[];
+  locale: string | string[];
+}) => {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button className="flex py-1 px-5  items-end h-full" variant={"ghost"}>
+          <span className="text-xl">...</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        align="start"
+        className=" flex flex-col gap-3  text-cyan-500 "
+      >
+        <div className="flex flex-col gap-3">
+          <NavList pages={pages} locale={locale} />
+        </div>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
 const NavList = ({
   pages,
   locale,
@@ -127,7 +156,7 @@ const NavList = ({
       return (
         <Link
           className={clsx(
-            "text-center p-3 rounded-md  hover:bg-gray-100",
+            "text-center p-1 rounded-md    hover:bg-gray-100",
             path == `/${locale}${page.slug}` && "font-bold",
           )}
           href={`/${locale}/${page.slug}`}
@@ -140,7 +169,7 @@ const NavList = ({
       return (
         <DropdownMenu open={open} onOpenChange={setOpen} key={page.id}>
           <DropdownMenuTrigger asChild>
-            <div className="p-3 cursor-pointer rounded-md flex gap-2 items-center text-center  justify-normal hover:bg-gray-100">
+            <div className="p-1 cursor-pointer  rounded-md flex gap-2 items-center text-center  justify-normal hover:bg-gray-100">
               <span className="ml-5">{page.title}</span>
               <ChevronRight
                 className={clsx("transition", !open ? "rotate-0" : "rotate-90")}
