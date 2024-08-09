@@ -25,6 +25,7 @@ import {
 import { getWidgetByName } from "@/widgets";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ArchiveRestore, Eye, Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 interface HistoryContentProps {
   ids: {
     ruId: number;
@@ -47,9 +48,15 @@ export const HistoryContent = ({ ids }: HistoryContentProps) => {
     );
   return (
     <ScrollArea className="h-[calc(100svh-400px)] space-y-4 ">
-      {data.map((item, idx) => (
-        <ContentItem key={idx} pair={item} ids={ids} />
-      ))}
+      {data
+        .sort(
+          (a, b) =>
+            new Date(b.ru.create_date).getTime() -
+            new Date(a.ru.create_date).getTime(),
+        )
+        .map((item, idx) => (
+          <ContentItem key={idx} pair={item} ids={ids} />
+        ))}
     </ScrollArea>
   );
 };
@@ -63,9 +70,12 @@ interface ContentItemProps {
   };
 }
 const ContentItem = ({ pair, ids }: ContentItemProps) => {
+  const t = useTranslations("widget.history");
   return (
     <div className=" py-4 my-3 bg-slate-100 px-5 rounded-sm grid grid-cols-[1fr_auto]">
-      <div>Изменено {formatDateToDDMMYYYY(pair.ru.create_date)}</div>
+      <div>
+        {t("item")} {formatDateToDDMMYYYY(pair.ru.create_date)}
+      </div>
       <div className="flex gap-4">
         <ShowButton pair={pair} />
         <RestoreButton pair={pair} ids={ids} />
@@ -83,6 +93,7 @@ const RestoreButton = ({ pair, ids }: ContentItemProps) => {
         console.log(error);
       },
     });
+  const t = useTranslations("widget.history");
   const onRestore = () => {
     Promise.all([
       editWidgetMutation({
@@ -98,14 +109,14 @@ const RestoreButton = ({ pair, ids }: ContentItemProps) => {
     ])
       .then(() => {
         toast({
-          title: "Виджет восстановлен.",
+          title: t("toast.success"),
         });
         queryClient.invalidateQueries({ queryKey: ["pageEditWidgets"] });
       })
       .catch((e) => {
         toast({
           variant: "destructive",
-          title: "Ошибка при восстановлении виджета.",
+          title: t("toast.error"),
         });
       });
   };
@@ -116,17 +127,15 @@ const RestoreButton = ({ pair, ids }: ContentItemProps) => {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>
-            Вы уверены, что хотите восстановить?
-          </AlertDialogTitle>
+          <AlertDialogTitle>{t("alert.title")}</AlertDialogTitle>
           <AlertDialogDescription className="hidden">
-            Кнопка восстановления
+            {t("alert.desc")}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Отменить</AlertDialogCancel>
+          <AlertDialogCancel>{t("alert.decline")}</AlertDialogCancel>
           <AlertDialogAction onClick={onRestore}>
-            Восстановить
+            {t("alert.btn")}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
@@ -134,6 +143,7 @@ const RestoreButton = ({ pair, ids }: ContentItemProps) => {
   );
 };
 const ShowButton = ({ pair }: Omit<ContentItemProps, "ids">) => {
+  const t = useTranslations("widget.history");
   return (
     <Dialog>
       <DialogTrigger className="px-3 py-2 bg-black rounded-md">
@@ -142,8 +152,8 @@ const ShowButton = ({ pair }: Omit<ContentItemProps, "ids">) => {
       <DialogContent className="min-w-[100vw] h-[100svh] flex justify-center">
         <Tabs defaultValue="ru" className="w-full flex items-center flex-col">
           <TabsList>
-            <TabsTrigger value="ru">На русском</TabsTrigger>
-            <TabsTrigger value="kz">На казахском</TabsTrigger>
+            <TabsTrigger value="ru">{t("ru")}</TabsTrigger>
+            <TabsTrigger value="kz">{t("kz")}</TabsTrigger>
           </TabsList>
           <TabsContent value="ru" className="w-full">
             {getWidgetByName(pair.ru.widget_type, JSON.parse(pair.ru.options))}

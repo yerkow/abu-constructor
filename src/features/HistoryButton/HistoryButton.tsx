@@ -10,12 +10,14 @@ import {
   Button,
 } from "@/shared/ui";
 import { History } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 interface HistoryButtonProps {
   ids: { ruId: number; kzId: number; ruPageId: number; kzPageId: number };
 }
 export const HistoryButton = ({ ids }: HistoryButtonProps) => {
   const [open, setOpen] = useState(false);
+  const t = useTranslations("widget.history");
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <Button variant="default" onClick={() => setOpen(true)}>
@@ -23,10 +25,8 @@ export const HistoryButton = ({ ids }: HistoryButtonProps) => {
       </Button>
       <DialogContent className="min-w-[calc(100vw-200px)] h-[calc(100svh-200px)]">
         <DialogHeader>
-          <DialogTitle>История</DialogTitle>
-          <DialogDescription>
-            Здесь отображаются все изменения
-          </DialogDescription>
+          <DialogTitle>{t("title")}</DialogTitle>
+          <DialogDescription>{t("desc")}</DialogDescription>
         </DialogHeader>
         {open && <HistoryContent ids={ids} />}
       </DialogContent>

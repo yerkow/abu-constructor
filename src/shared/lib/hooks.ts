@@ -449,16 +449,16 @@ export function useTemplateWidget<StateProps>({
       return { ...temp };
     });
 
-    if (withTemplate) {
-      const ids = id.split("*");
-      ids.forEach((id) => {
-        try {
-          deletePage(+id);
-        } catch (e) {
-          console.log(e);
-        }
-      });
-    }
+    // if (withTemplate) {
+    //   const ids = id.split("*");
+    //   ids.forEach((id) => {
+    //     try {
+    //       deletePage(+id);
+    //     } catch (e) {
+    //       console.log(e);
+    //     }
+    //   });
+    // }
   };
   return {
     addItem,
