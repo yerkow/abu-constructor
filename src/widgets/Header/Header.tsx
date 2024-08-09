@@ -14,7 +14,7 @@ export const Header = () => {
         <ChangeLocale />
         <BurgerMenu />
       </section>
-      <section className=" md:px-20 px-5 grid mt-14 md:mt-0    grid-cols-[100px_1fr]  md:items-center gap-5">
+      <section className="min-h-[170px] md:min-h-[130px] md:px-20 px-5 grid mt-14 md:mt-0    grid-cols-[100px_1fr]  items-center gap-5">
         <Image
           src={"/logo.svg"}
           height={80}

@@ -48,7 +48,7 @@ export const EditPageDialog = ({ page }: EditPageDialogProps) => {
     onSuccess: () => {
       reset();
       if (closeRef.current) closeRef.current.click();
-      queryClient.invalidateQueries({ queryKey: ["childPages"] });
+      queryClient.invalidateQueries({ queryKey: ["childPages", "mainPages"] });
     },
   });
 

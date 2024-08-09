@@ -28,12 +28,13 @@ export interface CarouselProps {
 const CarouselClient = ({ items, position }: CarouselProps) => {
   const params = useParams();
   return (
-    <section className="w-full flex items-center justify-center">
+    <section className="w-full flex items-center px-2  justify-center">
       <CarouselUI
         opts={{
           align: "start",
+          loop: true,
         }}
-        className="w-full max-w-[80%]  "
+        className="w-full mb-20  md:max-w-[80%]  "
       >
         <CarouselContent>
           {items.map((item, idx) => {
@@ -43,9 +44,9 @@ const CarouselClient = ({ items, position }: CarouselProps) => {
             return (
               <CarouselItem key={idx}>
                 <div className="p-1  ">
-                  <Card className="p-4 flex flex-col gap-4">
+                  <Card className="py-0 px-1 md:p-4 flex flex-col gap-4">
                     <CardTitle>{item.title}</CardTitle>
-                    <CardContent className="flex  cursor-grab overflow-hidden   items-center justify-center p-6">
+                    <CardContent className="flex  cursor-grab overflow-hidden   items-center justify-center p-1  md:p-6">
                       <Comp
                         href={`/${params.locale}/${item.href}`}
                         className="relative w-full h-[200px] md:h-[400px]"

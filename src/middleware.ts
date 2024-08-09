@@ -9,8 +9,6 @@ const intlMiddleware = createIntlMiddleware({
 
 // Authentication and redirection middleware
 function authMiddleware(req: NextRequest) {
-  console.log("auth");
-
   const token = req.cookies.get("token");
   const { pathname } = req.nextUrl;
 
@@ -30,8 +28,6 @@ function authMiddleware(req: NextRequest) {
 }
 
 export function middleware(req: NextRequest) {
-  console.log("Middleware is running");
-
   // Apply the authentication middleware first
   const authResponse = authMiddleware(req);
   if (authResponse && authResponse.status !== 200) {
