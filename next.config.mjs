@@ -5,6 +5,7 @@ const withNextIntl = createNextIntlPlugin();
 const nextConfig = {
   output: "standalone",
   images: {
+    formats: ["image/webp"],
     remotePatterns: [
       {
         protocol: "http",
