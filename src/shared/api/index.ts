@@ -26,11 +26,9 @@ export const customFetch = async (params: CRequest) => {
   if (params.body?.json) {
     headers.set("Content-Type", "application/json");
   }
-  if (params.method !== "GET") {
-    const token = getCookie("token");
-    if (token) {
-      headers.set("authorization", `Token ${token}`);
-    }
+  const token = getCookie("token");
+  if (token) {
+    headers.set("authorization", `Token ${token}`);
   }
 
   const response = await fetch(url, {

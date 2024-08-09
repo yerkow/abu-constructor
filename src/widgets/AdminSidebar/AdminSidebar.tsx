@@ -7,17 +7,16 @@ import { getTranslations } from "next-intl/server";
 import { cookies } from "next/headers";
 
 const links = [
-  { label: "Главная", href: "/admin" },
-  { label: "Настройки", href: "/admin/settings" },
-  { label: "Страницы", href: "/admin/pages" },
-  { label: "Шаблоны", href: "/admin/pages/templates" },
+  { label: "links.home.label", href: "links.home.href" },
+  { label: "links.settings.label", href: "links.settings.href" },
+  { label: "links.pages.label", href: "links.pages.href" },
+  { label: "links.templates.label", href: "links.templates.href" },
 ];
 export const AdminSidebar = async ({
   className,
   ...props
 }: ComponentProps<"nav">) => {
   const t = await getTranslations("sidebar");
-  const keys = ["home", "settings", "pages", "templates"] as const;
 
   return (
     <nav
@@ -29,9 +28,9 @@ export const AdminSidebar = async ({
     >
       <ChangeLocale />
       <div className="flex flex-row md:flex-col gap-3">
-        {keys.map((key) => (
-          <Navlink key={key} href={t(`${key}.href`)}>
-            {t(`links.${key}.label`)}
+        {links.map((key) => (
+          <Navlink key={key.href} href={t(`${key.href}`)}>
+            {t(`${key.label}`)}
           </Navlink>
         ))}
       </div>

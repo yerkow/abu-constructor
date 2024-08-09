@@ -104,6 +104,8 @@ const ModalContent = ({
     itemsStateFields: itemKeys,
   });
   const t = useTranslations("widget");
+  console.log(items);
+
   return (
     <>
       {props && (

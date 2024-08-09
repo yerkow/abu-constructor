@@ -1,5 +1,6 @@
 import { LoginForm } from "@/features";
 import { Login } from "@/shared/api/login";
+import { useCheckToken } from "@/shared/lib/hooks/useCheckToken";
 import {
   Button,
   Card,
@@ -11,7 +12,7 @@ import {
 import { getTranslations } from "next-intl/server";
 import { FormEvent } from "react";
 
-async function AdminLoginPage() {
+async function AdminLoginPage({ params }: { params: { locale: string } }) {
   const t = await getTranslations("login");
   return (
     <section className="w-full h-screen flex items-center justify-center">

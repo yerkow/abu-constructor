@@ -34,7 +34,7 @@ export async function generateMetadata(
 
 export default async function Page({ params }: PageProps) {
   const data = await getPageContent(params.slug, params.locale);
-  // console.log(data);
+  console.log(data);
   return data
     .sort((a, b) => a.order - b.order)
     .map((m: any) =>

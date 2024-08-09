@@ -4,7 +4,7 @@ import { Button, Input } from "@/shared/ui";
 import { useMutation } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { FormEvent, useState } from "react";
-import { setCookie } from "cookies-next";
+import { getCookie, setCookie } from "cookies-next";
 import { redirect, useParams, useRouter } from "next/navigation";
 
 export const LoginForm = () => {
@@ -18,7 +18,7 @@ export const LoginForm = () => {
     mutationFn: Login,
     onSuccess: (data) => {
       setCookie("token", data.token);
-      router.push(`/${locale}/admin`);
+      router.refresh();
     },
   });
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
