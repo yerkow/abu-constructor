@@ -182,6 +182,8 @@ export function useTemplateWidget<StateProps>({
               ? {
                   templateSlug: item.templateSlug,
                   href: item.href,
+                  savedTemplate: item.savedTemplate,
+                  templateWidgets: item.templateWidgets,
                 }
               : {},
           );
