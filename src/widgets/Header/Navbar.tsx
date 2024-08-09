@@ -1,58 +1,20 @@
 "use client";
 
-import { getNavbarPages, getPages } from "@/shared/api/pages";
+import { getNavbarPages } from "@/shared/api/pages";
 import { NavPage } from "@/shared/lib/types";
-import { cn } from "@/shared/lib/utils";
 import {
   Button,
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
   Skeleton,
 } from "@/shared/ui";
-import { BurgerMenu } from "@/widgets/BurgerMenu/BurgetMenu";
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
-import {
-  User,
-  CreditCard,
-  Settings,
-  Keyboard,
-  Users,
-  UserPlus,
-  Mail,
-  MessageSquare,
-  PlusCircle,
-  Plus,
-  Github,
-  LifeBuoy,
-  Cloud,
-  LogOut,
-  ArrowRight,
-  ArrowDown01,
-  ArrowDown,
-  ChevronRight,
-  ChevronLeft,
-} from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export const Navbar = () => {
   const params = useParams();
@@ -102,11 +64,13 @@ export const Navbar = () => {
           <Skeleton className="w-[500px] h-10" />
         ) : pages ? (
           <section className="flex text-cyan-500  text-start gap-5 text-xl">
-            <NavList locale={params.locale} pages={pages.slice(0, 3)} />
-            <HoverMenu
-              locale={params.locale}
-              pages={pages.slice(3, pages.length)}
-            />
+            <NavList locale={params.locale} pages={pages.slice(0, 5)} />
+            {pages.length > 5 && (
+              <HoverMenu
+                locale={params.locale}
+                pages={pages.slice(5, pages.length)}
+              />
+            )}
           </section>
         ) : (
           <span>Навигация не найдена</span>
@@ -148,9 +112,7 @@ const NavList = ({
   pages: NavPage[];
   locale: string | string[];
 }) => {
-  const [open, setOpen] = useState(false);
   const path = usePathname();
-
   return pages.map((page) => {
     if (page.children.length === 0 && page.navigation_type == "content") {
       return (
@@ -167,13 +129,11 @@ const NavList = ({
       );
     } else {
       return (
-        <DropdownMenu open={open} onOpenChange={setOpen} key={page.id}>
+        <DropdownMenu key={page.id}>
           <DropdownMenuTrigger asChild>
             <div className="p-1 cursor-pointer  rounded-md flex gap-2 items-center text-center  justify-normal hover:bg-gray-100">
               <span className="ml-5">{page.title}</span>
-              <ChevronRight
-                className={clsx("transition", !open ? "rotate-0" : "rotate-90")}
-              />
+              <ChevronRight className={clsx("transition rotate-90 mt-1")} />
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent

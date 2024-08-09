@@ -46,7 +46,7 @@ const CarouselClient = ({ items, position }: CarouselProps) => {
                 <div className="p-1  ">
                   <Card className="py-0 px-1 md:p-4 flex flex-col gap-4">
                     <CardTitle>{item.title}</CardTitle>
-                    <CardContent className="flex  cursor-grab overflow-hidden   items-center justify-center p-1  md:p-6">
+                    <CardContent className="flex  cursor-grab overflow-hidden   items-center justify-center p-1  ">
                       <Comp
                         href={`/${params.locale}/${item.href}`}
                         className="relative w-full h-[200px] md:h-[400px]"
@@ -56,6 +56,7 @@ const CarouselClient = ({ items, position }: CarouselProps) => {
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                           className="absolute object-cover rounded-md"
                           fill
+                          objectFit="cover"
                           alt={item.title ?? `carousel item ${idx}`}
                         />
                       </Comp>
