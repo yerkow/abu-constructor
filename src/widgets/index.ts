@@ -1,6 +1,6 @@
 import Accordion from "./Accordion/Accordion";
 import AccordionEditModal from "./Accordion/AccordionEditModal";
-import Cards from "./Cards/Cards";
+import Cards from "./Cards/CardsServer";
 import CardsEditModal from "./Cards/CardsEditModal";
 import Carousel from "./Carousel/CarouselServer";
 import CarouselEditModal from "./Carousel/CarouselEditModal";
@@ -69,6 +69,7 @@ export const getWidgetByName = (name: string, props: any) => {
   }
   return null;
 };
+
 export const getEditModal = (
   modal: string,
   order: number,

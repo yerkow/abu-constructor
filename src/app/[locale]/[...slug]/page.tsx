@@ -32,12 +32,50 @@ export async function generateMetadata(
   };
 }
 
+
+export interface INavigation {
+  id: number,
+  title: {
+    [key: string]: string
+  }
+  slug: string,
+  navigation_type: string,
+  order: number,
+  parent_id: null | number,
+  createdAt: string
+  updatedAt: string,
+  widgets: Array<IWidget>
+}
+
+export interface IWidget {
+  id: number,
+  widget_type: string,
+  options: {
+    [key: string]: any
+  },
+  order: number,
+  navigation_id: number,
+  contents: Array<any>,
+  createdAt: string
+  updatedAt: string
+}
+
+
 export default async function Page({ params }: PageProps) {
-  const data = await getPageContent(params.slug, params.locale);
-  console.log(data);
-  return data
-    .sort((a, b) => a.order - b.order)
-    .map((m: any) =>
-      getWidgetByName(capitalize(m.widget_type), JSON.parse(m.options)),
-    );
+  // const data = await getPageContent(params.slug, params.locale);
+
+  async function fetchNavigations(): Promise<INavigation> {
+    const response = await fetch(`http://localhost:3003/navigations/find/by-slug?slug=${params.slug.join("/")}`)
+
+    const data = await response.json()
+    return data
+  }
+
+  const { widgets } = await fetchNavigations()
+  return widgets
+    .map(({ widget_type, options, contents }) => {
+      const widgetOptons = { contents, options }
+      const widgetList = getWidgetByName(widget_type, widgetOptons)
+      return widgetList
+    })
 }

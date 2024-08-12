@@ -6,33 +6,31 @@ import { useParams } from "next/navigation";
 
 export interface CardProps {
   variant: "horizontal" | "base";
-  content: string;
-  image: string;
-  date: string;
-  title: string;
-  href?: string;
+  content: {
+    [key: string]: {
+      date: string;
+      description: string;
+      title: string;
+      image: string;
+    };
+  };
+  // href?: string;
 }
-export const Card = ({
-  variant,
-  href,
-  content,
-  image,
-  date,
-  title,
-}: CardProps) => {
-  const Comp = href ? (Link as React.ElementType) : ("div" as "div");
-  const params = useParams();
+export const Card = ({ content, variant }: CardProps) => {
+  // const Comp = href ? (Link as React.ElementType) : ("div" as "div");
+  const locale = useParams().locale as string;
 
+  const { date, description, title, image } = content[locale];
+  console.log(content)
   return (
-    <Comp
-      href={`/${params.locale}${href}`}
-      className={cn(
+
+    <article
+      // href={`/${params.locale}${href}`}
+      className={cn("after:rounded-md after:absolute rounded-2xl relative overflow-hidden shadow-md",
         {
-          horizontal:
-            "w-full grid grid-cols-[1fr_2fr] gap-2 h-[200px]  after:bottom-0 after:top-0  after:left-0 after:-right-[3px]",
+          horizontal: "w-full grid grid-cols-[1fr_2fr] gap-2 h-[200px]  after:bottom-0 after:top-0  after:left-0 after:-right-[3px]",
           base: "flex w-full  flex-col",
-        }[variant],
-        "after:rounded-md after:absolute rounded-2xl relative overflow-hidden shadow-md"
+        }[variant]
       )}
     >
       <div
@@ -58,12 +56,12 @@ export const Card = ({
         <h2 className="font-bold text-xl">{title}</h2>
         <p className="text-justify">
           {variant === "horizontal"
-            ? content
-            : content.length > 110
-              ? `${content.slice(0, 110)}...`
-              : content}
+            ? description
+            : description.length > 110
+              ? `${description.slice(0, 110)}...`
+              : description}
         </p>
       </div>
-    </Comp>
+    </article>
   );
 };
