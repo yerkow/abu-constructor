@@ -29,6 +29,9 @@ function CardsEditModal(props: BaseEditModalProps) {
   const modalProps = {
     ...props,
     widgetName: "Cards",
+    cardTitle: "Редактировать карточки",
+    desc: "Здесь вы можете отредактировать виджен карточки",
+    triggerTitle: "Редактировать карточки",
     mainKeys,
     mainInputs,
     itemKeys,
@@ -36,6 +39,7 @@ function CardsEditModal(props: BaseEditModalProps) {
     withTemplate: true,
   };
   return <EditModal {...modalProps} />;
-}
+};
+
 CardsEditModal.displayName = "CardsEditModal";
 export default CardsEditModal;

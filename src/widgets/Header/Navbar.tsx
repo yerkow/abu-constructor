@@ -1,27 +1,20 @@
 "use client";
 
 import { getNavbarPages } from "@/shared/api/pages";
-import { NavPage } from "@/shared/lib/types";
-import {
-  Button,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-  Skeleton,
-} from "@/shared/ui";
+import { Skeleton } from "@/shared/ui";
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
-import { ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { useParams, usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import React, { useState } from "react";
+import { NavigationList } from "./Navigation/NavigationList";
+import { useScroll } from "@/shared/lib/hooks/useScroll";
 
 export const Navbar = () => {
   const params = useParams();
   const {
     data: pages,
     isFetching,
-    error,
   } = useQuery({
     queryKey: ["navbar"],
     queryFn: async () => {
@@ -33,117 +26,39 @@ export const Navbar = () => {
     refetchOnWindowFocus: false,
   });
 
-  const [scrolled, setScrolled] = useState(false);
-  useEffect(() => {
-    if (window) {
-      window.addEventListener("scroll", () => {
-        if (window.scrollY >= 172) {
-          setScrolled(true);
-        } else {
-          setScrolled(false);
-        }
-      });
-    }
-    return window.removeEventListener("scroll", () => {
-      if (window.scrollY >= 172) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    });
-  }, []);
+  const [hoveredItem, setHoveredItem] = useState<null | number>(null);
+  const [scrolled] = useScroll(40)
+
   return (
     <nav
       className={clsx(
-        "h-[54px]   md:z-50 md:top-0 hidden md:flex justify-center items-center  bg-white shadow-xl",
+        "md:z-50 md:top-0 hidden md:flex justify-center items-center shadow-xl",
         scrolled ? "md:fixed md:left-0 md:right-0 md:top-0" : "md:static",
+        hoveredItem ? "bg-[#640000]" : "bg-white",
       )}
     >
-      <ul className="max-w-[1200px]  overflow-hidden  mx-auto gap-5 items-center justify-center flex ">
-        {isFetching ? (
-          <Skeleton className="w-[500px] h-10" />
-        ) : pages ? (
-          <section className="flex text-cyan-500  text-start gap-5 text-xl">
-            <NavList locale={params.locale} pages={pages.slice(0, 5)} />
-            {pages.length > 5 && (
-              <HoverMenu
-                locale={params.locale}
-                pages={pages.slice(5, pages.length)}
-              />
-            )}
-          </section>
-        ) : (
-          <span>Навигация не найдена</span>
-        )}
-      </ul>
+      <div className="w-[1200px] flex gap-10  items-center">
+        <section className="">
+          <Link href="/" >
+            <img src={`/images/logo-${hoveredItem ? "white" : "brown"}.png`} alt="logo" style={{ height: "80px" }} />
+          </Link>
+        </section>
+        <section className=" gap-5 items-center justify-center flex">
+          {isFetching ? (
+            <Skeleton className="w-[500px] h-10" />
+          ) : pages ? (
+            <NavigationList
+              locale={params.locale}
+              pages={pages}
+              hoveredItem={hoveredItem}
+              setHoveredItem={setHoveredItem}
+            />
+          ) : (
+            <span>Навигация не найдена</span>
+          )}
+        </section>
+      </div>
     </nav>
   );
 };
 
-const HoverMenu = ({
-  pages,
-  locale,
-}: {
-  pages: NavPage[];
-  locale: string | string[];
-}) => {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button className="flex py-1 px-5  items-end h-full" variant={"ghost"}>
-          <span className="text-xl">...</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent
-        align="start"
-        className=" flex flex-col gap-3  text-cyan-500 "
-      >
-        <div className="flex flex-col gap-3">
-          <NavList pages={pages} locale={locale} />
-        </div>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-};
-const NavList = ({
-  pages,
-  locale,
-}: {
-  pages: NavPage[];
-  locale: string | string[];
-}) => {
-  const path = usePathname();
-  return pages.map((page) => {
-    if (page.children.length === 0 && page.navigation_type == "content") {
-      return (
-        <Link
-          className={clsx(
-            "text-center p-1 rounded-md    hover:bg-gray-100",
-            path == `/${locale}${page.slug}` && "font-bold",
-          )}
-          href={`/${locale}/${page.slug}`}
-          key={page.id}
-        >
-          {page.title}
-        </Link>
-      );
-    } else {
-      return (
-        <DropdownMenu key={page.id}>
-          <DropdownMenuTrigger asChild>
-            <div className="p-1 cursor-pointer  rounded-md flex gap-2 items-center text-center  justify-normal hover:bg-gray-100">
-              <span className="ml-5">{page.title}</span>
-              <ChevronRight className={clsx("transition rotate-90 mt-1")} />
-            </div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            align="start"
-            className=" flex flex-col gap-3  text-cyan-500 "
-          >
-            <NavList locale={locale} pages={page.children} />
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    }
-  });
-};

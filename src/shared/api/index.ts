@@ -1,7 +1,7 @@
 import { getCookie } from "cookies-next";
 import { cookies } from "next/headers";
 
-const backendUrl = "http://77.243.80.138:8000";
+const backendUrl = "http://77.243.80.138:8001";
 interface CRequest {
   path: string;
   method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "UPDATE";

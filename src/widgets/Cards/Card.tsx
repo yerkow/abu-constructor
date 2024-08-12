@@ -1,10 +1,9 @@
 "use client";
-import { backendImageUrl } from "@/shared/lib/constants";
 import { cn } from "@/shared/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { ReactNode } from "react";
+
 export interface CardProps {
   variant: "horizontal" | "base";
   content: string;
@@ -30,34 +29,40 @@ export const Card = ({
       className={cn(
         {
           horizontal:
-            "w-full grid grid-cols-[1fr_2fr] gap-2 h-[200px]  after:bottom-0 after:top-0   after:left-0 after:-right-[3px]  ",
-          base: "flex w-full  h-[308px] flex-col after:-bottom-[3px] after:top-0 after:left-0 after:right-0 ",
+            "w-full grid grid-cols-[1fr_2fr] gap-2 h-[200px]  after:bottom-0 after:top-0  after:left-0 after:-right-[3px]",
+          base: "flex w-full  flex-col",
         }[variant],
-        "after:bg-cyan-400 after:-z-10 after:rounded-md after:absolute  bg-slate-100 p-4 rounded-md relative",
+        "after:rounded-md after:absolute rounded-2xl relative overflow-hidden shadow-md"
       )}
     >
       <div
         className={cn(
           {
-            base: "flex-grow-1 h-[70%] ",
-            horizontal: "col-start-1 col-end-2 ",
+            base: "flex-grow-1 w-full h-[200px]",
+            horizontal: "col-start-1 col-end-2",
           }[variant],
-          "relative ",
+          "relative"
         )}
       >
         <Image
-          src={`${backendImageUrl}/${image}`}
+          src={`http://77.243.80.138:81/media/${image}`}
           fill
           objectFit="cover"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          alt={title}
-          className="absolute rounded-sm left-0 right-0 top-0 bottom-0 "
+          objectPosition="top"
+          alt="image"
+          className="absolute left-0 right-0 top-0 bottom-0"
         />
       </div>
-      <div>
+      <div className="p-4">
         <span className="text-sm">{date}</span>
         <h2 className="font-bold text-xl">{title}</h2>
-        <p>{content.length > 90 ? `${content.slice(0, 90)}...` : content}</p>
+        <p className="text-justify">
+          {variant === "horizontal"
+            ? content
+            : content.length > 110
+              ? `${content.slice(0, 110)}...`
+              : content}
+        </p>
       </div>
     </Comp>
   );
