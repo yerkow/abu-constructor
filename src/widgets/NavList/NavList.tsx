@@ -1,7 +1,7 @@
 "use client";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
-import { Dispatch, SetStateAction, useState, forwardRef } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { useState } from "react";
 
 export interface INavigation {
   id: number;
@@ -12,153 +12,104 @@ export interface INavigation {
   navigation_type: "content" | "group" | "template";
   order: number;
   parent_id: null | number;
-  children?: INavigation[];
+  children: INavigation[];
   createdAt: string;
   updatedAt: string;
 }
 
+interface INavListUpdateOrderOptions {
+  id: number;
+  order: number;
+  parent_id?: number | null;
+}
+
 export const NavList = () => {
-  const [navigations, setNavigations] = useState<INavigation[]>([
-    {
-      id: 1,
-      title: {
-        kz: "Басты",
-        ru: "Главная",
-      },
-      slug: "home",
-      navigation_type: "content",
-      order: 1,
-      parent_id: null,
-      createdAt: "2024-08-11T10:27:33.476Z",
-      updatedAt: "2024-08-12T17:56:02.838Z",
-      children: [],
-    },
-    {
-      id: 2,
-      title: {
-        kz: "Біз туралы",
-        ru: "О нас",
-      },
-      slug: "about",
-      navigation_type: "group",
-      order: 2,
-      parent_id: null,
-      createdAt: "2024-08-11T10:29:42.375Z",
-      updatedAt: "2024-08-11T13:47:36.479Z",
-      children: [
-        {
-          id: 3,
-          title: {
-            kz: "Құрамы",
-            ru: "Структура",
-          },
-          slug: "structure",
-          navigation_type: "content",
-          order: 1,
-          parent_id: 2,
-          createdAt: "2024-08-11T10:30:30.235Z",
-          updatedAt: "2024-08-11T10:30:30.235Z",
-          children: [],
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: async (options: INavListUpdateOrderOptions[]) => {
+      console.log(options)
+      const response = await fetch("http://localhost:3003/navigations/orders/update", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
         },
-        {
-          id: 15,
-          title: {
-            kz: "Біз",
-            ru: "Мы",
-          },
-          slug: "we",
-          navigation_type: "content",
-          order: 2,
-          parent_id: 2,
-          createdAt: "2024-08-11T10:30:30.235Z",
-          updatedAt: "2024-08-11T10:30:30.235Z",
-          children: [],
-        },
-      ],
+        body: JSON.stringify(options),
+      });
+      return response.json
     },
-    {
-      id: 18,
-      title: {
-        kz: "Галерея",
-        ru: "Галерея",
-      },
-      slug: "gallery",
-      navigation_type: "content",
-      order: 3,
-      parent_id: null,
-      createdAt: "2024-08-11T10:59:59.460Z",
-      updatedAt: "2024-08-11T13:47:36.483Z",
-      children: [],
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["navigations"],
+      });
     },
-  ]);
+  })
 
-  function handleOnDragEnd(result: any) {
-    if (!result.destination) return;
 
-    const items = Array.from(navigations);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
+  const handleDragEnd = (e: React.DragEvent<HTMLLIElement>, draggedItem: INavigation, targetItem: INavigation) => {
+    e.stopPropagation();
+    console.log('draggetItem', draggedItem.parent_id)
+    console.log('targetItem', targetItem.parent_id)
+    if (draggedItem.parent_id === targetItem.parent_id) {
+      mutate([{ id: draggedItem.id, order: targetItem.order }, { id: targetItem.id, order: draggedItem.order }])
+    } else {
+      mutate([{ id: draggedItem.id, order: targetItem.order, parent_id: targetItem.parent_id }])
+    }
+  };
 
-    setNavigations(items);
+  const { data, isLoading } = useQuery<INavigation[]>({
+    queryKey: ["navigations"],
+    queryFn: async () => {
+      const response = await fetch("http://localhost:3003/navigations");
+      return response.json();
+    },
+  })
+
+  if (isLoading) {
+    return <div>Loading...</div>
   }
 
   return (
-    <DragDropContext onDragEnd={handleOnDragEnd}>
-      <Droppable droppableId="characters">
-        {(provided) => (
-          <section
-            className="flex flex-col gap-2"
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-          >
-            {navigations.map((nav, index) => (
-              <Draggable
-                key={nav.id}
-                draggableId={String(nav.id)}
-                index={index}
-              >
-                {(provided) => (
-                  <NavItem
-                    item={nav}
-                    navigations={navigations}
-                    setNavigations={setNavigations}
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                  />
-                )}
-              </Draggable>
-            ))}
-            {provided.placeholder}
-          </section>
-        )}
-      </Droppable>
-    </DragDropContext>
+    <ul className="flex flex-col gap-3">
+      {
+        data?.map((item) => <NavItem key={item.id} item={item} onDragEnd={handleDragEnd} />)
+      }
+    </ul>
   );
 };
 
-const NavItem = forwardRef<
-  HTMLDivElement,
-  {
-    item: INavigation;
-    navigations: INavigation[];
-    setNavigations: Dispatch<SetStateAction<INavigation[]>>;
-  }
->(({ item, navigations, setNavigations, ...props }, ref) => {
+
+const NavItem = ({ item, onDragEnd }: { item: INavigation; onDragEnd: (e: React.DragEvent<HTMLLIElement>, draggedItem: INavigation, targetItem: INavigation) => void }) => {
+  const handleDragStart = (e: React.DragEvent<HTMLLIElement>, navItem: INavigation) => {
+    e.stopPropagation();
+    e.dataTransfer.setData("text/plain", JSON.stringify(navItem));
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLLIElement>, targetNavItem: INavigation) => {
+    e.stopPropagation();
+    e.preventDefault();
+    if (e.currentTarget !== e.target) return;
+
+    const draggedItem: INavigation = JSON.parse(e.dataTransfer.getData("text/plain"));
+    onDragEnd(e, draggedItem, targetNavItem);
+  };
+
   return (
-    <article {...props} ref={ref}>
+    <li
+      draggable
+      onDragStart={(e) => handleDragStart(e, item)}
+      onDrop={(e) => handleDrop(e, item)}
+      onDragOver={(e) => e.preventDefault()}
+      className={"p-4 border border-gray-200 rounded-md"}
+    >
       {item.title["kz"]}
-      <section className="flex flex-col gap-2">
-        {/* {item.children &&
-			  item.children.map((child) => (
-				 <NavItem
-					key={child.id}
-					item={child}
-					navigations={navigations}
-					setNavigations={setNavigations}
-				 />
-			  ))} */}
-      </section>
-    </article>
+      {item.children && (
+        <ul className="flex flex-col gap-3">
+          {item.children.map((child) => (
+            <NavItem key={child.id} item={child} onDragEnd={onDragEnd} />
+          ))}
+        </ul>
+      )}
+    </li>
   );
-});
+};
