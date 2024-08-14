@@ -19,7 +19,6 @@ export { AdminSidebar } from "./AdminSidebar/AdminSidebar";
 export { BreadCrumbs } from "./BreadCrumbs";
 export { BurgerMenu } from "./BurgerMenu/BurgetMenu";
 export { Header } from "./Header/Header";
-export { PagesListTable } from "./PagesListTable/PagesListTable";
 export { TemplatesListTable } from "./TemplatesListTable/TemplateListTable";
 export {
   Accordion,
