@@ -1,6 +1,4 @@
 "use client";
-
-import { getNavbarPages } from "@/shared/api/pages";
 import { Skeleton } from "@/shared/ui";
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
@@ -9,22 +7,21 @@ import { useParams } from "next/navigation";
 import React, { useState } from "react";
 import { NavigationList } from "./Navigation/NavigationList";
 import { useScroll } from "@/shared/lib/hooks/useScroll";
+import { INavigation } from "../NavigationList/model/Navigation.model";
 
 export const Navbar = () => {
   const params = useParams();
   const {
     data: pages,
     isFetching,
-  } = useQuery({
-    queryKey: ["navbar"],
+  } = useQuery<INavigation[]>({
+    queryKey: ["navigations"],
     queryFn: async () => {
-      if (!Array.isArray(params.locale)) {
-        const pages = await getNavbarPages(params.locale);
-        return pages;
-      }
+      const response = await fetch("http://localhost:3003/navigations");
+      return response.json();
     },
-    refetchOnWindowFocus: false,
-  });
+  })
+
 
   const [hoveredItem, setHoveredItem] = useState<null | number>(null);
   const [scrolled] = useScroll(40)
@@ -48,7 +45,7 @@ export const Navbar = () => {
             <Skeleton className="w-[500px] h-10" />
           ) : pages ? (
             <NavigationList
-              locale={params.locale}
+              locale={params.locale as string}
               pages={pages}
               hoveredItem={hoveredItem}
               setHoveredItem={setHoveredItem}

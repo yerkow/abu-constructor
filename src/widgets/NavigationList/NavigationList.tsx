@@ -1,6 +1,5 @@
 "use client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { DragEvent } from "react";
 import { INavigation, INavListUpdateOrderOptions } from "./model/Navigation.model";
 import { NavigationItem } from "./NavigationItem";
 

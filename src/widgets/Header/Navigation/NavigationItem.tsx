@@ -1,4 +1,3 @@
-import { NavPage } from '@/shared/lib/types';
 import clsx from 'clsx';
 import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
@@ -6,10 +5,11 @@ import { usePathname } from 'next/navigation';
 import React, { ReactNode } from 'react'
 import { DropNavigation } from './DropNavigation';
 import { useScroll } from '@/shared/lib/hooks/useScroll';
+import { INavigation } from '@/widgets/NavigationList/model/Navigation.model';
 
 interface NavigationItemProps {
-    item: NavPage;
-    locale: string | string[];
+    item: INavigation;
+    locale: string;
     hoveredItem: number | null;
     handleMouseEnter: (id: number) => void;
     handleMouseLeave: () => void;
@@ -28,7 +28,7 @@ export const NavigationItem = ({ item, locale, hoveredItem, handleMouseEnter, ha
             path == `/${locale}${item.slug}` && "font-bold",
         )}
             href={`/${locale}/${item.slug}`}
-            key={item.id}>{item.title}
+            key={item.id}>{item.title[locale as string]}
         </Link>
     } else {
         return (
@@ -43,7 +43,7 @@ export const NavigationItem = ({ item, locale, hoveredItem, handleMouseEnter, ha
                     key={item.id}
                 >
 
-                    {item.title}
+                    {item.title[locale as string]}
                     <ChevronRight
                         className={clsx("transitio",
                             isHovered ? "text-white" : "text-red-950",

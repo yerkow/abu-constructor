@@ -1,11 +1,11 @@
-import { NavPage } from '@/shared/lib/types';
 import React from 'react'
 import { NavigationItem } from './NavigationItem';
+import { INavigation } from '@/widgets/NavigationList/model/Navigation.model';
 
 
 interface INavListProps {
-    pages: NavPage[];
-    locale: string | string[];
+    pages: INavigation[];
+    locale: string;
     hoveredItem: number | null;
     setHoveredItem: (id: number | null) => void;
 

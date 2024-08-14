@@ -39,7 +39,7 @@ export const NavigationItem = ({ item, onDragEnd }: { item: INavigation; onDragE
                         onDragOver={(e) => e.preventDefault()}
                         className="p-4 mt-2 border border-dashed border-gray-300 rounded-md"
                     >
-                        Drop here to add to group
+                        Перетащите сюда элемент, чтобы добавить
                     </div>
                 )
             )}

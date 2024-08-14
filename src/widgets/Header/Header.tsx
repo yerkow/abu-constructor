@@ -3,8 +3,6 @@ import { ChangeLocale } from "@/features";
 import { BurgerMenu } from "@/widgets";
 import { Navbar } from "@/widgets/Header/Navbar";
 import Link from "next/link";
-import { useParams } from "next/navigation";
-
 
 const topHeaderMenuList = [
   { title: "Обучающимся", link: "home" },
@@ -14,12 +12,7 @@ const topHeaderMenuList = [
   { title: "Abai IT", link: "https://abai-it.kz/" },
 ]
 
-
 export const Header = () => {
-
-  const params = useParams();
-
-  // href={`/${params.locale}/main`}
   return (
     <header className="relative  flex flex-col  w-full ">
       <section className="bg-[#640000] min-h-10 flex gap-20 justify-end  pr-3 ">
