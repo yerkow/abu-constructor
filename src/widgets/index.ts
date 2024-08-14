@@ -14,7 +14,7 @@ import List from "./List/ListServer";
 import ListEditModal from "./List/ListEditModal";
 import Text from "./Text/Text";
 import TextEditModal from "./Text/TextEditModal";
-export { NavList } from "./NavList/NavList";
+export { NavigationList } from "./NavigationList/NavigationList";
 export { AdminSidebar } from "./AdminSidebar/AdminSidebar";
 export { BreadCrumbs } from "./BreadCrumbs";
 export { BurgerMenu } from "./BurgerMenu/BurgetMenu";

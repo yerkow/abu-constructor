@@ -1,21 +1,10 @@
 import { getPageBySlug } from "@/shared/api/pages";
-import { getWidgetsToDisplay } from "@/shared/api/widgets";
-import { capitalize } from "@/shared/lib";
 import { getWidgetByName } from "@/widgets";
 import { Metadata, ResolvingMetadata } from "next";
 interface PageProps {
   params: { locale: string; slug: string[] };
 }
-const getPageContent = async (slug: string[], locale: string) => {
-  const page = await getPageBySlug(`/${slug.join("/")}`, locale);
-  if (page[0]) {
-    const content = await getWidgetsToDisplay(page[0].id, locale);
 
-    return content;
-  } else {
-    return [];
-  }
-};
 export async function generateMetadata(
   { params }: PageProps,
   parent: ResolvingMetadata
@@ -60,8 +49,6 @@ export interface IWidget {
 }
 
 export default async function Page({ params }: PageProps) {
-  // const data = await getPageContent(params.slug, params.locale);
-
   async function fetchNavigations(): Promise<INavigation> {
     const response = await fetch(
       `http://localhost:3003/navigations/find/by-slug?slug=${params.slug.join("/")}`
