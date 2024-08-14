@@ -1,3 +1,4 @@
+import { NavigationEditModal } from './Modals/NavigationEditModal/NavigationEditModal';
 export { DeletePageBtn } from "./DeletePageBtn";
 export { LogoutButton } from "./LogoutButton";
 export { LoginForm } from "./LoginForm";
