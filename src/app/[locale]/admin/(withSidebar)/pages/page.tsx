@@ -1,13 +1,12 @@
-import { CreatePageDialog, withNoSSR } from "@/features";
+import { withNoSSR } from "@/features";
+import { NavigationCreateModal } from "@/features";
 import { NavigationList } from "@/widgets";
-import { PagesListTable } from "@/widgets";
 
 function PagesPage() {
   return (
     <section className="h-full">
-      <CreatePageDialog />
+      <NavigationCreateModal />
       <NavigationList />
-      {/* <PagesListTable /> */}
     </section>
   );
 }

@@ -22,6 +22,7 @@ import { useParams } from 'next/navigation';
 import { NavigationEditModalForm } from './model';
 import { fetchUpdateNavigation } from './api/index'
 import { queryClient } from '@/shared/lib/client';
+import Link from 'next/link';
 
 
 export const NavigationEditModal = ({ navigationItem }: { navigationItem: INavigation }) => {
@@ -38,11 +39,7 @@ export const NavigationEditModal = ({ navigationItem }: { navigationItem: INavig
         mode: "onBlur",
         defaultValues: {
             slug: navigationItem?.slug || "",
-            title: {
-                ru: navigationItem?.title?.ru || "",
-                kz: navigationItem?.title?.kz || "",
-                en: navigationItem?.title?.en || ""
-            },
+            title: { ...navigationItem.title }
         },
     });
 
@@ -109,11 +106,13 @@ export const NavigationEditModal = ({ navigationItem }: { navigationItem: INavig
                                     label={t("form.slug")}
                                     {...register("slug", { required: true })}
                                 />
-                                {/* {navigationItem.navigation_type == "content" && page.ruId && page.kzId && (
-                        <PageEditor
-                            ids={{ ru: page.ruId.toString(), kz: page.kzId.toString() }}
-                        />
-                    )} */}
+                                {navigationItem.navigation_type == "content" && (
+                                    <Button type="submit" loading={isPending} disabled={isPending}>
+                                        <Link href={{ pathname: `pages/${navigationItem.id}` }} >
+                                            {t("table.edit")}
+                                        </Link>
+                                    </Button>
+                                )}
                                 <Button type="submit" loading={isPending} disabled={isPending}>
                                     {t("form.save")}
                                 </Button>
@@ -131,9 +130,7 @@ export const NavigationEditModal = ({ navigationItem }: { navigationItem: INavig
                                 </DialogClose>
                             </DialogFooter>
                         </>
-
                 }
-
             </DialogContent>
         </Dialog>
     )
