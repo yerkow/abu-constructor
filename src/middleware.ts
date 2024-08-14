@@ -3,7 +3,7 @@ import createIntlMiddleware from "next-intl/middleware";
 
 // Locale middleware setup
 const intlMiddleware = createIntlMiddleware({
-  locales: ["ru", "kz"],
+  locales: ["ru", "kz", "en"],
   defaultLocale: "ru",
 });
 
@@ -42,8 +42,8 @@ export function middleware(req: NextRequest) {
 export const config = {
   matcher: [
     "/", // Root
-    "/(ru|kz)", // Locales
-    "/(ru|kz)/:path*", // All paths under a locale
-    "/(ru|kz)/admin/:path*", // Admin paths
+    "/(ru|kz|en)", // Locales
+    "/(ru|kz|en)/:path*", // All paths under a locale
+    "/(ru|kz|en)/admin/:path*", // Admin paths
   ],
 };

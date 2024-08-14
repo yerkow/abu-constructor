@@ -29,6 +29,7 @@ export const ChangeLocale = () => {
       <SelectContent>
         <SelectItem value="ru">RU</SelectItem>
         <SelectItem value="kz">KZ</SelectItem>
+        <SelectItem value="en">EN</SelectItem>
       </SelectContent>
     </Select>
   );
