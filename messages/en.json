@@ -128,6 +128,7 @@
         },
         "create": {
             "btn": "Create Page",
+            "childBtn": "Create Child Page",
             "title": "Create Page",
             "desc": "Here you can create a page",
             "decline": "Cancel"
