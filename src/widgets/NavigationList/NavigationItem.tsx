@@ -3,7 +3,7 @@ import { DragEvent } from "react";
 import { INavigation } from "./model/Navigation.model";
 import { NavigationEditModal } from "@/features/Modals/NavigationEditModal/NavigationEditModal";
 import { useParams } from "next/navigation";
-import { DeletePageBtn } from "@/features";
+import { DeletePageBtn, NavigationCreateModal } from "@/features";
 
 export const NavigationItem = (
     {
@@ -48,6 +48,9 @@ export const NavigationItem = (
                 </h3>
                 <div className="flex gap-2 ">
                     <NavigationEditModal navigationItem={item} />
+                    {
+                        item.navigation_type === "group" && <NavigationCreateModal parent_id={item.id} />
+                    }
                     <DeletePageBtn navigationId={item.id} name={item.title[locale]} />
                 </div>
             </section>
