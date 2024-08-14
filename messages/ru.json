@@ -11,10 +11,22 @@
   "sidebar": {
     "logout": "Выйти",
     "links": {
-      "home": { "label": "Главная", "href": "/admin" },
-      "settings": { "label": "Настройки", "href": "/admin/settings" },
-      "pages": { "label": "Страницы", "href": "/admin/pages" },
-      "templates": { "label": "Шаблоны", "href": "/admin/pages/templates" }
+      "home": {
+        "label": "Главная",
+        "href": "/admin"
+      },
+      "settings": {
+        "label": "Настройки",
+        "href": "/admin/settings"
+      },
+      "pages": {
+        "label": "Страницы",
+        "href": "/admin/pages"
+      },
+      "templates": {
+        "label": "Шаблоны",
+        "href": "/admin/pages/templates"
+      }
     }
   },
   "burger": {
@@ -95,6 +107,7 @@
     "form": {
       "nameRu": "Название на русском",
       "nameKz": "Название на казахском",
+      "nameEn": "Название на английском",
       "select": {
         "placeholder": "Тип страницы",
         "content": "content",

@@ -1,0 +1,167 @@
+{
+    "login": {
+        "title": "Authorization",
+        "login": "Login",
+        "password": "Password",
+        "btn": "Sign In"
+    },
+    "NotFoundPage": {
+        "title": "Page Not Found"
+    },
+    "sidebar": {
+        "logout": "Log Out",
+        "links": {
+            "home": {
+                "label": "Home",
+                "href": "/admin"
+            },
+            "settings": {
+                "label": "Settings",
+                "href": "/admin/settings"
+            },
+            "pages": {
+                "label": "Pages",
+                "href": "/admin/pages"
+            },
+            "templates": {
+                "label": "Templates",
+                "href": "/admin/pages/templates"
+            }
+        }
+    },
+    "burger": {
+        "back": "Back"
+    },
+    "widget": {
+        "add": "Add",
+        "save": "Save",
+        "edit": {
+            "cardTitle": "Edit",
+            "desc": "Here you can edit the widget",
+            "triggerTitle": "Edit"
+        },
+        "history": {
+            "title": "History",
+            "desc": "Here all changes are displayed",
+            "item": "Changed",
+            "toast": {
+                "success": "Widget restored.",
+                "error": "Error restoring widget."
+            },
+            "alert": {
+                "title": "Are you sure you want to restore?",
+                "desc": "Restore button",
+                "decline": "Cancel",
+                "btn": "Restore"
+            }
+        }
+    },
+    "pages": {
+        "pageEditor": {
+            "btn": "Page Content",
+            "title": "Page Content",
+            "desc": "Here you can edit the page content.",
+            "decline": "Cancel"
+        },
+        "pageEditorContent": {
+            "toast": {
+                "delete": {
+                    "success": "Widget deleted",
+                    "error": "Error deleting widget"
+                },
+                "updateList": {
+                    "success": "Widget order updated",
+                    "error": "Error updating widget order"
+                }
+            },
+            "leftTitle": "Widget List",
+            "rightTitle": "Content",
+            "notFound": "No content found",
+            "save": "Save",
+            "delete": {
+                "title": "Delete Widget",
+                "desc": "Are you sure you want to delete the widget?",
+                "decline": "Cancel",
+                "delete": "Delete"
+            },
+            "preview": {
+                "title": "Widget Preview",
+                "desc": "Here you can preview how the widget looks"
+            },
+            "edit": {
+                "title": "Widget",
+                "desc": "Edit widget",
+                "close": {
+                    "title": "Are you sure you want to close the modal?",
+                    "desc": "All unsaved data will be lost when closing.",
+                    "decline": "Cancel",
+                    "close": "Close"
+                }
+            }
+        },
+        "id": {
+            "title": "Child Pages"
+        },
+        "form": {
+            "nameRu": "Name in Russian",
+            "nameKz": "Name in Kazakh",
+            "nameEn": "Name in English",
+            "select": {
+                "placeholder": "Page Type",
+                "content": "content",
+                "group": "group"
+            },
+            "slug": "Page Slug",
+            "number": "Page Number",
+            "save": "Save"
+        },
+        "delete": {
+            "title": "Are you sure you want to delete the page?",
+            "desc": "Deleted data cannot be recovered.",
+            "decline": "Cancel",
+            "delete": "Delete"
+        },
+        "edit": {
+            "title": "Create Page",
+            "desc": "Here you can edit the page.",
+            "decline": "Cancel"
+        },
+        "create": {
+            "btn": "Create Page",
+            "title": "Create Page",
+            "desc": "Here you can create a page",
+            "decline": "Cancel"
+        },
+        "table": {
+            "notFound": "No templates found",
+            "caption": "Available Templates",
+            "nameRu": "Name in Russian",
+            "nameKz": "Name in Kazakh",
+            "slug": "Slug",
+            "order": "Order",
+            "childPages": "Child Pages",
+            "edit": "Edit",
+            "delete": "Delete Page",
+            "follow": "Go to"
+        }
+    },
+    "settings": {
+        "updateBtn": "Update"
+    },
+    "templates": {
+        "create": {
+            "btn": "Create Template",
+            "title": "Create Template",
+            "desc": "Here you can create a template",
+            "name": "Template Name",
+            "next": "Next",
+            "decline": "Cancel"
+        },
+        "table": {
+            "notFound": "No templates found",
+            "caption": "Available Templates",
+            "name": "Name",
+            "structure": "Structure"
+        }
+    }
+}
