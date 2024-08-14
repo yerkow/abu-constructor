@@ -4,7 +4,7 @@ export interface INavigation {
         [key: string]: string;
     };
     slug: string;
-    navigation_type: "content" | "group" | "template";
+    navigation_type: string;
     order: number;
     parent_id: null | number;
     children: INavigation[];
