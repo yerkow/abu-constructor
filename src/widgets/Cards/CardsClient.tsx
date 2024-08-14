@@ -18,7 +18,7 @@ export function CardsClient({ contents, options }: Pick<IWidget, "options" | "co
   return (
     <section className="flex flex-col gap-3">
       <h2 className="text-2xl font-bold">
-        {options.title[locale].toLocaleUpperCase()}
+        {options?.title[locale]?.toLocaleUpperCase()}
       </h2>
       <div
         className={cn(
