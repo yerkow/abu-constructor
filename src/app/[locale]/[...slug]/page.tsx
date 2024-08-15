@@ -1,14 +1,13 @@
 import { getPageBySlug } from "@/shared/api/pages";
 import { backendUrl } from "@/shared/lib/constants";
 import { getWidgetByName } from "@/widgets";
-import { Metadata, ResolvingMetadata } from "next";
+import { Metadata } from "next";
 interface PageProps {
   params: { locale: string; slug: string[] };
 }
 
 export async function generateMetadata(
   { params }: PageProps,
-  parent: ResolvingMetadata
 ): Promise<Metadata> {
   const { slug, locale } = params;
   const page = (await getPageBySlug(`/${slug.join("/")}`, locale))[0];
@@ -61,7 +60,13 @@ export default async function Page({ params }: PageProps) {
 
   const { widgets } = await fetchNavigations();
   return widgets.map(({ widget_type, options, contents }) => {
+
     const widgetOptons = { contents, options };
+    console.log(widget_type)
+    console.log(contents)
+    if (contents.length === 0) {
+      return
+    }
     const widgetList = getWidgetByName(widget_type, widgetOptons);
     return widgetList;
   });

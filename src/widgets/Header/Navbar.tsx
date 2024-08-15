@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import { NavigationList } from "./Navigation/NavigationList";
 import { useScroll } from "@/shared/lib/hooks/useScroll";
 import { INavigation } from "../NavigationList/model";
+import { backendUrl } from "@/shared/lib/constants";
 
 export const Navbar = () => {
   const params = useParams();
@@ -17,7 +18,7 @@ export const Navbar = () => {
   } = useQuery<INavigation[]>({
     queryKey: ["navigations"],
     queryFn: async () => {
-      const response = await fetch("http://localhost:3003/navigations");
+      const response = await fetch(`${backendUrl}/navigations`);
       return response.json();
     },
   })
