@@ -1,12 +1,16 @@
-import { getTranslations } from "next-intl/server";
+import { NavigationPageContent } from "@/widgets";
+
 interface PageProps {
   params: { id: string, locale: string }
 }
 export default async function Page({ params }: PageProps) {
-  console.log(params.id);
-  const t = await getTranslations("pages.id");
+
+
+
+
   return (
     <section>
+      <NavigationPageContent params={params} />
       {/* <section className="flex gap-4">
         <CreatePageDialog
           ruParentId={searchParams.ruId}

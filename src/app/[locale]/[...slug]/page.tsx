@@ -1,4 +1,5 @@
 import { getPageBySlug } from "@/shared/api/pages";
+import { backendUrl } from "@/shared/lib/constants";
 import { getWidgetByName } from "@/widgets";
 import { Metadata, ResolvingMetadata } from "next";
 interface PageProps {
@@ -51,7 +52,7 @@ export interface IWidget {
 export default async function Page({ params }: PageProps) {
   async function fetchNavigations(): Promise<INavigation> {
     const response = await fetch(
-      `http://localhost:3003/navigations/find/by-slug?slug=${params.slug.join("/")}`
+      `${backendUrl}/navigations/find/by-slug?slug=${params.slug.join("/")}`
     );
 
     const data = await response.json();

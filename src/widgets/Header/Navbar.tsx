@@ -7,7 +7,7 @@ import { useParams } from "next/navigation";
 import React, { useState } from "react";
 import { NavigationList } from "./Navigation/NavigationList";
 import { useScroll } from "@/shared/lib/hooks/useScroll";
-import { INavigation } from "../NavigationList/model/Navigation.model";
+import { INavigation } from "../NavigationList/model";
 
 export const Navbar = () => {
   const params = useParams();

@@ -2,7 +2,6 @@ import { getNavbarPages } from "@/shared/api/pages";
 import { Separator } from "@/shared/ui";
 import { BreadCrumbs, Header } from "@/widgets";
 import { Mail, MapPin, Phone } from "lucide-react";
-import Link from "next/link";
 import { ReactNode } from "react";
 const getPages = async (locale: string) => {
   const pages = await getNavbarPages(locale);

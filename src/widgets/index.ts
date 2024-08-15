@@ -20,6 +20,7 @@ export { BreadCrumbs } from "./BreadCrumbs";
 export { BurgerMenu } from "./BurgerMenu/BurgetMenu";
 export { Header } from "./Header/Header";
 export { TemplatesListTable } from "./TemplatesListTable/TemplateListTable";
+export { NavigationPageContent } from './NavigationPageContent/NavigationPageContent'
 export {
   Accordion,
   AccordionEditModal,
