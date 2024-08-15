@@ -2,7 +2,7 @@
 import React, { useRef, useState } from 'react'
 import { Settings } from "lucide-react";
 import { PageEditor } from '@/features/PageEditor/PageEditor'
-import { INavigation } from '@/widgets/NavigationList/model/Navigation.model'
+import { INavigation } from '@/widgets/NavigationList/model';
 import {
     Button,
     Dialog,
