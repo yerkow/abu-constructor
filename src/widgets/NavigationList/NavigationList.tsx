@@ -1,14 +1,15 @@
 "use client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { INavigation, INavListUpdateOrderOptions } from "./model/Navigation.model";
+import { INavigation, INavListUpdateOrderOptions } from "./model";
 import { NavigationItem } from "./NavigationItem";
+import { backendUrl } from "@/shared/lib/constants";
 
 
 export const NavigationList = () => {
   const queryClient = useQueryClient();
   const { mutate } = useMutation({
     mutationFn: async (options: INavListUpdateOrderOptions[]) => {
-      const response = await fetch("http://localhost:3003/navigations/orders/update", {
+      const response = await fetch(`${backendUrl}/navigations/orders/update`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -23,13 +24,6 @@ export const NavigationList = () => {
       });
     },
   })
-
-  const handleContainerDragEnd = (e: React.DragEvent<HTMLUListElement>) => {
-    const draggedItem = JSON.parse(e.dataTransfer.getData("text/plain"));
-    console.log(draggedItem)
-    // Если событие drop произошло вне зоны списка, parent_id у элемента будет null
-
-  };
 
 
   const handleDragEnd = (e: React.DragEvent<HTMLDivElement> | React.DragEvent<HTMLLIElement>, draggedItem: INavigation, targetItem: INavigation) => {
@@ -70,7 +64,7 @@ export const NavigationList = () => {
   const { data, isLoading } = useQuery<INavigation[]>({
     queryKey: ["navigations"],
     queryFn: async () => {
-      const response = await fetch("http://localhost:3003/navigations");
+      const response = await fetch(`${backendUrl}/navigations`);
       return response.json();
     },
   })

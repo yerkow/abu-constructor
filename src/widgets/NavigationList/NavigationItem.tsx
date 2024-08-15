@@ -1,6 +1,6 @@
 'use client';
 import { DragEvent } from "react";
-import { INavigation } from "./model/Navigation.model";
+import { INavigation } from "./model";
 import { NavigationEditModal } from "@/features/Modals/NavigationEditModal/NavigationEditModal";
 import { useParams } from "next/navigation";
 import { DeletePageBtn, NavigationCreateModal } from "@/features";
