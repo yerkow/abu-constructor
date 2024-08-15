@@ -1,4 +1,4 @@
-import { IWidgetUpdateOrderOptions } from "../model";
+import { IWidgetCreateOptions, IWidgetUpdateOrderOptions } from "../model";
 import { backendUrl } from "@/shared/lib/constants";
 
 export const fetchWidgetListByNavigationId = async (navigationId: string) => {
@@ -23,3 +23,14 @@ export const fetchWidgetRemoveById = async (id: number) => {
     });
     return response.json();
 }
+
+export const fetchWidgetCreate = async (data: IWidgetCreateOptions) => {
+    const response = await fetch(`${backendUrl}/widgets`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    });
+    return response.json();
+} 
