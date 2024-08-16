@@ -107,7 +107,7 @@ export const NavigationEditModal = ({ navigationItem }: { navigationItem: INavig
                                     {...register("slug", { required: true })}
                                 />
                                 {navigationItem.navigation_type == "content" && (
-                                    <Button type="submit" loading={isPending} disabled={isPending}>
+                                    <Button>
                                         <Link href={{ pathname: `pages/${navigationItem.id}` }} >
                                             {t("table.edit")}
                                         </Link>

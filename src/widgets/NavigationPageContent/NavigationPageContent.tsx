@@ -11,6 +11,8 @@ import { handleDragStart, handleDrop } from './lib';
 import { Button, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, Input } from '@/shared/ui';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { backendUrl } from '@/shared/lib/constants';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
 
 
 export const NavigationPageContent = ({ params: { id } }: { params: { id: string, locale: string } }) => {
@@ -44,7 +46,7 @@ export const NavigationPageContent = ({ params: { id } }: { params: { id: string
 
 
     return (
-        <section className='flex gap-5 ' >
+        <section className='flex gap-5' >
             <section className='flex grow bg-slate-500 flex-col gap-3  p-3'>
                 <h2 className="text-center mb-2 text-white font-bold">{t("rightTitle")}</h2>
                 <section>
@@ -177,7 +179,7 @@ const CreateWidgetByNavigationModal = ({ displayName, navigation_id }: { display
 }
 
 const EditWidgetModal = ({ widget_id }: { widget_id: number }) => {
-    console.log(widget_id)
+    const navigation_id = useParams().id as string;
     const { data: widget, isFetching } = useQuery<IWidget>({
         queryKey: ['widget'],
         queryFn: async (widget_id) => {
@@ -200,7 +202,13 @@ const EditWidgetModal = ({ widget_id }: { widget_id: number }) => {
                     <DialogTitle>Редактировать виджет - {widget?.widget_type}</DialogTitle>
                     <DialogDescription>Заполните все поля</DialogDescription>
                 </DialogHeader>
-                <DialogFooter className=''>
+                <Button>
+                    <Link href={{ pathname: `${navigation_id}/widget/${widget_id}` }} >
+                        Редактировать контент
+                    </Link>
+                </Button>
+                <DialogFooter className='flex flex-col'>
+
                     <DialogClose asChild className='w-full'>
                         <Button variant='secondary'>Отмена</Button>
                     </DialogClose>
