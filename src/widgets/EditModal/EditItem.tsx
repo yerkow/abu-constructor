@@ -51,10 +51,10 @@ export const getInput = (
   writeFn: (
     val:
       | { id: string; field: string; value: string | File }
-      | { field: string; value: string | File },
+      | { field: string; value: string | File }
   ) => void,
   item: any,
-  id?: string,
+  id?: string
 ) => {
   switch (input.value) {
     case "text":

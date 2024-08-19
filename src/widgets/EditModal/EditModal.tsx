@@ -125,7 +125,7 @@ const ModalContent = ({
               input,
               mainKeys[idx],
               writeMainPropsChanges,
-              widgetMainProps,
+              widgetMainProps
             )}
           </Fragment>
         ))}

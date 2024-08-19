@@ -1,14 +1,9 @@
+import { EditWidget } from "@/widgets";
 interface PageProps {
-    params: { id: string, locale: string }
+  params: { id: string; locale: string; widgetId: string };
 }
 export default async function Page({ params }: PageProps) {
+  const { widgetId } = params;
 
-    console.log(params)
-
-
-    return (
-        <section>
-
-        </section>
-    );
+  return <EditWidget widgetId={widgetId} />;
 }

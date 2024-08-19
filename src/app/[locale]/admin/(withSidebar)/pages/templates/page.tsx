@@ -1,4 +1,4 @@
-import { CreateTemplateDialog, PageEditorContent, withNoSSR } from "@/features";
+import { CreateTemplateDialog,withNoSSR } from "@/features";
 import { TemplatesListTable } from "@/widgets";
 
 function TemplatesPage() {

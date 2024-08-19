@@ -1,8 +1,6 @@
-import { useCheckToken } from "@/shared/lib/hooks/useCheckToken";
 import { AdminSidebar } from "@/widgets";
 import clsx from "clsx";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+
 export default function AdminLayout({
   children,
   params,

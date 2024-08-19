@@ -14,13 +14,14 @@ import List from "./List/ListServer";
 import ListEditModal from "./List/ListEditModal";
 import Text from "./Text/Text";
 import TextEditModal from "./Text/TextEditModal";
+export { EditWidget } from "./EditWidget/EditWidget";
 export { NavigationList } from "./NavigationList/NavigationList";
 export { AdminSidebar } from "./AdminSidebar/AdminSidebar";
 export { BreadCrumbs } from "./BreadCrumbs";
 export { BurgerMenu } from "./BurgerMenu/BurgetMenu";
 export { Header } from "./Header/Header";
 export { TemplatesListTable } from "./TemplatesListTable/TemplateListTable";
-export { NavigationPageContent } from './NavigationPageContent/NavigationPageContent'
+export { NavigationPageContent } from "./NavigationPageContent/NavigationPageContent";
 export {
   Accordion,
   AccordionEditModal,

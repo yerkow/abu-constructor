@@ -5,11 +5,18 @@ const withNextIntl = createNextIntlPlugin();
 const nextConfig = {
   output: "standalone",
   images: {
-    formats: ["image/webp"],
     remotePatterns: [
       {
         protocol: "http",
-        hostname: "77.243.80.138",
+        hostname: "127.0.0.1",
+        port: "3003",
+        pathname: "/uploads/**",
+      },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "3003",
+        pathname: "/uploads/**",
       },
     ],
   },

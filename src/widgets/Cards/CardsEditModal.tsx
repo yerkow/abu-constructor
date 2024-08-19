@@ -39,7 +39,7 @@ function CardsEditModal(props: BaseEditModalProps) {
     withTemplate: true,
   };
   return <EditModal {...modalProps} />;
-};
+}
 
 CardsEditModal.displayName = "CardsEditModal";
 export default CardsEditModal;
