@@ -14,9 +14,9 @@ export async function generateMetadata(
 
   return {
     title: !page
-      ? "Профсоюз работников образования «Әділет» г. Нур-Султан"
+      ? "Alikhan Bokeikhanov University"
       : page.title.includes("template")
-        ? "Профсоюз"
+        ? "Alikhan Bokeikhanov University"
         : page.title,
   };
 }

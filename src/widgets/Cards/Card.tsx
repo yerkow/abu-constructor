@@ -21,7 +21,6 @@ export const Card = ({ content, variant }: CardProps) => {
   const locale = useParams().locale as string;
 
   const { date, description, title, image } = content[locale];
-  console.log(content)
   return (
 
     <article
