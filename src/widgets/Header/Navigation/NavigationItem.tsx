@@ -22,13 +22,19 @@ export const NavigationItem = ({ item, locale, hoveredItem, handleMouseEnter, ha
     const [scrolled] = useScroll(40)
 
     if (item.children.length === 0 && item.navigation_type == "content") {
-        return <Link className={clsx(
-            "text-center h-[94px] rounded-md flex items-center",
-            isHovered ? "text-white" : "text-red-950",
-            path == `/${locale}${item.slug}` && "font-bold",
-        )}
+        return <Link
+            style={{ fontSize: 'clamp(16px, 1.5vw, 20px)' }}
+            className={clsx(
+                "text-center h-[94px] rounded-md flex items-center",
+                isHovered ? "text-white" : "text-red-950",
+                path == `/${locale}${item.slug}` && "font-bold",
+
+            )}
+
             href={`/${locale}/${item.slug}`}
-            key={item.id}>{item.title[locale as string]}
+            key={item.id}
+        >
+            {item.title[locale as string]}
         </Link>
     } else {
         return (
@@ -41,6 +47,7 @@ export const NavigationItem = ({ item, locale, hoveredItem, handleMouseEnter, ha
                     )}
                     onMouseEnter={() => handleMouseEnter(item.id)}
                     key={item.id}
+                    style={{ fontSize: 'clamp(16px, 1.5vw, 20px)' }}
                 >
 
                     {item.title[locale as string]}
