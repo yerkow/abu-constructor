@@ -16,6 +16,7 @@ import { useMutation } from "@tanstack/react-query";
 import { DeleteIcon, Settings } from "lucide-react";
 import { useRef } from "react";
 import { useTranslations } from "next-intl";
+import { backendUrl } from "@/shared/lib/constants";
 export const DeletePageBtn = ({
   navigationId,
   name
@@ -24,9 +25,9 @@ export const DeletePageBtn = ({
   navigationId: number
 }) => {
   const { mutate, error, isPending } = useMutation({
-    mutationKey: [`deletePage`],
+    mutationKey: [`navigations`],
     mutationFn: async ({ id }: { id: number }) => {
-      await fetch(`http://localhost:3003/navigations/${id}`, {
+      await fetch(`${backendUrl}/navigations/${id}`, {
         method: 'DELETE',
       })
     },

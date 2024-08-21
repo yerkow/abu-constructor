@@ -25,7 +25,7 @@ export const NavigationItem = ({ item, locale, hoveredItem, handleMouseEnter, ha
         return <Link
             style={{ fontSize: 'clamp(16px, 1.5vw, 20px)' }}
             className={clsx(
-                "text-center h-[94px] rounded-md flex items-center",
+                "text-center h-[94px] rounded-md flex items-center font-semibold",
                 isHovered ? "text-white" : "text-red-950",
                 path == `/${locale}${item.slug}` && "font-bold",
 
@@ -41,7 +41,7 @@ export const NavigationItem = ({ item, locale, hoveredItem, handleMouseEnter, ha
             <>
                 <button
                     className={clsx(
-                        "text-center relative  h-[94px] flex items-center ",
+                        "text-center relative  h-[94px] flex items-center font-semibold",
                         isHovered ? "text-white" : "text-red-950",
                         path.split('/')[2] == item.slug.split('/')[1] && "font-bold",
                     )}
@@ -49,7 +49,6 @@ export const NavigationItem = ({ item, locale, hoveredItem, handleMouseEnter, ha
                     key={item.id}
                     style={{ fontSize: 'clamp(16px, 1.5vw, 20px)' }}
                 >
-
                     {item.title[locale as string]}
                     <ChevronRight
                         className={clsx("transitio",
