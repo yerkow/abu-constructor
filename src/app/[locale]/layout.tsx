@@ -1,12 +1,12 @@
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import type { Metadata } from "next";
-import { Catamaran } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import "../globals.css";
 import { QueryProvider } from "@/shared/providers";
 import { Toaster } from "@/shared/ui";
 
-const inter = Catamaran({ subsets: ["latin"] });
+const inter = Montserrat({ subsets: ["latin"] });
 
 export default async function LocaleLayout({
   children,
