@@ -44,7 +44,6 @@ export const NavigationItem = (
             <section className="flex items-center">
                 <h3 className="grow">
                     {item.title[locale]}
-
                 </h3>
                 <div className="flex gap-2 ">
                     <NavigationEditModal navigationItem={item} />

@@ -110,8 +110,9 @@
       "nameEn": "Ағылшынша атауы",
       "select": {
         "placeholder": "Беттің түрі",
-        "content": "мазмұн",
-        "group": "топ"
+        "content": "content",
+        "group": "group",
+        "group-link": "group-link"
       },
       "slug": "Беттің Slug-ы",
       "number": "Беттің нөмірі",

@@ -113,6 +113,9 @@ export const NavigationCreateModal = ({
                 <SelectItem value={"group"}>
                   {t("form.select.group")}
                 </SelectItem>
+                <SelectItem value={"group-link"}>
+                  {t("form.select.group-link")}
+                </SelectItem>
               </SelectContent>
             </Select>
           </div>

@@ -111,7 +111,8 @@
       "select": {
         "placeholder": "Тип страницы",
         "content": "content",
-        "group": "group"
+        "group": "group",
+        "group-link": "group-link"
       },
       "slug": "Slug страницы",
       "number": "Номер страницы",

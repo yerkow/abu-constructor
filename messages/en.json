@@ -109,7 +109,8 @@
             "select": {
                 "placeholder": "Page Type",
                 "content": "content",
-                "group": "group"
+                "group": "group",
+                "group-link": "group-link"
             },
             "slug": "Page Slug",
             "number": "Page Number",
