@@ -27,7 +27,7 @@ export const viewInputByType = (
               <Input
                 key={locale}
                 label={options.placeholder + ` (${locale})`}
-                {...register(options.props + "." + locale)}
+                {...register(`content.${locale}.${options.props}`)}
                 className="flex-grow"
               />
             ))}
@@ -41,7 +41,8 @@ export const viewInputByType = (
           <section className="flex flex-wrap gap-3 flex-col ">
             {locales.map((locale) => (
               <Controller
-                name={options.props + "." + locale}
+                key={locale}
+                name={`content.${locale}.${options.props}`}
                 control={control}
                 render={({ field }) => (
                   <QuillEditor
@@ -86,7 +87,7 @@ export const viewInputByType = (
     case "file":
       return (
         <Controller
-          name={options.props}
+          name={`content.${options.props}`}
           control={control}
           render={({ field }) => (
             <FileUploader

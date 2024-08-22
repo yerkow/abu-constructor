@@ -12,11 +12,13 @@ export const useEditWidgetContent = (widgetId: string) => {
     queryFn: () => fetchContentsByWidgetId(widgetId),
   });
 
+  // console.log(contents);
+
   const { mutate: handleCreateContent } = useMutation({
     mutationKey: ["contents"],
     mutationFn: (params: IContentCreationParams) => {
-      // console.log(params);
-      const data = fetchCreateContent({ ...params });
+      // console.log({ ...params, widgetId: +widgetId });
+      const data = fetchCreateContent({ ...params, widgetId: +widgetId, });
       return data;
     },
   });

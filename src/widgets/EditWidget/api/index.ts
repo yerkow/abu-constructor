@@ -30,24 +30,25 @@ export const fetchEditWidgetMainOptions = async (
 export const fetchContentsByWidgetId = async (
   widgetId: string
 ): Promise<Content[]> => {
-  const response = await fetch(`${backendUrl}/contents/${widgetId}`);
+  const response = await fetch(`${backendUrl}/contents/by-widget-id/${widgetId}`);
   const data = await response.json();
   return data;
 };
 
 export const fetchCreateContent = async ({
   widgetId,
-  ...content
+  content
 }: IContentCreationParams): Promise<Content> => {
-  console.log(content.data.content);
-  //   console.log(widgetId);
+
+  console.log(content);
   const response = await fetch(`${backendUrl}/contents`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      content: content.data.content,
+      content,
+      options: {},
       widget_id: widgetId,
     }),
   });

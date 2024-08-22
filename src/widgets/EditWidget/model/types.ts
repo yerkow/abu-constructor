@@ -13,13 +13,14 @@ export interface EditOptionsProps {
 
 export interface EditorMainProps {
   register: UseFormRegister<any>;
-  widgetOptions: EditOptionsProps;
+  widgetOptions: EditOptionsProps | undefined;
   handleSubmit: any;
   control: any;
 }
 
 export interface IContentCreationParams {
-  data: Pick<Content, "content">;
+  content: Pick<Content, "content">;
+  options: any,
   widgetId: number;
 }
 

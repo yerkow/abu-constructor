@@ -22,7 +22,7 @@ export const AdminSidebar = async ({
     <nav
       className={clsx(
         className,
-        "flex z-10 items-center md:items-start md:static flex-row md:flex-col fixed left-0 right-0 h-20 justify-center md:justify-between gap-3 bg-slate-950 text-white p-10 md:h-full",
+        "flex z-10 items-center md:items-start md:static flex-row md:flex-col fixed left-0 right-0 h-20 justify-center md:justify-between gap-3 bg-[#690000] text-white p-10 md:h-full",
       )}
       {...props}
     >

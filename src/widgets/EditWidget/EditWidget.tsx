@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { Fragment, useRef, useState } from "react";
 import { Types, useEditWidget, useEditWidgetContent } from "./model";
 import { EditorMain, EditorItems } from "./ui";
 import {
@@ -9,13 +9,12 @@ import {
   DialogContent,
   DialogFooter,
   DialogTrigger,
-  Input,
 } from "@/shared/ui";
 import { Content } from "@/shared/types";
-import { UseMutateFunction } from "@tanstack/react-query";
 import { EditOptionsProps, IContentCreationParams } from "./model/types";
 import { useForm } from "react-hook-form";
 import { viewInputByType } from "./ui";
+
 
 const CardEditOptions: EditOptionsProps = {
   widgetName: "Cards",
@@ -37,15 +36,31 @@ const CardEditOptions: EditOptionsProps = {
     { props: "image", type: "file", placeholder: "Изображение" },
   ],
 };
+const AccordionEditOptions: EditOptionsProps = {
+  widgetName: "Accordion",
+  widgetOptions: [
+    { props: "title", type: "text", placeholder: "Заголовок" },
+  ],
+  contentOptions: [
+    { props: "title", type: "text", placeholder: "Заголовок" },
+    { props: "content", type: "quill", placeholder: "Контент" },
+  ],
+};
+
+
+const WidgetOptionList = [AccordionEditOptions, CardEditOptions];
 
 export const EditWidget = ({ widgetId }: Types.EditWidgetProps) => {
-  const { register, control, handleSubmit, widgetOptions } = useEditWidget(
+  const { register, control, handleSubmit, widgetOptions, widget_type } = useEditWidget(
     widgetId,
-    CardEditOptions
+    WidgetOptionList
   );
+
 
   const { contents, handleCreateContent, handleUpdateContent } =
     useEditWidgetContent(widgetId);
+
+  // console.log(contents)
 
   return (
     <section>
@@ -58,58 +73,77 @@ export const EditWidget = ({ widgetId }: Types.EditWidgetProps) => {
       <EditorItems
         contents={contents}
         createButton={
-          <ContentCreateModal
+          <ContentManageModal
             handleCreateContent={handleCreateContent}
-            options={CardEditOptions.contentOptions}
-            widgetId={+widgetId}
+            handleUpdateContent={handleUpdateContent}
+            variant="create"
+            widgetOptionsList={WidgetOptionList}
+            widget_type={widget_type}
           />
         }
-        handleCreateContent={handleCreateContent}
-        handleUpdateContent={handleUpdateContent}
+        EditButton={(contents: Content) => {
+          console.log(contents)
+          return <ContentManageModal
+            handleCreateContent={handleCreateContent}
+            handleUpdateContent={handleUpdateContent}
+            variant="update"
+            contents={contents}
+            widgetOptionsList={WidgetOptionList}
+            widget_type={widget_type}
+          />
+        }
+
+        }
       />
     </section>
   );
 };
 
-const ContentCreateModal = ({
+
+
+
+const ContentManageModal = ({
   handleCreateContent,
-  options,
-  widgetId,
+  handleUpdateContent,
+  contents,
+  widgetOptionsList,
+  variant,
+  widget_type
 }: {
-  handleCreateContent: UseMutateFunction<
-    Content,
-    Error,
-    Types.IContentCreationParams,
-    unknown
-  >;
-  options: Array<any>;
-  widgetId: number;
+  handleCreateContent: any,
+  handleUpdateContent: any,
+  widget_type: string,
+  contents?: Content | undefined,
+  variant: "create" | "update";
+  widgetOptionsList: EditOptionsProps[];
 }) => {
   const [open, setOpen] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
-
-  const { register, handleSubmit, control } = useForm<
-    Pick<Types.IContentCreationParams, "data">
-  >({
+  const { register, handleSubmit, control } = useForm({
     mode: "onBlur",
-    defaultValues: {},
+    defaultValues: {
+      ...contents,
+    },
   });
 
+  const options = widgetOptionsList.find((item) => item.widgetName === widget_type)?.contentOptions;
+  const handleFunc = variant === "create" ? handleCreateContent : handleUpdateContent;
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild className="w-full">
+      <DialogTrigger asChild className={variant === "create" ? `w-full` : ""}>
         <Button>Создать контент</Button>
       </DialogTrigger>
       <DialogContent className="max-w-[90%] ">
         <h1 className="block font-bold text-center mb-4">Создать контент</h1>
         <form
-          onSubmit={handleSubmit((data) => {
-            // console.log(data);
-            handleCreateContent({ ...data, widgetId });
-          })}
+          onSubmit={handleSubmit(handleFunc)}
         >
-          {options.map((option) =>
-            viewInputByType(option.type, option, register, control)
+          {options && options.map((option) =>
+            <Fragment
+              key={option.props}
+            >
+              {viewInputByType(option.type, option, register, control)}
+            </Fragment>
           )}
           <Button className="w-full" type="submit">
             Создать

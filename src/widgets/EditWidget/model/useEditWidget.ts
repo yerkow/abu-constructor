@@ -1,17 +1,25 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { fetchEditWidgetMainOptions, fetchWidgetOptions } from "../api";
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { EditOptionsProps } from "./types";
 
 export const useEditWidget = (
   widgetId: string,
-  widgetOptions: EditOptionsProps
+  widgetOptionList: EditOptionsProps[]
 ) => {
+
   const { data: widget } = useQuery({
     queryKey: ["widget", widgetId],
     queryFn: () => fetchWidgetOptions(widgetId),
   });
+  const [widgetOptions, setWidgetOptions] = useState<EditOptionsProps | undefined>()
+
+  useEffect(() => {
+    setWidgetOptions(widgetOptionList.find((item) => item.widgetName === widget?.widget_type)
+    )
+
+  }, [widget])
 
   const { register, control, reset, handleSubmit } = useForm();
 
@@ -40,5 +48,6 @@ export const useEditWidget = (
     control,
     handleSubmit: handleSubmit(handleUpdateMainOptions),
     widgetOptions,
+    widget_type: widget?.widget_type,
   };
 };
