@@ -31,14 +31,15 @@ export const Navbar = () => {
   return (
     <nav
       className={clsx(
-        "md:z-50 md:top-0 hidden md:flex justify-center items-center shadow-xl px-3",
-        scrolled ? "md:fixed md:left-0 md:right-0 md:top-0" : "md:static",
-        hoveredItem ? "bg-[#640000]" : "bg-white",
+        "md:z-50 md:top-0 hidden md:flex justify-center items-center shadow-xl px-3 bg-[#640000]",
+        scrolled ? "md:fixed md:left-0 md:right-0 md:top-0"
+          : hoveredItem ? "bg-[#640000]" : "md:static bg-none bg-black/30",
+
       )}
     >
-      <div className="w-[1200px] flex gap-10  items-center">
-        <Link href="/" style={{ position: "relative", height: "120px", width: "280px" }} >
-          <Image src={`/images/logo-${hoveredItem ? "white" : "brown"}.png`} alt="logo" layout="fill" objectFit="contain" />
+      <div className="w-[1300px] flex gap-10  justify-between items-center">
+        <Link href="/" style={{ position: "relative", height: "80px", width: "280px" }} >
+          <Image src={`/images/logo-white.png`} alt="logo" layout="fill" objectFit="contain" />
         </Link>
         <section className=" gap-5 items-center justify-center flex">
           {isFetching ? (

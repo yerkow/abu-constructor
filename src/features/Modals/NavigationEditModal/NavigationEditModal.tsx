@@ -110,12 +110,10 @@ export const NavigationEditModal = ({
                 label={t("form.slug")}
                 {...register("slug", { required: true })}
               />
-              {navigationItem.navigation_type == "content" && (
-                <Button>
-                  <Link href={{ pathname: `pages/${navigationItem.id}` }}>
-                    {t("table.edit")}
-                  </Link>
-                </Button>
+              {(navigationItem.navigation_type === 'group-link' || navigationItem.navigation_type === 'content') && (
+                <Link className="w-full bg-[#640000] text-white text-center rounded-md p-2" href={{ pathname: `pages/${navigationItem.id}` }}>
+                  {t("table.edit")}
+                </Link>
               )}
               <Button type="submit" loading={isPending} disabled={isPending}>
                 {t("form.save")}

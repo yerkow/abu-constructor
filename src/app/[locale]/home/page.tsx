@@ -39,15 +39,15 @@ export default function Page() {
     return (
         <section className=''>
             {/* Hero section */}
-            <section className="bg-[url('/images/hero.png')] bg-cover bg-center bg-no-repeat h-[700px] w-full relative z-[1]">
-                <section className="w-full h-full bg-black/30 flex justify-center items-center">
+            <section>
+                <div className='absolute left-0 top-0 bottom-0 right-0'>
+                    <Image src="/images/hero.gif" alt='video' layout='fill' objectFit='cover' />
+                </div>
+                <section className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
                     <Image src="/images/logo-white.png" alt="logo" width={656} height={80} />
                 </section>
-            </section>
-            <section className="max-w-[1200px] mx-auto mt-5 px-4">
-                {/* Sidebar & education section */}
-                <section className="flex flex-col items-center gap-4 relative top-[-60px] ">
-                    <ul className="flex flex-wrap gap-5 w-full ">
+                <section className='absolute bottom-5 w-full'>
+                    <ul className="flex flex-wrap gap-5 w-full max-w-[1200px] mx-auto px-4">
                         {
                             ed_list.map((item, index) => (
                                 <li key={index} className="basis-[calc(25%-gap)] grow shadow-[0px_4px_23.3px_rgba(0,0,0,0.18)] bg-white p-3 rounded-[10px] relative z-10">
@@ -57,6 +57,11 @@ export default function Page() {
                             ))
                         }
                     </ul>
+                </section>
+            </section>
+            <section className="max-w-[1200px] mx-auto mt-[100vh] px-4">
+                {/* Sidebar & education section */}
+                <section className="flex flex-col items-center gap-4  ">
                     <Swiper pagination={true} modules={[Pagination]} className="h-[240px] sm:h-[380px] md:h-[480px] w-full mt-5]" style={{ maxWidth: "900px" }}>
                         {[1, 2].map((id) => (
                             <SwiperSlide className="relative" key={id}>

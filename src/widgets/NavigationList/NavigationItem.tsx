@@ -48,7 +48,7 @@ export const NavigationItem = (
                 <div className="flex gap-2 ">
                     <NavigationEditModal navigationItem={item} />
                     {
-                        item.navigation_type === "group" && <NavigationCreateModal parent_id={item.id} />
+                        (item.navigation_type === 'group-link' || item.navigation_type === 'group') && <NavigationCreateModal parent_id={item.id} />
                     }
                     <DeletePageBtn navigationId={item.id} name={item.title[locale]} />
                 </div>
@@ -62,7 +62,7 @@ export const NavigationItem = (
                         ))}
                     </ul>
                 ) : (
-                    item.navigation_type === 'group' && (
+                    (item.navigation_type === 'group-link' || item.navigation_type === 'group') && (
                         <div
                             onDrop={(e: DragEvent<HTMLDivElement>) => handleDrop(e, item)}
                             onDragOver={(e) => e.preventDefault()}

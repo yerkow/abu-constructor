@@ -14,8 +14,8 @@ const topHeaderMenuList = [
 
 export const Header = () => {
   return (
-    <header className="relative  flex flex-col  w-full ">
-      <section className="bg-[#640000] min-h-10 flex justify-end  pr-3" style={{ gap: "clamp(20px, 1.5vw, 80px) " }}>
+    <header className="relative z-50  flex flex-col  w-full ">
+      <section className="bg-[#640000] min-h-5 flex justify-end  pr-3" style={{ gap: "clamp(20px, 1.5vw, 80px) " }}>
         <section className="flex  text-white items-center" style={{ gap: "clamp(15px, 1.5vw, 40px)" }}>
           {topHeaderMenuList.map((item, index) => (
             <Link href={item.link} key={index}>
