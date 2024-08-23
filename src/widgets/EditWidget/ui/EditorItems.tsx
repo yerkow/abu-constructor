@@ -26,7 +26,7 @@ export const EditorItems = ({
           contents?.map((content, idx) => (
             <li key={content.id} className="flex justify-between items-center gap-2 rounded-sm px-5 py-3 bg-slate-100 cursor-grab">
               <p>Элемент - #{idx + 1}</p>
-              {EditButton(content.content)}
+              {EditButton(content.content, content.id)}
             </li>
           ))
         }

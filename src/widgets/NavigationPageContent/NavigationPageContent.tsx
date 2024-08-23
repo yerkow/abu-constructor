@@ -81,7 +81,9 @@ export const NavigationPageContent = ({ params: { id } }: { params: { id: string
                                                 <Button size={"icon"} onClick={() => handleWidgetDelete(widget.id)}>
                                                     <DeleteIcon className='cursor-pointer' />
                                                 </Button>
-                                                <EditWidgetModal widget_id={widget.id} />
+                                                <Link className="bg-[#640000] text-white text-center rounded-md p-2" href={{ pathname: `${id}/widget/${widget.id}` }} >
+                                                    <Settings />
+                                                </Link>
                                             </section>
                                         </li>
                                     ))}
@@ -171,46 +173,6 @@ const CreateWidgetByNavigationModal = ({ displayName, navigation_id }: { display
                         >
                             Отмена
                         </Button>
-                    </DialogClose>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
-    )
-}
-
-const EditWidgetModal = ({ widget_id }: { widget_id: number }) => {
-    const navigation_id = useParams().id as string;
-    const { data: widget, isFetching } = useQuery<IWidget>({
-        queryKey: ['widget'],
-        queryFn: async (widget_id) => {
-            const response = await fetch(`${backendUrl}/widgets/${widget_id}`);
-            return response.json();
-        }
-    })
-
-
-
-    return (
-        <Dialog>
-            <DialogTrigger asChild>
-                <Button size="icon">
-                    <Settings />
-                </Button>
-            </DialogTrigger>
-            <DialogContent>
-                <DialogHeader>
-                    <DialogTitle>Редактировать виджет - {widget?.widget_type}</DialogTitle>
-                    <DialogDescription>Заполните все поля</DialogDescription>
-                </DialogHeader>
-                <Button>
-                    <Link href={{ pathname: `${navigation_id}/widget/${widget_id}` }} >
-                        Редактировать контент
-                    </Link>
-                </Button>
-                <DialogFooter className='flex flex-col'>
-
-                    <DialogClose asChild className='w-full'>
-                        <Button variant='secondary'>Отмена</Button>
                     </DialogClose>
                 </DialogFooter>
             </DialogContent>

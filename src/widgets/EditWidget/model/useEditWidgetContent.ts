@@ -25,8 +25,8 @@ export const useEditWidgetContent = (widgetId: string) => {
 
   const { mutate: handleUpdateContent } = useMutation({
     mutationKey: ["contents"],
-    mutationFn: (params: IContentUpdateParams) =>
-      fetchUpdateContent({ ...params }),
+    mutationFn: ({ content, id }: { content: IContentUpdateParams, id: number }) =>
+      fetchUpdateContent({ content, id }),
   });
 
   return { contents, handleCreateContent, handleUpdateContent };

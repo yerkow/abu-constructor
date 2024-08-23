@@ -57,11 +57,11 @@ export const fetchCreateContent = async ({
 };
 
 export const fetchUpdateContent = async ({
-  data,
+  content,
   id,
-}: IContentUpdateParams): Promise<Content> => {
+}: { content: any, id: number }): Promise<Content> => {
   const sendData = {
-    content: { ...data },
+    content,
   };
 
   const response = await fetch(`${backendUrl}/contents/${id}`, {
