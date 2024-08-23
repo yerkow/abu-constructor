@@ -1,39 +1,34 @@
 "use client";
-import { getNavbarPages } from "@/shared/api/pages";
-import { NavPage } from "@/shared/lib/types";
 import {
   Drawer,
   DrawerTrigger,
   DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerDescription,
-  DrawerFooter,
   Button,
-  DrawerClose,
 } from "@/shared/ui";
+
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
-import { ArrowLeft, ChevronLeft, ChevronRight, Menu, X } from "lucide-react";
+import { ArrowLeft, ChevronRight, Menu, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { useState } from "react";
+import { INavigation } from "../NavigationList/model";
+import { backendUrl } from "@/shared/lib/constants";
 
 export const BurgerMenu = () => {
   const params = useParams();
+
   const {
     data: pages,
-  } = useQuery({
-    queryKey: ["navbar"],
+  } = useQuery<INavigation[]>({
+    queryKey: ["navigations"],
     queryFn: async () => {
-      if (!Array.isArray(params.locale)) {
-        const pages = await getNavbarPages(params.locale);
-        return pages;
-      }
+      const response = await fetch(`${backendUrl}/navigations`);
+      return response.json();
     },
     refetchOnWindowFocus: false,
-  });
+  })
   const [open, setOpen] = useState(false);
 
   return (
@@ -57,7 +52,7 @@ export const BurgerMenu = () => {
             <X />
           </Button>
           {pages?.map((p) => (
-            <MenuLink key={p.id} page={p} locale={params.locale} />
+            <MenuLink key={p.id} page={p} locale={params.locale as string} />
           ))}
         </div>
       </DrawerContent>
@@ -69,9 +64,12 @@ const MenuLink = ({
   page,
   locale,
 }: {
-  page: NavPage;
-  locale: string | string[];
+  page: INavigation;
+  locale: string;
 }) => {
+
+
+
   const path = usePathname();
   const t = useTranslations();
   const [open, setOpen] = useState(false);
@@ -81,14 +79,14 @@ const MenuLink = ({
         className={clsx(path == `/${locale}${page.slug}` && "font-bold")}
         href={`/${locale}${page.slug}`}
       >
-        {page.title}
+        {page.title[locale]}
       </Link>
     );
   } else {
     return (
       <Drawer open={open} onOpenChange={setOpen} direction="right">
         <DrawerTrigger className="text-start flex justify-start items-center gap-3">
-          {page.title} <ChevronRight className="" />
+          {page.title[locale]} <ChevronRight className="" />
         </DrawerTrigger>
         <DrawerContent className="rounded-none bg-[#640000]  border-none px-4 py-14">
           <div className=" relative flex flex-col gap-3 text-xl text-white ">

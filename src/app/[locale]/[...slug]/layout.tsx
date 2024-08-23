@@ -1,12 +1,8 @@
-import { getNavbarPages } from "@/shared/api/pages";
 import { Separator } from "@/shared/ui";
 import { BreadCrumbs, Header } from "@/widgets";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { ReactNode } from "react";
-const getPages = async (locale: string) => {
-  const pages = await getNavbarPages(locale);
-  return pages;
-};
+
 
 export default async function Layout({
   children,
@@ -15,7 +11,6 @@ export default async function Layout({
   children: ReactNode;
   params: { slug: string[]; locale: string };
 }) {
-  const pages = await getPages(params.locale);
   return (
     <section>
       <Header />
@@ -29,7 +24,7 @@ export default async function Layout({
         }
         <div className="max-w-[1200px] mx-auto flex lg:p-10 p-3  flex-col gap-10">
           {params.slug[0] !== "home" && (
-            <BreadCrumbs locale={params.locale} slug={params.slug} pages={pages} />
+            <BreadCrumbs locale={params.locale} slug={params.slug} pages={[]} />
           )}
           <div className="flex lg:p-10 p-3  flex-col gap-10">
             {children}

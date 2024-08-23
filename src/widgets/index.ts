@@ -23,6 +23,7 @@ export {
   List,
   Text,
 };
+
 export const widgetsList = [
   Cards,
   Carousel,
@@ -33,6 +34,7 @@ export const widgetsList = [
   Accordion,
   Gallery,
 ];
+
 export const getWidgetByName = (name: string, props: any) => {
   const widget = widgetsList.find((w, idx) => {
     return w.displayName == name;

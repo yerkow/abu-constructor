@@ -1,24 +1,13 @@
-import { getPageBySlug } from "@/shared/api/pages";
 import { backendUrl } from "@/shared/lib/constants";
 import { getWidgetByName } from "@/widgets";
 import { Metadata } from "next";
-interface PageProps {
-  params: { locale: string; slug: string[] };
+
+export const metadata: Metadata = {
+  title: "Alikhan Bokeikhanov University"
 }
 
-export async function generateMetadata(
-  { params }: PageProps,
-): Promise<Metadata> {
-  const { slug, locale } = params;
-  const page = (await getPageBySlug(`/${slug.join("/")}`, locale))[0];
-
-  return {
-    title: !page
-      ? "Alikhan Bokeikhanov University"
-      : page.title.includes("template")
-        ? "Alikhan Bokeikhanov University"
-        : page.title,
-  };
+interface PageProps {
+  params: { locale: string; slug: string[] };
 }
 
 export interface INavigation {
