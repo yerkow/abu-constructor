@@ -11,18 +11,21 @@ interface AccordionItem {
   question: string;
   answer: string;
 }
-function Accordion({ items }: AccordionProps) {
+function Accordion({ contents, options, locale }: { contents: any, options: any, locale: string }) {
   return (
-    <AccordionUI type="single" collapsible>
-      {items.map((item, idx) => (
-        <AccordionItem key={idx} value={item.question}>
-          <AccordionTrigger className="text-xl text-cyan-500">
-            {item.question}
-          </AccordionTrigger>
-          <AccordionContent className="text-lg">{item.answer}</AccordionContent>
-        </AccordionItem>
-      ))}
-    </AccordionUI>
+    <section className="mt-7">
+      <h2 className="text-2xl font-bold text-[#690000]">{options.title[locale]}</h2>
+      <AccordionUI type="single" collapsible>
+        {contents.map(({ content }: any, idx: number) => {
+          return (<AccordionItem key={idx} value={idx + `-` + content[locale].content}>
+            <AccordionTrigger className="text-xl text-[#690000]">
+              {content[locale].title}
+            </AccordionTrigger>
+            <AccordionContent className="text-lg" ><div dangerouslySetInnerHTML={{ __html: content[locale]?.content || '' }} /></AccordionContent>
+          </AccordionItem>)
+        })}
+      </AccordionUI >
+    </section>
   );
 }
 Accordion.displayName = "Accordion";

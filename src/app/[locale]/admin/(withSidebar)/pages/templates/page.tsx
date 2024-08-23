@@ -1,11 +1,10 @@
-import { CreateTemplateDialog,withNoSSR } from "@/features";
-import { TemplatesListTable } from "@/widgets";
+import { withNoSSR } from "@/features";
 
 function TemplatesPage() {
   return (
     <section>
-      <CreateTemplateDialog />
-      <TemplatesListTable />
+      {/* <CreateTemplateDialog />
+      <TemplatesListTable /> */}
     </section>
   );
 }

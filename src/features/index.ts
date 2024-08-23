@@ -1,4 +1,4 @@
-export { NavigationCreateModal } from '@/features/Modals/NavigationCreateModal/NavigationCreateModal';
+export { NavigationCreateModal } from './Modals/NavigationCreateModal/NavigationCreateModal';
 export { NavigationEditModal } from './Modals/NavigationEditModal/NavigationEditModal';
 export { DeletePageBtn } from "./DeletePageBtn";
 export { LogoutButton } from "./LogoutButton";
@@ -6,12 +6,6 @@ export { LoginForm } from "./LoginForm";
 export { PreviewButton } from "./PreviewButton";
 export { withNoSSR } from "./WithNoSSR";
 export { ChangeLocale } from "./ChangeLocale";
-export { EditWidgetContentDialog } from "./EditWidgetContentDialog";
-export { CreatePageDialog } from "./PageDialog/CreatePageDialog";
-export { EditPageDialog } from "./PageDialog/EditPageDialog";
-export { CreateTemplateDialog } from "./PageDialog/CreateTemplateDialog";
-export { PageEditor } from "./PageEditor/PageEditor";
-export { PageEditorContent } from "./PageEditor/PageEditorContent";
 export { Pagination } from "./Pagination";
 export { TemplatesSelect } from "./TemplatesSelect";
 export { UpdateLinksForm } from "./UpdateLinksForm";

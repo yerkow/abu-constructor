@@ -20,6 +20,7 @@ export const NavigationItem = ({ item, locale, hoveredItem, handleMouseEnter, ha
     const isHoveredItem = hoveredItem === item.id;
     const [scrolled] = useScroll(40)
 
+
     return (
         <>
             {
@@ -28,7 +29,7 @@ export const NavigationItem = ({ item, locale, hoveredItem, handleMouseEnter, ha
                         style={{ fontSize: 'clamp(16px, 1.5vw, 20px)' }}
                         className={clsx(
                             "text-center h-[94px] rounded-md flex items-center font-semibold text-white",
-                            path == `/${locale}${item.slug}` && "font-bold",
+                            path.startsWith(`/${locale}${item.slug}`) && "font-bold",
 
                         )}
 
@@ -37,7 +38,7 @@ export const NavigationItem = ({ item, locale, hoveredItem, handleMouseEnter, ha
                     >
                         {item.title[locale as string]}
                         {item.navigation_type === 'group-link' && <ChevronRight
-                            className={clsx("transitio text-white",
+                            className={clsx("transition text-white",
                                 isHoveredItem ? "rotate-90" : "rotate-0"
                             )}
                         />}

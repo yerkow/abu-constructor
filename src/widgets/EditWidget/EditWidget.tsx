@@ -141,6 +141,10 @@ const ContentManageModal = ({
   const options = widgetOptionsList.find((item) => item.widgetName === widget_type)?.contentOptions;
   const handleFunc = variant === "create" ? handleCreateContent : handleUpdateContent;
 
+  const onSubmit = async (data: any) => {
+    await handleFunc(data);
+    closeRef.current?.click();
+  };
 
 
   return (
@@ -155,7 +159,7 @@ const ContentManageModal = ({
           </DialogTitle>
         </DialogHeader>
         <form
-          onSubmit={handleSubmit(handleFunc)}
+          onSubmit={handleSubmit(onSubmit)}
         >
           {options && options.map((option) =>
             <Fragment

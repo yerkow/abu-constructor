@@ -55,15 +55,15 @@ export default async function Page({ params }: PageProps) {
     );
 
     const data = await response.json();
+
     return data;
   }
 
   const { widgets } = await fetchNavigations();
-  return widgets.map(({ widget_type, options, contents }) => {
 
-    const widgetOptons = { contents, options };
-    console.log(widget_type)
-    console.log(contents)
+  return widgets?.map(({ widget_type, options, contents }) => {
+
+    const widgetOptons = { contents, options, locale: params.locale };
     if (contents.length === 0) {
       return
     }

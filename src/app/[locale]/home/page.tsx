@@ -8,7 +8,10 @@ import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
+
 export default function Page() {
+
+
 
     const ed_list = [
         { title: 'Бакалавриат', description: '29 образовательных программ' },
@@ -82,7 +85,7 @@ export default function Page() {
                     <section className='flex gap-3 flex-wrap'>
                         {
                             [1, 2, 3, 4].map((id) => (
-                                <article className='grow basis-[283px]' >
+                                <article key={id} className='grow basis-[283px]' >
                                     <div className='w-full h-[280px] relative'>
                                         <Image src="/images/banner-2.jpeg" alt="news" layout='fill' objectFit='cover' className='rounded-md' />
                                     </div>

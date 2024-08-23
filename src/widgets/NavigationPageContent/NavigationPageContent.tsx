@@ -94,8 +94,8 @@ export const NavigationPageContent = ({ params: { id } }: { params: { id: string
             </section>
             <section className="flex flex-col ">
                 <h3>{t("leftTitle")}</h3>
-                {widgetsList.map(({ displayName }) => (
-                    <CreateWidgetByNavigationModal displayName={displayName} navigation_id={+id} />
+                {widgetsList.map(({ displayName }, idx) => (
+                    <CreateWidgetByNavigationModal key={idx} displayName={displayName} navigation_id={+id} />
                 ))}
             </section>
         </section >

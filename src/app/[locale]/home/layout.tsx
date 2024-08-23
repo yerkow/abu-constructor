@@ -1,8 +1,13 @@
 import { Separator } from "@/shared/ui";
 import { Header } from "@/widgets";
 import { Mail, MapPin, Phone } from "lucide-react";
+import { Metadata } from "next";
 import { ReactNode } from "react";
 
+
+export const metadata: Metadata = {
+    title: "Alikhan Bokeikhanov University"
+}
 
 export default async function Layout({ children }: { children: ReactNode }) {
     return (
