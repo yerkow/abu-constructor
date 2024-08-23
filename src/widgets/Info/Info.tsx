@@ -1,9 +1,4 @@
-import { backendImageUrl } from "@/shared/lib/constants";
-import { Button } from "@/shared/ui";
 import { InfoItem } from "@/widgets/Info/InfoItem";
-import clsx from "clsx";
-import Image from "next/image";
-import Link from "next/link";
 
 interface InfoProps {
   title: string;
@@ -18,13 +13,12 @@ export interface InfoItemProps {
   content: string;
   linkText: string;
 }
-function Info({ title, content, items }: InfoProps) {
+function Info({ options, contents, locale }: { options: any, contents: Array<any>, locale: string }) {
   return (
     <section className="flex flex-col gap-10">
-      <h2 className="text-3xl text-center">{title}</h2>
-      <p className="text-xl text-center">{content}</p>
-      {items.map((item, idx) => (
-        <InfoItem {...item} key={idx} />
+      <h2 className="text-2xl font-bold text-[#690000]">{options.title[locale]}</h2>
+      {contents.map((item, idx) => (
+        <InfoItem item={item} locale={locale} key={idx} />
       ))}
     </section>
   );

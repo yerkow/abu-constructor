@@ -16,7 +16,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
             <main className=" min-h-[100svh]">
                 {children}
             </main>
-            <footer className="w-full   bg-red-950">
+            <footer className="w-full bg-red-950 mt-10">
                 <div className=" max-w-[1200px] mx-auto p-10 ">
                     <div className=" flex justify-between items-center mb-10">
                         <div className="flex flex-col gap-4  text-white">

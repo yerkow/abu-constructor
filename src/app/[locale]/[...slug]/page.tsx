@@ -51,7 +51,6 @@ export default async function Page({ params }: PageProps) {
   const { widgets } = await fetchNavigations();
 
   return widgets?.map(({ widget_type, options, contents }) => {
-
     const widgetOptons = { contents, options, locale: params.locale };
     if (contents.length === 0) {
       return

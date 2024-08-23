@@ -28,7 +28,7 @@ export const DropNavigation = ({ handleMouseLeave, item, locale, scrolled }: Dro
                         {
                             child.navigation_type === "content" || child.navigation_type === "group-link" ? (
                                 <Link
-                                    href={`/${locale}/${child.slug}`}
+                                    href={`/${locale}/${item.slug}/${child.slug}`}
                                     className={clsx(
                                         "text-white font-bold text-[24px]",
                                         path == `/${locale}${child.slug}` && "font-bold",

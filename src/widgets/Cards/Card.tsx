@@ -1,8 +1,7 @@
 "use client";
+import { backendImageUrl } from "@/shared/lib/constants";
 import { cn } from "@/shared/lib/utils";
 import Image from "next/image";
-import Link from "next/link";
-import { useParams } from "next/navigation";
 
 export interface CardProps {
   variant: "horizontal" | "base";
@@ -14,17 +13,12 @@ export interface CardProps {
       image: string;
     };
   };
-  // href?: string;
 }
-export const Card = ({ content, variant }: CardProps) => {
+export const Card = ({ content, locale, variant }: { content: any, variant: string, locale: string }) => {
   // const Comp = href ? (Link as React.ElementType) : ("div" as "div");
-  const locale = useParams().locale as string;
-
-  const { date, description, title, image } = content[locale];
+  const { title, content: text } = content[locale];
   return (
-
     <article
-      // href={`/${params.locale}${href}`}
       className={cn("after:rounded-md after:absolute rounded-2xl relative overflow-hidden shadow-md",
         {
           horizontal: "w-full grid grid-cols-[1fr_2fr] gap-2 h-[200px]  after:bottom-0 after:top-0  after:left-0 after:-right-[3px]",
@@ -42,7 +36,7 @@ export const Card = ({ content, variant }: CardProps) => {
         )}
       >
         <Image
-          src={`http://77.243.80.138:81/media/${image}`}
+          src={`${backendImageUrl}${content.image}`}
           fill
           objectFit="cover"
           objectPosition="top"
@@ -51,14 +45,14 @@ export const Card = ({ content, variant }: CardProps) => {
         />
       </div>
       <div className="p-4">
-        <span className="text-sm">{date}</span>
         <h2 className="font-bold text-xl">{title}</h2>
-        <p className="text-justify">
-          {variant === "horizontal"
-            ? description
-            : description.length > 110
-              ? `${description.slice(0, 110)}...`
-              : description}
+        <p className="text-justify" dangerouslySetInnerHTML={{
+          __html: variant === "horizontal"
+            ? text
+            : text.length > 110
+              ? `${text.slice(0, 110)}...`
+              : text
+        }}>
         </p>
       </div>
     </article>

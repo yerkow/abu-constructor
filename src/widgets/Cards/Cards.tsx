@@ -1,20 +1,8 @@
-"use client";
 import { cn } from "@/shared/lib/utils";
 import { Card } from "./Card";
-import { IWidget } from "@/app/[locale]/[...slug]/page";
 
-import { useParams } from "next/navigation";
+function Cards({ contents, options, locale }: { contents: Array<any>; options: any; locale: string }) {
 
-// interface CardsProps {
-//   title: string;
-//   variant: "base" | "horizontal";
-//   items: Omit<CardProps, "variant">[];
-// }
-
-export function CardsClient({ contents, options }: Pick<IWidget, "options" | "contents">) {
-  const params = useParams()
-  const locale = params.locale as string
-  console.log(contents)
   return (
     <section className="flex flex-col gap-3">
       <h2 className="text-2xl font-bold">
@@ -29,10 +17,13 @@ export function CardsClient({ contents, options }: Pick<IWidget, "options" | "co
         )}
       >
         {contents.map(({ content }, idx) => (
-          <Card key={idx} variant={options.variant} content={content} />
+          <Card key={idx} variant={options.variant} content={content} locale={locale} />
         ))
         }
       </div>
     </section>
   );
 };
+
+Cards.displayName = "Cards";
+export default Cards;

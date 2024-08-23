@@ -16,42 +16,8 @@ import { Content } from "@/shared/types";
 import { EditOptionsProps } from "./model/types";
 import { useForm } from "react-hook-form";
 import { viewInputByType } from "./ui";
+import { WidgetOptionList } from "..";
 
-
-const CardEditOptions: EditOptionsProps = {
-  widgetName: "Cards",
-  widgetOptions: [
-    { props: "title", type: "text", placeholder: "Заголовок" },
-    {
-      props: "variant",
-      type: "select",
-      placeholder: "Вид карточек",
-      values: [
-        { value: "base", label: "Стандарт" },
-        { value: "horizontal", label: "Горизонтальный" },
-      ],
-    },
-  ],
-  contentOptions: [
-    { props: "title", type: "text", placeholder: "Заголовок" },
-    { props: "content", type: "quill", placeholder: "Контент" },
-    { props: "image", type: "file", placeholder: "Изображение" },
-  ],
-};
-
-const AccordionEditOptions: EditOptionsProps = {
-  widgetName: "Accordion",
-  widgetOptions: [
-    { props: "title", type: "text", placeholder: "Заголовок" },
-  ],
-  contentOptions: [
-    { props: "title", type: "text", placeholder: "Заголовок" },
-    { props: "content", type: "quill", placeholder: "Контент" },
-  ],
-};
-
-
-const WidgetOptionList = [AccordionEditOptions, CardEditOptions];
 
 export const EditWidget = ({ widgetId }: Types.EditWidgetProps) => {
   const { register, control, handleSubmit, widgetOptions, widget_type } = useEditWidget(
@@ -60,9 +26,7 @@ export const EditWidget = ({ widgetId }: Types.EditWidgetProps) => {
   );
 
 
-  const { contents, handleCreateContent, handleUpdateContent } =
-    useEditWidgetContent(widgetId);
-
+  const { contents, handleCreateContent, handleUpdateContent } = useEditWidgetContent(widgetId);
 
   return (
     <section>
