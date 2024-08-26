@@ -25,8 +25,9 @@ export interface CarouselProps {
   items: CarouselItemType[];
   position: "left" | "center" | "right";
 }
-const CarouselClient = ({ items, position }: CarouselProps) => {
-  const params = useParams();
+const CarouselClient = ({ contents, locale }: any) => {
+
+
   return (
     <section className="w-full flex items-center px-2  justify-center">
       <CarouselUI
@@ -37,32 +38,24 @@ const CarouselClient = ({ items, position }: CarouselProps) => {
         className="w-full mb-20  md:max-w-[80%]  "
       >
         <CarouselContent>
-          {items.map((item, idx) => {
-            const Comp = item.href
-              ? (Link as React.ElementType)
-              : ("div" as "div");
+          {contents.map((slide: any, idx: any) => {
+            const { content } = slide.content[locale]
             return (
               <CarouselItem key={idx}>
                 <div className="p-1  ">
                   <Card className="py-0 px-1 md:p-4 flex flex-col gap-4">
-                    <CardTitle>{item.title}</CardTitle>
-                    <CardContent className="flex  cursor-grab overflow-hidden   items-center justify-center p-1  ">
-                      <Comp
-                        href={`/${params.locale}/${item.href}`}
-                        className="relative w-full h-[200px] md:h-[400px]"
-                      >
-                        <Image
-                          src={`${backendImageUrl}/${item.image}`}
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          className="absolute object-cover rounded-md"
-                          fill
-                          objectFit="cover"
-                          alt={item.title ?? `carousel item ${idx}`}
-                        />
-                      </Comp>
+                    {/* <CardTitle>{item.title}</CardTitle> */}
+                    <CardContent className="flex cursor-grab overflow-hidden  min-h-60 h-full items-center justify-center p-1  ">
+                      <Image
+                        src={`${backendImageUrl}/${slide.content.image}`}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw "
+                        className="absolute object-cover rounded-md"
+                        fill
+                        objectFit="cover"
+                        alt={`carousel item ${idx}`}
+                      />
                     </CardContent>
-                    <CardDescription className={cn("text-justify")}>
-                      {item.content}
+                    <CardDescription className={cn("text-justify")} dangerouslySetInnerHTML={{ __html: content }}>
                     </CardDescription>
                   </Card>
                 </div>

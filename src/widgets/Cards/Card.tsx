@@ -62,7 +62,7 @@ export const Card = ({
             __html:
               variant === "horizontal"
                 ? text
-                : text.length > 110
+                : text?.length > 110
                   ? `${text.slice(0, 110)}...`
                   : text,
           }}

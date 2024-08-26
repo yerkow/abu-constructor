@@ -15,6 +15,7 @@ import Links from "./Links/Links";
 import List from "./List/List";
 import Text from "./Text/Text";
 import Tabs from "./Tabs/Tabs";
+import { CarouselEditOptions } from "./Carousel/config";
 
 export { EditWidget } from "./EditWidget/EditWidget";
 export { NavigationList } from "./NavigationList/NavigationList";
@@ -42,6 +43,7 @@ export const WidgetOptionList = [
   AccordionEditOptions,
   CardEditOptions,
   ListEditOptions,
+  CarouselEditOptions,
   InfoEditOptions,
   TextEditOptions,
   LinkEditOptions,

@@ -32,7 +32,7 @@ function Accordion({
               key={idx}
               value={idx + `-` + content[locale].content}
             >
-              <AccordionTrigger className="text-xl text-[#690000]">
+              <AccordionTrigger className="text-xl text-start text-[#690000]">
                 {content[locale].title}
               </AccordionTrigger>
               <AccordionContent className="text-lg">
