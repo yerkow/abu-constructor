@@ -11,20 +11,41 @@ interface AccordionItem {
   question: string;
   answer: string;
 }
-function Accordion({ contents, options, locale }: { contents: any, options: any, locale: string }) {
+function Accordion({
+  contents,
+  options,
+  locale,
+}: {
+  contents: any;
+  options: any;
+  locale: string;
+}) {
   return (
     <section className="mt-7">
-      <h2 className="text-2xl font-bold text-[#690000]">{options.title[locale]}</h2>
+      <h2 className="text-2xl font-bold text-[#690000]">
+        {options?.title && options?.title[locale]}
+      </h2>
       <AccordionUI type="single" collapsible>
         {contents.map(({ content }: any, idx: number) => {
-          return (<AccordionItem key={idx} value={idx + `-` + content[locale].content}>
-            <AccordionTrigger className="text-xl text-[#690000]">
-              {content[locale].title}
-            </AccordionTrigger>
-            <AccordionContent className="text-lg" ><div dangerouslySetInnerHTML={{ __html: content[locale]?.content || '' }} /></AccordionContent>
-          </AccordionItem>)
+          return (
+            <AccordionItem
+              key={idx}
+              value={idx + `-` + content[locale].content}
+            >
+              <AccordionTrigger className="text-xl text-[#690000]">
+                {content[locale].title}
+              </AccordionTrigger>
+              <AccordionContent className="text-lg">
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: content[locale]?.content || "",
+                  }}
+                />
+              </AccordionContent>
+            </AccordionItem>
+          );
         })}
-      </AccordionUI >
+      </AccordionUI>
     </section>
   );
 }

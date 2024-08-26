@@ -18,15 +18,12 @@ import { useForm } from "react-hook-form";
 import { viewInputByType } from "./ui";
 import { WidgetOptionList } from "..";
 
-
 export const EditWidget = ({ widgetId }: Types.EditWidgetProps) => {
-  const { register, control, handleSubmit, widgetOptions, widget_type } = useEditWidget(
-    widgetId,
-    WidgetOptionList
-  );
+  const { register, control, handleSubmit, widgetOptions, widget_type } =
+    useEditWidget(widgetId, WidgetOptionList);
 
-
-  const { contents, handleCreateContent, handleUpdateContent } = useEditWidgetContent(widgetId);
+  const { contents, handleCreateContent, handleUpdateContent } =
+    useEditWidgetContent(widgetId);
 
   return (
     <section>
@@ -48,23 +45,22 @@ export const EditWidget = ({ widgetId }: Types.EditWidgetProps) => {
           />
         }
         EditButton={(contents: Content, id: number) => {
-          return <ContentManageModal
-            handleCreateContent={handleCreateContent}
-            handleUpdateContent={handleUpdateContent}
-            variant="update"
-            contents={contents}
-            id={id}
-            widgetOptionsList={WidgetOptionList}
-            widget_type={widget_type}
-          />
-        }
-
-        }
+          return (
+            <ContentManageModal
+              handleCreateContent={handleCreateContent}
+              handleUpdateContent={handleUpdateContent}
+              variant="update"
+              contents={contents}
+              id={id}
+              widgetOptionsList={WidgetOptionList}
+              widget_type={widget_type}
+            />
+          );
+        }}
       />
     </section>
   );
 };
-
 
 const ContentManageModal = ({
   handleCreateContent,
@@ -73,13 +69,13 @@ const ContentManageModal = ({
   widgetOptionsList,
   variant,
   id,
-  widget_type
+  widget_type,
 }: {
-  handleCreateContent: any,
-  handleUpdateContent: any,
-  widget_type: string,
-  id?: number | undefined
-  contents?: any | undefined,
+  handleCreateContent: any;
+  handleUpdateContent: any;
+  widget_type: string;
+  id?: number | undefined;
+  contents?: any | undefined;
   variant: "create" | "update";
   widgetOptionsList: EditOptionsProps[];
 }) => {
@@ -89,7 +85,7 @@ const ContentManageModal = ({
     mode: "onBlur",
     defaultValues: {
       content: {},
-      id: id
+      id: id,
     },
   });
 
@@ -97,24 +93,28 @@ const ContentManageModal = ({
     if (contents) {
       reset((prevValues) => ({
         ...prevValues,
-        content: contents
+        content: contents,
       }));
     }
-  }, [contents])
+  }, [contents]);
 
-  const options = widgetOptionsList.find((item) => item.widgetName === widget_type)?.contentOptions;
-  const handleFunc = variant === "create" ? handleCreateContent : handleUpdateContent;
+  const options = widgetOptionsList.find(
+    (item) => item.widgetName === widget_type
+  )?.contentOptions;
+  const handleFunc =
+    variant === "create" ? handleCreateContent : handleUpdateContent;
 
   const onSubmit = async (data: any) => {
     await handleFunc(data);
     closeRef.current?.click();
   };
 
-
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild className={variant === "create" ? `w-full` : ""}>
-        <Button>{variant === "create" ? "Создать контент" : "Редактировать"} </Button>
+        <Button>
+          {variant === "create" ? "Создать контент" : "Редактировать"}{" "}
+        </Button>
       </DialogTrigger>
       <DialogContent className="max-w-[90%] ">
         <DialogHeader>
@@ -122,16 +122,13 @@ const ContentManageModal = ({
             {variant === "create" ? "Создать" : "Редактировать"} контент
           </DialogTitle>
         </DialogHeader>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          {options && options.map((option) =>
-            <Fragment
-              key={option.props}
-            >
-              {viewInputByType(option.type, option, register, control)}
-            </Fragment>
-          )}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {options &&
+            options.map((option) => (
+              <Fragment key={option.props}>
+                {viewInputByType(option.type, option, register, control)}
+              </Fragment>
+            ))}
           <Button className="w-full" type="submit">
             {variant === "create" ? "Создать" : "Изменить"}
           </Button>

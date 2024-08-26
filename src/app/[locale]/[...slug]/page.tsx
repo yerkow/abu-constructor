@@ -3,8 +3,8 @@ import { getWidgetByName } from "@/widgets";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Alikhan Bokeikhanov University"
-}
+  title: "Alikhan Bokeikhanov University",
+};
 
 interface PageProps {
   params: { locale: string; slug: string[] };
@@ -52,9 +52,8 @@ export default async function Page({ params }: PageProps) {
 
   return widgets?.map(({ widget_type, options, contents }) => {
     const widgetOptons = { contents, options, locale: params.locale };
-    if (contents.length === 0) {
-      return
-    }
+
+    //  console.log(widgetOptons);
     const widgetList = getWidgetByName(widget_type, widgetOptons);
     return widgetList;
   });
