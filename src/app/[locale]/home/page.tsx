@@ -46,10 +46,7 @@ export default function Page() {
                 <div className='absolute left-0 top-0 bottom-0 right-0'>
                     <Image src="/images/hero.gif" alt='video' layout='fill' objectFit='cover' />
                 </div>
-                <section className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
-                    <Image src="/images/logo-white.png" alt="logo" width={656} height={80} />
-                </section>
-                <section className='absolute bottom-5 w-full'>
+                <section className='absolute bottom-16 w-full'>
                     <ul className="flex flex-wrap gap-5 w-full max-w-[1200px] mx-auto px-4">
                         {
                             ed_list.map((item, index) => (
