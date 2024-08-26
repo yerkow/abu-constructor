@@ -3,7 +3,7 @@ import { Card } from "./Card";
 
 function Cards({
   contents,
-  options,
+  options: { content, variant },
   locale,
 }: {
   contents: Array<any>;
@@ -13,11 +13,11 @@ function Cards({
   return (
     <section className="flex flex-col gap-3">
       <h2 className="text-2xl font-bold">
-        {options?.title[locale]?.toLocaleUpperCase()}
+        {content[locale]?.title.toLocaleUpperCase()}
       </h2>
       <div
         className={cn(
-          options.variant == "base"
+          variant == "base"
             ? "flex gap-10 flex-wrap"
             : "flex flex-col gap-2",
           "mt-2"
@@ -26,7 +26,7 @@ function Cards({
         {contents.map(({ content }, idx) => (
           <Card
             key={idx}
-            variant={options.variant}
+            variant={variant}
             content={content}
             locale={locale}
           />

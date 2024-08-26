@@ -10,18 +10,18 @@ export interface ListProps {
 }
 function List({
   contents,
-  options,
+  options: { content },
   locale,
 }: {
   contents: Array<any>;
   options: any;
   locale: string;
 }) {
-  console.log(contents[0]);
+
   return (
     <section className="flex flex-col gap-4  h-full">
       <h2 className="text-2xl font-bold text-[#690000]">
-        {options?.title[locale]}
+        {content[locale]?.title}
       </h2>
       <ul className="h-auto">
         {contents.map(({ content }, idx) => (
