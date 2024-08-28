@@ -17,6 +17,13 @@ import { EditOptionsProps } from "./model/types";
 import { useForm } from "react-hook-form";
 import { viewInputByType } from "./ui";
 import { WidgetOptionList } from "..";
+import { useMutation } from "@tanstack/react-query";
+import { fetchCreateNavigationItem } from "@/features/Modals/NavigationCreateModal/api";
+import { locales } from "@/i18n";
+import { useParams } from "next/navigation";
+import { fetchWidgetRemoveById } from "../NavigationPageContent/api";
+import { queryClient } from "@/shared/lib/client";
+import { backendUrl } from "@/shared/lib/constants";
 
 export const EditWidget = ({ widgetId }: Types.EditWidgetProps) => {
   const { register, control, handleSubmit, widgetOptions, widget_type } =
@@ -35,14 +42,12 @@ export const EditWidget = ({ widgetId }: Types.EditWidgetProps) => {
       />
       <EditorItems
         contents={contents}
-        createButton={
-          <ContentManageModal
-            handleCreateContent={handleCreateContent}
-            handleUpdateContent={handleUpdateContent}
-            variant="create"
-            widgetOptionsList={WidgetOptionList}
-            widget_type={widget_type}
-          />
+        CreateButton={<ContentManageModal
+          handleCreateContent={handleCreateContent}
+          handleUpdateContent={handleUpdateContent}
+          variant="create"
+          widgetOptionsList={WidgetOptionList}
+          widget_type={widget_type} />
         }
         EditButton={(contents: Content, id: number) => {
           return (
@@ -116,7 +121,7 @@ const ContentManageModal = ({
           {variant === "create" ? "Создать контент" : "Редактировать"}{" "}
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-[90%] ">
+      <DialogContent className="max-w-[90%] max-h-[95%] overflow-y-auto ">
         <DialogHeader>
           <DialogTitle>
             {variant === "create" ? "Создать" : "Редактировать"} контент
@@ -129,6 +134,12 @@ const ContentManageModal = ({
                 {viewInputByType(option.type, option, register, control)}
               </Fragment>
             ))}
+          {
+            variant === "update" && (
+              <TemplateSection content_id={id as number} />
+            )
+          }
+
           <Button className="w-full" type="submit">
             {variant === "create" ? "Создать" : "Изменить"}
           </Button>
@@ -149,3 +160,99 @@ const ContentManageModal = ({
     </Dialog>
   );
 };
+
+
+// TODO
+// 1. При true в чекед создать новую навигацию(detail) && false удалить навигацию(detail) по его id
+// 2. В поле options текущего контента добавить флаг templtate: true
+// 3. в поле content текущего контента добавить поле link: slug (от созданной навигации(detail))
+// 4. Возможность выбора шаблона для получения списка подготовленных виджетов
+// 5. При наполении виджета данными из шаблона, отправлять эти виджеты в список виджетов текущей навигации(detail)
+
+const TemplateSection = ({ content_id }: { content_id: number }) => {
+
+  console.log(content_id)
+
+  const [isTemplate, setIsTemplate] = useState(false)
+  // const [createdNavigationId, setCreatedNavigationId] = useState<number | null>(null)
+  const navigation_id = useParams().id as string
+
+
+
+  const { mutate: fetchUpdateContent } = useMutation({
+    mutationKey: ['contents', content_id],
+    mutationFn: async (data: any) => {
+      await fetch(`${backendUrl}/contents/${content_id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+    }
+  })
+
+  const { mutate: fetchCreateNavigation } = useMutation({
+    mutationKey: ['navigations'],
+    mutationFn: fetchCreateNavigationItem,
+    onSuccess: (data) => {
+      fetchUpdateContent({
+        content: {
+          link: data.slug,
+        },
+        options: {
+          template: isTemplate
+        }
+      })
+    }
+  })
+  const handleCreateNavigation = async () => {
+    const sendData = {
+      title: {
+        ru: ' ',
+        kz: ' ',
+        en: ' ',
+      },
+      navigation_type: 'detail',
+      parent_id: +navigation_id,
+      slug: String(new Date().getTime()),
+    }
+
+    fetchCreateNavigation(sendData)
+  }
+
+  const { mutate: handleDeleteById, error, isPending } = useMutation({
+    mutationKey: [`navigations`],
+    mutationFn: async ({ id }: { id: number }) => {
+      await fetch(`http://localhost:3003/api/navigations/${id}`, {
+        method: 'DELETE',
+      })
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["navigations"]
+      });
+    },
+  });
+
+  useEffect(() => {
+    if (isTemplate) {
+      handleCreateNavigation()
+    }
+    // else {
+    //   handleDeleteById({ id: 50 })
+    // }
+  }, [isTemplate])
+
+
+  return (
+    <section>
+      <label >Есть шаблон?</label>
+      <input
+        type="checkbox"
+        checked={isTemplate}
+        onChange={(e) => setIsTemplate(e.target.checked)}
+      />
+    </section>
+  )
+}

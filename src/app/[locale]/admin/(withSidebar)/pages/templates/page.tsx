@@ -1,10 +1,12 @@
 import { withNoSSR } from "@/features";
+import { TemplateCreateModal } from "@/features/Modals/TemplateCreateModal/TemplateCreateModal";
+import { TemplateList } from "@/widgets";
 
 function TemplatesPage() {
   return (
     <section>
-      {/* <CreateTemplateDialog />
-      <TemplatesListTable /> */}
+      <TemplateCreateModal />
+      <TemplateList />
     </section>
   );
 }

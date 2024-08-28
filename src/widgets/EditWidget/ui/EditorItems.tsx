@@ -5,13 +5,13 @@ import { Button } from "@/shared/ui";
 
 interface EditorItemProps {
   contents: Content[] | undefined;
-  createButton: any;
+  CreateButton: any;
   EditButton: any;
 }
 
 export const EditorItems = ({
   contents,
-  createButton,
+  CreateButton,
   EditButton,
 
 }: EditorItemProps) => {
@@ -20,7 +20,7 @@ export const EditorItems = ({
   return (
     <section className="mt-7">
       <h1 className="block font-bold text-center mb-4">Настройки контент</h1>
-      {createButton}
+      {CreateButton}
       <ul className="mt-4 flex flex-col gap-3">
         {
           contents?.map((content, idx) => (

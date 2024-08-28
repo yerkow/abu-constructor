@@ -20,18 +20,24 @@ import {
 } from "@/shared/ui";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { INavigation } from "@/widgets/NavigationList/model";
-import { PageType } from "@/shared/lib";
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "@/shared/lib/client";
 import { useTranslations } from "next-intl";
 import { fetchCreateNavigationItem } from "./api";
+
+enum PageType {
+  content = "content",
+  group = "group",
+  groupLink = "group-link",
+  detail = "detail"
+}
 
 export const NavigationCreateModal = ({
   parent_id = null,
 }: {
   parent_id?: number | null;
 }) => {
-  const [pageType, setPageType] = useState<PageType>("content");
+  const [pageType, setPageType] = useState<PageType>(PageType.content);
   const t = useTranslations("pages");
   const closeRef = useRef<HTMLButtonElement>(null);
 
@@ -49,7 +55,7 @@ export const NavigationCreateModal = ({
   });
 
   const { mutate, error, isPending } = useMutation({
-    mutationKey: ["navigation"],
+    mutationKey: ["navigations"],
     mutationFn: fetchCreateNavigationItem,
     onSuccess: () => {
       reset();

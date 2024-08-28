@@ -19,6 +19,7 @@ import { CarouselEditOptions } from "./Carousel/config";
 
 export { EditWidget } from "./EditWidget/EditWidget";
 export { NavigationList } from "./NavigationList/NavigationList";
+export {TemplateList} from './TemplateList/TemplateList'
 export { AdminSidebar } from "./AdminSidebar/AdminSidebar";
 export { BreadCrumbs } from "./BreadCrumbs";
 export { BurgerMenu } from "./BurgerMenu/BurgetMenu";

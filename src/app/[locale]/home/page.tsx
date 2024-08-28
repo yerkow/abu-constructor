@@ -106,7 +106,7 @@ export default function Page() {
                     <h2 className='font-bold text-[32px]'>ФАКТЫ О НАС</h2>
                     <section className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 mt-3'>
                         {
-                            fact_list.map((item, index) => (
+                            fact_list.map((item: any, index: number) => (
                                 <article key={index} className='last:bg-[#640000] last:text-white grow basis-[calc(25%-gap)] shadow-[0px_4px_23.3px_rgba(0,0,0,0.18)] p-3 rounded-[10px] relative'>
                                     <h3 className='last:text-white text-inherit  decoration-solid underline font-semibold' style={{ fontSize: "clamp(28px, 1.6vw, 42px)" }}>{item.count}</h3>
                                     <p className='text-inherit' style={{ fontSize: "clamp(12px, 2vw, 16px)" }}>{item.title}</p>

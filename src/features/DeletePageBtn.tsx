@@ -1,6 +1,5 @@
 "use client";
 import { queryClient } from "@/shared/lib/client";
-import { deletePage } from "@/shared/api/pages";
 import {
   Button,
   DialogTrigger,
