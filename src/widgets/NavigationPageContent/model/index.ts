@@ -25,7 +25,7 @@ export interface IWidgetUpdateOrderOptions {
 
 export interface IWidgetCreateOptions {
     widget_type: string,
-    options: {
+    options?: {
         [key: string]: any
     },
     navigation_id: number

@@ -1,7 +1,7 @@
 import { cn } from "@/shared/lib/utils";
 import { Card } from "./Card";
 
-function Cards({
+const Cards = ({
   contents,
   options: { content, variant },
   locale,
@@ -9,7 +9,8 @@ function Cards({
   contents: Array<any>;
   options: any;
   locale: string;
-}) {
+}) => {
+
   return (
     <section className="flex flex-col gap-3">
       <h2 className="text-2xl font-bold">

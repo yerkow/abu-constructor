@@ -44,6 +44,19 @@ export const NavigationPageContent = ({ params: { id } }: { params: { id: string
         },
     })
 
+    const { mutate: handleWidgetCreate, isPending } = useMutation<any, Error, IWidgetCreateOptions>({
+        mutationFn: (data: IWidgetCreateOptions) => fetchWidgetCreate(data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["widgets"],
+            });
+        },
+    })
+
+    const handleCreate: SubmitHandler<{ navigation_id: number, displayName: string }> = ({ navigation_id, displayName }) => {
+        handleWidgetCreate({ navigation_id, widget_type: displayName, options: { created: true } });
+    };
+
 
     return (
         <section className='flex gap-5' >
@@ -94,88 +107,12 @@ export const NavigationPageContent = ({ params: { id } }: { params: { id: string
             </section>
             <section className="flex flex-col ">
                 <h3>{t("leftTitle")}</h3>
-                {widgetsList.map(({ displayName }, idx) => (
-                    <CreateWidgetByNavigationModal key={idx} displayName={displayName} navigation_id={+id} />
+                {widgetsList.map(({ displayName }) => (
+                    <Button onClick={() => handleCreate({ navigation_id: +id, displayName })} size={"sm"} className="mb-3 text-black cursor-pointer px-10 py-3 rounded-sm text-center bg-slate-200">
+                        {displayName}
+                    </Button>
                 ))}
             </section>
         </section >
-    )
-}
-
-
-const CreateWidgetByNavigationModal = ({ displayName, navigation_id }: { displayName: string, navigation_id: number }) => {
-    const closeRef = useRef<HTMLButtonElement>(null);
-
-    const {
-        register,
-        handleSubmit,
-    } = useForm<WidgetCreateFormProps>({
-        mode: "onBlur",
-        defaultValues: {
-            title: {
-                ru: "",
-                kz: "",
-                en: ""
-            }
-        },
-    });
-
-    const { mutate: handleWidgetCreate, isPending } = useMutation<any, Error, IWidgetCreateOptions>({
-        mutationFn: (data: IWidgetCreateOptions) => fetchWidgetCreate(data),
-        onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: ["widgets"],
-            });
-            closeRef.current?.click();
-        },
-    })
-
-    const handleCreate: SubmitHandler<WidgetCreateFormProps> = (data) => {
-        handleWidgetCreate({ options: data, navigation_id, widget_type: displayName });
-    };
-
-    return (
-        <Dialog>
-            <DialogTrigger asChild className='cursor-pointer px-10 py-3 rounded-sm text-center bg-slate-200'>
-                <Button size={"sm"} className={"mb-3 text-black"}>
-                    {displayName}
-                </Button>
-            </DialogTrigger>
-            <DialogContent>
-                <DialogHeader>
-                    <DialogTitle>Создать виджет - {displayName}</DialogTitle>
-                    <DialogDescription>Заполните все поля</DialogDescription>
-                </DialogHeader>
-                <form onSubmit={handleSubmit(handleCreate)}>
-                    <Input
-                        label="Заголовок на русском"
-                        {...register("title.ru", { required: true })}
-                    />
-                    <Input
-                        label="Заголовок на казахском"
-                        {...register("title.kz", { required: true })}
-                    />
-                    <Input
-                        label="Заголовок на английском"
-                        {...register("title.en", { required: true })}
-                    />
-                    <Button type="submit" className='w-full' loading={isPending} disabled={isPending}>
-                        Создать
-                    </Button>
-                </form>
-                <DialogFooter className=" gap-2 sm:justify-start">
-                    <DialogClose asChild>
-                        <Button
-                            className="w-full"
-                            ref={closeRef}
-                            type="button"
-                            variant="secondary"
-                        >
-                            Отмена
-                        </Button>
-                    </DialogClose>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
     )
 }

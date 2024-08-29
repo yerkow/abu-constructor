@@ -1,10 +1,5 @@
 import { InfoItem } from "@/widgets/Info/InfoItem";
 
-interface InfoProps {
-  title: string;
-  content: string;
-  items: InfoItemProps[];
-}
 export interface InfoItemProps {
   image: string;
   imagePosition: string;

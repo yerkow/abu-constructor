@@ -4,9 +4,6 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from "@/shared/ui";
-interface AccordionProps {
-  items: AccordionItem[];
-}
 interface AccordionItem {
   question: string;
   answer: string;

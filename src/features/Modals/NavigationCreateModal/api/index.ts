@@ -12,6 +12,5 @@ export async function fetchCreateNavigationItem(
     body: JSON.stringify(data),
   });
   const res = response.json();
-  console.log(res)
   return res;
 }

@@ -1,6 +1,7 @@
 import { FileArchive } from "lucide-react";
 import { ListItem } from "./ListItem";
 import { backendImageUrl } from "@/shared/lib/constants";
+import Link from "next/link";
 interface ListItem {
   file: string;
   content: string;
@@ -17,7 +18,6 @@ function List({
   options: any;
   locale: string;
 }) {
-
   return (
     <section className="flex flex-col gap-4  h-full">
       <h2 className="text-2xl font-bold text-[#690000]">
@@ -30,7 +30,10 @@ function List({
             icon={<FileArchive />}
             href={`${backendImageUrl}${content.image}`}
           >
-            {content[locale].title}
+            <div>
+              {content[locale].title}
+            </div>
+
           </ListItem>
         ))}
       </ul>
