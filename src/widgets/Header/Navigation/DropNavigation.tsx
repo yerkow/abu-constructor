@@ -19,7 +19,7 @@ export const DropNavigation = ({
 }: DropNavigationProps) => {
   const path = usePathname();
 
-  console.log(item);
+  //   console.log(item);
 
   return (
     <section

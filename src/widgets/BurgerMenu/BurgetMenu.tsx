@@ -1,10 +1,5 @@
 "use client";
-import {
-  Drawer,
-  DrawerTrigger,
-  DrawerContent,
-  Button,
-} from "@/shared/ui";
+import { Drawer, DrawerTrigger, DrawerContent, Button } from "@/shared/ui";
 
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
@@ -19,16 +14,14 @@ import { backendUrl } from "@/shared/lib/constants";
 export const BurgerMenu = () => {
   const params = useParams();
 
-  const {
-    data: pages,
-  } = useQuery<INavigation[]>({
+  const { data: pages } = useQuery<INavigation[]>({
     queryKey: ["navigations"],
     queryFn: async () => {
       const response = await fetch(`${backendUrl}/navigations`);
       return response.json();
     },
     refetchOnWindowFocus: false,
-  })
+  });
   const [open, setOpen] = useState(false);
 
   return (
@@ -63,21 +56,24 @@ export const BurgerMenu = () => {
 const MenuLink = ({
   page,
   locale,
+  parentRoute,
 }: {
   page: INavigation;
   locale: string;
+  parentRoute?: string | null;
 }) => {
-
-
-
   const path = usePathname();
   const t = useTranslations();
   const [open, setOpen] = useState(false);
-  if (page.children.length == 0) {
+  const [route] = useState(
+    () => `${parentRoute ? `${parentRoute}/` : ""}${page.slug}`
+  );
+
+  if (page?.children?.length === 0 || page?.navigation_type === "content") {
     return (
       <Link
-        className={clsx(path == `/${locale}${page.slug}` && "font-bold")}
-        href={`/${locale}${page.slug}`}
+        className={clsx(path == `/${locale}/${route}` && "font-bold")}
+        href={`/${locale}/${route}`}
       >
         {page.title[locale]}
       </Link>
@@ -99,9 +95,15 @@ const MenuLink = ({
               <ArrowLeft />
               <span className="text-lg">{t("burger.back")}</span>
             </Button>
-            {page.children.map((p) => (
-              <MenuLink key={p.id} page={p} locale={locale} />
-            ))}
+            {page.children &&
+              page.children.map((p) => (
+                <MenuLink
+                  key={p.id}
+                  page={p}
+                  locale={locale}
+                  parentRoute={route}
+                />
+              ))}
           </div>
         </DrawerContent>
       </Drawer>
