@@ -11,7 +11,11 @@ import { useState } from "react";
 import { INavigation } from "../NavigationList/model";
 import { backendUrl } from "@/shared/lib/constants";
 
-export const BurgerMenu = () => {
+export const BurgerMenu = ({
+  topHeaderMenuList,
+}: {
+  topHeaderMenuList: { title: string; link: string }[];
+}) => {
   const params = useParams();
 
   const { data: pages } = useQuery<INavigation[]>({
@@ -29,7 +33,7 @@ export const BurgerMenu = () => {
       <Button
         size={"icon"}
         variant={"ghost"}
-        className="flex text-white hover:text-bg-[#640000] justify-center items-center md:hidden "
+        className="flex text-white hover:text-bg-[#640000] justify-center items-center [@media(min-width:890px)]:hidden "
         onClick={() => setOpen(true)}
       >
         <Menu size={32} />
@@ -46,6 +50,18 @@ export const BurgerMenu = () => {
           </Button>
           {pages?.map((p) => (
             <MenuLink key={p.id} page={p} locale={params.locale as string} />
+          ))}
+        </div>
+        <div className="w-full h-[2px] bg-white my-6"></div>
+        <div className="flex flex-col gap-2">
+          {topHeaderMenuList.map((item, index) => (
+            <Link
+              href={item.link}
+              key={index}
+              className="text-white text-[20px]"
+            >
+              {item.title}
+            </Link>
           ))}
         </div>
       </DrawerContent>
