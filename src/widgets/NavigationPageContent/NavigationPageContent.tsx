@@ -123,8 +123,9 @@ export const NavigationPageContent = ({
       </section>
       <section className="flex flex-col ">
         <h3>{t("leftTitle")}</h3>
-        {widgetsList.map(({ displayName }) => (
+        {widgetsList.map(({ displayName }, idx) => (
           <Button
+            key={displayName + idx}
             onClick={() => handleCreate({ navigation_id: +id, displayName })}
             size={"sm"}
             className="mb-3 text-black cursor-pointer px-10 py-3 rounded-sm text-center bg-slate-200"

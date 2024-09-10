@@ -1,5 +1,3 @@
-export { WidgetItems } from './WidgetItems'
-export { WidgetTemplateCheckbox } from './WidgetTemplateCheckbox'
-export { WidgetVariantSelect } from './WidgetVariantSelect'
-export { EditSection } from './EditSection'
-export { EditFile } from './EditFile'
+export { WidgetItems } from "./WidgetItems";
+export { EditSection } from "./EditSection";
+export { EditFile } from "./EditFile";

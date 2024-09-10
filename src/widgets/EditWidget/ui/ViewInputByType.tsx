@@ -16,7 +16,7 @@ export const viewInputByType = (
   options: any,
   register: UseFormRegister<any>,
   control: any,
-  setIsUploading: (uploading: boolean) => void
+  setIsUploading?: (uploading: boolean) => void
 ) => {
   switch (type) {
     case "text":
@@ -97,7 +97,11 @@ export const viewInputByType = (
               id={field.name}
               file={field.value}
               onChange={(val) => {
-                setIsUploading(true); // Устанавливаем состояние загрузки
+                if (!setIsUploading) {
+                  field.onChange(val);
+                  return;
+                }
+                setIsUploading(true);
                 field.onChange(val);
                 setIsUploading(false);
               }}

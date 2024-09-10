@@ -1,1 +1,0 @@
-export { WidgetTemplateCheckbox } from './ui/WidgetTemplateCheckbox'

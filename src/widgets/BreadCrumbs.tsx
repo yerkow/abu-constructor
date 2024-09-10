@@ -1,17 +1,14 @@
-import { NavPage } from "@/shared/lib/types";
 import {
   Breadcrumb,
   BreadcrumbList,
   BreadcrumbItem,
   BreadcrumbLink,
-
 } from "@/shared/ui";
 import { ChevronRight } from "lucide-react";
-function getBreadCrumbs(slug: string[], pages: NavPage[]) {
-
+function getBreadCrumbs(slug: string[], pages: any[]) {
   const res: { title: string; slug: string; type: string }[] = [];
   const slugLength = slug.length;
-  const search = (pages: NavPage[], start: number) => {
+  const search = (pages: any[], start: number) => {
     pages.map((page) => {
       for (let i = start; i < slugLength; i++) {
         if (page.slug.endsWith(slug[i])) {
@@ -37,10 +34,9 @@ export const BreadCrumbs = ({
 }: {
   slug: string[];
   locale: string;
-  pages: NavPage[];
+  pages: any[];
 }) => {
   const crumbs = getBreadCrumbs(slug, pages);
-
 
   if (slug[0] === "main") return null;
 
