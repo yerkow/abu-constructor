@@ -12,6 +12,7 @@ const quillModules = {
       { indent: "-1" },
       { indent: "+1" },
     ],
+    [{ align: [] }],
     ["link", "image", "video"],
     ["clean"],
   ],

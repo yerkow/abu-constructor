@@ -3,12 +3,15 @@ import Image from "next/image";
 import React from "react";
 
 function Tabs({ contents, locale }: { contents: any; locale: string }) {
-  console.log(contents[0].content.icon)
+  console.log(contents[0].content.icon);
 
   return (
     <ul className="flex flex-wrap gap-5">
       {contents?.map((tab: any, idx: number) => (
-        <li className="flex-grow flex min-w-[260px] gap-4 p-6 bg-[#640000] text-white rounded-md cursor-pointer justify-between align-center">
+        <li
+          key={idx}
+          className="flex-grow flex min-w-[260px] gap-4 p-6 bg-[#640000] text-white rounded-md cursor-pointer justify-between items-center"
+        >
           <h2>{tab.content[locale].title}</h2>
           <Image
             src={backendImageUrl + tab?.content?.icon}

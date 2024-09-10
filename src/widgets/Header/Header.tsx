@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const topHeaderMenuList = [
   { title: "Обучающимся", link: "home" },
-  { title: "Международный отдел", link: "home" },
+  { title: "Международное сотрудничество", link: "home" },
   { title: "Выпусникам", link: "home" },
   { title: "AIS", link: "https://ais.semuniver.kz/login.php" },
   { title: "Abai IT", link: "https://abai-it.kz/" },

@@ -15,7 +15,8 @@ export const viewInputByType = (
   type: string,
   options: any,
   register: UseFormRegister<any>,
-  control: any
+  control: any,
+  setIsUploading: (uploading: boolean) => void
 ) => {
   switch (type) {
     case "text":
@@ -92,10 +93,14 @@ export const viewInputByType = (
           render={({ field }) => (
             <FileUploader
               label={options.label ?? ""}
-              field={"image"} // Или "file", в зависимости от типа
+              field={"image"}
               id={field.name}
-              file={field.value} // Передаём текущее значение из формы
-              onChange={(val) => field.onChange(val)} // Обновляем значение через `Controller`
+              file={field.value}
+              onChange={(val) => {
+                setIsUploading(true); // Устанавливаем состояние загрузки
+                field.onChange(val);
+                setIsUploading(false);
+              }}
             />
           )}
         />

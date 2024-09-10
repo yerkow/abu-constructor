@@ -1,19 +1,23 @@
-interface LinksProps {
-  title: string;
-  items: { name: string; link: string }[];
-}
-function Links({ title, items }: LinksProps) {
+function Links({
+  contents,
+  options: { content },
+  locale,
+}: {
+  contents: Array<any>;
+  options: any;
+  locale: string;
+}) {
   return (
     <section className="flex flex-col gap-3">
-      <h2 className="text-xl text-cyan-500 font-bold">{title}</h2>
+      {content?.[locale]?.title.toLocaleUpperCase()}
       <ul className="transition-colors duration-150 flex flex-col gap-3 ">
-        {items.map((li, idx) => (
+        {contents.map(({ content }, idx) => (
           <li
             key={idx}
-            className="hover:text-cyan-500 text-xl underline hover:underline-offset-2 hover:decoration-cyan-500 "
+            className="hover:text-[#640000] text-xl underline hover:underline-offset-2  "
           >
-            <a href={li.link} target="_blank">
-              {li.name}
+            <a href={content[locale].link} target="_blank">
+              {content[locale].title}
             </a>
           </li>
         ))}

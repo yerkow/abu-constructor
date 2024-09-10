@@ -20,7 +20,7 @@ export interface EditorMainProps {
 
 export interface IContentCreationParams {
   content: Pick<Content, "content">;
-  options: any,
+  options: any;
   widgetId: number;
 }
 

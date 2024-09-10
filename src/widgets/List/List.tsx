@@ -21,7 +21,7 @@ function List({
   return (
     <section className="flex flex-col gap-4  h-full">
       <h2 className="text-2xl font-bold text-[#690000]">
-        {content[locale]?.title}
+        {content?.[locale]?.title.toLocaleUpperCase()}
       </h2>
       <ul className="h-auto">
         {contents.map(({ content }, idx) => (
@@ -30,10 +30,7 @@ function List({
             icon={<FileArchive />}
             href={`${backendImageUrl}${content.image}`}
           >
-            <div>
-              {content[locale].title}
-            </div>
-
+            <div>{content[locale].title}</div>
           </ListItem>
         ))}
       </ul>

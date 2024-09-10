@@ -3,14 +3,13 @@ import { Card } from "./Card";
 
 const Cards = ({
   contents,
-  options: { content, variant },
+  options: { content, variant, size, ...props },
   locale,
 }: {
   contents: Array<any>;
   options: any;
   locale: string;
 }) => {
-
   return (
     <section className="flex flex-col gap-3">
       <h2 className="text-2xl font-bold">
@@ -18,8 +17,8 @@ const Cards = ({
       </h2>
       <div
         className={cn(
-          variant == "base"
-            ? "flex gap-10 flex-wrap"
+          variant == "base" || variant == "with_modal"
+            ? "flex gap-8 flex-wrap"
             : "flex flex-col gap-2",
           "mt-2"
         )}
@@ -30,12 +29,13 @@ const Cards = ({
             variant={variant}
             content={content}
             locale={locale}
+            size={size}
           />
         ))}
       </div>
     </section>
   );
-}
+};
 
 Cards.displayName = "Cards";
 export default Cards;

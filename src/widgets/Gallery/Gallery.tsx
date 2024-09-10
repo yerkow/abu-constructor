@@ -1,4 +1,3 @@
-"use client";
 import { backendImageUrl } from "@/shared/lib/constants";
 import {
   Dialog,
@@ -10,7 +9,6 @@ import {
 } from "@/shared/ui";
 import clsx from "clsx";
 import Image from "next/image";
-import { useState } from "react";
 
 export interface GalleryProps {
   items: GalleryItem[];
@@ -19,29 +17,32 @@ interface GalleryItem {
   image: string;
 }
 
-function GalleryClient({ items }: GalleryProps) {
-  const [selected, setSelected] = useState(0);
+function Gallery({
+  contents,
+  options: { content, variant, ...props },
+  locale,
+}: {
+  contents: Array<any>;
+  options: any;
+  locale: string;
+}) {
+  const { title } = content[locale];
   return (
-    <div className="grid gap-4 justify-center w-full">
-      <div className="grid flex-nowrap   grid-cols-gallery lg:grid-cols-4 gap-4 overflow-x-auto">
-        {items.map((item, idx) => (
+    <section>
+      <h2 className="text-2xl font-bold">{title.toLocaleUpperCase()}</h2>
+      <section className="flex flex-wrap gap-3 w-full mt-5">
+        {contents.map(({ content }, idx) => (
           <Dialog key={idx}>
-            <DialogTrigger>
-              <div
-                onClick={() => setSelected(idx)}
-                className={clsx(
-                  "relative cursor-pointer w-[180px] h-[180px]  md:h-[200px] md:w-[200px] rounded-md bg-slate-50",
-                )}
-              >
-                <Image
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="w-full   h-full object-cover rounded-md"
-                  fill
-                  src={`${backendImageUrl}/${item.image}`}
-                  alt=""
-                />
-              </div>
-            </DialogTrigger>
+            <DialogTrigger
+              className={clsx(
+                "cursor-pointer flex-1   min-w-[300px] w-[100%] [@media(max-width:390px)]:h-[300px] h-[350px] rounded-md bg-slate-50"
+              )}
+              style={{
+                backgroundImage: `url('${backendImageUrl}${content.image}')`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            ></DialogTrigger>
             <DialogContent className=" rounded-md min-w-[calc(100vw-100px)] h-auto  ">
               <DialogHeader>
                 <DialogTitle className="opacity-0">Gallery modal</DialogTitle>
@@ -51,16 +52,15 @@ function GalleryClient({ items }: GalleryProps) {
               </DialogHeader>
               <div className="flex items-center justify-center">
                 <div
-                  onClick={() => setSelected(idx)}
                   className={clsx(
-                    "relative w-[290px] h-[290px] sm:w-[320px] sm:h-[320px] md:w-[420px] md:h-[420px]  lg:w-[520px] lg:h-[520px]",
+                    "relative w-[290px] h-[290px] sm:w-[320px] sm:h-[320px] md:w-[420px] md:h-[420px]  lg:w-[520px] lg:h-[520px]"
                   )}
                 >
                   <Image
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="w-full h-full object-cover rounded-md"
                     fill
-                    src={`${backendImageUrl}/${item.image}`}
+                    src={`${backendImageUrl}/${content.image}`}
                     alt=""
                   />
                 </div>
@@ -68,8 +68,9 @@ function GalleryClient({ items }: GalleryProps) {
             </DialogContent>
           </Dialog>
         ))}
-      </div>
-    </div>
+      </section>
+    </section>
   );
 }
-export { GalleryClient };
+Gallery.displayName = "Gallery";
+export default Gallery;

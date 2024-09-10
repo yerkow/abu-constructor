@@ -30,16 +30,18 @@ export const fetchEditWidgetMainOptions = async (
 export const fetchContentsByWidgetId = async (
   widgetId: string
 ): Promise<Content[]> => {
-  const response = await fetch(`${backendUrl}/contents/by-widget-id/${widgetId}`);
+  const response = await fetch(
+    `${backendUrl}/contents/by-widget-id/${widgetId}`
+  );
   const data = await response.json();
   return data;
 };
 
 export const fetchCreateContent = async ({
   widgetId,
-  content
+  content,
+  options,
 }: IContentCreationParams): Promise<Content> => {
-
   console.log(content);
   const response = await fetch(`${backendUrl}/contents`, {
     method: "POST",
@@ -48,7 +50,7 @@ export const fetchCreateContent = async ({
     },
     body: JSON.stringify({
       content,
-      options: {},
+      options,
       widget_id: widgetId,
     }),
   });
@@ -59,7 +61,10 @@ export const fetchCreateContent = async ({
 export const fetchUpdateContent = async ({
   content,
   id,
-}: { content: any, id: number }): Promise<Content> => {
+}: {
+  content: any;
+  id: number;
+}): Promise<Content> => {
   const sendData = {
     content,
   };

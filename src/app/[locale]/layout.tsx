@@ -5,6 +5,7 @@ import { Montserrat } from "next/font/google";
 import "../globals.css";
 import { QueryProvider } from "@/shared/providers";
 import { Toaster } from "@/shared/ui";
+import "react-quill/dist/quill.snow.css";
 
 const inter = Montserrat({ subsets: ["latin"] });
 

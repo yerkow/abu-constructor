@@ -5,21 +5,22 @@ import { InfoEditOptions } from "./Info/config";
 import { TextEditOptions } from "./Text/config";
 import { LinkEditOptions } from "./Links/config";
 import { TabsEditOptions } from "./Tabs/config";
+import { CarouselEditOptions } from "./Carousel/config";
+import { GalleryEditOptions } from "./Gallery/config";
 
 import Accordion from "./Accordion/Accordion";
 import Cards from "./Cards/Cards";
-import Carousel from "./Carousel/CarouselServer";
-import Gallery from "./Gallery/GalleryServer";
+import Carousel from "./Carousel/Carousel";
+import Gallery from "./Gallery/Gallery";
 import Info from "./Info/Info";
 import Links from "./Links/Links";
 import List from "./List/List";
 import Text from "./Text/Text";
 import Tabs from "./Tabs/Tabs";
-import { CarouselEditOptions } from "./Carousel/config";
 
 export { EditWidget } from "./EditWidget/EditWidget";
 export { NavigationList } from "./NavigationList/NavigationList";
-export { TemplateList } from './TemplateList/TemplateList'
+export { TemplateList } from "./TemplateList/TemplateList";
 export { AdminSidebar } from "./AdminSidebar/AdminSidebar";
 export { BreadCrumbs } from "./BreadCrumbs";
 export { BurgerMenu } from "./BurgerMenu/BurgetMenu";
@@ -49,6 +50,7 @@ export const WidgetOptionList = [
   TextEditOptions,
   LinkEditOptions,
   TabsEditOptions,
+  GalleryEditOptions,
 ];
 
 export const getWidgetByName = (name: string, props: any) => {

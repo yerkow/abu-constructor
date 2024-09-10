@@ -8,8 +8,14 @@ import { ContentManageModal } from "@/features/Modals/ContentManageModal/Content
 import { TemplateSection } from "../TemplateSection/TemplateSection";
 
 export const EditWidget = ({ widgetId }: Types.EditWidgetProps) => {
-  const { register, control, handleSubmit, widgetOptions, widget_type } =
-    useEditWidget(widgetId, WidgetOptionList);
+  const {
+    register,
+    control,
+    handleSubmit,
+    widgetOptions,
+    widget_type,
+    widget_variant,
+  } = useEditWidget(widgetId, WidgetOptionList);
 
   const { contents, handleCreateContent, handleUpdateContent } =
     useEditWidgetContent(widgetId);
@@ -24,21 +30,25 @@ export const EditWidget = ({ widgetId }: Types.EditWidgetProps) => {
       />
       <EditorItems
         contents={contents}
-        CreateButton={<ContentManageModal
-          handleCreateContent={handleCreateContent}
-          handleUpdateContent={handleUpdateContent}
-          variant="create"
-          widgetOptionsList={WidgetOptionList}
-          widget_type={widget_type} />
+        CreateButton={
+          <ContentManageModal
+            handleCreateContent={handleCreateContent}
+            handleUpdateContent={handleUpdateContent}
+            action="create"
+            widget_variant={widget_variant}
+            widgetOptionsList={WidgetOptionList}
+            widget_type={widget_type}
+          />
         }
         EditButton={(contents: Content, id: number) => {
           return (
             <ContentManageModal
               handleCreateContent={handleCreateContent}
               handleUpdateContent={handleUpdateContent}
-              variant="update"
+              action="update"
               TemplateSection={TemplateSection}
               contents={contents}
+              widget_variant={widget_variant}
               id={id}
               widgetOptionsList={WidgetOptionList}
               widget_type={widget_type}
@@ -49,4 +59,3 @@ export const EditWidget = ({ widgetId }: Types.EditWidgetProps) => {
     </section>
   );
 };
-
