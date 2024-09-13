@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavigationItem } from './NavigationItem';
-import { INavigation } from '@/widgets/NavigationList/model'; 
+import { INavigation } from '@/widgets/NavigationList/model';
 
 
 interface INavListProps {
@@ -27,7 +27,7 @@ export const NavigationList = ({
     };
 
     return (
-        <ul onMouseLeave={handleMouseLeave} className="flex text-start gap-5 text-xl">
+        <ul className="flex text-start gap-5 text-xl">
             {
                 pages.map((mainPage) =>
                     <NavigationItem

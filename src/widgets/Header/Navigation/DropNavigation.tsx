@@ -25,15 +25,15 @@ export const DropNavigation = ({
     <section
       onMouseLeave={handleMouseLeave}
       className={clsx(
-        "absolute left-0  pt-3 w-full bg-[#640000] h-[350px] ",
+        "absolute left-0  pt-3 w-full bg-[#640000] h-[350px] px-10 ",
         scrolled ? "top-[94px]" : "top-[134px]"
       )}
     >
-      <ul className="flex justify-center  gap-[60px] ">
+      <ul className="flex justify-center  gap-[60px]">
         {item.children.map((child) => (
           <li key={child.id}>
             {child.navigation_type === "content" ||
-            child.navigation_type === "group-link" ? (
+              child.navigation_type === "group-link" ? (
               <Link
                 href={`/${locale}/${item.slug}/${child.slug}`}
                 className={clsx(
@@ -57,7 +57,7 @@ export const DropNavigation = ({
                       className={clsx(
                         "text-center max-w-11 text-slate-200",
                         path == `/${locale}$/${child.slug}/${subChild.slug}` &&
-                          "font-bold"
+                        "font-bold"
                       )}
                     >
                       {subChild.title[locale]}
