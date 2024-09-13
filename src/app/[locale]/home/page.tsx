@@ -152,7 +152,7 @@ export default function Page() {
         </section>
         {/* President section */}
         <section className="mt-16">
-          <h2 className="font-bold text-[32px]">ОБРАЩЕНИЯ ПРЕЗИДЕНТА</h2>
+          <h2 className="font-bold text-[32px]">ОБРАЩЕНИЕ ПРЕЗИДЕНТА</h2>
           <section className="mt-4">
             <p className="text-justify break-all sm:break-normal">
               <div className="w-[240px] h-[310px] relative float-left mr-4">
