@@ -1,6 +1,6 @@
 "use client";
 import { backendImageUrl, backendUrl } from "@/shared/lib/constants";
-import { Input } from "@/shared/ui";
+import { Button, Input } from "@/shared/ui";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -20,7 +20,6 @@ export const FileUploader = ({
   field,
 }: FileUploaderProps) => {
   const [image, setImage] = useState<string | ArrayBuffer | null>(null);
-
   useEffect(() => {
     if (file) {
       setImage(`${backendImageUrl}${file}`);
@@ -60,7 +59,7 @@ export const FileUploader = ({
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 border p-4">
       {field === "image" && image && (
         <Image width={80} height={80} src={image as string} alt="image" />
       )}
@@ -73,7 +72,10 @@ export const FileUploader = ({
           Посмотреть прикрепленный файл
         </a>
       )}
-      <Input type="file" label={label} onChange={handleFileChange} />
+      <div className="flex items-center ">
+        <Input type="file" label="" onChange={handleFileChange} />
+        <Button onClick={() => { }}>Удалить файл</Button>
+      </div>
     </div>
   );
 };
