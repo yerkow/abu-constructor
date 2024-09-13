@@ -46,6 +46,7 @@ export const ContentManageModal = ({
     },
   });
 
+
   useEffect(() => {
     if (contents) {
       reset((prevValues) => ({
@@ -85,19 +86,36 @@ export const ContentManageModal = ({
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          {options?.map((option) => {
-            return (
-              <Fragment key={option.props}>
-                {viewInputByType(
-                  option.type,
-                  option,
-                  register,
-                  control,
-                  setIsUploading
-                )}
-              </Fragment>
-            );
-          })}
+          {
+            Array.isArray(options) ?
+              options?.map((option) => {
+                return (
+                  <Fragment key={option.props}>
+                    {viewInputByType(
+                      option.type,
+                      option,
+                      register,
+                      control,
+                      setIsUploading
+                    )}
+                  </Fragment>
+                );
+              })
+              :
+              options?.(widget_variant as string).map((option) => {
+                return (
+                  <Fragment key={option.props}>
+                    {viewInputByType(
+                      option.type,
+                      option,
+                      register,
+                      control,
+                      setIsUploading
+                    )}
+                  </Fragment>
+                );
+              })
+          }
 
           <Button className="w-full" type="submit" disabled={isUploading}>
             {action === "create" ? "Создать" : "Изменить"}

@@ -92,8 +92,8 @@ export const viewInputByType = (
           control={control}
           render={({ field }) => (
             <FileUploader
-              label={options.label ?? ""}
-              field={"image"}
+              label={options.placeholder ?? ""}
+              field={options.props}
               id={field.name}
               file={field.value}
               onChange={(val) => {
