@@ -31,32 +31,33 @@ export const NavigationList = () => {
 
     // Оба элемента на одном уровне и targetItem - content
     if (
-      draggedItem.parent_id === targetItem.parent_id &&
-      targetItem.navigation_type === "content"
+      draggedItem.parent_id === targetItem.parent_id
     ) {
       mutate([
         { id: draggedItem.id, order: targetItem.order },
         { id: targetItem.id, order: draggedItem.order },
       ]);
+      return;
     }
     // Дроп за пределы текущего контейнера
-    else if (e.relatedTarget && !e.currentTarget.contains(e.relatedTarget as Node)) {
+    if (e.relatedTarget && !e.currentTarget.contains(e.relatedTarget as Node)) {
       mutate([{ id: draggedItem.id, order: 1, parent_id: null }]);
+      return;
     }
     // Дроп в группу
-    else if (
+    if (
       targetItem.navigation_type === "group" &&
       draggedItem.parent_id !== targetItem.id
     ) {
       const newOrder = (targetItem.children ? targetItem.children.length : 0) + 1;
       mutate([{ id: draggedItem.id, order: newOrder, parent_id: targetItem.id }]);
+      return;
     }
+
     // Любое другое перемещение (между элементами разных родителей)
-    else {
-      mutate([
-        { id: draggedItem.id, order: targetItem.order, parent_id: targetItem.parent_id },
-      ]);
-    }
+    mutate([
+      { id: draggedItem.id, order: targetItem.order, parent_id: targetItem.parent_id },
+    ]);
   };
 
 
