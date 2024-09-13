@@ -38,7 +38,7 @@ export const Navbar = () => {
               : "md:static bg-[#640000]"
       )}
     >
-      <div className="w-[1300px] flex gap-10  justify-between items-center">
+      <div onMouseLeave={() => setHoveredItem(null)} className="w-[1300px] flex gap-10  justify-between items-center">
         <Link
           href="/"
           style={{ position: "relative", height: "80px", width: "280px" }}
