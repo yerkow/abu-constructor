@@ -8,3 +8,10 @@ export interface Content {
   };
   widget_id: number;
 }
+
+
+export interface IWidgetProps {
+  contents: Array<any>;
+  options: any;
+  locale: string;
+}

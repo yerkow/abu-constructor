@@ -12,6 +12,7 @@ export const CardEditOptions: EditOptionsProps = {
         { value: "base", label: "Стандарт" },
         { value: "horizontal", label: "Горизонтальный" },
         { value: "with_modal", label: "С модальным окном" },
+        { value: "with_file", label: "С прикреплением файла " },
       ],
     },
     {
@@ -25,9 +26,30 @@ export const CardEditOptions: EditOptionsProps = {
       ],
     },
   ],
-  contentOptions: [
-    { props: "title", type: "text", placeholder: "Заголовок" },
-    { props: "content", type: "quill", placeholder: "Контент" },
-    { props: "image", type: "file", placeholder: "Изображение" },
-  ],
+  contentOptions: (variant) => {
+    switch (variant) {
+      case "base":
+      case "horizontal":
+      case "with_modal":
+        return [
+          { props: "title", type: "text", placeholder: "Заголовок" },
+          { props: "description", type: "text", placeholder: "Описание" },
+          { props: "image", type: "file", placeholder: "Изображение" },
+        ];
+      case "with_file":
+        return [
+          { props: "title", type: "text", placeholder: "Заголовок" },
+          { props: "description", type: "text", placeholder: "Описание" },
+          { props: "image", type: "file", placeholder: "Изображение" },
+          { props: "file", type: "file", placeholder: "Файл" },
+        ];
+
+      default:
+        return [
+          { props: "title", type: "text", placeholder: "Заголовок" },
+          { props: "description", type: "text", placeholder: "Описание" },
+          { props: "image", type: "file", placeholder: "Изображение" },
+        ];
+    }
+  }
 };

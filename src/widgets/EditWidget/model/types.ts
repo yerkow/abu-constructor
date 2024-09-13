@@ -8,7 +8,7 @@ export interface EditWidgetProps {
 export interface EditOptionsProps {
   widgetName: string;
   widgetOptions: Array<any>;
-  contentOptions: Array<any>;
+  contentOptions: Array<any> | ((variant: string) => Array<any>);
 }
 
 export interface EditorMainProps {

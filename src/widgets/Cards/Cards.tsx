@@ -1,15 +1,12 @@
 import { cn } from "@/shared/lib/utils";
 import { Card } from "./Card";
+import { IWidgetProps } from "@/shared/types";
 
 const Cards = ({
   contents,
-  options: { content, variant, size, ...props },
+  options: { content, variant, size},
   locale,
-}: {
-  contents: Array<any>;
-  options: any;
-  locale: string;
-}) => {
+}: IWidgetProps) => {
   return (
     <section className="flex flex-col gap-3">
       <h2 className="text-2xl font-bold">

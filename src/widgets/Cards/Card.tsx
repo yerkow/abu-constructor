@@ -25,7 +25,7 @@ export const Card = ({
           variant={variant}
           locale={locale}
           currentPath={currentPath}
-			 size={size}
+          size={size}
         />
       );
     case "with_modal":

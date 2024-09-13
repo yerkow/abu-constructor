@@ -12,6 +12,8 @@ export const CardWithModal = ({
   locale: string;
 }) => {
   const { title, content: text } = content[locale];
+
+  console.log(content.image);
   return (
     <Dialog>
       <DialogTrigger asChild>
