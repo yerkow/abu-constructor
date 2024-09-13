@@ -32,6 +32,8 @@ export const NavigationItem = (
         onDragEnd(e, draggedItem, targetNavItem);
     };
 
+    if (item.navigation_type === 'detail') return
+
 
     return (
         <li
