@@ -1,6 +1,9 @@
+import React from "react";
+import { CarouselClient } from "./Carousel";
 
-import React from 'react'
-
-export const index = () => {
-  return 
+function Carousel(props: any) {
+  return <CarouselClient {...props} />;
 }
+
+Carousel.displayName = "Carousel";
+export default Carousel;
