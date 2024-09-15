@@ -19,13 +19,13 @@ import Text from "./Text/Text";
 import Tabs from "./Tabs/Tabs";
 
 export { EditWidget } from "./EditWidget/EditWidget";
-export { NavigationList } from "./NavigationList/NavigationList";
+export { NavigationList } from "./NavigationList";
 export { TemplateList } from "./TemplateList/TemplateList";
 export { AdminSidebar } from "./AdminSidebar/AdminSidebar";
 export { BreadCrumbs } from "./BreadCrumbs";
 export { BurgerMenu } from "./BurgerMenu/BurgetMenu";
 export { Header } from "./Header/Header";
-export { NavigationPageContent } from "./NavigationPageContent/NavigationPageContent";
+export { NavigationPageContent } from "./NavigationPageContent";
 
 export { Accordion, Cards, Carousel, Gallery, Info, Links, List, Text };
 
