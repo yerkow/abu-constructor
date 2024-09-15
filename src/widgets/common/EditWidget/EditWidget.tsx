@@ -3,7 +3,7 @@ import React from "react";
 import { Types, useEditWidget, useEditWidgetContent } from "./model";
 import { EditorMain, EditorItems } from "./ui";
 import { Content } from "@/shared/types";
-import { WidgetOptionList } from "..";
+import { WidgetOptionList } from "../..";
 import { ContentManageModal } from "@/features/Modals/ContentManageModal/ContentManageModal";
 import { TemplateSection } from "../TemplateSection/TemplateSection";
 

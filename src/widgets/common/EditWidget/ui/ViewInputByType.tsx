@@ -1,7 +1,7 @@
 import { locales } from "@/i18n";
 import { Controller, UseFormRegister } from "react-hook-form";
 import QuillEditor from "@/shared/ui/quill-editor";
-import { FileUploader } from "@/widgets/FileUploader";
+import { FileUploader } from "@/widgets/common/FileUploader";
 import {
   Input,
   Select,

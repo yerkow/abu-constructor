@@ -74,7 +74,7 @@ export const FileUploader = ({
       )}
       <div className="flex items-center ">
         <Input type="file" label="" onChange={handleFileChange} />
-        <Button onClick={() => { }}>Удалить файл</Button>
+        <Button onClick={() => {}}>Удалить файл</Button>
       </div>
     </div>
   );

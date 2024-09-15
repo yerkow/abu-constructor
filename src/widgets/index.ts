@@ -1,31 +1,30 @@
-import { AccordionEditOptions } from "./Accordion";
-import { CardEditOptions } from "./Cards/config";
-import { ListEditOptions } from "./List/config";
-import { InfoEditOptions } from "./Info/config";
-import { TextEditOptions } from "./Text/config";
-import { LinkEditOptions } from "./Links/config";
-import { TabsEditOptions } from "./Tabs/config";
-import { CarouselEditOptions } from "./Carousel/config";
-import { GalleryEditOptions } from "./Gallery/config";
+import { AccordionEditOptions } from "./constructor/Accordion/config";
+import { CardEditOptions } from "./constructor/Cards/config";
+import { ListEditOptions } from "./constructor/List/config";
+import { InfoEditOptions } from "./constructor/Info/config";
+import { TextEditOptions } from "./constructor/Text/config";
+import { LinkEditOptions } from "./constructor/Links/config";
+import { TabsEditOptions } from "./constructor/Tabs/config";
+import { CarouselEditOptions } from "./constructor/Carousel/config";
+import { GalleryEditOptions } from "./constructor/Gallery/config";
 
-import Accordion from "./Accordion/Accordion";
-import Cards from "./Cards/Cards";
-import Carousel from "./Carousel/Carousel";
-import Gallery from "./Gallery/Gallery";
-import Info from "./Info/Info";
-import Links from "./Links/Links";
-import List from "./List/List";
-import Text from "./Text/Text";
-import Tabs from "./Tabs/Tabs";
+import Accordion from "./constructor/Accordion/Accordion";
+import Cards from "./constructor/Cards/Cards";
+import Carousel from "./constructor/Carousel/Carousel";
+import Gallery from "./constructor/Gallery/Gallery";
+import Info from "./constructor/Info/Info";
+import Links from "./constructor/Links/Links";
+import List from "./constructor/List/List";
+import Text from "./constructor/Text/Text";
+import Tabs from "./constructor/Tabs/Tabs";
 
-export { EditWidget } from "./EditWidget/EditWidget";
-export { NavigationList } from "./NavigationList";
-export { TemplateList } from "./TemplateList/TemplateList";
-export { AdminSidebar } from "./AdminSidebar/AdminSidebar";
-export { BreadCrumbs } from "./BreadCrumbs";
-export { BurgerMenu } from "./BurgerMenu/BurgetMenu";
-export { Header } from "./Header/Header";
-export { NavigationPageContent } from "./NavigationPageContent";
+export { EditWidget } from "./common/EditWidget/EditWidget";
+export { NavigationList } from "./common/NavigationList";
+export { AdminSidebar } from "./common/AdminSidebar/AdminSidebar";
+export { BreadCrumbs } from "./common/BreadCrumbs";
+export { BurgerMenu } from "./common/BurgerMenu/BurgetMenu";
+export { Header } from "./common/Header/Header";
+export { NavigationPageContent } from "./common/NavigationPageContent";
 
 export { Accordion, Cards, Carousel, Gallery, Info, Links, List, Text };
 

@@ -9,8 +9,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/shared/ui";
-import { EditOptionsProps } from "@/widgets/EditWidget/model/types";
-import { viewInputByType } from "@/widgets/EditWidget/ui";
+import { EditOptionsProps } from "@/widgets/common/EditWidget/model/types";
+import { viewInputByType } from "@/widgets/common/EditWidget/ui";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -45,7 +45,6 @@ export const ContentManageModal = ({
       id: id,
     },
   });
-
 
   useEffect(() => {
     if (contents) {
@@ -86,9 +85,8 @@ export const ContentManageModal = ({
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          {
-            Array.isArray(options) ?
-              options?.map((option) => {
+          {Array.isArray(options)
+            ? options?.map((option) => {
                 return (
                   <Fragment key={option.props}>
                     {viewInputByType(
@@ -101,8 +99,7 @@ export const ContentManageModal = ({
                   </Fragment>
                 );
               })
-              :
-              options?.(widget_variant as string).map((option) => {
+            : options?.(widget_variant as string).map((option) => {
                 return (
                   <Fragment key={option.props}>
                     {viewInputByType(
@@ -114,8 +111,7 @@ export const ContentManageModal = ({
                     )}
                   </Fragment>
                 );
-              })
-          }
+              })}
 
           <Button className="w-full" type="submit" disabled={isUploading}>
             {action === "create" ? "Создать" : "Изменить"}

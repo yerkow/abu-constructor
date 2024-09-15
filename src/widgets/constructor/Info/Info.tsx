@@ -1,4 +1,4 @@
-import { InfoItem } from "@/widgets/Info/InfoItem";
+import { InfoItem } from "@/widgets/constructor/Info/InfoItem";
 
 export interface InfoItemProps {
   image: string;
@@ -8,10 +8,20 @@ export interface InfoItemProps {
   content: string;
   linkText: string;
 }
-function Info({ options, contents, locale }: { options: any, contents: Array<any>, locale: string }) {
+function Info({
+  options,
+  contents,
+  locale,
+}: {
+  options: any;
+  contents: Array<any>;
+  locale: string;
+}) {
   return (
     <section className="flex flex-col gap-10">
-      <h2 className="text-2xl font-bold text-[#690000]">{options.title[locale]}</h2>
+      <h2 className="text-2xl font-bold text-[#690000]">
+        {options.title[locale]}
+      </h2>
       {contents.map((item, idx) => (
         <InfoItem item={item} locale={locale} key={idx} />
       ))}

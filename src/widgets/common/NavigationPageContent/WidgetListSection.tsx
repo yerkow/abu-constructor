@@ -1,6 +1,6 @@
 import { Button } from "@/shared/ui";
 import React from "react";
-import { widgetsList } from "..";
+import { widgetsList } from "../../";
 
 interface IWidgetListSectionProps {
   id: string;
