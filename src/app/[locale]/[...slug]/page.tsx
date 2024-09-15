@@ -52,8 +52,6 @@ export default async function Page({ params }: PageProps) {
 
   return widgets?.map(({ widget_type, options, contents }) => {
     const widgetOptons = { contents, options, locale: params.locale };
-
-    //  console.log(widgetOptons);
     const widgetList = getWidgetByName(widget_type, widgetOptons);
     return widgetList;
   });
