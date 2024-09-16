@@ -19,6 +19,7 @@ export const Card = ({
   switch (variant) {
     case "base":
     case "horizontal":
+    case "with_file":
       return (
         <CardBaseAndHorizontal
           content={content}

@@ -14,7 +14,7 @@ const Cards = ({
       </h2>
       <div
         className={cn(
-          variant == "base" || variant == "with_modal"
+          variant == "base" || variant == "with_modal" || variant == "with_file"
             ? "flex gap-8 flex-wrap"
             : "flex flex-col gap-2",
           "mt-2"

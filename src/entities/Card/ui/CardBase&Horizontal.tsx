@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { backendImageUrl } from "@/shared/lib/constants";
+import { backendImageUrl, backendUrl } from "@/shared/lib/constants";
 import { cn } from "@/shared/lib/utils";
 
 export const CardBaseAndHorizontal = ({
@@ -20,21 +20,25 @@ export const CardBaseAndHorizontal = ({
 }) => {
   const { title, content: text } = content[locale];
 
-  const Component = content.link
+  const Component = content.file
     ? (Link as React.ElementType)
     : ("div" as "div");
+
+  console.log(variant)
 
   return (
     <article
       className={cn(
         {
           base: "flex-1 min-w-[300px]",
+          with_file: "flex-1 min-w-[300px]",
+          with_modal: "flex-1 min-w-[300px]",
           horizontal: "col-start-1 col-end-2",
         }[variant]
       )}
     >
       <Component
-        {...(content.link && { href: `${currentPath}/${content.link}` })}
+        {...(content.file && { href: `${backendImageUrl}/${content.file}`, target: "_blank" })}
         className={cn(
           "block after:rounded-md after:absolute rounded-2xl relative overflow-hidden shadow-md"
         )}
