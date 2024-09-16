@@ -1,4 +1,4 @@
-import { Content } from "@/shared/types";
+import { IContent } from "@/shared/types";
 import { UseFormRegister } from "react-hook-form";
 
 export interface EditWidgetProps {
@@ -19,12 +19,17 @@ export interface EditorMainProps {
 }
 
 export interface IContentCreationParams {
-  content: Pick<Content, "content">;
+  content: Pick<IContent, "content">;
   options: any;
   widgetId: number;
 }
 
 export interface IContentUpdateParams {
-  data: Partial<Omit<Content, "id">>;
+  data: Partial<Omit<IContent, "id">>;
   id: number;
+}
+
+export interface IContentUpdateOrderOptions {
+  id: number;
+  order: number;
 }

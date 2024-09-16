@@ -4,7 +4,7 @@ import { IWidgetProps } from "@/shared/types";
 
 const Cards = ({
   contents,
-  options: { content, variant, size},
+  options: { content, variant, size },
   locale,
 }: IWidgetProps) => {
   return (

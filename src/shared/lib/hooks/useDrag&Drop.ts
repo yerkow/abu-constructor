@@ -36,6 +36,7 @@ export const useDragAndDrop = <Item>(
     e: React.DragEvent<HTMLLIElement>,
     navItem: Item
   ) => {
+    console.log("drag start");
     e.stopPropagation();
     e.dataTransfer.setData("text/plain", JSON.stringify(navItem));
   };
@@ -47,6 +48,7 @@ export const useDragAndDrop = <Item>(
   ) => {
     e.stopPropagation();
     e.preventDefault();
+    console.log("drop");
 
     const draggedItem: Item = JSON.parse(e.dataTransfer.getData("text/plain"));
     onDragEnd(e, draggedItem, targetNavItem, handler);

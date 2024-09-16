@@ -60,6 +60,7 @@ export const FileUploader = ({
 
   return (
     <div className="flex flex-col gap-4 border p-4">
+      <p>{label}</p>
       {field === "image" && image && (
         <Image width={80} height={80} src={image as string} alt="image" />
       )}
@@ -74,7 +75,7 @@ export const FileUploader = ({
       )}
       <div className="flex items-center ">
         <Input type="file" label="" onChange={handleFileChange} />
-        <Button onClick={() => {}}>Удалить файл</Button>
+        <Button onClick={() => { }}>Удалить файл</Button>
       </div>
     </div>
   );

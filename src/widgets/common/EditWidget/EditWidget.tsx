@@ -2,7 +2,7 @@
 import React from "react";
 import { Types, useEditWidget, useEditWidgetContent } from "./model";
 import { EditorMain, EditorItems } from "./ui";
-import { Content } from "@/shared/types";
+import { IContent } from "@/shared/types";
 import { WidgetOptionList } from "../..";
 import { ContentManageModal } from "@/features/Modals/ContentManageModal/ContentManageModal";
 import { TemplateSection } from "../TemplateSection/TemplateSection";
@@ -40,7 +40,7 @@ export const EditWidget = ({ widgetId }: Types.EditWidgetProps) => {
             widget_type={widget_type}
           />
         }
-        EditButton={(contents: Content, id: number) => {
+        EditButton={(contents: IContent, id: number) => {
           return (
             <ContentManageModal
               handleCreateContent={handleCreateContent}
