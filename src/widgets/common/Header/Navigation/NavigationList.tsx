@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavigationItem } from './NavigationItem';
-import { INavigation } from '@/widgets/NavigationList/model';
+import { INavigation } from '@/shared/lib/types';
 
 
 interface INavListProps {
