@@ -2,11 +2,11 @@ import { cn } from "@/shared/lib/utils";
 import { Card } from "./Card";
 import { IWidgetProps } from "@/shared/types";
 
-const Cards = ({
+function Cards({
   contents,
   options: { content, variant, size },
   locale,
-}: IWidgetProps) => {
+}: IWidgetProps) {
   return (
     <section className="flex flex-col gap-3">
       <h2 className="text-2xl font-bold">
