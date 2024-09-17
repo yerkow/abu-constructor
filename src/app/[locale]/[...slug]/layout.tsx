@@ -10,6 +10,7 @@ export default async function Layout({
   children: ReactNode;
   params: { slug: string[]; locale: string };
 }) {
+
   return (
     <section>
       <Header />
@@ -17,7 +18,7 @@ export default async function Layout({
         {params.slug[0] === "main" ? <section></section> : null}
         <div className="max-w-[1200px] mx-auto flex lg:p-0 p-3  flex-col gap-10">
           {params.slug[0] !== "home" && (
-            <BreadCrumbs locale={params.locale} slug={params.slug} pages={[]} />
+            <BreadCrumbs locale={params.locale} slug={params.slug} />
           )}
           <div className="flex   flex-col gap-10">{children}</div>
         </div>

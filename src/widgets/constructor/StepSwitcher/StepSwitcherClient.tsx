@@ -2,10 +2,9 @@
 import { backendUrl } from '@/shared/lib/constants'
 import { cn } from '@/shared/lib/utils'
 import { IWidgetProps } from '@/shared/types'
-import { Button } from '@/shared/ui'
 import { getWidgetByName } from '@/widgets'
 import { useQuery } from '@tanstack/react-query'
-import { useParams, usePathname } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import React, { useState } from 'react'
 
 export function StepSwitcherClient({
@@ -18,7 +17,7 @@ export function StepSwitcherClient({
     const currentSlug = currentPath.replace("/ru/", '')
     const [activeStep, setActiveStep] = useState(() => contents[0].content.link)
 
-    const { data, isLoading, isSuccess } = useQuery(
+    const { data, isSuccess } = useQuery(
         {
             queryKey: ['step-switcher', activeStep],
             queryFn: async () => {
@@ -28,7 +27,6 @@ export function StepSwitcherClient({
         }
     )
 
-    console.log(!isLoading ? data.widgets : "")
 
     function viewWidgets(widget_type: string, widgetOptons: any) {
         return getWidgetByName(widget_type, widgetOptons);
@@ -56,9 +54,9 @@ export function StepSwitcherClient({
                         isSuccess
                             ? (
                                 <>
-                                    {data.widgets?.map(({ widget_type, options, contents }: any) => {
+                                    {data.widgets?.map(({ widget_type, options, contents }: any, idx: number) => {
                                         const widgetOptons = { contents, options, locale: locale }
-                                        return viewWidgets(widget_type, widgetOptons)
+                                        return <React.Fragment key={idx + widget_type}>{viewWidgets(widget_type, widgetOptons)}</React.Fragment>
                                     })}
                                 </>
                             )
