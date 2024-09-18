@@ -18,7 +18,7 @@ export const CardBaseAndHorizontal = ({
   size: string;
   currentPath: string;
 }) => {
-  const { title, description } = content[locale];
+  const { title, content: description } = content[locale];
   const hasDescription = Boolean(description && description.length > 0);
 
   const variantClasses = {
@@ -82,7 +82,11 @@ export const CardBaseAndHorizontal = ({
               )}
             </>
           ) : (
-            <div className="absolute inset-0 bg-[#640000]"></div>
+            <div className="absolute inset-0 bg-[#640000]">
+              <h2 className="text-white text-center font-bold text-xl relative px-2 flex w-full h-full items-center justify-center">
+                {title}
+              </h2>
+            </div>
           )}
         </section>
 
