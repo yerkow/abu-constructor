@@ -17,9 +17,7 @@ export default async function Layout({
       <main className=" min-h-[100svh] overflow-y-auto  px-5 xl:px-0   mb-10 mt-5 md:mt-20 ">
         {params.slug[0] === "main" ? <section></section> : null}
         <div className="max-w-[1200px] mx-auto flex lg:p-0 p-3  flex-col gap-10">
-          {params.slug[0] !== "home" && (
-            <BreadCrumbs locale={params.locale} slug={params.slug} />
-          )}
+          <BreadCrumbs locale={params.locale} slug={params.slug} />
           <div className="flex   flex-col gap-10">{children}</div>
         </div>
       </main>

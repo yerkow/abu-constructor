@@ -17,9 +17,6 @@ export const BreadCrumbs = ({
   locale: string;
 }) => {
 
-
-  // if (slug[0] === "main") return null;
-
   const { data: crumbs } = useQuery({
     queryKey: ["crumbs"],
     queryFn: async () => {
@@ -28,20 +25,20 @@ export const BreadCrumbs = ({
     }
   })
 
-
+  if (slug[0] === "home") return null;
 
   return (
     <>
       <Breadcrumb >
         <BreadcrumbList>
-          {crumbs?.map((crumb: string, idx: number) => (
+          {crumbs?.map(({ title, navigation_type: type, slug }: any, idx: number) => (
             <BreadcrumbItem className="text-red-950 font-bold text-xl" key={idx}>
               <BreadcrumbLink
-              // href={
-              //   crumb.type == "content" ? `/${locale}${crumb.slug}` : undefined
-              // }
+                href={
+                  ["content", "group_link"].includes(type) ? `/${locale}/${slug}` : undefined
+                }
               >
-                {crumb}
+                {title}
               </BreadcrumbLink>
               {idx < crumbs.length - 1 && (
                 <ChevronRight size={30} className="mb-1" />
