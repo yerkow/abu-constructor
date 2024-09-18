@@ -26,7 +26,6 @@ export const BreadCrumbs = ({
     }
   })
 
-  console.log(crumbs)
 
 
   return (
@@ -37,7 +36,7 @@ export const BreadCrumbs = ({
             <BreadcrumbItem className="text-red-950 font-bold text-xl" key={idx}>
               <BreadcrumbLink
                 href={
-                  ["content", "group_link"].includes(type) ? `/${locale}/${slug}` : undefined
+                  ["content", "group-link"].includes(type) ? `/${locale}/${slug}` : undefined
                 }
               >
                 {title}
