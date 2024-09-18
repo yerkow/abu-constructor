@@ -8,7 +8,8 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { useState } from "react";
-import { INavigation } from "../NavigationList/model/types";
+import { INavigation } from "@/shared/lib/types";
+
 import { backendUrl } from "@/shared/lib/constants";
 
 export const BurgerMenu = ({

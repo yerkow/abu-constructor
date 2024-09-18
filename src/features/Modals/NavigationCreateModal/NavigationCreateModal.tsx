@@ -19,7 +19,7 @@ import {
   SelectValue,
 } from "@/shared/ui";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { INavigation } from "@/widgets/NavigationList/model";
+import { INavigation } from "@/shared/lib/types";
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "@/shared/lib/client";
 import { useTranslations } from "next-intl";
