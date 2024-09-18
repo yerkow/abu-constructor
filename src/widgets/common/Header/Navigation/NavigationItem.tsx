@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import React, { ReactNode } from 'react'
 import { DropNavigation } from './DropNavigation';
 import { useScroll } from '@/shared/lib/hooks/useScroll';
-import { INavigation } from '@/widgets/NavigationList/model';
+import { INavigation } from '@/shared/lib/types';
 
 interface NavigationItemProps {
     item: INavigation;

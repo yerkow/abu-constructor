@@ -1,4 +1,4 @@
-import { INavigation } from "@/widgets/NavigationList/model";
+import { INavigation } from "@/shared/lib/types";
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -18,8 +18,6 @@ export const DropNavigation = ({
   scrolled,
 }: DropNavigationProps) => {
   const path = usePathname();
-
-  //   console.log(item);
 
   return (
     <section
@@ -56,7 +54,7 @@ export const DropNavigation = ({
                       href={`/${locale}/${item.slug}/${child.slug}/${subChild.slug}`}
                       className={clsx(
                         "text-center max-w-11 text-slate-200",
-                        path == `/${locale}$/${child.slug}/${subChild.slug}` &&
+                        path === `/${locale}$/${child.slug}/${subChild.slug}` &&
                         "font-bold"
                       )}
                     >
