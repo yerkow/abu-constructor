@@ -40,7 +40,10 @@ export interface IWidget {
 export default async function Page({ params }: PageProps) {
   async function fetchNavigations(): Promise<INavigation> {
     const response = await fetch(
-      `${backendUrl}/navigations/find/by-slug?slug=${params.slug.join("/")}`
+      `${backendUrl}/navigations/find/by-slug?slug=${params.slug.join("/")}`, 
+      {
+        cache: 'no-store'
+      }
     );
 
     const data = await response.json();
@@ -49,6 +52,7 @@ export default async function Page({ params }: PageProps) {
   }
 
   const { widgets } = await fetchNavigations();
+  console.log(widgets)
 
   return widgets?.map(({ widget_type, options, contents }) => {
     const widgetOptons = { contents, options, locale: params.locale };
