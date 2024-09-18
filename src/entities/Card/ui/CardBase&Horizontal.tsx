@@ -34,12 +34,14 @@ export const CardBaseAndHorizontal = ({
     large: "h-[550px]",
   }[size];
 
+  console.log(currentPath)
+
   const WrapperComponent = content.file || content.link ? (Link as React.ElementType)
     : ("div" as "div");
   const linkProps = content.file
     ? { href: `${backendImageUrl}/${content.file}`, target: "_blank" }
     : content.link
-      ? { href: `${content.link}` }
+      ? { href: `${currentPath}/${content.link}` }
       : {};
 
   return (

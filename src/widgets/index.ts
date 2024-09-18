@@ -24,7 +24,7 @@ export { EditWidget } from "./common/EditWidget/EditWidget";
 export { NavigationList } from "./common/NavigationList";
 export { AdminSidebar } from "./common/AdminSidebar/AdminSidebar";
 export { BreadCrumbs } from "./common/BreadCrumbs";
-export { BurgerMenu } from "./common/BurgerMenu/BurgetMenu";
+export { BurgerMenu } from "./common/BurgerMenu/BurgerMenu";
 export { Header } from "./common/Header/Header";
 export { NavigationPageContent } from "./common/NavigationPageContent";
 
