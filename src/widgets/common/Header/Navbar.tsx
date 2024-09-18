@@ -7,7 +7,7 @@ import { useParams, usePathname } from "next/navigation";
 import React, { useState } from "react";
 import { NavigationList } from "./Navigation/NavigationList";
 import { useScroll } from "@/shared/lib/hooks/useScroll";
-import { INavigation } from "@/shared/lib/types";
+import { INavigation } from "../NavigationList/model/types";
 import { backendUrl } from "@/shared/lib/constants";
 import Image from "next/image";
 
