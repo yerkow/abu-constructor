@@ -1,5 +1,5 @@
 import { backendImageUrl } from "@/shared/lib/constants";
-import { cn } from "@/shared/lib/utils";
+import clsx from "clsx";
 import { Dialog, DialogContent, DialogTrigger } from "@/shared/ui";
 import React from "react";
 
@@ -24,7 +24,7 @@ export const CardWithModal = ({
           }}
         >
           <div
-            className={cn(
+            className={clsx(
               "absolute",
               {
                 true: "inset-0 bg-black opacity-35",

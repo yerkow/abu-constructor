@@ -17,15 +17,17 @@ export const BreadCrumbs = ({
   locale: string;
 }) => {
 
+
   const { data: crumbs } = useQuery({
     queryKey: ["crumbs"],
     queryFn: async () => {
-      const response = await fetch(`${backendUrl}/navigations/get/crumbs?slug=main/children&locale=ru`);
+      const response = await fetch(`${backendUrl}/navigations/get/crumbs?slug=${slug}&locale=${locale}`);
       return response.json()
     }
   })
 
-  if (slug[0] === "home") return null;
+  console.log(crumbs)
+
 
   return (
     <>

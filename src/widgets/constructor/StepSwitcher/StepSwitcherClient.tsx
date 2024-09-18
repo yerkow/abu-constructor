@@ -1,9 +1,9 @@
 "use client"
 import { backendUrl } from '@/shared/lib/constants'
-import { cn } from '@/shared/lib/utils'
 import { IWidgetProps } from '@/shared/types'
 import { getWidgetByName } from '@/widgets'
 import { useQuery } from '@tanstack/react-query'
+import clsx from 'clsx'
 import { usePathname } from 'next/navigation'
 import React, { useState } from 'react'
 
@@ -40,7 +40,7 @@ export function StepSwitcherClient({
                 <section className='flex flex-col gap-3 '>
                     {contents.map(({ content }, idx) => {
                         return (
-                            <button className={cn(
+                            <button className={clsx(
                                 activeStep === content.link ? 'bg-[#640000] text-white' : 'bg-[#F2F2F2] text-[#640000]',
                                 "p-4 rounded-lg text-left"
                             )} key={content[locale].title} onClick={() => setActiveStep(content.link)}>

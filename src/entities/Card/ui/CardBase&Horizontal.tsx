@@ -3,7 +3,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { backendImageUrl } from "@/shared/lib/constants";
-import { cn } from "@/shared/lib/utils";
+import clsx from "clsx";
 
 export const CardBaseAndHorizontal = ({
   content,
@@ -43,7 +43,7 @@ export const CardBaseAndHorizontal = ({
       : {};
 
   return (
-    <article className={cn(variantClasses, "rounded-md")}>
+    <article className={clsx(variantClasses, "rounded-md")}>
       <WrapperComponent
         {...linkProps}
         className="block after:rounded-md after:absolute rounded-2xl relative overflow-hidden shadow-md"
@@ -55,9 +55,9 @@ export const CardBaseAndHorizontal = ({
 
   function renderContent() {
     return (
-      <div className={cn(sizeClasses)}>
+      <div className={clsx(sizeClasses)}>
         <section
-          className={cn(
+          className={clsx(
             hasDescription ? "h-[70%]" : "h-[100%]",
             "w-full relative"
           )}

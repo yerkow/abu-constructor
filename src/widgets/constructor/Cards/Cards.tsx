@@ -1,4 +1,4 @@
-import { cn } from "@/shared/lib/utils";
+import clsx from 'clsx'
 import { Card } from "./Card";
 import { IWidgetProps } from "@/shared/types";
 
@@ -13,7 +13,7 @@ function Cards({
         {content[locale]?.title.toLocaleUpperCase()}
       </h2>
       <div
-        className={cn(
+        className={clsx(
           variant == "base" || variant == "with_modal" || variant == "with_file"
             ? "flex gap-8 flex-wrap"
             : "flex flex-col gap-2",

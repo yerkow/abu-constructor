@@ -14,7 +14,3 @@ export const saveToServerAndGetUrl = async (image: File | null | string) => {
     return "";
   }
 };
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
