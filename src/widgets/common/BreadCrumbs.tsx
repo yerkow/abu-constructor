@@ -27,13 +27,14 @@ export const BreadCrumbs = ({
   })
 
 
+  const getCrumbsElementForView = (crumbs: string[]) => crumbs?.length > 2 ? [crumbs[0], crumbs[2]] : crumbs
 
 
   return (
     <>
       <Breadcrumb >
         <BreadcrumbList>
-          {(crumbs?.length > 2 ? [crumbs[0], crumbs[2]] : crumbs)?.map(({ title, navigation_type: type, slug }: any, idx: number) => (
+          {getCrumbsElementForView(crumbs)?.map(({ title, navigation_type: type, slug }: any, idx: number) => (
             <BreadcrumbItem className="text-red-950 font-bold text-xl" key={idx}>
               <BreadcrumbLink
                 href={
@@ -42,7 +43,7 @@ export const BreadCrumbs = ({
               >
                 {title}
               </BreadcrumbLink>
-              {idx < crumbs.length - 2 && (
+              {idx < getCrumbsElementForView(crumbs).length - 1 && (
                 <ChevronRight size={30} className="mb-1" />
               )}
             </BreadcrumbItem>
