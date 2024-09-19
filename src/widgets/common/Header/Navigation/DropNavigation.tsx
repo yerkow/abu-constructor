@@ -23,7 +23,7 @@ export const DropNavigation = ({
     <section
       onMouseLeave={handleMouseLeave}
       className={clsx(
-        "absolute left-0  pt-3 w-full bg-[#640000] h-[350px] px-10 ",
+        "absolute left-0  pt-3 w-full bg-[#640000] h-[380px] px-10 ",
         scrolled ? "top-[94px]" : "top-[134px]"
       )}
     >
@@ -42,9 +42,13 @@ export const DropNavigation = ({
                 {child.title[locale]}
               </Link>
             ) : (
-              <h2 className="text-white font-bold text-[24px]">
-                {child.title[locale]}
-              </h2>
+              <>
+                {child.title[locale] != "Образование" && (
+                  <h2 className="text-white font-bold text-[24px]">
+                    {child.title[locale]}
+                  </h2>
+                )}
+              </>
             )}
             {child.children.length > 0 && (
               <ul className="mt-4 flex flex-col gap-3">
@@ -54,8 +58,8 @@ export const DropNavigation = ({
                       href={`/${locale}/${item.slug}/${child.slug}/${subChild.slug}`}
                       className={clsx(
                         "text-center max-w-11 text-slate-200",
-                        path === `/${locale}$/${child.slug}/${subChild.slug}` &&
-                        "font-bold"
+                        path === `/${locale}$/${child.slug}/${subChild.slug}` && "font-bold",
+                        ["bachelor's_degree", "master's_degree", "doctorates_degree"].includes(subChild.slug) && "font-bold"
                       )}
                     >
                       {subChild.title[locale]}
