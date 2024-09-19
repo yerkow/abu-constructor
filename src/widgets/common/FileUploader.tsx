@@ -2,7 +2,7 @@
 import { backendImageUrl, backendUrl } from "@/shared/lib/constants";
 import { Button, Input } from "@/shared/ui";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface FileUploaderProps {
   id?: string;
@@ -10,6 +10,7 @@ interface FileUploaderProps {
   field: string;
   label: string;
   onChange: (val: File | string) => void;
+  setIsUploading?: Dispatch<SetStateAction<boolean>>
 }
 
 export const FileUploader = ({
@@ -18,6 +19,7 @@ export const FileUploader = ({
   label,
   onChange,
   field,
+  setIsUploading
 }: FileUploaderProps) => {
   const [image, setImage] = useState<string | ArrayBuffer | null>(null);
   useEffect(() => {
@@ -30,6 +32,8 @@ export const FileUploader = ({
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       const reader = new FileReader();
+
+      if (setIsUploading) setIsUploading(true);
 
       reader.onload = function (event) {
         if (event.target) setImage(event.target.result);
@@ -54,6 +58,8 @@ export const FileUploader = ({
         onChange(filename); // Возвращаем имя файла
       } catch (error) {
         console.error("Ошибка при загрузке:", error);
+      } finally {
+        if (setIsUploading) setIsUploading(false); // Завершаем загрузку
       }
     }
   };

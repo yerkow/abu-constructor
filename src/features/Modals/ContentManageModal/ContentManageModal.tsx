@@ -14,6 +14,19 @@ import { viewInputByType } from "@/widgets/common/EditWidget/ui";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
+
+interface ContentManageModalProps {
+  handleCreateContent: any;
+  handleUpdateContent: any;
+  widget_type: string;
+  id?: number | undefined;
+  TemplateSection?: any;
+  contents?: any | undefined;
+  action: "create" | "update";
+  widget_variant?: string;
+  widgetOptionsList: EditOptionsProps[];
+}
+
 export const ContentManageModal = ({
   handleCreateContent,
   handleUpdateContent,
@@ -24,17 +37,7 @@ export const ContentManageModal = ({
   id,
   widget_variant,
   widget_type,
-}: {
-  handleCreateContent: any;
-  handleUpdateContent: any;
-  widget_type: string;
-  id?: number | undefined;
-  TemplateSection?: any;
-  contents?: any | undefined;
-  action: "create" | "update";
-  widget_variant?: string;
-  widgetOptionsList: EditOptionsProps[];
-}) => {
+}: ContentManageModalProps) => {
   const [open, setOpen] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -45,6 +48,8 @@ export const ContentManageModal = ({
       id: id,
     },
   });
+
+  console.log(isUploading);
 
   useEffect(() => {
     if (contents) {
