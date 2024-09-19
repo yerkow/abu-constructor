@@ -18,7 +18,7 @@ export const BreadCrumbs = ({
 }) => {
 
 
-  const { data: crumbs } = useQuery({
+  let { data: crumbs } = useQuery({
     queryKey: ["crumbs"],
     queryFn: async () => {
       const response = await fetch(`${backendUrl}/navigations/get/crumbs?slug=${slug}&locale=${locale}`);
@@ -28,11 +28,12 @@ export const BreadCrumbs = ({
 
 
 
+
   return (
     <>
       <Breadcrumb >
         <BreadcrumbList>
-          {crumbs?.map(({ title, navigation_type: type, slug }: any, idx: number) => (
+          {(crumbs?.length > 2 ? crumbs.splice(1, 1) : crumbs)?.map(({ title, navigation_type: type, slug }: any, idx: number) => (
             <BreadcrumbItem className="text-red-950 font-bold text-xl" key={idx}>
               <BreadcrumbLink
                 href={
