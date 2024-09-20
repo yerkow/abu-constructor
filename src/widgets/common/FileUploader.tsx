@@ -1,6 +1,6 @@
 "use client";
 import { backendImageUrl, backendUrl } from "@/shared/lib/constants";
-import { Button, Input } from "@/shared/ui";
+import { Button, Input, useToast } from "@/shared/ui";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
@@ -22,6 +22,7 @@ export const FileUploader = ({
   setIsUploading
 }: FileUploaderProps) => {
   const [image, setImage] = useState<string | ArrayBuffer | null>(null);
+  const { toast } = useToast()
   useEffect(() => {
     if (file) {
       setImage(`${backendImageUrl}${file}`);
@@ -56,6 +57,7 @@ export const FileUploader = ({
 
         const filename = await response.text();
         onChange(filename); // Возвращаем имя файла
+        toast({ title: "Файл загружен", description: "Файл был успешно загружен на сервер" })
       } catch (error) {
         console.error("Ошибка при загрузке:", error);
       } finally {

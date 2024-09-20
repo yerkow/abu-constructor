@@ -14,10 +14,7 @@ export const InfoEditOptions: EditOptionsProps = {
                 { value: "left", label: "Слева" },
             ],
         },
+        { props: "image", type: "file", placeholder: "Изображение" },
     ],
-    contentOptions: [
-        { props: "title", type: "text", placeholder: "Заголовок" },
-        { props: "content", type: "quill", placeholder: "Контент" },
-        { props: "link", type: "text", placeholder: "Ссылка" },
-    ],
+    contentOptions: [],
 };

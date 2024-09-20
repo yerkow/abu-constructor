@@ -17,7 +17,7 @@ export const CardWithModal = ({
     <Dialog>
       <DialogTrigger asChild>
         <div
-          className="flex items-center justify-center after:rounded-md after:absolute rounded-2xl relative overflow-hidden shadow-md flex-1 min-w-[300px] min-h-[150px] p-10 bg-cover bg-center text-white"
+          className="flex cursor-pointer items-center justify-center after:rounded-md after:absolute rounded-2xl relative overflow-hidden shadow-md flex-1 min-w-[300px] min-h-[150px] p-10 bg-cover bg-center text-white"
           style={{
             backgroundImage: `url('${backendImageUrl}${content.image}')`,
           }}
