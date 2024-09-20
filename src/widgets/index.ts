@@ -11,7 +11,7 @@ import { StepSwitcherEditOptions } from "./constructor/StepSwitcher/config";
 
 import Accordion from "./constructor/Accordion/Accordion";
 import Cards from "./constructor/Cards/Cards";
-import Carousel from "./constructor/Carousel/Carousel";
+import Carousel from "./constructor/Carousel";
 import Gallery from "./constructor/Gallery/Gallery";
 import Info from "./constructor/Info/Info";
 import Links from "./constructor/Links/Links";

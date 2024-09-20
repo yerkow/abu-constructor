@@ -1,6 +1,9 @@
+import { IWidgetProps } from '@/shared/types';
+import { CarouselClient } from './CarouselClient';
 
-import React from 'react'
-
-export const index = () => {
-  return 
+function Carousel(props: IWidgetProps) {
+  return <CarouselClient {...props} />
 }
+
+Carousel.displayName = "Carousel";
+export default Carousel;

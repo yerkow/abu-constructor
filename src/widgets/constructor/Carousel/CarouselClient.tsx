@@ -1,3 +1,5 @@
+"use client"
+
 import { backendImageUrl } from "@/shared/lib/constants";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -6,8 +8,9 @@ import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import clsx from "clsx";
+import Image from "next/image";
 
-function Carousel({
+export function CarouselClient({
   contents,
   options: { perView, variant, content },
   locale,
@@ -18,7 +21,7 @@ function Carousel({
 }) {
   return (
     <section>
-      {/* <h1 className="font-bold text-2xl">{content?.[locale].title}</h1>
+      <h1 className="font-bold text-2xl">{content?.[locale].title}</h1>
       <Swiper
         pagination={{
           dynamicBullets: true,
@@ -31,16 +34,16 @@ function Carousel({
           perView === "1"
             ? {}
             : {
-                640: {
-                  slidesPerView: 1,
-                },
-                768: {
-                  slidesPerView: 2,
-                },
-                1024: {
-                  slidesPerView: 3,
-                },
-              }
+              640: {
+                slidesPerView: 1,
+              },
+              768: {
+                slidesPerView: 2,
+              },
+              1024: {
+                slidesPerView: 3,
+              },
+            }
         }
         loop={true}
         spaceBetween={perView === "1" ? 0 : 10}
@@ -52,15 +55,14 @@ function Carousel({
         })}
       >
         {contents.map(
-          ({ image, content }: { image: any; content: any }, idx: number) => {
+          ({ content }: any, idx: number) => {
+            console.log(content[locale].content)
             return (
               <SwiperSlide key={idx} className="relative w-full h-full">
-                <div
-                  className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-                  style={{
-                    backgroundImage: `url('${backendImageUrl}/${image}')`,
-                  }}
-                ></div>
+                <div className="w-[90%]">
+                  <Image src={`${backendImageUrl}/${content.image}`} alt="" fill style={{ objectFit: "contain" }} />
+
+                </div>
                 <section
                   className={clsx(
                     "absolute inset-0 flex items-end text-justify",
@@ -71,20 +73,15 @@ function Carousel({
                   )}
                 >
                   <section className="pb-8 px-5">
-                    <h1 className="text-white text-4xl font-bold">
-                      {content.title}
-                    </h1>
-                    <p className="text-white text-xl">{content.content}</p>
+                    <p className="text-white text-xl" dangerouslySetInnerHTML={{ __html: content?.[locale]?.content }}></p>
                   </section>
                 </section>
               </SwiperSlide>
             );
           }
         )}
-      </Swiper> */}
+      </Swiper>
     </section>
   );
 }
-Carousel.displayName = "Carousel";
 
-export default Carousel;
