@@ -4,11 +4,14 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { EditOptionsProps } from "./types";
 import { queryClient } from "@/shared/lib/client";
+import { useToast } from "@/shared/ui";
 
 export const useEditWidget = (
   widgetId: string,
   widgetOptionList: EditOptionsProps[]
 ) => {
+  const { toast } = useToast()
+
   const { data: widget } = useQuery({
     queryKey: ["widget", widgetId],
     queryFn: () => fetchWidgetOptions(widgetId),
@@ -33,6 +36,7 @@ export const useEditWidget = (
         queryKey: ["widget", widgetId],
       });
       reset({ ...data.options });
+      toast({ title: "Настройки", description: "Главные настройки виджета были обновлены" })
     },
   });
 
