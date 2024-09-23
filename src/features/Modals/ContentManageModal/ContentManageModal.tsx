@@ -14,7 +14,6 @@ import { viewInputByType } from "@/widgets/common/EditWidget/ui";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
-
 interface ContentManageModalProps {
   handleCreateContent: any;
   handleUpdateContent: any;
@@ -48,8 +47,6 @@ export const ContentManageModal = ({
       id: id,
     },
   });
-
-  console.log(isUploading);
 
   useEffect(() => {
     if (contents) {
@@ -92,31 +89,31 @@ export const ContentManageModal = ({
         <form onSubmit={handleSubmit(onSubmit)}>
           {Array.isArray(options)
             ? options?.map((option) => {
-              return (
-                <Fragment key={option.props}>
-                  {viewInputByType(
-                    option.type,
-                    option,
-                    register,
-                    control,
-                    setIsUploading
-                  )}
-                </Fragment>
-              );
-            })
+                return (
+                  <Fragment key={option.props}>
+                    {viewInputByType(
+                      option.type,
+                      option,
+                      register,
+                      control,
+                      setIsUploading
+                    )}
+                  </Fragment>
+                );
+              })
             : options?.(widget_variant as string).map((option) => {
-              return (
-                <Fragment key={option.props}>
-                  {viewInputByType(
-                    option.type,
-                    option,
-                    register,
-                    control,
-                    setIsUploading
-                  )}
-                </Fragment>
-              );
-            })}
+                return (
+                  <Fragment key={option.props}>
+                    {viewInputByType(
+                      option.type,
+                      option,
+                      register,
+                      control,
+                      setIsUploading
+                    )}
+                  </Fragment>
+                );
+              })}
 
           <Button className="w-full" type="submit" disabled={isUploading}>
             {action === "create" ? "Создать" : "Изменить"}
