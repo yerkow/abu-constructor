@@ -1,6 +1,7 @@
 "use client";
 import { backendImageUrl, backendUrl } from "@/shared/lib/constants";
 import { Button, Input } from "@/shared/ui";
+import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -58,6 +59,17 @@ export const FileUploader = ({
     }
   };
 
+  const { mutate } = useMutation({
+    mutationFn: async (fileName: string) => {
+      const response = await fetch(`${backendUrl}/upload/${fileName}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) {
+        throw new Error("Ошибка при удалении файла");
+      }
+    },
+  });
+
   return (
     <div className="flex flex-col gap-4 border p-4">
       {field === "image" && image && (
@@ -74,7 +86,9 @@ export const FileUploader = ({
       )}
       <div className="flex items-center ">
         <Input type="file" label="" onChange={handleFileChange} />
-        <Button onClick={() => {}}>Удалить файл</Button>
+        {file && typeof file === "string" && file.length > 0 && (
+          <Button onClick={() => mutate(file)}>Удалить файл</Button>
+        )}
       </div>
     </div>
   );
