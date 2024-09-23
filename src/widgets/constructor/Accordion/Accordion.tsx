@@ -17,10 +17,12 @@ function Accordion({
   options: any;
   locale: string;
 }) {
+
+  console.log(options)
   return (
     <section className="mt-7">
       <h2 className="text-2xl font-bold text-[#690000]">
-        {options?.title && options?.title[locale]}
+        {options?.content && options?.content[locale].title}
       </h2>
       <AccordionUI type="single" collapsible>
         {contents.map(({ content }: any, idx: number) => {

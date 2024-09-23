@@ -1,7 +1,8 @@
 "use client";
 import React, { useRef, useState } from "react";
 import { Settings } from "lucide-react";
-import { INavigation } from "@/widgets/NavigationList/model";
+import { INavigation } from "@/shared/lib/types";
+
 import {
   Button,
   Dialog,

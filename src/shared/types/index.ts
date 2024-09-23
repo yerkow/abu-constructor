@@ -1,13 +1,4 @@
-export interface Content {
-  id: number;
-  content: {
-    [key: string]: any;
-  };
-  options: {
-    [key: string]: any;
-  };
-  widget_id: number;
-}
+
 
 export interface IWidgetProps {
   contents: Array<any>;
@@ -23,6 +14,7 @@ export interface IContent {
   options: {
     [key: string]: Object;
   };
+  order: number
 }
 
 export interface IWidget {

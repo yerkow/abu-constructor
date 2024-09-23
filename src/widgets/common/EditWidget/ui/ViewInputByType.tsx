@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from "react";
 import { locales } from "@/i18n";
 import { Controller, UseFormRegister } from "react-hook-form";
 import QuillEditor from "@/shared/ui/quill-editor";
@@ -16,7 +17,7 @@ export const viewInputByType = (
   options: any,
   register: UseFormRegister<any>,
   control: any,
-  setIsUploading?: (uploading: boolean) => void
+  setIsUploading?: Dispatch<SetStateAction<boolean>>
 ) => {
   switch (type) {
     case "text":
@@ -96,14 +97,10 @@ export const viewInputByType = (
               field={options.props}
               id={field.name}
               file={field.value}
+              setIsUploading={setIsUploading}
               onChange={(val) => {
-                if (!setIsUploading) {
-                  field.onChange(val);
-                  return;
-                }
-                setIsUploading(true);
                 field.onChange(val);
-                setIsUploading(false);
+                return;
               }}
             />
           )}

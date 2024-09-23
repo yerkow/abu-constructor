@@ -1,5 +1,5 @@
 import { backendUrl } from "@/shared/lib/constants";
-import { Content } from "@/shared/types";
+import { IContent } from "@/shared/types";
 import { IContentCreationParams, IContentUpdateParams } from "../model/types";
 
 export const fetchWidgetOptions = async (widgetId: string) => {
@@ -29,7 +29,7 @@ export const fetchEditWidgetMainOptions = async (
 
 export const fetchContentsByWidgetId = async (
   widgetId: string
-): Promise<Content[]> => {
+): Promise<IContent[]> => {
   const response = await fetch(
     `${backendUrl}/contents/by-widget-id/${widgetId}`
   );
@@ -41,7 +41,7 @@ export const fetchCreateContent = async ({
   widgetId,
   content,
   options,
-}: IContentCreationParams): Promise<Content> => {
+}: IContentCreationParams): Promise<IContent> => {
   console.log(content);
   const response = await fetch(`${backendUrl}/contents`, {
     method: "POST",
@@ -64,7 +64,7 @@ export const fetchUpdateContent = async ({
 }: {
   content: any;
   id: number;
-}): Promise<Content> => {
+}): Promise<IContent> => {
   const sendData = {
     content,
   };

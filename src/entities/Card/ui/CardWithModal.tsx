@@ -1,5 +1,5 @@
 import { backendImageUrl } from "@/shared/lib/constants";
-import { cn } from "@/shared/lib/utils";
+import clsx from "clsx";
 import { Dialog, DialogContent, DialogTrigger } from "@/shared/ui";
 import React from "react";
 
@@ -13,18 +13,17 @@ export const CardWithModal = ({
 }) => {
   const { title, content: text } = content[locale];
 
-  console.log(content.image);
   return (
     <Dialog>
       <DialogTrigger asChild>
         <div
-          className="flex items-center justify-center after:rounded-md after:absolute rounded-2xl relative overflow-hidden shadow-md flex-1 min-w-[300px] min-h-[150px] p-10 bg-cover bg-center text-white"
+          className="flex cursor-pointer items-center justify-center after:rounded-md after:absolute rounded-2xl relative overflow-hidden shadow-md flex-1 min-w-[300px] min-h-[150px] p-10 bg-cover bg-center text-white"
           style={{
             backgroundImage: `url('${backendImageUrl}${content.image}')`,
           }}
         >
           <div
-            className={cn(
+            className={clsx(
               "absolute",
               {
                 true: "inset-0 bg-black opacity-35",

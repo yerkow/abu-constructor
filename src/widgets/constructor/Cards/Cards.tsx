@@ -1,20 +1,20 @@
-import { cn } from "@/shared/lib/utils";
+import clsx from 'clsx'
 import { Card } from "./Card";
 import { IWidgetProps } from "@/shared/types";
 
-const Cards = ({
+function Cards({
   contents,
-  options: { content, variant, size},
+  options: { content, variant, size },
   locale,
-}: IWidgetProps) => {
+}: IWidgetProps) {
   return (
     <section className="flex flex-col gap-3">
       <h2 className="text-2xl font-bold">
         {content?.[locale]?.title.toLocaleUpperCase()}
       </h2>
       <div
-        className={cn(
-          variant == "base" || variant == "with_modal"
+        className={clsx(
+          variant == "base" || variant == "with_modal" || variant == "with_file"
             ? "flex gap-8 flex-wrap"
             : "flex flex-col gap-2",
           "mt-2"

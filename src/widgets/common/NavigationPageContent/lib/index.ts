@@ -1,5 +1,6 @@
 import { UseMutateFunction } from "@tanstack/react-query";
-import { IWidget, IWidgetUpdateOrderOptions } from "../model/types";
+import { IWidgetUpdateOrderOptions } from "../model/types";
+import { IWidget } from "@/shared/types";
 
 export const handleDragEnd = (
   e: React.DragEvent<HTMLDivElement> | React.DragEvent<HTMLLIElement>,

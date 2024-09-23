@@ -1,4 +1,4 @@
-import { cn } from "@/shared/lib/utils";
+import clsx from "clsx";
 import Link from "next/link";
 import { ReactNode } from "react";
 
@@ -13,7 +13,7 @@ export const ListItem = ({ children, icon, href }: ListItemProps) => {
       <a
         target="_blank"
         href={href}
-        className={cn(icon && "flex gap-2 w-full items-center")}
+        className={clsx(icon && "flex gap-2 w-full items-center")}
       >
         <span>{icon}</span> {children}
       </a>

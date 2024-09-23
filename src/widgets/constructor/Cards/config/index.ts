@@ -1,4 +1,4 @@
-import { EditOptionsProps } from "@/widgets/EditWidget/model/types";
+import { EditOptionsProps } from "@/widgets/common/EditWidget/model/types";
 
 export const CardEditOptions: EditOptionsProps = {
   widgetName: "Cards",
@@ -33,13 +33,13 @@ export const CardEditOptions: EditOptionsProps = {
       case "with_modal":
         return [
           { props: "title", type: "text", placeholder: "Заголовок" },
-          { props: "description", type: "text", placeholder: "Описание" },
+          { props: "content", type: "quill", placeholder: "Описание" },
           { props: "image", type: "file", placeholder: "Изображение" },
         ];
       case "with_file":
         return [
           { props: "title", type: "text", placeholder: "Заголовок" },
-          { props: "description", type: "text", placeholder: "Описание" },
+          { props: "content", type: "quill", placeholder: "Описание" },
           { props: "image", type: "file", placeholder: "Изображение" },
           { props: "file", type: "file", placeholder: "Файл" },
         ];
@@ -47,7 +47,7 @@ export const CardEditOptions: EditOptionsProps = {
       default:
         return [
           { props: "title", type: "text", placeholder: "Заголовок" },
-          { props: "description", type: "text", placeholder: "Описание" },
+          { props: "content", type: "quill", placeholder: "Описание" },
           { props: "image", type: "file", placeholder: "Изображение" },
         ];
     }

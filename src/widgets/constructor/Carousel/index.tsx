@@ -1,8 +1,9 @@
-import React from "react";
-import { CarouselClient } from "./Carousel";
 
-function Carousel(props: any) {
-  return <CarouselClient {...props} />;
+import { IWidgetProps } from '@/shared/types';
+import { CarouselClient } from './CarouselClient';
+
+function Carousel(props: IWidgetProps) {
+  return <CarouselClient {...props} />
 }
 
 Carousel.displayName = "Carousel";

@@ -1,4 +1,5 @@
-import { INavigation } from "@/widgets/NavigationList/model";
+import { INavigation } from "@/shared/lib/types";
+
 import { NavigationEditModalForm } from "../model";
 import { backendUrl } from "@/shared/lib/constants";
 

@@ -7,29 +7,32 @@ import { LinkEditOptions } from "./constructor/Links/config";
 import { TabsEditOptions } from "./constructor/Tabs/config";
 import { CarouselEditOptions } from "./constructor/Carousel/config";
 import { GalleryEditOptions } from "./constructor/Gallery/config";
+import { StepSwitcherEditOptions } from "./constructor/StepSwitcher/config";
 
 import Accordion from "./constructor/Accordion/Accordion";
 import Cards from "./constructor/Cards/Cards";
-import Carousel from "./constructor/Carousel/";
+import Carousel from "./constructor/Carousel";
 import Gallery from "./constructor/Gallery/Gallery";
 import Info from "./constructor/Info/Info";
 import Links from "./constructor/Links/Links";
 import List from "./constructor/List/List";
 import Text from "./constructor/Text/Text";
 import Tabs from "./constructor/Tabs/Tabs";
+import StepSwitcher from "./constructor/StepSwitcher";
 
 export { EditWidget } from "./common/EditWidget/EditWidget";
 export { NavigationList } from "./common/NavigationList";
 export { AdminSidebar } from "./common/AdminSidebar/AdminSidebar";
 export { BreadCrumbs } from "./common/BreadCrumbs";
-export { BurgerMenu } from "./common/BurgerMenu/BurgetMenu";
+export { BurgerMenu } from "./common/BurgerMenu/BurgerMenu";
 export { Header } from "./common/Header/Header";
 export { NavigationPageContent } from "./common/NavigationPageContent";
 
-export { Accordion, Cards, Carousel, Gallery, Info, Links, List, Text };
+export { Accordion, Cards, Carousel, Gallery, Info, Links, List, Text, StepSwitcher, Tabs };
 
 export const widgetsList = [
   Cards,
+  StepSwitcher,
   Carousel,
   List,
   Text,
@@ -50,6 +53,7 @@ export const WidgetOptionList = [
   LinkEditOptions,
   TabsEditOptions,
   GalleryEditOptions,
+  StepSwitcherEditOptions,
 ];
 
 export const getWidgetByName = (name: string, props: any) => {

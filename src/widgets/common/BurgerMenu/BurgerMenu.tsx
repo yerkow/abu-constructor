@@ -8,7 +8,8 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { useState } from "react";
-import { INavigation } from "../NavigationList/model/types";
+import { INavigation } from "@/shared/lib/types";
+
 import { backendUrl } from "@/shared/lib/constants";
 
 export const BurgerMenu = ({
@@ -38,7 +39,7 @@ export const BurgerMenu = ({
       >
         <Menu size={32} />
       </Button>
-      <DrawerContent className="rounded-none bg-[#640000]  border-none px-4 py-14">
+      <DrawerContent className="rounded-none bg-red-950 border-none   px-4 py-14">
         <div className="relative flex flex-col gap-3 text-xl text-white">
           <Button
             onClick={() => setOpen(false)}
@@ -100,7 +101,7 @@ const MenuLink = ({
         <DrawerTrigger className="text-start flex justify-start items-center gap-3">
           {page.title[locale]} <ChevronRight className="" />
         </DrawerTrigger>
-        <DrawerContent className="rounded-none bg-[#640000]  border-none px-4 py-14">
+        <DrawerContent className="rounded-none bg-red-950  border-none px-4 py-14">
           <div className=" relative flex flex-col gap-3 text-xl text-white ">
             <Button
               onClick={() => setOpen(false)}

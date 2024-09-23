@@ -2,13 +2,13 @@ import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
 import * as React from "react";
 
 import { ButtonProps } from "@/shared//ui/button";
-import { cn } from "@/shared/lib/utils";
+import clsx from "clsx";
 
 const Pagination = ({ className, ...props }: React.ComponentProps<"nav">) => (
   <nav
     role="navigation"
     aria-label="pagination"
-    className={cn("mx-auto flex w-full justify-center", className)}
+    className={clsx("mx-auto flex w-full justify-center", className)}
     {...props}
   />
 );
@@ -20,7 +20,7 @@ const PaginationContent = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <ul
     ref={ref}
-    className={cn("flex flex-row items-center gap-1", className)}
+    className={clsx("flex flex-row items-center gap-1", className)}
     {...props}
   />
 ));
@@ -30,7 +30,7 @@ const PaginationItem = React.forwardRef<
   HTMLLIElement,
   React.ComponentProps<"li">
 >(({ className, ...props }, ref) => (
-  <li ref={ref} className={cn("cursor-pointer", className)} {...props} />
+  <li ref={ref} className={clsx("cursor-pointer", className)} {...props} />
 ));
 PaginationItem.displayName = "PaginationItem";
 
@@ -49,7 +49,7 @@ const PaginationLink = ({
 }: PaginationLinkProps) => (
   <a
     aria-current={isActive ? "page" : undefined}
-    className={cn(
+    className={clsx(
       " hover:bg-slate-100 transition-colors ease-in-out  rounded-full text-cyan-400 font-bold ",
       isActive && "bg-cyan-400 text-white",
       !nav ? "pl-[15px]  pr-[15px] pt-[8px] pb-[8px]" : "p-4",
@@ -72,7 +72,7 @@ const PaginationPrevious = ({
     aria-label="Go to previous page"
     size="default"
     nav={true}
-    className={cn("flex justify-center", className)}
+    className={clsx("flex justify-center", className)}
     {...props}
   >
     <ChevronLeft className="h-4 w-4" />
@@ -88,7 +88,7 @@ const PaginationNext = ({
     aria-label="Go to next page"
     size="default"
     nav={true}
-    className={cn("flex justify-center", className)}
+    className={clsx("flex justify-center", className)}
     {...props}
   >
     <ChevronRight className="h-4 w-4" />
@@ -102,7 +102,7 @@ const PaginationEllipsis = ({
 }: React.ComponentProps<"span">) => (
   <span
     aria-hidden
-    className={cn(
+    className={clsx(
       "flex h-9 w-9 text-cyan-400 items-center justify-center",
       className
     )}

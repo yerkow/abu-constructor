@@ -1,4 +1,4 @@
-import { EditOptionsProps } from "@/widgets/EditWidget/model/types";
+import { EditOptionsProps } from "@/widgets/common/EditWidget/model/types";
 
 export const ListEditOptions: EditOptionsProps = {
     widgetName: "List",

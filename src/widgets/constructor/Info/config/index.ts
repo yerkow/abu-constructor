@@ -1,4 +1,4 @@
-import { EditOptionsProps } from "@/widgets/EditWidget/model/types";
+import { EditOptionsProps } from "@/widgets/common/EditWidget/model/types";
 
 export const InfoEditOptions: EditOptionsProps = {
     widgetName: "Info",
@@ -14,10 +14,7 @@ export const InfoEditOptions: EditOptionsProps = {
                 { value: "left", label: "Слева" },
             ],
         },
+        { props: "image", type: "file", placeholder: "Изображение" },
     ],
-    contentOptions: [
-        { props: "title", type: "text", placeholder: "Заголовок" },
-        { props: "content", type: "quill", placeholder: "Контент" },
-        { props: "link", type: "text", placeholder: "Ссылка" },
-    ],
+    contentOptions: [],
 };

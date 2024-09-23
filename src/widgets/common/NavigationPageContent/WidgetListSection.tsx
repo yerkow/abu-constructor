@@ -27,7 +27,7 @@ export const WidgetListSection = ({
             })
           }
           size={"sm"}
-          className="mb-3 text-black cursor-pointer px-10 py-3 rounded-sm text-center bg-slate-200"
+          className="mb-3  cursor-pointer px-10 py-3 rounded-sm text-center"
         >
           {displayName}
         </Button>

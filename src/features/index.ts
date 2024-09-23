@@ -6,5 +6,4 @@ export { LoginForm } from "./LoginForm";
 export { PreviewButton } from "./PreviewButton";
 export { withNoSSR } from "./WithNoSSR";
 export { ChangeLocale } from "./ChangeLocale";
-export { Pagination } from "./Pagination";
 export { UpdateLinksForm } from "./UpdateLinksForm";
