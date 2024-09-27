@@ -1,3 +1,4 @@
+
 import { IWidgetProps } from '@/shared/types';
 import { CarouselClient } from './CarouselClient';
 

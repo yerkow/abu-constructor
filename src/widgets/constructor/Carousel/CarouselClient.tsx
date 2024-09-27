@@ -1,5 +1,4 @@
 "use client"
-
 import { backendImageUrl } from "@/shared/lib/constants";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -19,6 +18,7 @@ export function CarouselClient({
   options: any;
   locale: string;
 }) {
+  console.log(contents);
   return (
     <section>
       <h1 className="font-bold text-2xl">{content?.[locale].title}</h1>
@@ -84,4 +84,3 @@ export function CarouselClient({
     </section>
   );
 }
-

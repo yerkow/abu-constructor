@@ -21,6 +21,8 @@ export const CardBaseAndHorizontal = ({
   const { title, content: description } = content[locale];
   const hasDescription = Boolean(description && description.length > 0);
 
+  console.log(content);
+
   const variantClasses = {
     base: "flex-1 min-w-[300px]",
     with_file: "flex-1 min-w-[300px]",
@@ -34,8 +36,13 @@ export const CardBaseAndHorizontal = ({
     large: "h-[550px]",
   }[size];
 
-  const WrapperComponent = content.file || content.link ? (Link as React.ElementType)
-    : ("div" as "div");
+
+  console.log(currentPath);
+
+  const WrapperComponent =
+    content.file || content.link
+      ? (Link as React.ElementType)
+      : ("div" as "div");
   const linkProps = content.file
     ? { href: `${backendImageUrl}/${content.file}`, target: "_blank" }
     : content.link
@@ -94,8 +101,8 @@ export const CardBaseAndHorizontal = ({
           <div className="p-3">
             <h2 className="font-bold text-xl">{title}</h2>
             <p
-              className="text-justify"
-              dangerouslySetInnerHTML={{
+					className="text-justify"
+					dangerouslySetInnerHTML={{
                 __html:
                   variant === "horizontal"
                     ? description

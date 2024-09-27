@@ -31,7 +31,12 @@ export const Card = ({
       );
     case "with_modal":
       return (
-        <CardWithModal content={content} variant={variant} locale={locale} size={size} />
+        <CardWithModal
+          content={content}
+          variant={variant}
+          size={size}
+          locale={locale}
+        />
       );
   }
 };
