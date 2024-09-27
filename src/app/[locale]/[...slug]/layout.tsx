@@ -34,11 +34,11 @@ export default async function Layout({
               <div className="flex flex-col gap-3">
                 <div className="flex gap-4">
                   <Phone />
-                  <a href="tel:+7 /7172/ 21-71-06">+7 (7222) 42-32-24</a>
+                  <a href="tel:+7 /7222/  42-32-24">+7 (7222) 42-32-24</a>
                 </div>
                 <div className="flex gap-4">
                   <Mail />
-                  <a href="email:prof_adilet@mail.ru">semey@abu.edu.kz</a>
+                  <a href="">semey@abu.edu.kz</a>
                 </div>
                 <div className="flex gap-4">
                   <MapPin />

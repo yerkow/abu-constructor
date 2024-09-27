@@ -10,7 +10,7 @@ function Cards({
   return (
     <section className="flex flex-col gap-3">
       <h2 className="text-2xl font-bold">
-        {content[locale]?.title.toLocaleUpperCase()}
+        {content?.[locale]?.title.toLocaleUpperCase()}
       </h2>
       <div
         className={clsx(

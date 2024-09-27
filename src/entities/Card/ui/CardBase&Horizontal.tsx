@@ -34,8 +34,6 @@ export const CardBaseAndHorizontal = ({
     large: "h-[550px]",
   }[size];
 
-  console.log(currentPath)
-
   const WrapperComponent = content.file || content.link ? (Link as React.ElementType)
     : ("div" as "div");
   const linkProps = content.file
@@ -60,7 +58,7 @@ export const CardBaseAndHorizontal = ({
       <div className={clsx(sizeClasses)}>
         <section
           className={clsx(
-            hasDescription ? "h-[70%]" : "h-[100%]",
+            hasDescription ? "h-[82%]" : "h-[100%]",
             "w-full relative"
           )}
         >

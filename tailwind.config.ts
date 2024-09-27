@@ -25,6 +25,11 @@ const config = {
       backgroundImage: {
         "footer-texture": "url('/brush.svg')",
       },
+      fontSize: {
+        "calc-text-xl": "clamp(0.8rem, 3vw, 1.25rem)",
+        "calc-text-2xl": "clamp(1rem, 3vw, 1.5rem)",
+        "calc-text-4xl": "clamp(1.5rem, 3vw, 2.25rem)",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -96,15 +101,13 @@ const config = {
     plugin(function ({ addBase, theme }) {
       addBase({
         ".quill-content .ql-size-normal": {
-          fontSize: theme("fontSize.2xl"),
-          fontWeight: theme("fontWeight.bold"),
+          fontSize: theme("fontSize.calc-text-xl"),
         },
         ".quill-content .ql-size-large": {
-          fontSize: theme("fontSize.xl"),
-          fontWeight: theme("fontWeight.semibold"),
+          fontSize: theme("fontSize.calc-text-2xl"),
         },
         ".quill-content .ql-size-huge": {
-          fontSize: theme("fontSize.lg"),
+          fontSize: theme("fontSize.calc-text-4xl"),
           fontWeight: theme("fontWeight.medium"),
         },
         ".quill-content a": {

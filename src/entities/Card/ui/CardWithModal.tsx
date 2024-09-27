@@ -6,18 +6,29 @@ import React from "react";
 export const CardWithModal = ({
   content,
   locale,
+  size,
 }: {
   content: any;
   variant: string;
   locale: string;
+  size: string
 }) => {
   const { title, content: text } = content[locale];
+
+
+  const sizeClasses = {
+    normal: "h-[200px]",
+    medium: "h-[350px]",
+    large: "h-[550px]",
+  }[size];
 
   return (
     <Dialog>
       <DialogTrigger asChild>
         <div
-          className="flex cursor-pointer items-center justify-center after:rounded-md after:absolute rounded-2xl relative overflow-hidden shadow-md flex-1 min-w-[300px] min-h-[150px] p-10 bg-cover bg-center text-white"
+          className={
+            clsx(sizeClasses, "flex cursor-pointer items-center justify-center after:rounded-md after:absolute rounded-2xl relative overflow-hidden shadow-md flex-1 min-w-[300px] min-h-[150px] p-10 bg-cover bg-center text-white")
+          }
           style={{
             backgroundImage: `url('${backendImageUrl}${content.image}')`,
           }}

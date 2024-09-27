@@ -1,3 +1,4 @@
+import { backendUrl } from "@/shared/lib/constants";
 import {
   Button,
   Dialog,
@@ -11,6 +12,7 @@ import {
 } from "@/shared/ui";
 import { EditOptionsProps } from "@/widgets/common/EditWidget/model/types";
 import { viewInputByType } from "@/widgets/common/EditWidget/ui";
+import { useMutation } from "@tanstack/react-query";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -45,11 +47,10 @@ export const ContentManageModal = ({
     mode: "onBlur",
     defaultValues: {
       content: {},
-      id: id,
+      id,
     },
   });
 
-  console.log(isUploading);
 
   useEffect(() => {
     if (contents) {
@@ -71,6 +72,17 @@ export const ContentManageModal = ({
     closeRef.current?.click();
     reset();
   };
+
+  const { mutate: fetchRemoveContent } = useMutation({
+    mutationKey: ["content", id],
+    mutationFn: async (id: number | undefined) => {
+      if (!id) return;
+      const response = await fetch(`${backendUrl}/contents/${id}`, {
+        method: "DELETE",
+      });
+      return response.json();
+    },
+  })
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -122,7 +134,16 @@ export const ContentManageModal = ({
             {action === "create" ? "Создать" : "Изменить"}
           </Button>
         </form>
-        {action === "update" && <TemplateSection content_id={id} />}
+        {action === "update" && (
+          <>
+            <TemplateSection content_id={id} />
+            <Button onClick={() => fetchRemoveContent(id)}>
+              Удалить контент
+            </Button>
+          </>
+        )
+        }
+
         <DialogFooter>
           <DialogClose asChild>
             <Button

@@ -13,7 +13,7 @@ export default function Page() {
     { title: "Бакалавриат", description: "29 образовательных программ" },
     { title: "Магистратура", description: "10 образовательных программ" },
     { title: "Докторантура", description: "6 образовательных программ" },
-    { title: "Военная кафедра", description: "11 военно-учетных спец." },
+    { title: "Военная кафедра", description: "10 военно-учетных спец." },
   ];
 
   const fact_list = [

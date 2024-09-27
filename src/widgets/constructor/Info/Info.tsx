@@ -23,10 +23,17 @@ function Info({
         {content[locale]?.title}
       </h2>
       <section className="flex flex-col md:flex-row   gap-4 bg-slate-100 rounded-sm  p-5">
-        <section className="relative w-[35%] h-[350px]">
-          <Image src={`${backendImageUrl}/${content.image}`} alt="person" fill className="bg-cover bg-top rounded-sm" />
+        <section className="relative w-[100%] md:w-[35%] h-[350px]">
+          <Image
+            src={`${backendImageUrl}${content.image}`}
+            fill
+            objectFit="cover"
+            objectPosition="center"
+            alt="image"
+            className="rounded-md"
+          />
         </section>
-        <section className="w-[65%] quill-content" dangerouslySetInnerHTML={{ __html: content[locale].content }}></section>
+        <section className="w-[100%] md:w-[65%] quill-content" dangerouslySetInnerHTML={{ __html: content[locale].content }}></section>
       </section>
     </section>
   );
