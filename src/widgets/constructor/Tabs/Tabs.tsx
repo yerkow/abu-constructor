@@ -13,12 +13,12 @@ function Tabs({ contents, locale }: { contents: any; locale: string }) {
           className="flex-grow flex min-w-[260px] gap-4 p-6 bg-[#640000] text-white rounded-md cursor-pointer justify-between items-center"
         >
           <h2>{tab.content[locale].title}</h2>
-          <Image
+          {backendImageUrl && (<Image
             src={backendImageUrl + tab?.content?.icon}
             alt="icon"
             width={50}
             height={50}
-          />
+          />)}
         </li>
       ))}
     </ul>
