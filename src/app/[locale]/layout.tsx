@@ -1,14 +1,14 @@
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import type { Metadata } from "next";
-import { Montserrat, PT_Mono } from "next/font/google";
+import { Montserrat, PT_Mono, Raleway } from "next/font/google";
 import "../globals.css";
 import { QueryProvider } from "@/shared/providers";
 import { Toaster } from "@/shared/ui";
 import "react-quill/dist/quill.snow.css";
 
 // const inter = Montserrat({ subsets: ["latin"] });
-const inter = PT_Mono({ weight: ["400"], subsets: ["cyrillic"] });
+const inter = Raleway({ weight: ["400"], subsets: ["cyrillic"] });
 
 export default async function LocaleLayout({
   children,

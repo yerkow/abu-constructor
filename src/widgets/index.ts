@@ -17,7 +17,7 @@ import Info from "./constructor/Info/Info";
 import Links from "./constructor/Links/Links";
 import List from "./constructor/List/List";
 import Text from "./constructor/Text/Text";
-import Tabs from "./constructor/Tabs/Tabs";
+import Tabs from "./constructor/Tabs";
 import StepSwitcher from "./constructor/StepSwitcher";
 
 export { EditWidget } from "./common/EditWidget/EditWidget";

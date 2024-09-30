@@ -101,8 +101,8 @@ export const CardBaseAndHorizontal = ({
           <div className="p-3">
             <h2 className="font-bold text-xl">{title}</h2>
             <p
-					className="text-justify"
-					dangerouslySetInnerHTML={{
+              className="text-justify"
+              dangerouslySetInnerHTML={{
                 __html:
                   variant === "horizontal"
                     ? description
