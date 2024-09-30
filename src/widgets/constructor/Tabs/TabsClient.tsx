@@ -27,22 +27,19 @@ export function TabsClient({ contents, locale }: { contents: any; locale: string
           ? { href: `${currentPath}/${tab.content.link}` }
           : {};
 
-        return (
-          <WrapperComponent {...linkProps}>
-            <li
-              key={idx}
-              className="flex-grow flex min-w-[260px] gap-4 p-6 bg-[#640000] text-white rounded-md cursor-pointer justify-between items-center"
-            >
-
-              <h2>{tab.content[locale].title}</h2>
-              {tab?.content?.icon && (<Image
-                src={backendImageUrl + tab?.content?.icon}
-                alt="icon"
-                width={50}
-                height={50}
-              />)}
-            </li>
+        return (<li
+          key={idx}
+        >
+          <WrapperComponent {...linkProps} className="flex-grow flex min-w-[260px] gap-4 p-6 bg-[#640000] text-white rounded-md cursor-pointer justify-between items-center">
+            <h2>{tab.content[locale].title}</h2>
+            {tab?.content?.icon && (<Image
+              src={backendImageUrl + tab?.content?.icon}
+              alt="icon"
+              width={50}
+              height={50}
+            />)}
           </WrapperComponent>
+        </li>
         );
       })}
     </ul>
