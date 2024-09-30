@@ -17,6 +17,8 @@ function Info({
   locale: string;
 }) {
 
+  console.log(content)
+
   return (
     <section className="flex flex-col gap-10">
       <h2 className="text-2xl font-bold text-[#690000]">

@@ -21,7 +21,6 @@ export const CardBaseAndHorizontal = ({
   const { title, content: description } = content[locale];
   const hasDescription = Boolean(description && description.length > 0);
 
-  console.log(content);
 
   const variantClasses = {
     base: "flex-1 min-w-[300px]",
@@ -36,8 +35,6 @@ export const CardBaseAndHorizontal = ({
     large: "h-[550px]",
   }[size];
 
-
-  console.log(currentPath);
 
   const WrapperComponent =
     content.file || content.link

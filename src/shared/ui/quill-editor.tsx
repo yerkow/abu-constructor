@@ -1,7 +1,9 @@
 "use client";
-import ReactQuill from "react-quill";
+import ReactQuill, { Quill } from "react-quill";
 import { Label } from "./label";
 import "react-quill/dist/quill.snow.css";
+
+
 const quillModules = {
   toolbar: [
     [{ size: [] }],
@@ -18,11 +20,14 @@ const quillModules = {
   ],
 };
 
+
+
 interface QuillEditor {
   value?: ReactQuill.Value;
   onChange: (value: string) => void;
   label?: string;
 }
+
 const QuillEditor = ({ value, onChange, label }: QuillEditor) => {
   return (
     <div>
