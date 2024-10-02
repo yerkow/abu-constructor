@@ -14,7 +14,7 @@ export default async function Layout({
   return (
     <section>
       <Header />
-      <main className=" min-h-[100svh] overflow-y-auto  px-5 xl:px-0   mb-10 mt-5 md:mt-20 ">
+      <main className=" min-h-[100svh]  px-5 xl:px-0   mb-10 mt-5 md:mt-20 ">
         {params.slug[0] === "main" ? <section></section> : null}
         <div className="max-w-[1200px] mx-auto flex lg:p-0 p-3  flex-col gap-10">
           {
@@ -23,10 +23,10 @@ export default async function Layout({
             )
           }
 
-          <div className="flex   flex-col gap-10">{children}</div>
+          <div className="">{children}</div>
         </div>
       </main>
-      <footer className="w-full   bg-red-950">
+      <footer className="w-full   bg-abu_primary">
         <div className=" max-w-[1200px] mx-auto p-10 ">
           <div className=" flex justify-between items-center mb-10">
             <div className="flex flex-col gap-4  text-white">
