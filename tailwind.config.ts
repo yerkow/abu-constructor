@@ -31,6 +31,7 @@ const config = {
         "calc-text-4xl": "clamp(1.5rem, 3vw, 2.25rem)",
       },
       colors: {
+        abu_primary: "#640000",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
