@@ -2,7 +2,7 @@ import { backendUrl } from "@/shared/lib/constants";
 import { getWidgetByName } from "@/widgets";
 import { SideMenu } from "@/widgets/common/SideMenu/SideMenu";
 import { Metadata } from "next";
-
+import { IWidget } from "@/shared/types";
 export const metadata: Metadata = {
   title: "Alikhan Bokeikhanov University",
 };
@@ -25,18 +25,6 @@ export interface INavigation {
   widgets: Array<IWidget>;
 }
 
-export interface IWidget {
-  id: number;
-  widget_type: string;
-  options: {
-    [key: string]: any;
-  };
-  order: number;
-  navigation_id: number;
-  contents: Array<any>;
-  createdAt: string;
-  updatedAt: string;
-}
 
 export default async function Page({ params }: PageProps) {
   async function fetchNavigations(): Promise<INavigation> {
