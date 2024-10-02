@@ -17,14 +17,13 @@ function Info({
   locale: string;
 }) {
 
-  console.log(content)
 
   return (
-    <section className="flex flex-col gap-10">
+    <section className="flex flex-col">
       <h2 className="text-2xl font-bold text-[#690000]">
         {content[locale]?.title}
       </h2>
-      <section className="flex flex-col md:flex-row   gap-4 bg-slate-100 rounded-sm  p-5">
+      <section className="flex flex-col md:flex-row   gap-4 bg-slate-50 rounded-sm  p-5">
         <section className="relative w-[100%] md:w-[35%] h-[350px]">
           <Image
             src={`${backendImageUrl}${content.image}`}
