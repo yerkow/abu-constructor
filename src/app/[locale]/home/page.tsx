@@ -7,6 +7,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
+import { useScroll } from "@/shared/lib/hooks/useScroll";
+import clsx from "clsx";
 
 export default function Page() {
   const ed_list = [
@@ -35,11 +37,15 @@ export default function Page() {
     },
   ];
 
+  const [scrolled] = useScroll(40)
+
   return (
     <section className="">
       {/* Hero section */}
-      <section>
-        <div className="absolute left-0 top-0 bottom-0 right-0">
+      <section className="relative -top-32 h-screen">
+        <div className={clsx("absolute left-0 -top-0  bottom-0 right-0",
+          scrolled && "bottom-16"
+        )}>
           <Image
             src="/images/hero.gif"
             alt="video"
@@ -68,7 +74,7 @@ export default function Page() {
           </ul>
         </section>
       </section>
-      <section className="max-w-[1200px] mx-auto mt-[100vh] px-4">
+      <section className="max-w-[1200px] mx-auto  px-4">
         {/* Sidebar & education section */}
         <section className="flex flex-col items-center gap-4  ">
           <Swiper
