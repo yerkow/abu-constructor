@@ -8,6 +8,13 @@
   "NotFoundPage": {
     "title": "Бет табылмады"
   },
+  "search": {
+    "title": "Сайт бойынша іздеу",
+    "placeholder": "Іздеу үшін жазыңыз",
+    "not_found": "Нәтижелер табылмады",
+    "navigation": "бет",
+    "widget": "мазмұн"
+  },
   "sidebar": {
     "logout": "Шығу",
     "links": {

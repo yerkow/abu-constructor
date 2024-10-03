@@ -4,6 +4,7 @@ import { BurgerMenu } from "@/widgets";
 import { Navbar } from "@/widgets/common/Header/Navbar";
 import Image from "next/image";
 import Link from "next/link";
+import { SearchWidget } from "../SearchWidget/SearchWidget";
 
 const topHeaderMenuList = [
   { title: "Обучающимся", link: "home" },
@@ -15,7 +16,7 @@ const topHeaderMenuList = [
 
 export const Header = () => {
   return (
-    <header className="relative z-50  flex flex-col  w-full ">
+    <header className="relative z-50  flex flex-col  w-full">
       <section
         className="bg-[#640000] min-h-5 w-full flex justify-between [@media(min-width:890px)]:justify-end px-4 fixed [@media(min-width:890px)]:static"
         style={{ gap: "clamp(20px, 1.5vw, 80px) " }}
@@ -42,7 +43,8 @@ export const Header = () => {
             </Link>
           ))}
         </section>
-        <section className="flex items-center">
+        <section className="flex items-center gap-7">
+          <SearchWidget />
           <ChangeLocale />
           <BurgerMenu topHeaderMenuList={topHeaderMenuList} />
         </section>

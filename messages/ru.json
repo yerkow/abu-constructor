@@ -8,6 +8,13 @@
   "NotFoundPage": {
     "title": "Страница не найдена"
   },
+  "search": {
+    "title": "Поиск по сайту",
+    "placeholder": "Напишите для поиска",
+    "not_found": "Результаты не найдены",
+    "navigation": "страница",
+    "widget": "контент"
+  },
   "sidebar": {
     "logout": "Выйти",
     "links": {

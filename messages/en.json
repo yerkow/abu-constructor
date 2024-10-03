@@ -8,6 +8,13 @@
     "NotFoundPage": {
         "title": "Page Not Found"
     },
+    "search": {
+        "title": "Search for the site",
+        "placeholder": "Write to search",
+        "not_found": "No results found",
+        "navigation": "page",
+        "widget": "content"
+    },
     "sidebar": {
         "logout": "Log Out",
         "links": {
