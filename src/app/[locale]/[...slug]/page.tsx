@@ -3,6 +3,7 @@ import { getWidgetByName } from "@/widgets";
 import { SideMenu } from "@/widgets/common/SideMenu/SideMenu";
 import { Metadata } from "next";
 import { IWidget } from "@/shared/types";
+import clsx from "clsx";
 export const metadata: Metadata = {
   title: "Alikhan Bokeikhanov University",
 };
@@ -55,11 +56,13 @@ export default async function Page({ params }: PageProps) {
 
 
   return (
-    <section className="sm:grid sm:grid-cols-[1fr_210px] sm:gap-5">
+    <section className={clsx(
+      widgets.length >= 3 && "sm:grid sm:grid-cols-[1fr_210px] sm:gap-5"
+    )}>
       <section className="flex flex-col gap-10 scroll-behavior: smooth">
         {widgetList}
       </section>
-      <SideMenu widgets={widgets} locale={params.locale} />
+      {widgets.length >= 3 && <SideMenu widgets={widgets} locale={params.locale} />}
     </section >
   )
 }
