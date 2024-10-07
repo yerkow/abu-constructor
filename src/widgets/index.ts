@@ -8,6 +8,7 @@ import { TabsEditOptions } from "./constructor/Tabs/config";
 import { CarouselEditOptions } from "./constructor/Carousel/config";
 import { GalleryEditOptions } from "./constructor/Gallery/config";
 import { StepSwitcherEditOptions } from "./constructor/StepSwitcher/config";
+import { PersonProfilesEditOptions } from "./constructor/PersonProfiles/config";
 
 import Accordion from "./constructor/Accordion/Accordion";
 import Cards from "./constructor/Cards/Cards";
@@ -19,6 +20,7 @@ import List from "./constructor/List/List";
 import Text from "./constructor/Text/Text";
 import Tabs from "./constructor/Tabs";
 import StepSwitcher from "./constructor/StepSwitcher";
+import PersonProfiles from "./constructor/PersonProfiles/PersonProfiles";
 
 export { EditWidget } from "./common/EditWidget/EditWidget";
 export { NavigationList } from "./common/NavigationList";
@@ -41,6 +43,7 @@ export const widgetsList = [
   Accordion,
   Gallery,
   Tabs,
+  PersonProfiles,
 ];
 
 export const WidgetOptionList = [
@@ -54,6 +57,7 @@ export const WidgetOptionList = [
   TabsEditOptions,
   GalleryEditOptions,
   StepSwitcherEditOptions,
+  PersonProfilesEditOptions
 ];
 
 export const getWidgetByName = (name: string, props: any) => {
