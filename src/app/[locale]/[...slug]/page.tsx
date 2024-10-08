@@ -58,7 +58,7 @@ export default async function Page({ params }: PageProps) {
         widgets?.length >= 3 && "sm:grid sm:grid-cols-[1fr_210px] sm:gap-5"
       )}
     >
-      <section className="flex flex-col gap-10 scroll-behavior: smooth">
+      <section className="flex flex-col gap-9 scroll-behavior: smooth">
         {widgetList}
       </section>
       {widgets?.length >= 3 && (

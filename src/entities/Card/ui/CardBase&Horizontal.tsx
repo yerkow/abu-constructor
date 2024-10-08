@@ -28,6 +28,17 @@ export const CardBaseAndHorizontal = ({
     horizontal: "col-start-1 col-end-2",
   }[variant];
 
+  const colors = [
+    "from-rose-500 to-indigo-600",
+    "from-cyan-400 to-blue-600",
+    "from-emerald-400 to-cyan-600",
+    "from-amber-400 to-orange-600",
+    "from-purple-500 to-pink-600",
+    "from-blue-400 to-indigo-600",
+    "from-green-400 to-teal-600",
+    "from-violet-500 to-purple-600",
+  ]
+
   const sizeClasses = {
     normal: "h-[200px]",
     medium: "h-[350px]",
@@ -84,7 +95,7 @@ export const CardBaseAndHorizontal = ({
               )}
             </>
           ) : (
-            <div className="absolute inset-0 bg-[#640000]">
+            <div className={`absolute inset-0 bg-gradient-to-br ${colors[Math.floor(Math.random() * colors.length)]} opacity-75`}>
               <h2 className="text-white text-center font-bold text-xl relative px-2 flex w-full h-full items-center justify-center">
                 {title}
               </h2>

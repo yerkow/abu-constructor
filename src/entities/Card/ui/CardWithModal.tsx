@@ -21,6 +21,17 @@ export const CardWithModal = ({
     large: "h-[550px]",
   }[size];
 
+  const colors = [
+    "from-rose-500 to-indigo-600",
+    "from-cyan-400 to-blue-600",
+    "from-emerald-400 to-cyan-600",
+    "from-amber-400 to-orange-600",
+    "from-purple-500 to-pink-600",
+    "from-blue-400 to-indigo-600",
+    "from-green-400 to-teal-600",
+    "from-violet-500 to-purple-600",
+  ]
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -38,7 +49,7 @@ export const CardWithModal = ({
               "absolute",
               {
                 true: "inset-0 bg-black opacity-35",
-                false: "inset-0 bg-[#640000]",
+                false: `inset-0 bg-gradient-to-br ${colors[Math.floor(Math.random() * colors.length)]} opacity-75`,
               }[String(content.image != undefined)]
             )}
           ></div>

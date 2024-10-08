@@ -23,7 +23,7 @@ function Info({
       <h2 className="text-2xl font-bold text-[#690000]">
         {content[locale]?.title}
       </h2>
-      <section className="flex flex-col md:flex-row   gap-4 bg-slate-50 rounded-sm  p-5">
+      <section className="flex flex-col md:flex-row  gap-4 shadow-xl rounded-md  p-5 bg-white ">
         <section className="relative w-[100%] md:w-[35%] h-[350px]">
           <Image
             src={`${backendImageUrl}${content.image}`}
