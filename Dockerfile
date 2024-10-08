@@ -1,4 +1,4 @@
-FROM node:18-alpine AS builder
+FROM node:20.18.0-alpine AS builder
 
 # Установка необходимых зависимостей
 RUN apk add --no-cache libc6-compat
@@ -25,9 +25,6 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
-# Производственный образ
-FROM node:18-alpine AS runner
-
 WORKDIR /app
 
 # Устанавливаем переменную окружения
@@ -51,4 +48,4 @@ USER nextjs
 EXPOSE 3000
 
 # Запуск приложения в режиме разработки
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "start"]
