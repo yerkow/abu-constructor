@@ -24,4 +24,4 @@ RUN npm run build
 # Экспонируем порт, который будет использоваться приложением
 EXPOSE 3000
 
-CMD HOSTNAME="0.0.0.0" node server.js
+RUN npm run start
