@@ -24,4 +24,4 @@ RUN npm run build
 # Экспонируем порт, который будет использоваться приложением
 EXPOSE 3000
 
-RUN npm run start
+CMD ["npm","run","start"]
