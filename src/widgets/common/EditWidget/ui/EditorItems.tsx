@@ -6,6 +6,8 @@ import { useMutation } from "@tanstack/react-query";
 import { IContentUpdateOrderOptions } from "../model/types";
 import { backendUrl } from "@/shared/lib/constants";
 import { queryClient } from "@/shared/lib/client";
+import { Button } from "@/shared/ui";
+import { DeleteIcon } from "lucide-react";
 
 interface EditorItemProps {
   contents: IContent[] | undefined;
@@ -42,6 +44,25 @@ export const EditorItems = ({
     },
   });
 
+
+  const { mutate: handleDeleteItem } = useMutation({
+    mutationFn: async (id: number) => {
+      const response = await fetch(`${backendUrl}/contents/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["contents"],
+      });
+    }
+  })
+
+
   return (
     <section className="mt-7">
       <h1 className="block font-bold text-center mb-4">Настройки контента</h1>
@@ -60,7 +81,15 @@ export const EditorItems = ({
             className="flex justify-between items-center gap-2 rounded-sm px-5 py-3 bg-slate-100 cursor-grab"
           >
             <p>Элемент - #{content.id}</p>
-            {EditButton(content.content, content.id)}
+            <div className="flex items-center gap-2">
+              {EditButton(content.content, content.id)}
+              <Button
+                size={"icon"}
+                onClick={() => { handleDeleteItem(content.id) }}
+              >
+                <DeleteIcon className="cursor-pointer" />
+              </Button>
+            </div>
           </li>
         ))}
       </ul>
