@@ -25,5 +25,6 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder /app/node_modules ./node_modules
 USER nextjs
 EXPOSE 3000
+ENV NEXT_PUBLIC_BACKEND_URL http://77.243.80.138:3003
 ENV PORT 3000
 CMD ["npm", "start"]
