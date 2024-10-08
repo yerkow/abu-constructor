@@ -1,34 +1,28 @@
-FROM node:22-alpine AS builder
+# Используем базовый образ
+FROM node:22
 
+# Устанавливаем рабочую директорию
 WORKDIR /app
 
+# Копируем файлы зависимостей
 COPY package*.json ./
 
+# Устанавливаем зависимости
 RUN npm install
 
+# Копируем остальной код приложения
 COPY . .
 
+# Создаем .env файл из переменной окружения
+# Переменные окружения должны быть переданы на этапе сборки
+ARG ENV_FILE_CONTENT
+RUN echo "$ENV_FILE_CONTENT" > .env
+
+# Собираем проект (если необходимо)
 RUN npm run build
 
-FROM node:22-alpine AS runner
-
-WORKDIR /app
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-
-# Копируем необходимые файлы и директории
-COPY --from=builder /app/public ./public
-RUN mkdir .next
-RUN chown nextjs:nodejs .next
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/.next ./.next
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-COPY --from=builder /app/node_modules ./node_modules
-
-# Копируем .env файл из рабочего каталога
-COPY --chown=nextjs:nodejs .env .env
-
-USER nextjs
+# Экспонируем порт, который будет использоваться приложением
 EXPOSE 3000
+
+# Команда для запуска приложения
 CMD ["npm", "start"]
