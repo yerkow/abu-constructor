@@ -16,6 +16,9 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
+    - name: Create .env file
+      run: echo "${{ secrets.ENV_FILE_CONTENT }}" > .env # Берется из секрета содержание .env файла
+
     - name: Build image
       run: docker build . -t maxatdzhetenbayev/abuconstructor:latest
 
@@ -44,4 +47,4 @@ jobs:
           sudo docker pull maxatdzhetenbayev/abuconstructor:latest
           sudo docker stop abuconstructor || true
           sudo docker rm abuconstructor || true
-          sudo docker run -d --name abuconstructor -p 6060:3000 -e NEXT_PUBLIC_BACKEND_URL=http://77.243.80.138:3003 maxatdzhetenbayev/abuconstructor:latest
+          sudo docker run -d --name abuconstructor -p 6060:3000 --env-file .env maxatdzhetenbayev/abuconstructor:latest
