@@ -1,6 +1,12 @@
-import clsx from 'clsx'
+import clsx from "clsx";
 import { Card } from "./Card";
 import { IWidgetProps } from "@/shared/types";
+
+enum CardVariant {
+  BASE = "base",
+  WITH_MODAL = "with_modal",
+  WITH_FILE = "with_file",
+}
 
 function Cards({
   contents,
@@ -14,8 +20,10 @@ function Cards({
       </h2>
       <div
         className={clsx(
-          variant == "base" || variant == "with_modal" || variant == "with_file"
-            ? "flex gap-8 flex-wrap"
+          variant == CardVariant.BASE ||
+            variant == CardVariant.WITH_MODAL ||
+            variant == CardVariant.WITH_FILE
+            ? "grid grid-cols-[repeat(auto-fit,_minmax(235px,_1fr))] gap-2"
             : "flex flex-col gap-2",
           "mt-2"
         )}
@@ -32,7 +40,7 @@ function Cards({
       </div>
     </section>
   );
-};
+}
 
 Cards.displayName = "Cards";
 export default Cards;

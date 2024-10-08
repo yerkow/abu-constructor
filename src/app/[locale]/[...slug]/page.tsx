@@ -26,13 +26,12 @@ export interface INavigation {
   widgets: Array<IWidget>;
 }
 
-
 export default async function Page({ params }: PageProps) {
   async function fetchNavigations(): Promise<INavigation> {
     const response = await fetch(
       `${backendUrl}/navigations/find/by-slug?slug=${params.slug.join("/")}`,
       {
-        cache: 'no-store'
+        cache: "no-store",
       }
     );
 
@@ -47,22 +46,24 @@ export default async function Page({ params }: PageProps) {
     const widgetOptons = { contents, options, locale: params.locale };
     const widgetContent = getWidgetByName(widget_type, widgetOptons);
     return (
-      <div id={`widget-${idx}`} key={idx} style={{ scrollMarginTop: '200px' }}>
+      <div id={`widget-${idx}`} key={idx} style={{ scrollMarginTop: "200px" }}>
         {widgetContent}
       </div>
     );
-
   });
 
-
   return (
-    <section className={clsx(
-      widgets.length >= 3 && "sm:grid sm:grid-cols-[1fr_210px] sm:gap-5"
-    )}>
+    <section
+      className={clsx(
+        widgets?.length >= 3 && "sm:grid sm:grid-cols-[1fr_210px] sm:gap-5"
+      )}
+    >
       <section className="flex flex-col gap-10 scroll-behavior: smooth">
         {widgetList}
       </section>
-      {widgets.length >= 3 && <SideMenu widgets={widgets} locale={params.locale} />}
-    </section >
-  )
+      {widgets?.length >= 3 && (
+        <SideMenu widgets={widgets} locale={params.locale} />
+      )}
+    </section>
+  );
 }

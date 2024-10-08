@@ -21,7 +21,6 @@ export const CardBaseAndHorizontal = ({
   const { title, content: description } = content[locale];
   const hasDescription = Boolean(description && description.length > 0);
 
-
   const variantClasses = {
     base: "flex-1 min-w-[300px]",
     with_file: "flex-1 min-w-[300px]",
@@ -35,7 +34,6 @@ export const CardBaseAndHorizontal = ({
     large: "h-[550px]",
   }[size];
 
-
   const WrapperComponent =
     content.file || content.link
       ? (Link as React.ElementType)
@@ -47,7 +45,7 @@ export const CardBaseAndHorizontal = ({
       : {};
 
   return (
-    <article className={clsx(variantClasses, "rounded-md")}>
+    <article className={clsx("rounded-md")}>
       <WrapperComponent
         {...linkProps}
         className="block after:rounded-md after:absolute rounded-2xl relative overflow-hidden shadow-md"

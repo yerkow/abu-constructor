@@ -11,7 +11,7 @@ export const CardWithModal = ({
   content: any;
   variant: string;
   locale: string;
-  size: string
+  size: string;
 }) => {
   const { title, content: text } = content[locale];
 
@@ -25,7 +25,10 @@ export const CardWithModal = ({
     <Dialog>
       <DialogTrigger asChild>
         <div
-          className={clsx(sizeClasses, "flex cursor-pointer items-center justify-center after:rounded-md after:absolute rounded-2xl relative overflow-hidden shadow-md flex-1 min-w-[300px] min-h-[150px] p-10 bg-cover bg-center text-white")}
+          className={clsx(
+            sizeClasses,
+            "flex cursor-pointer items-center justify-center after:rounded-md after:absolute rounded-2xl relative overflow-hidden shadow-md flex-1  min-h-[150px] p-6 bg-cover bg-center text-white"
+          )}
           style={{
             backgroundImage: `url('${backendImageUrl}${content.image}')`,
           }}
@@ -39,7 +42,9 @@ export const CardWithModal = ({
               }[String(content.image != undefined)]
             )}
           ></div>
-          <h2 className="font-bold text-xl text-center relative">{title}</h2>
+          <h2 className="font-bold   text-xl  text-center relative">
+            {title.length > 70 ? `${title.slice(0, 70)}...` : title}
+          </h2>
         </div>
       </DialogTrigger>
       <DialogContent className="max-h-[80%] overflow-auto max-w-[90%] [@media(min-width:1180px)]:max-w-[50%]">
