@@ -23,6 +23,6 @@ RUN echo "NEXT_PUBLIC_BACKEND_URL=\"$NEXT_PUBLIC_BACKEND_URL\"" > .env
 RUN npm run build
 
 # Экспонируем порт, который будет использоваться приложением
-EXPOSE 4000
+EXPOSE 3000
 
 CMD ["npm","run","start"]
