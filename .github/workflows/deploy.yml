@@ -1,0 +1,47 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Build image
+      run: docker build . -t maxatdzhetenbayev/abuconstructor:latest
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
+    - name: Push Docker image to Docker Hub
+      run: docker push maxatdzhetenbayev/abuconstructor:latest
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+    - name: SSH to server and deploy
+      uses: appleboy/ssh-action@v0.1.5
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USER }}
+        password: ${{ secrets.SERVER_PASSWORD }}
+        port: 22
+        script: |
+          sudo docker pull maxatdzhetenbayev/abuconstructor:latest
+          sudo docker stop abuconstructor || true
+          sudo docker rm abuconstructor || true
+          sudo docker run -d --name abuconstructor -p 6060:3000 maxatdzhetenbayev/abuconstructor:latest
