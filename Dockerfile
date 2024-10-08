@@ -16,7 +16,8 @@ COPY . .
 # Создаем .env файл из переменной окружения
 # Переменные окружения должны быть переданы на этапе сборки
 ARG NEXT_PUBLIC_BACKEND_URL
-RUN echo "NEXT_PUBLIC_BACKEND_URL="$NEXT_PUBLIC_BACKEND_URL"" > .env
+RUN echo "NEXT_PUBLIC_BACKEND_URL=\"$NEXT_PUBLIC_BACKEND_URL\"" > .env
+
 
 # Собираем проект (если необходимо)
 RUN npm run build
