@@ -7,7 +7,7 @@ import clsx from "clsx";
 export const metadata: Metadata = {
   title: "Alikhan Bokeikhanov University",
 };
-
+console.log(process.env.NEXT_PUBLIC_BACKEND_URL);
 interface PageProps {
   params: { locale: string; slug: string[] };
 }
