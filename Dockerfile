@@ -1,4 +1,4 @@
-FROM node:18-alpine AS base
+FROM node:18-alpine AS builder
 
 # Установка необходимых зависимостей
 RUN apk add --no-cache libc6-compat
@@ -31,7 +31,7 @@ FROM node:18-alpine AS runner
 WORKDIR /app
 
 # Устанавливаем переменную окружения
-ENV NODE_ENV development
+ENV NODE_ENV production
 ENV PORT 3000
 
 # Создаем группу и пользователя для запуска приложения
