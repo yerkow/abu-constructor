@@ -40,8 +40,8 @@ jobs:
         username: ${{ secrets.SERVER_USER }}
         password: ${{ secrets.SERVER_PASSWORD }}
         port: 22
-        script: |
-          docker pull maxatdzhetenbayev/abuconstructor:latest 
-          docker stop abuconstructor || true
-          docker rm abuconstructor || true
-          docker run -d --name abuconstructor -p 3000:3000 maxatdzhetenbayev/abuconstructor:latest
+        run: |
+          echo '${{ secrets.SERVER_PASSWORD }}' | sudo -S docker pull maxatdzhetenbayev/abuconstructor:latest 
+          echo '${{ secrets.SERVER_PASSWORD }}' | sudo -S docker stop abuconstructor || true
+          echo '${{ secrets.SERVER_PASSWORD }}' | sudo -S docker rm abuconstructor || true
+          echo '${{ secrets.SERVER_PASSWORD }}' | sudo -S docker run -d --name abuconstructor -p 3000:3000 maxatdzhetenbayev/abuconstructor:latest
